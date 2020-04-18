@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.backend.controllers.ConsultarCatalogoController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
+         <children>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8_magazine_100px_1.png" />
+               </image>
+               <effect>
+                  <InnerShadow height="4.3" radius="1.65" width="4.3" />
+               </effect>
+            </ImageView>
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="395.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#homeButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_home_filled_100px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Label layoutX="100.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" text="Consultar catálogo" textFill="WHITE">
+               <font>
+                  <Font name="Britannic Bold" size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="25.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="400.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="140.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#consultarButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Consultar">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_checked_60px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" text="Código:" textAlignment="JUSTIFY" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="button_plusButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="280.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/plus_filled_100px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <TextField fx:id="textField_codCat" layoutX="145.0" layoutY="10.0" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="25.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="400.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+         <children>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Stock inicial:" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="En stock:" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Precio $:" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="button_actualizar" buttonType="RAISED" layoutX="140.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#actualizarButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Actualizar">
+               <graphic>
+                  <ImageView fitHeight="68.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_checked_60px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <TextField fx:id="textField_stockInicial" layoutX="220.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: 150" />
+            <TextField fx:id="textField_stock" layoutX="220.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="cantidad" />
+            <TextField fx:id="textField_precio" layoutX="220.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: 200.85" />
+            <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Link:" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="textField_link" layoutX="220.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: http://www.ejemplo.com/catalogo" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

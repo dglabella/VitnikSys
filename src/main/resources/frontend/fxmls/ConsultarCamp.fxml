@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="226.0" prefWidth="448.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.danosys.backend.controllers.ConsultarCampController">
+   <children>
+      <AnchorPane prefHeight="75.0" prefWidth="965.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ImageView fitHeight="51.0" fitWidth="51.0" layoutX="10.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0">
+               <image>
+                  <Image url="@../images/icons8_magazine_100px_1.png" />
+               </image>
+               <effect>
+                  <InnerShadow height="4.3" radius="1.65" width="4.3" />
+               </effect>
+            </ImageView>
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="894.0" layoutY="13.0" onAction="#homeButtonPressed" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: white; -fx-background-radius: 50;" AnchorPane.rightAnchor="20.0">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_home_filled_100px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Label layoutX="70.0" layoutY="24.0" prefHeight="29.0" prefWidth="249.0" text="Consultar campaña" textFill="WHITE">
+               <font>
+                  <Font name="Britannic Bold" size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="20.0" layoutY="101.0" maxWidth="410.0" minHeight="111.0" minWidth="408.0" prefHeight="111.0" prefWidth="408.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="142.0" layoutY="48.0" onAction="#consultarButtonPressed" prefHeight="60.0" prefWidth="124.0" style="-fx-background-radius: 60;" text="Consultar">
+               <graphic>
+                  <ImageView fitHeight="68.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_checked_60px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="17.0" prefHeight="21.0" prefWidth="124.0" text="Campaña" textAlignment="JUSTIFY" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="_choiceBox_camps" layoutX="142.0" layoutY="14.0" prefHeight="27.0" prefWidth="124.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="285.0" layoutY="7.0" onAction="#plusButtonPressed" prefHeight="41.0" prefWidth="21.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/plus_filled_100px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

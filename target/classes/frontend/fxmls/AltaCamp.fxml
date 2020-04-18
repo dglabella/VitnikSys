@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="448.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.backend.controllers.CampController">
+   <children>
+      <AnchorPane prefHeight="75.0" prefWidth="965.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ImageView fitHeight="51.0" fitWidth="51.0" layoutX="10.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0">
+               <image>
+                  <Image url="@../images/icons8_magazine_100px_1.png" />
+               </image>
+               <effect>
+                  <InnerShadow height="4.3" radius="1.65" width="4.3" />
+               </effect>
+            </ImageView>
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="894.0" layoutY="13.0" onAction="#homeButtonPressed" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: white; -fx-background-radius: 50;" AnchorPane.rightAnchor="20.0">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_home_filled_100px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Label layoutX="70.0" layoutY="24.0" text="Ingrese nueva campaña" textFill="WHITE">
+               <font>
+                  <Font name="Britannic Bold" size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="20.0" layoutY="88.0" maxWidth="410.0" minHeight="396.0" minWidth="408.0" prefHeight="482.0" prefWidth="408.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="120.0" prefHeight="25.0" prefWidth="197.0" text="Mes:" textAlignment="JUSTIFY" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="142.0" layoutY="422.0" onAction="#ingresarButtonPressed" prefHeight="60.0" prefWidth="124.0" style="-fx-background-radius: 60;" text="INGRESAR">
+               <graphic>
+                  <ImageView fitHeight="68.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_checked_60px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="47.0" prefHeight="25.0" prefWidth="197.0" text="Número de campaña:" textAlignment="JUSTIFY" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="285.0" prefHeight="21.0" prefWidth="197.0" text="Detalle:" textAlignment="JUSTIFY" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="boton_seleccionar" buttonType="RAISED" layoutX="47.0" layoutY="310.0" onAction="#seleccionarArchivoButtonPressed" prefHeight="27.0" prefWidth="124.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="SELECCIONAR" />
+            <Label fx:id="_label_path" layoutX="30.0" layoutY="399.0" prefHeight="21.0" prefWidth="350.0" visible="false" />
+            <Label fx:id="_label_archivoSeleccionado" layoutX="30.0" layoutY="377.0" prefHeight="21.0" prefWidth="350.0" visible="false" />
+            <Label layoutX="211.0" layoutY="285.0" prefHeight="21.0" prefWidth="160.0" text="Catálogo:" textAlignment="JUSTIFY" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="_choiceBox_catalogos" layoutX="211.0" layoutY="310.0" prefHeight="27.0" prefWidth="124.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="335.0" layoutY="305.0" onAction="#plusButtonPressed" prefHeight="41.0" prefWidth="21.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/plus_filled_100px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <TextField fx:id="_textField_nroCamp" alignment="CENTER" layoutX="221.0" layoutY="47.0" onKeyTyped="#nroCampCheck" prefHeight="25.0" prefWidth="105.0" />
+            <Label fx:id="_label_nroCampInvalido" layoutX="221.0" layoutY="74.0" prefHeight="21.0" prefWidth="160.0" textAlignment="JUSTIFY" textFill="RED" />
+            <ChoiceBox fx:id="_choiceBox_mesCamp" layoutX="211.0" layoutY="119.0" prefHeight="27.0" prefWidth="124.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
+            <Label alignment="CENTER_RIGHT" layoutX="11.0" layoutY="185.0" prefHeight="25.0" prefWidth="197.0" text="Año:" textAlignment="JUSTIFY" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="_choiceBox_yearCamp" layoutX="211.0" layoutY="184.0" prefHeight="27.0" prefWidth="124.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
+            <Label fx:id="_label_mesInvalido" layoutX="211.0" layoutY="147.0" prefHeight="21.0" prefWidth="160.0" textAlignment="JUSTIFY" textFill="RED" />
+            <Label fx:id="_label_yearInvalido" layoutX="211.0" layoutY="213.0" prefHeight="21.0" prefWidth="160.0" textAlignment="JUSTIFY" textFill="RED" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
