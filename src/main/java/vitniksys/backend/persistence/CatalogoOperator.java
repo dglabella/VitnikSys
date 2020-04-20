@@ -18,7 +18,7 @@ public class CatalogoOperator implements ICatalogoOperator
     public int insert(Catalogo catalogo)
     {
         int errorCode = 0;
-
+        
         return errorCode;
     }
 

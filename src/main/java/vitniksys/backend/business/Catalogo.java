@@ -17,43 +17,53 @@ public class Catalogo
         this.precio = precio;
     }
 
-    public int getCodigo() {
+    public int getCodigo()
+    {
         return this.codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(int codigo)
+    {
         this.codigo = codigo;
     }
 
-    public int getStockInicial() {
+    public int getStockInicial()
+    {
         return this.stockInicial;
     }
 
-    public void setStockInicial(int stockInicial) {
+    public void setStockInicial(int stockInicial)
+    {
         this.stockInicial = stockInicial;
     }
 
-    public float getPrecio() {
+    public float getPrecio() 
+    {
         return this.precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(float precio)
+    {
         this.precio = precio;
     }
 
-    public String getLink() {
+    public String getLink()
+    {
         return this.link;
     }
 
-    public void setLink(String link) {
+    public void setLink(String link) 
+    {
         this.link = link;
     }
 
-    public int getStock() {
+    public int getStock() 
+    {
         return this.stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(int stock) 
+    {
         this.stock = stock;
     }
 }
