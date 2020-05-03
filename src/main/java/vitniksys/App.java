@@ -13,7 +13,7 @@ public class App extends Application
     public void start(final Stage stage) throws IOException
     {
         String fxml = "MenuPrincipal";
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/fxmls/"+fxml+".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
@@ -22,7 +22,5 @@ public class App extends Application
     public static void main(final String[] args)
     {
         launch();
-    }
-
-    
+    }    
 }

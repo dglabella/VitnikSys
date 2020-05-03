@@ -1,6 +1,6 @@
 package vitniksys.backend.persistence;
 
-import vitniksys.backend.business.Catalogo;
+import vitniksys.backend.model.Catalogo;
 
 public interface ICatalogoOperator extends CrudOperator<Catalogo>
 {

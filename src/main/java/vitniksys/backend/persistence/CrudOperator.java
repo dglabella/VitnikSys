@@ -1,12 +1,12 @@
 package vitniksys.backend.persistence;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public interface CrudOperator<BusinessObj> 
+public interface CrudOperator<ModelObject> 
 {
-    public int insert(BusinessObj bo);
+    public int insert(ModelObject mo);
     
-    public int update(BusinessObj bo);
+    public int update(ModelObject mo);
 
-    public ArrayList<BusinessObj> findAll();  
+    public List<ModelObject> findAll();  
  }

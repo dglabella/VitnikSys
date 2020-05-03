@@ -3,9 +3,9 @@ package vitniksys.backend.persistence;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.util.ArrayList;
-import vitniksys.backend.business.Catalogo;
+import vitniksys.backend.model.Catalogo;
 
-//This class is the DAO Object for Catalogo
+//This class intanciates the DAO Object for Catalogo
 public class CatalogoOperator implements ICatalogoOperator
 {
     private Connection connection;
