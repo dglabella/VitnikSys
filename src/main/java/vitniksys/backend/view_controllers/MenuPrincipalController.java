@@ -72,12 +72,10 @@ public class MenuPrincipalController extends VitnikController implements Initial
         Scene scene = new Scene(fxmlLoader.load());
         ConsultarCatalogoController ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
+        ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
         ctrller.getStage().setTitle("Consultar Cátalogo");
         ctrller.setPrevController(this);
-        //stage.setX(0);
-        //stage.setY(0);
-        //stage.setMaximized(true);
         ctrller.getStage().show();
     }
 
@@ -107,12 +105,10 @@ public class MenuPrincipalController extends VitnikController implements Initial
         Scene scene = new Scene(fxmlLoader.load());
         ConsultarCampController ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
+        ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
         ctrller.getStage().setTitle("Consultar campaña");
         ctrller.setPrevController(this);
-        //stage.setX(0);
-        //stage.setY(0);
-        //stage.setMaximized(true);
         ctrller.getStage().show();
     }
 }
