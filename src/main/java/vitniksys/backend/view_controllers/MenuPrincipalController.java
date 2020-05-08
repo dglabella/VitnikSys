@@ -1,10 +1,10 @@
 package vitniksys.backend.view_controllers;
 
 import java.net.URL;
+import vitniksys.App;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import vitniksys.App;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
@@ -82,7 +82,7 @@ public class MenuPrincipalController extends VitnikController implements Initial
     @FXML
     private void buscarButtonPressed() throws IOException
     {
-        
+
     }
 
     @FXML

@@ -1,4 +1,4 @@
-package vitniksys.backend.persistence;
+package vitniksys.backend.interfaces;
 
 import java.util.List;
 

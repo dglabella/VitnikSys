@@ -42,7 +42,7 @@ public class Connector {
     }
     */
     
-    protected static Connector getConnector()
+    public static Connector getConnector()
     {
         if (connectorSingleton==null)
         {
@@ -62,7 +62,7 @@ public class Connector {
     }
     */
 
-    protected Connection getConnection()
+    public Connection getConnection()
     {
         return Connector.connection;
     }

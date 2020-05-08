@@ -1,4 +1,4 @@
-package vitniksys.backend.persistence;
+package vitniksys.backend.interfaces;
 
 import vitniksys.backend.model.Catalogo;
 
