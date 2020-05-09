@@ -17,6 +17,8 @@ public abstract class ClientePreferencial
     private String email;
     private Long phoneNumber;
     private Timestamp registrationTime;
+    private boolean isActive;
+
     //Associations
     private List<Pedido> pedidos;
     private List<Devolucion> devoluciones;
@@ -24,4 +26,139 @@ public abstract class ClientePreferencial
     private List<Pago> pagos;
     private List<EntregaDeCatalogo> entregaDeCatalogos;
     private List<Saldo> Saldos;
+
+    public ClientePreferencial(int id, String name, String apellido)
+    {
+
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Long getDni() {
+        return this.dni;
+    }
+
+    public void setDni(Long dni) {
+        this.dni = dni;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public LocalDate getBirthdate() {
+        return this.birthdate;
+    }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Timestamp getRegistrationTime() {
+        return this.registrationTime;
+    }
+
+    public void setRegistrationTime(Timestamp registrationTime) {
+        this.registrationTime = registrationTime;
+    }
+
+    public boolean isIsActive() {
+        return this.isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public List<Pedido> getPedidos() {
+        return this.pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+    public List<Devolucion> getDevoluciones() {
+        return this.devoluciones;
+    }
+
+    public void setDevoluciones(List<Devolucion> devoluciones) {
+        this.devoluciones = devoluciones;
+    }
+
+    public List<Recompra> getRecompras() {
+        return this.recompras;
+    }
+
+    public void setRecompras(List<Recompra> recompras) {
+        this.recompras = recompras;
+    }
+
+    public List<Pago> getPagos() {
+        return this.pagos;
+    }
+
+    public void setPagos(List<Pago> pagos) {
+        this.pagos = pagos;
+    }
+
+    public List<EntregaDeCatalogo> getEntregaDeCatalogos() {
+        return this.entregaDeCatalogos;
+    }
+
+    public void setEntregaDeCatalogos(List<EntregaDeCatalogo> entregaDeCatalogos) {
+        this.entregaDeCatalogos = entregaDeCatalogos;
+    }
+
+    public List<Saldo> getSaldos() {
+        return this.Saldos;
+    }
+
+    public void setSaldos(List<Saldo> Saldos) {
+        this.Saldos = Saldos;
+    }
+
+
 }
