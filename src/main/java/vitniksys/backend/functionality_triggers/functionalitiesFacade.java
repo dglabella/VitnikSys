@@ -4,30 +4,50 @@ import java.util.List;
 import java.util.Iterator;
 import java.sql.Connection;
 import vitniksys.backend.model.*;
-import vitniksys.backend.persistence.*;
 import vitniksys.backend.interfaces.*;
+import vitniksys.backend.persistence.*;
 
-public class functionalitiesFacade implements IfunctionalitiesFacade
+/**
+*This class implements the facade pattern design.
+*View controllers should call methods in this class whenever it 
+*tries to Trigger some vitniksys functionalities (uses cases)
+*/
+public class FunctionalitiesFacade implements IfunctionalitiesFacade
 {
-    public int agregarPedidos(List<ClientePreferencial> clientesPreferenciales) throws Exception
+    private static FunctionalitiesFacade functionalities;
+
+    private FunctionalitiesFacade()
     {
-        int returnCode = 1;
+        //Empty Contructor
+    }
+
+    public static FunctionalitiesFacade getFunctionalities()
+    {
+        if(FunctionalitiesFacade.functionalities == null)
+            FunctionalitiesFacade.functionalities = new FunctionalitiesFacade();
+
+        return FunctionalitiesFacade.functionalities;
+    }
+
+    @Override
+    public int agregarPedidos(List<ClientePreferencial> cps) throws Exception
+    {
+        int returnCode = 0;
         Connection connection = Connector.getConnector().getConnection();
         try
         {
             //START TRANSACTION
             connection.setAutoCommit(false);
-            Iterator<ClientePreferencial> clientesPreferencialesIterator = clientesPreferenciales.iterator();
-            IClientePreferencialOperator clientePreferencialOperator = new ClientePreferencialOperator();
-
-            //aux variable
-            ClientePreferencial clientePreferencial = null;
             
-            while(clientesPreferenciales.hasNext())
+            ClientePreferencial cp;
+            ClientePreferencialOperator cpOperator;
+            Iterator<ClientePreferencial> cpsIterator = cps.iterator();
+
+            while(cpsIterator.hasNext())
             {
-                clientePreferencial = clientesPreferenciales.next();
-                clientePreferencial.
-                clientePreferencialOperator.insert(un pedido);
+                cp = cpsIterator.next();
+                cpOperator = cp.operator();
+                returnCode = cpOperator.agregarPedidos(cp);
             }
             //COMMIT
             connection.commit();
@@ -35,7 +55,7 @@ public class functionalitiesFacade implements IfunctionalitiesFacade
         catch (Exception exception)
         {
             exception.printStackTrace();
-            returnCode = 0;
+            returnCode = -1;
         }
         finally
         {
@@ -46,31 +66,36 @@ public class functionalitiesFacade implements IfunctionalitiesFacade
     }
     
     @Override
-    public int registrarVendedor(ClientePreferencial cp) {
+    public int registrarVendedor(ClientePreferencial cp)
+    {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int registrarRecompras(List<Recompra> recs) {
+    public int registrarRecompras(List<Recompra> recs)
+    {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int registrarDevoluciones(List<Devolucion> devs) {
+    public int registrarDevoluciones(List<Devolucion> devs)
+    {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public Camp consultarUltimaCamp() {
+    public Camp consultarUltimaCamp()
+    {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Camp consultarCamp() {
+    public Camp consultarCamp()
+    {
         // TODO Auto-generated method stub
         return null;
     }

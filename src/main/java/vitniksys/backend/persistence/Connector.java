@@ -3,11 +3,13 @@ package vitniksys.backend.persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Connector {
     
-    private static final String DRIVER  = "com.mysql.jdbc.Driver"; 
-    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluisbd";
+    private static final String DRIVER  = "com.mysql.cj.jdbc.Driver"; 
+    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis";
     private static final String USER = "root";
     private static final String PASS = "";
     
@@ -23,6 +25,8 @@ public class Connector {
         catch (Exception ex) 
         {
             ex.printStackTrace();
+            //Alert alert =  new Alert(AlertType.ERROR, "Ocurrio un Error en la Conexion");
+            //alert.setTitle("Error");
             JOptionPane.showMessageDialog(null, "Ocurrio un Error en la Conexion", "Error en la Conexion", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -44,11 +48,11 @@ public class Connector {
     
     public static Connector getConnector()
     {
-        if (connectorSingleton==null)
+        if (Connector.connectorSingleton==null)
         {
-            connectorSingleton = new Connector();
+            Connector.connectorSingleton = new Connector();
         }
-        return connectorSingleton;
+        return Connector.connectorSingleton;
     }
 
     /*

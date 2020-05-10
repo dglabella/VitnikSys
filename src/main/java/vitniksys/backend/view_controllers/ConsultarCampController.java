@@ -3,10 +3,12 @@ package vitniksys.backend.view_controllers;
 import java.net.URL;
 import java.io.File;
 import vitniksys.App;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
@@ -20,6 +22,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.functionality_triggers.FunctionalitiesFacade;
+
+import vitniksys.backend.model.Lider;
+import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.model.ClientePreferencialBase;
+import vitniksys.backend.model.ClientePreferencialSubordinado;
 
 public class ConsultarCampController extends VitnikController implements Initializable
 {
@@ -75,9 +83,25 @@ public class ConsultarCampController extends VitnikController implements Initial
 
     }
 
-    @FXML private void ingresarButtonPressed()
+    @FXML private void ingresarButtonPressed() throws Exception
     {
+        FunctionalitiesFacade functionalities = FunctionalitiesFacade.getFunctionalities();
 
+        List<ClientePreferencial> cps = new ArrayList<>();
+        /*
+        cps.add(new ClientePreferencialBase(1, "Danilo", "Labella"));
+        cps.add(new Lider(2,"Danilo", "Labella"));
+        cps.add(new ClientePreferencialBase(3,"Danilo", "Labella"));
+        cps.add(new ClientePreferencialBase(4, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialBase(5, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialSubordinado(6, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialSubordinado(7, "Danilo", "Labella"));
+        cps.add(new Lider(8, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialBase(9, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialSubordinado(10, "Danilo", "Labella"));
+        */
+        //Triggering "Agregar Pedidos" use case
+        functionalities.agregarPedidos(cps);
     }
 
     @FXML private void seleccionarArchivoButtonPressed()

@@ -1,9 +1,9 @@
 package vitniksys.backend.model;
 
 import java.util.List;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import vitniksys.backend.persistence.ClientePreferencialOperator;
 
 public abstract class ClientePreferencial
 {
@@ -19,48 +19,60 @@ public abstract class ClientePreferencial
     private Timestamp registrationTime;
     private boolean isActive;
 
-    //Associations
+    //Domain Associations
     private List<Pedido> pedidos;
     private List<Devolucion> devoluciones;
     private List<Recompra> recompras;
     private List<Pago> pagos;
-    private List<EntregaDeCatalogo> entregaDeCatalogos;
     private List<Saldo> Saldos;
 
-    public ClientePreferencial(int id, String name, String apellido)
-    {
+    //Others
+    private List<Pedido> pedidosEntrantes;
 
+    public ClientePreferencial(int id, String name, String lastName)
+    {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public Long getDni() {
+    public Long getDni()
+    {
         return this.dni;
     }
 
-    public void setDni(Long dni) {
+    public void setDni(Long dni)
+    {
         this.dni = dni;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getLastName() {
+    public String getLastName()
+    {
         return this.lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName)
+    {
         this.lastName = lastName;
     }
 
@@ -68,23 +80,28 @@ public abstract class ClientePreferencial
         return this.location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(String location)
+    {
         this.location = location;
     }
 
-    public LocalDate getBirthdate() {
+    public LocalDate getBirthdate()
+    {
         return this.birthdate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
+    public void setBirthdate(LocalDate birthdate)
+    {
         this.birthdate = birthdate;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return this.email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
@@ -92,7 +109,8 @@ public abstract class ClientePreferencial
         return this.phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(Long phoneNumber)
+    {
         this.phoneNumber = phoneNumber;
     }
 
@@ -100,15 +118,18 @@ public abstract class ClientePreferencial
         return this.registrationTime;
     }
 
-    public void setRegistrationTime(Timestamp registrationTime) {
+    public void setRegistrationTime(Timestamp registrationTime)
+    {
         this.registrationTime = registrationTime;
     }
 
-    public boolean isIsActive() {
+    public boolean isIsActive()
+    {
         return this.isActive;
     }
 
-    public void setIsActive(boolean isActive) {
+    public void setIsActive(boolean isActive)
+    {
         this.isActive = isActive;
     }
 
@@ -116,49 +137,60 @@ public abstract class ClientePreferencial
         return this.pedidos;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
+    public void setPedidos(List<Pedido> pedidos)
+    {
         this.pedidos = pedidos;
     }
 
-    public List<Devolucion> getDevoluciones() {
+    public List<Devolucion> getDevoluciones()
+    {
         return this.devoluciones;
     }
 
-    public void setDevoluciones(List<Devolucion> devoluciones) {
+    public void setDevoluciones(List<Devolucion> devoluciones)
+    {
         this.devoluciones = devoluciones;
     }
 
-    public List<Recompra> getRecompras() {
+    public List<Recompra> getRecompras()
+    {
         return this.recompras;
     }
 
-    public void setRecompras(List<Recompra> recompras) {
+    public void setRecompras(List<Recompra> recompras)
+    {
         this.recompras = recompras;
     }
 
-    public List<Pago> getPagos() {
+    public List<Pago> getPagos()
+    {
         return this.pagos;
     }
 
-    public void setPagos(List<Pago> pagos) {
+    public void setPagos(List<Pago> pagos)
+    {
         this.pagos = pagos;
     }
 
-    public List<EntregaDeCatalogo> getEntregaDeCatalogos() {
-        return this.entregaDeCatalogos;
-    }
-
-    public void setEntregaDeCatalogos(List<EntregaDeCatalogo> entregaDeCatalogos) {
-        this.entregaDeCatalogos = entregaDeCatalogos;
-    }
-
-    public List<Saldo> getSaldos() {
+    public List<Saldo> getSaldos()
+    {
         return this.Saldos;
     }
 
-    public void setSaldos(List<Saldo> Saldos) {
+    public void setSaldos(List<Saldo> Saldos)
+    {
         this.Saldos = Saldos;
     }
 
+    public List<Pedido> getPedidosEntrantes()
+    {
+        return this.pedidosEntrantes;   
+    }
 
+    public void setPedidosEntrantes(List<Pedido> pedidosEntrantes)
+    {
+        this.pedidosEntrantes = pedidosEntrantes;
+    }
+
+    public abstract ClientePreferencialOperator operator();
 }
