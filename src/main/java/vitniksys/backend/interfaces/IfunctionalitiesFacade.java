@@ -3,8 +3,10 @@ package vitniksys.backend.interfaces;
 import java.util.List;
 import vitniksys.backend.model.*;
 
-public interface IfunctionalitiesFacade
+public interface IFunctionalitiesFacade
 {
+    public List<ClientePreferencial> obtenerPedidos(PedidosObtainer pedidosObtainer) throws Exception;
+
     public int agregarPedidos(List<ClientePreferencial> clientes) throws Exception;
     
     public int registrarDevoluciones(List<Devolucion> devoluciones)  throws Exception;

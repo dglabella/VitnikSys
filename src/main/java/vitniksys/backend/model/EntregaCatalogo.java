@@ -1,6 +1,6 @@
 package vitniksys.backend.model;
 
-public class EntregaDeCatalogo
+public class EntregaCatalogo
 {
     
 }

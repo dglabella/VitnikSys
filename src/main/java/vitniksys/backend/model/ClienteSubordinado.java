@@ -2,9 +2,9 @@ package vitniksys.backend.model;
 
 import java.util.List;
 import vitniksys.backend.persistence.ClientePreferencialOperator;
-import vitniksys.backend.persistence.ClientePreferencialSubordinadoOperator;
+import vitniksys.backend.persistence.ClienteSubordinadoOperator;
 
-public class ClientePreferencialSubordinado extends ClientePreferencial
+public class ClienteSubordinado extends ClientePreferencial
 {
     //Entity properties
     
@@ -15,7 +15,7 @@ public class ClientePreferencialSubordinado extends ClientePreferencial
     //Others
 
 
-    public ClientePreferencialSubordinado(int id, String name, String lastName)
+    public ClienteSubordinado(int id, String name, String lastName)
     {
         super(id, name, lastName);
     }
@@ -33,6 +33,6 @@ public class ClientePreferencialSubordinado extends ClientePreferencial
     @Override
     public ClientePreferencialOperator operator()
     {
-        return ClientePreferencialSubordinadoOperator.getOperator();
+        return ClienteSubordinadoOperator.getOperator();
     }
 }

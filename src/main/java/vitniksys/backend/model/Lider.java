@@ -11,8 +11,8 @@ public class Lider extends ClientePreferencial
 
     //Domain Associations
     private Comision comision;
-    private List<EntregaDeCatalogo> entregasDeCatalogo;
-    private  List<ClientePreferencialSubordinado> subordinados;
+    private List<EntregaCatalogo> entregasCatalogo;
+    private  List<ClienteSubordinado> subordinados;
 
     //Others
     
@@ -33,22 +33,22 @@ public class Lider extends ClientePreferencial
         this.comision = comision;
     }
 
-    public List<EntregaDeCatalogo> getEntregasDeCatalogos()
+    public List<EntregaCatalogo> getEntregasCatalogo()
     {
-        return this.entregasDeCatalogo;
+        return this.entregasCatalogo;
     }
 
-    public void setEntregaDeCatalogos(List<EntregaDeCatalogo> entregasDeCatalogo)
+    public void setEntregasCatalogo(List<EntregaCatalogo> entregasCatalogo)
     {
-        this.entregasDeCatalogo = entregasDeCatalogo;
+        this.entregasCatalogo = entregasCatalogo;
     }
 
-    public List<ClientePreferencialSubordinado> getSubordinados()
+    public List<ClienteSubordinado> getSubordinados()
     {
         return this.subordinados;
     }
 
-    public void setSubordinados(List<ClientePreferencialSubordinado> subordinados)
+    public void setSubordinados(List<ClienteSubordinado> subordinados)
     {
         this.subordinados = subordinados;
     }

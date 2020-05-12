@@ -12,7 +12,7 @@ import vitniksys.backend.persistence.*;
 *View controllers should call methods in this class whenever it 
 *tries to Trigger some vitniksys functionalities (uses cases)
 */
-public class FunctionalitiesFacade implements IfunctionalitiesFacade
+public class FunctionalitiesFacade implements IFunctionalitiesFacade
 {
     private static FunctionalitiesFacade functionalities;
 
@@ -27,6 +27,14 @@ public class FunctionalitiesFacade implements IfunctionalitiesFacade
             FunctionalitiesFacade.functionalities = new FunctionalitiesFacade();
 
         return FunctionalitiesFacade.functionalities;
+    }
+
+
+    @Override
+    public List<ClientePreferencial> obtenerPedidos(PedidosObtainer pedidosObtainer) throws Exception
+    {
+        pedidosObtainer.getInfo();
+        return null;
     }
 
     @Override

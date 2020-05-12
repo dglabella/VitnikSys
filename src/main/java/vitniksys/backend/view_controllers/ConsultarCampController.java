@@ -16,18 +16,17 @@ import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import vitniksys.backend.model.Mes;
+import vitniksys.backend.model.Pedido;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.util.DetalleInterpreter;
+import vitniksys.backend.interfaces.PedidosObtainer;
+import vitniksys.backend.interfaces.IFunctionalitiesFacade;
 import vitniksys.backend.functionality_triggers.FunctionalitiesFacade;
-
-import vitniksys.backend.model.Lider;
-import vitniksys.backend.model.ClientePreferencial;
-import vitniksys.backend.model.ClientePreferencialBase;
-import vitniksys.backend.model.ClientePreferencialSubordinado;
 
 public class ConsultarCampController extends VitnikController implements Initializable
 {
@@ -35,7 +34,9 @@ public class ConsultarCampController extends VitnikController implements Initial
     private final int YEAR_MIN = 2020;
     private final int YEAR_MAX = 2038;
 
-    private File detalle;
+    private PedidosObtainer pedidosObtainer;
+
+    //private File detalle;
     private ExpressionChecker expressionChecker;
 
     @FXML private TextField textField_nroCamp;
@@ -83,33 +84,21 @@ public class ConsultarCampController extends VitnikController implements Initial
 
     }
 
-    @FXML private void ingresarButtonPressed() throws Exception
-    {
-        FunctionalitiesFacade functionalities = FunctionalitiesFacade.getFunctionalities();
-
-        List<ClientePreferencial> cps = new ArrayList<>();
-        /*
-        cps.add(new ClientePreferencialBase(1, "Danilo", "Labella"));
-        cps.add(new Lider(2,"Danilo", "Labella"));
-        cps.add(new ClientePreferencialBase(3,"Danilo", "Labella"));
-        cps.add(new ClientePreferencialBase(4, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialBase(5, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialSubordinado(6, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialSubordinado(7, "Danilo", "Labella"));
-        cps.add(new Lider(8, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialBase(9, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialSubordinado(10, "Danilo", "Labella"));
+    @FXML private void seleccionarMetodoButtonPressed()
+    {   /**
+        *THIS METHOD IS SUPPOSED TO SELECT A "PEDIDOS" OBTAINING METHOD.
+        *ACTUALLY IS HARDCODED FOR FILE SELECTING METHOD (DETALLE.CSV FILE),
+        *BUT IF "PEDIDOS" OBTAINING METHOD WILL BE ADDED, HERE IS WHERE IT
+        *HAS TO BE IMPLEMENTED.
         */
-        //Triggering "Agregar Pedidos" use case
-        functionalities.agregarPedidos(cps);
-    }
+        IFunctionalitiesFacade functionalities = FunctionalitiesFacade.getFunctionalities();
 
-    @FXML private void seleccionarArchivoButtonPressed()
-    {
+        //FILE SELECTING METHOD
         FileChooser fileChooser = new FileChooser();
-        this.detalle = fileChooser.showOpenDialog(null);
+        File detalle = fileChooser.showOpenDialog(null);
+        this.pedidosObtainer = DetalleInterpreter.createInterpreter(detalle);
 
-        if (this.detalle != null)
+        if (detalle != null)
         {
             this.label_archivoSeleccionado.setText("Archivo seleccionado:");
             this.label_archivoSeleccionado.setVisible(true);
@@ -129,6 +118,25 @@ public class ConsultarCampController extends VitnikController implements Initial
         }
     }
 
+    @FXML private void ingresarButtonPressed() throws Exception
+    {
+        IFunctionalitiesFacade functionalities = FunctionalitiesFacade.getFunctionalities();
+        /*
+        cps.add(new ClientePreferencialBase(1, "Danilo", "Labella"));
+        cps.add(new Lider(2,"Danilo", "Labella"));
+        cps.add(new ClientePreferencialBase(3,"Danilo", "Labella"));
+        cps.add(new ClientePreferencialBase(4, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialBase(5, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialSubordinado(6, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialSubordinado(7, "Danilo", "Labella"));
+        cps.add(new Lider(8, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialBase(9, "Danilo", "Labella"));
+        cps.add(new ClientePreferencialSubordinado(10, "Danilo", "Labella"));
+        */
+        //Triggering "Obtener" use case then Triggering "Agregar Pedidos" use case
+        functionalities.agregarPedidos(functionalities.obtenerPedidos(this.pedidosObtainer));
+    }
+
     @FXML private void plusCatButtonPressed() throws IOException
     {
         String fxml = "ConsultarCatalogo";
@@ -145,6 +153,7 @@ public class ConsultarCampController extends VitnikController implements Initial
 
     @FXML private void plusCampButtonPressed()
     {
+
     }
 
     @FXML private void nroCampCheck()
