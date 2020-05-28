@@ -1,50 +1,69 @@
 package vitniksys.backend.model;
 
+import java.util.List;
+import vitniksys.backend.model.Camp;
+import vitniksys.backend.model.EntregaCatalogo;
+
 public class Catalogo
 {
-    private int codigo;
-    private int stockInicial;
-    private float precio;
+    //Entity properties
+    private int code;
+    private int initialStock;
+    private float price;
     private String link;
-    private int stock;
+    private int actualStock;
 
-    public Catalogo(int codigo, int stockInicial, float precio)
+    //Domain Associations
+    private Camp[] camps;
+    private List<EntregaCatalogo> entregas;
+
+    //Others
+    private boolean active;
+
+    public Catalogo(int code, int initialStock, float price)
     {
-        this.codigo = codigo;
-        this.stockInicial = stockInicial;
-        //Inicialmente, stockInicial y stock deberian ser iguales
-        this.stock = stockInicial;
-        this.precio = precio;
+        this.code = code;
+        this.initialStock = initialStock;
+        this.price = price;   
     }
 
-    public int getCodigo()
+    //Getters && Setters
+    /**
+     * 
+     * @return return the BD table key (column name: cod).
+     */
+    public int getCode() 
     {
-        return this.codigo;
+        return this.code;
     }
 
-    public void setCodigo(int codigo)
+    /**
+     * 
+     * @param code set the BD table key (column name: cod).
+     */
+    public void setCode(int code)
     {
-        this.codigo = codigo;
+        this.code = code;
     }
 
-    public int getStockInicial()
+    public int getInitialStock()
     {
-        return this.stockInicial;
+        return this.initialStock;
     }
 
-    public void setStockInicial(int stockInicial)
+    public void setInitialStock(int initialStock)
     {
-        this.stockInicial = stockInicial;
+        this.initialStock = initialStock;
     }
 
-    public float getPrecio() 
+    public float getPrice()
     {
-        return this.precio;
+        return this.price;
     }
 
-    public void setPrecio(float precio)
+    public void setPrice(float price)
     {
-        this.precio = precio;
+        this.price = price;
     }
 
     public String getLink()
@@ -52,18 +71,28 @@ public class Catalogo
         return this.link;
     }
 
-    public void setLink(String link) 
+    public void setLink(String link)
     {
         this.link = link;
     }
 
-    public int getStock() 
+    public int getActualStock()
     {
-        return this.stock;
+        return this.actualStock;
     }
 
-    public void setStock(int stock) 
+    public void setActualStock(int actualStock)
     {
-        this.stock = stock;
+        this.actualStock = actualStock;
     }
+
+    public boolean isActive()
+    {
+        return this.active;
+    }
+
+    public void setActive(boolean active)
+    {
+        this.active = active;
+    }   
 }

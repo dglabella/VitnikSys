@@ -17,7 +17,7 @@
    <children>
       <AnchorPane prefHeight="60.0" prefWidth="1024.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
          <children>
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="959.0" layoutY="5.0" onAction="#homeButtonPressed" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="959.0" layoutY="5.0" onAction="#backButtonPressed" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: white; -fx-background-radius: 50;">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                      <image>

@@ -5,34 +5,39 @@ import javafx.stage.Stage;
 
 public abstract class VitnikController
 {
-    private Stage _stage;
-    private VitnikController _prevController;
+    private Stage stage;
+    private VitnikController prevController;
 
     protected void setPrevController(VitnikController prevController)
     {
-        _prevController = prevController;
+        this.prevController = prevController;
     }
 
     protected VitnikController getPrevController()
     {
-        return _prevController;
+        return this.prevController;
     }
 
     protected void setStage(Stage stage)
     {
-        _stage = stage;
+        this.stage = stage;
     }
 
     protected Stage getStage()
     {
-        return _stage;
+        return this.stage;
     }
 
     @FXML
-    private void homeButtonPressed()
+    private void backButtonPressed()
     {
-        _stage.close();
+        this.stage.close();
     }
 
+    /**
+     * Refresh the stage with new data.
+     * This method should be called if it is necesary
+     * show some changes on the stage.
+     */
     protected abstract void refresh();
 }

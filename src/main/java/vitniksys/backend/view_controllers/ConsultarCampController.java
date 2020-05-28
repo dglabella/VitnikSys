@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import vitniksys.backend.model.Mes;
+import vitniksys.backend.enums.Mes;
 import vitniksys.backend.model.Pedido;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
@@ -25,102 +25,91 @@ import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.util.DetalleInterpreter;
 import vitniksys.backend.interfaces.PedidosObtainer;
-import vitniksys.backend.interfaces.IFunctionalitiesFacade;
-import vitniksys.backend.functionality_triggers.FunctionalitiesFacade;
+import vitniksys.backend.interfaces.IFunctionalities;
+import vitniksys.backend.functionality_triggers.Functionalities;
 
 public class ConsultarCampController extends VitnikController implements Initializable
 {
-    //Changing YEAR_MIN and YEAR_MAX values only affect the frontend view
+    //Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private final int YEAR_MIN = 2020;
     private final int YEAR_MAX = 2038;
-
+    
     private PedidosObtainer pedidosObtainer;
 
-    //private File detalle;
+    //The list for save the result of "pedidosObtainer".
+    private List<Pedido> incomingPedidos;
+
     private ExpressionChecker expressionChecker;
 
-    @FXML private TextField textField_nroCamp;
-    @FXML private TextField textField_codCat;
+    /**
+     * FXML Objects and variables.
+     */
+    @FXML private TextField campNumber;
+    @FXML private TextField campName;
+    @FXML private TextField catalogoCode;
 
-    @FXML private Label label_cantArtPedidos;
-    @FXML private Label label_cantArtRetirados;
-    @FXML private Label label_cantDevueltos;
-    @FXML private Label label_cantRecomprados;
-    @FXML private Label label_cantCatEntregados;
-    @FXML private Label label_totalPedidos;
-    @FXML private Label label_totalRetiros;
-    @FXML private Label label_totalDevol;
-    @FXML private Label label_totalRecompras;
-    @FXML private Label label_totalCat;
-    @FXML private Label label_archivoSeleccionado;
-    @FXML private Label label_path;
-    @FXML private Label label_nroCampInvalido;
+    @FXML private Label artPedidosQuantity;
+    @FXML private Label artRetiradosQuantity;
+    @FXML private Label artDevueltosQuantity;
+    @FXML private Label artRecompradosQuantity;
+    @FXML private Label catEntregadosQuantity;
+    @FXML private Label totalInPedidos;
+    @FXML private Label totalInRetiros;
+    @FXML private Label totalInDevoluciones;
+    @FXML private Label totalInRecompras;
+    @FXML private Label totalInCatalogos;
+    @FXML private Label fileSelected;
+    @FXML private Label filePath;
+    @FXML private Label campNumberInvalid;
 
-    @FXML private ChoiceBox choiceBox_mesCamp;
-    @FXML private ChoiceBox choiceBox_yearCamp;
+    @FXML private ChoiceBox campMonth;
+    @FXML private ChoiceBox campYear;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb)
+    // ================================= FXML methods =================================
+    @FXML private void selectMethodButtonPressed()
     {
-        //Creating the expresssion checker object for checking inputs
-        expressionChecker = ExpressionChecker.getExpressionChecker();
-
-        //Setting values for mesCamp choice box  
-        ObservableList<Mes> months  = FXCollections.observableArrayList(null, Mes.ENERO, Mes.FEBRERO, Mes.MARZO, Mes.ABRIL, Mes.MAYO, Mes.JUNIO,
-        Mes.JULIO, Mes.AGOSTO, Mes.SEPTIEMBRE, Mes.OCTUBRE, Mes.NOVIEMBRE, Mes.DICIEMBRE);
-        this.choiceBox_mesCamp.setItems(months);
-
-        //Setting values for yearCamp choice box
-        ObservableList<Integer> years = FXCollections.observableArrayList();
-        years.add(null);
-        for(int i = YEAR_MIN; i<= YEAR_MAX; i++)
-            years.add(i);
-        this.choiceBox_yearCamp.setItems(years);
-    }
-
-    @Override
-    protected void refresh()
-    {
-
-    }
-
-    @FXML private void seleccionarMetodoButtonPressed()
-    {   /**
+        /**
         *THIS METHOD IS SUPPOSED TO SELECT A "PEDIDOS" OBTAINING METHOD.
         *ACTUALLY IS HARDCODED FOR FILE SELECTING METHOD (DETALLE.CSV FILE),
         *BUT IF "PEDIDOS" OBTAINING METHOD WILL BE ADDED, HERE IS WHERE IT
         *HAS TO BE IMPLEMENTED.
         */
-        IFunctionalitiesFacade functionalities = FunctionalitiesFacade.getFunctionalities();
+        IFunctionalities functionalities = Functionalities.getFunctionalities();
 
-        //FILE SELECTING METHOD
+        //FILE SELECTING METHOD.
         FileChooser fileChooser = new FileChooser();
         File detalle = fileChooser.showOpenDialog(null);
         this.pedidosObtainer = DetalleInterpreter.createInterpreter(detalle);
-
+        
         if (detalle != null)
         {
-            this.label_archivoSeleccionado.setText("Archivo seleccionado:");
-            this.label_archivoSeleccionado.setVisible(true);
+            this.fileSelected.setText("Archivo seleccionado:");
+            this.fileSelected.setVisible(true);
             
             if(FilenameUtils.getExtension(detalle.getName()).equalsIgnoreCase("csv") )
             {
-                this.label_path.setTextFill(Color.web("#000000")); //Black
-                this.label_path.setText(detalle.getAbsolutePath());
-                this.label_path.setVisible(true);
+                this.filePath.setTextFill(Color.web("#000000")); //Black
+                this.filePath.setText(detalle.getAbsolutePath());
+                this.filePath.setVisible(true);
+
+                //Executing the information gathering process.
+                Thread thread =  new Thread((DetalleInterpreter)this.pedidosObtainer);
+                thread.start();
+                System.out.println("\n\n\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVERE");
+                //pedidosObtainer.startGatheringInfo();
             }
             else
             {
-                this.label_path.setTextFill(Color.web("#ff0000")); //Red
-                this.label_path.setText("el archivo no tiene extension csv");
-                this.label_path.setVisible(true);
+                this.filePath.setTextFill(Color.web("#ff0000")); //Red
+                this.filePath.setText("el archivo no tiene extension csv");
+                this.filePath.setVisible(true);
             }
         }
     }
 
-    @FXML private void ingresarButtonPressed() throws Exception
+    @FXML private void registerButtonPressed() throws Exception
     {
-        IFunctionalitiesFacade functionalities = FunctionalitiesFacade.getFunctionalities();
+        IFunctionalities functionalities = Functionalities.getFunctionalities();
         /*
         cps.add(new ClientePreferencialBase(1, "Danilo", "Labella"));
         cps.add(new Lider(2,"Danilo", "Labella"));
@@ -153,19 +142,70 @@ public class ConsultarCampController extends VitnikController implements Initial
 
     @FXML private void plusCampButtonPressed()
     {
-
+        clearStage();
+        //camp name is automatically set.
+        this.campName.setDisable(true);
+        this.incomingPedidos.clear();
     }
 
     @FXML private void nroCampCheck()
     {
-        if(this.expressionChecker.onlyNumbers(this.textField_nroCamp.getText(), false))
+        if(this.expressionChecker.onlyNumbers(this.campNumber.getText(), true))
         {
-            this.label_nroCampInvalido.setVisible(false);
+            this.campNumberInvalid.setVisible(false);
         }
         else
         {
-            this.label_nroCampInvalido.setText("Dato invalido");
-            this.label_nroCampInvalido.setVisible(true);
+            this.campNumberInvalid.setText("Dato invalido");
+            this.campNumberInvalid.setVisible(true);
         }     
+    }
+
+    // ================================= private methods =================================
+    private void clearStage()
+    {
+        this.campNumber.clear();
+        this.campName.clear();
+        this.campMonth.setValue(null);
+        this.campYear.setValue(null);
+        this.catalogoCode.clear();
+        this.filePath.setText(null);
+        this.fileSelected.setText(null);
+        this.artDevueltosQuantity.setText(null);
+        this.artPedidosQuantity.setText(null);
+        this.artRecompradosQuantity.setText(null);
+        this.artRetiradosQuantity.setText(null);
+        this.totalInCatalogos.setText(null);
+        this.totalInDevoluciones.setText(null);
+        this.totalInPedidos.setText(null);
+        this.totalInRecompras.setText(null);
+        this.totalInRetiros.setText(null);
+    }
+
+    // ================================= protected methods =================================
+    @Override
+    protected void refresh()
+    {
+
+    }
+
+    // ================================= public methods =================================
+    @Override
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        //Creating the expresssion checker object for checking inputs.
+        expressionChecker = ExpressionChecker.getExpressionChecker();
+
+        //Setting values for campMonth choice box.
+        ObservableList<Mes> months  = FXCollections.observableArrayList(null, Mes.ENERO, Mes.FEBRERO, Mes.MARZO, Mes.ABRIL, Mes.MAYO, Mes.JUNIO,
+        Mes.JULIO, Mes.AGOSTO, Mes.SEPTIEMBRE, Mes.OCTUBRE, Mes.NOVIEMBRE, Mes.DICIEMBRE);
+        this.campMonth.setItems(months);
+
+        //Setting values for campYear choice box.
+        ObservableList<Integer> years = FXCollections.observableArrayList();
+        years.add(null);
+        for(int i = YEAR_MIN; i<= YEAR_MAX; i++)
+            years.add(i);
+        this.campYear.setItems(years);
     }
 }

@@ -17,16 +17,17 @@ public abstract class ClientePreferencial
     private String email;
     private Long phoneNumber;
     private Timestamp registrationTime;
-    private boolean isActive;
 
     //Domain Associations
     private List<Pedido> pedidos;
     private List<Devolucion> devoluciones;
     private List<Recompra> recompras;
     private List<Pago> pagos;
-    private List<Saldo> Saldos;
+    private List<Saldo> saldos;
+    private List<EntregaCatalogo> entregaCatalogos;
 
     //Others
+    private boolean active;
     private List<Pedido> pedidosEntrantes;
 
     public ClientePreferencial(int id, String name, String lastName)
@@ -36,11 +37,20 @@ public abstract class ClientePreferencial
         this.lastName = lastName;
     }
 
+    //Getters && Setters
+    /**
+     * 
+     * @return return the BD table key (column name: id_cp).
+     */
     public int getId()
     {
         return this.id;
     }
 
+    /**
+     * 
+     * @param id set the BD table key (column name: id).
+     */
     public void setId(int id)
     {
         this.id = id;
@@ -123,17 +133,18 @@ public abstract class ClientePreferencial
         this.registrationTime = registrationTime;
     }
 
-    public boolean isIsActive()
+    public boolean isActive()
     {
-        return this.isActive;
+        return this.active;
     }
 
-    public void setIsActive(boolean isActive)
+    public void setActive(boolean active)
     {
-        this.isActive = isActive;
+        this.active = active;
     }
 
-    public List<Pedido> getPedidos() {
+    public List<Pedido> getPedidos()
+    {
         return this.pedidos;
     }
 
@@ -174,23 +185,31 @@ public abstract class ClientePreferencial
 
     public List<Saldo> getSaldos()
     {
-        return this.Saldos;
+        return this.saldos;
     }
 
-    public void setSaldos(List<Saldo> Saldos)
+    public void setSaldos(List<Saldo> saldos)
     {
-        this.Saldos = Saldos;
+        this.saldos = saldos;
     }
 
-    public List<Pedido> getPedidosEntrantes()
+    public List<EntregaCatalogo> getEntregaCatalogos()
     {
-        return this.pedidosEntrantes;   
+        return this.entregaCatalogos;
     }
 
-    public void setPedidosEntrantes(List<Pedido> pedidosEntrantes)
+    public void setEntregaCatalogos(List<EntregaCatalogo> entregaCatalogos)
     {
-        this.pedidosEntrantes = pedidosEntrantes;
-    }
+        this.entregaCatalogos = entregaCatalogos;
+    }    
 
+    /**
+     * This method supplies an easy way to get the Data Acces Object (DAO).
+     * Using polymorphism, this method delegates creating a CRUD Operator.
+     * This method is supposed to be only available in objects that are
+     * instances of a subclass.
+     * Call this method to obtain the DAO for this object. 
+     * @return the DAO operator.
+     */
     public abstract ClientePreferencialOperator operator();
 }

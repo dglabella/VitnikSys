@@ -2,6 +2,10 @@ package vitniksys.backend.util;
 
 import java.util.regex.*;
 
+/**
+ * This class (Singleton) is used to check the most
+ * common user inputs.
+ */
 public class ExpressionChecker 
 {
     private static ExpressionChecker expressionChecker;
@@ -10,7 +14,7 @@ public class ExpressionChecker
 
     private ExpressionChecker() 
     {
-        
+        //Empty constructor.
     }
 
     public static ExpressionChecker getExpressionChecker()

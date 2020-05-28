@@ -22,7 +22,7 @@
                   <InnerShadow height="4.3" radius="1.65" width="4.3" />
                </effect>
             </ImageView>
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="825.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#homeButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="825.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -50,12 +50,12 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_cantDevueltos" layoutX="220.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="artDevueltosQuantity" layoutX="220.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_cantRecomprados" layoutX="220.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="artRecompradosQuantity" layoutX="220.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -80,22 +80,22 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_cantArtPedidos" layoutX="220.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="artPedidosQuantity" layoutX="220.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_cantArtRetirados" layoutX="220.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="artRetiradosQuantity" layoutX="220.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_totalPedidos" layoutX="220.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInPedidos" layoutX="220.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_totalRetiros" layoutX="220.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInRetiros" layoutX="220.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -110,12 +110,12 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_totalDevol" layoutX="220.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInDevoluciones" layoutX="220.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_totalRecompras" layoutX="220.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInRecompras" layoutX="220.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -125,7 +125,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_cantCatEntregados" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="catEntregadosQuantity" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -135,7 +135,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="label_totalCat" layoutX="220.0" layoutY="290.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInCatalogos" layoutX="220.0" layoutY="290.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -144,12 +144,12 @@
       </AnchorPane>
       <AnchorPane layoutX="20.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="400.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <Label alignment="CENTER_RIGHT" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Mes:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label alignment="CENTER_RIGHT" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Mes:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="135.0" layoutY="520.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#ingresarButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="INGRESAR">
+            <JFXButton buttonType="RAISED" layoutX="135.0" layoutY="520.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#registerButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Registrar">
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -168,9 +168,9 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="50.0" layoutY="410.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#seleccionarMetodoButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="SELECCIONAR" />
-            <Label fx:id="label_archivoSeleccionado" layoutX="25.0" layoutY="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" visible="false" />
-            <Label fx:id="label_path" layoutX="25.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" visible="false" />
+            <JFXButton buttonType="RAISED" layoutX="50.0" layoutY="410.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#selectMethodButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="SELECCIONAR" />
+            <Label fx:id="fileSelected" layoutX="25.0" layoutY="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" visible="false" />
+            <Label fx:id="filePath" layoutX="25.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" visible="false" />
             <Label layoutX="210.0" layoutY="370.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Catálogo:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -185,16 +185,16 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <TextField fx:id="textField_nroCamp" alignment="CENTER" layoutX="210.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#nroCampCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: 223" />
-            <Label fx:id="label_nroCampInvalido" layoutX="210.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="RED" />
-            <ChoiceBox fx:id="choiceBox_mesCamp" layoutX="210.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
-            <Label alignment="CENTER_RIGHT" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Año:" textAlignment="JUSTIFY" textFill="#434343">
+            <TextField fx:id="campNumber" alignment="CENTER" layoutX="210.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#nroCampCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: 223" />
+            <Label fx:id="campNumberInvalid" layoutX="210.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" textAlignment="JUSTIFY" textFill="RED" />
+            <ChoiceBox fx:id="campMonth" layoutX="210.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
+            <Label alignment="CENTER_RIGHT" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Año:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="choiceBox_yearCamp" layoutX="210.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
-            <TextField fx:id="textField_codCat" layoutX="210.0" layoutY="410.0" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
+            <ChoiceBox fx:id="campYear" layoutX="210.0" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
+            <TextField fx:id="catalogoCode" layoutX="210.0" layoutY="410.0" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
             <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="345.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusCampButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
@@ -204,6 +204,12 @@
                   </ImageView>
                </graphic>
             </JFXButton>
+            <Label alignment="CENTER_RIGHT" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Nombre de campaña:" textAlignment="JUSTIFY" textFill="#434343">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="campName" alignment="CENTER" layoutX="210.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#nroCampCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: febrero2020" />
          </children>
       </AnchorPane>
    </children>

@@ -10,7 +10,7 @@ public class ClienteBase extends ClientePreferencial
 
 
     //Domain Associations
-    private List<EntregaCatalogo> entregasCatalogo;
+    private List<Observacion> observaciones;
 
     //Others
 
@@ -20,14 +20,15 @@ public class ClienteBase extends ClientePreferencial
         super(id, name, lastName);
     }
 
-    public List<EntregaCatalogo> getEntregasCatalogo()
+    //Getters && Setters
+    public List<Observacion> getObservaciones()
     {
-        return this.entregasCatalogo;
+        return this.observaciones;
     }
 
-    public void setEntregasCatalogo(List<EntregaCatalogo> entregasCatalogo)
+    public void setObservaciones(List<Observacion> observaciones)
     {
-        this.entregasCatalogo = entregasCatalogo;
+        this.observaciones = observaciones;
     }
 
     @Override

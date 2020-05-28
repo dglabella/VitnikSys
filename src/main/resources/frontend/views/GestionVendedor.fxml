@@ -34,7 +34,7 @@
                </font>
             </Label>
             <ChoiceBox fx:id="_choiceBox_nroCamp" layoutX="1100.0" layoutY="15.0" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: white; -fx-border-color: white;" />
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="1245.0" layoutY="5.0" onAction="#homeButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="1245.0" layoutY="5.0" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                      <image>

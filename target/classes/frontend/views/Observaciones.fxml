@@ -21,7 +21,7 @@
                   <InnerShadow height="4.3" radius="1.65" width="4.3" />
                </effect>
             </ImageView>
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="894.0" layoutY="13.0" onAction="#homeButtonPressed" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: white; -fx-background-radius: 50;" AnchorPane.rightAnchor="20.0">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="894.0" layoutY="13.0" onAction="#backButtonPressed" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: white; -fx-background-radius: 50;" AnchorPane.rightAnchor="20.0">
                <graphic>
                   <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                      <image>
