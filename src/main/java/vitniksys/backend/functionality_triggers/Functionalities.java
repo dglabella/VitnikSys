@@ -4,8 +4,14 @@ import java.util.List;
 import java.util.Iterator;
 import java.sql.Connection;
 import vitniksys.backend.model.*;
+import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
 import vitniksys.backend.interfaces.*;
 import vitniksys.backend.persistence.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+
+import vitniksys.backend.util.PedidosObtainer;
 
 public class Functionalities implements IFunctionalities
 {
@@ -28,7 +34,8 @@ public class Functionalities implements IFunctionalities
     @Override
     public List<ClientePreferencial> obtenerPedidos(PedidosObtainer pedidosObtainer) throws Exception
     {
-        pedidosObtainer.getInfo();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<List<Pedido>> incomingPedidos = executorService.submit(pedidosObtainer);
         return null;
     }
 
@@ -37,8 +44,7 @@ public class Functionalities implements IFunctionalities
     {
         int returnCode = 0;
         Connection connection = Connector.getConnector().getConnection();
-        try
-        {
+        try{
             //START TRANSACTION
             connection.setAutoCommit(false);
             

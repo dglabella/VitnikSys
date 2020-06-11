@@ -2,6 +2,7 @@ package vitniksys.backend.interfaces;
 
 import java.util.List;
 import vitniksys.backend.model.*;
+import vitniksys.backend.util.PedidosObtainer;
 
 /**
 *This interface implements the facade pattern design.

@@ -22,9 +22,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.FilenameUtils;
+import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.util.DetalleInterpreter;
-import vitniksys.backend.interfaces.PedidosObtainer;
+import vitniksys.backend.model.ClientePreferencial;
 import vitniksys.backend.interfaces.IFunctionalities;
 import vitniksys.backend.functionality_triggers.Functionalities;
 
@@ -37,7 +38,7 @@ public class ConsultarCampController extends VitnikController implements Initial
     private PedidosObtainer pedidosObtainer;
 
     //The list for save the result of "pedidosObtainer".
-    private List<Pedido> incomingPedidos;
+    private List<ClientePreferencial> customersWithNewOrders;
 
     private ExpressionChecker expressionChecker;
 
@@ -58,6 +59,7 @@ public class ConsultarCampController extends VitnikController implements Initial
     @FXML private Label totalInDevoluciones;
     @FXML private Label totalInRecompras;
     @FXML private Label totalInCatalogos;
+    @FXML private Label processWorking;
     @FXML private Label fileSelected;
     @FXML private Label filePath;
     @FXML private Label campNumberInvalid;
@@ -66,7 +68,7 @@ public class ConsultarCampController extends VitnikController implements Initial
     @FXML private ChoiceBox campYear;
 
     // ================================= FXML methods =================================
-    @FXML private void selectMethodButtonPressed()
+    @FXML private void selectMethodButtonPressed() throws Exception
     {
         /**
         *THIS METHOD IS SUPPOSED TO SELECT A "PEDIDOS" OBTAINING METHOD.
@@ -93,10 +95,7 @@ public class ConsultarCampController extends VitnikController implements Initial
                 this.filePath.setVisible(true);
 
                 //Executing the information gathering process.
-                Thread thread =  new Thread((DetalleInterpreter)this.pedidosObtainer);
-                thread.start();
-                System.out.println("\n\n\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVERE");
-                //pedidosObtainer.startGatheringInfo();
+                functionalities.obtenerPedidos(this.pedidosObtainer);
             }
             else
             {
@@ -110,20 +109,8 @@ public class ConsultarCampController extends VitnikController implements Initial
     @FXML private void registerButtonPressed() throws Exception
     {
         IFunctionalities functionalities = Functionalities.getFunctionalities();
-        /*
-        cps.add(new ClientePreferencialBase(1, "Danilo", "Labella"));
-        cps.add(new Lider(2,"Danilo", "Labella"));
-        cps.add(new ClientePreferencialBase(3,"Danilo", "Labella"));
-        cps.add(new ClientePreferencialBase(4, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialBase(5, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialSubordinado(6, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialSubordinado(7, "Danilo", "Labella"));
-        cps.add(new Lider(8, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialBase(9, "Danilo", "Labella"));
-        cps.add(new ClientePreferencialSubordinado(10, "Danilo", "Labella"));
-        */
-        //Triggering "Obtener" use case then Triggering "Agregar Pedidos" use case
-        functionalities.agregarPedidos(functionalities.obtenerPedidos(this.pedidosObtainer));
+        //Triggering "Obtener Pedidos" use case then Triggering "Agregar Pedidos" use case
+        functionalities.agregarPedidos(this.customersWithNewOrders);
     }
 
     @FXML private void plusCatButtonPressed() throws IOException
@@ -145,7 +132,7 @@ public class ConsultarCampController extends VitnikController implements Initial
         clearStage();
         //camp name is automatically set.
         this.campName.setDisable(true);
-        this.incomingPedidos.clear();
+        this.customersWithNewOrders.clear();
     }
 
     @FXML private void nroCampCheck()
@@ -186,7 +173,7 @@ public class ConsultarCampController extends VitnikController implements Initial
     @Override
     protected void refresh()
     {
-
+        
     }
 
     // ================================= public methods =================================

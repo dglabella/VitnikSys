@@ -1,7 +1,7 @@
-vitniksys\backend\interfaces\PedidosObtainer.class
 vitniksys\backend\model\ClientePreferencial.class
 vitniksys\backend\util\StockDevsRowTable.class
 vitniksys\backend\interfaces\IFunctionalities.class
+vitniksys\backend\util\PedidosObtainer.class
 vitniksys\backend\persistence\Connector.class
 vitniksys\backend\enums\TipoArt.class
 vitniksys\backend\enums\Mes$1.class

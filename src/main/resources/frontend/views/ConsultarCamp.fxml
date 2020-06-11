@@ -163,20 +163,20 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutY="370.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Pedidos:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label alignment="CENTER" layoutY="340.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Pedidos:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="50.0" layoutY="410.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#selectMethodButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="SELECCIONAR" />
+            <JFXButton buttonType="RAISED" layoutX="50.0" layoutY="380.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#selectMethodButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="SELECCIONAR" />
             <Label fx:id="fileSelected" layoutX="25.0" layoutY="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" visible="false" />
             <Label fx:id="filePath" layoutX="25.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" visible="false" />
-            <Label layoutX="210.0" layoutY="370.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Catálogo:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label layoutX="210.0" layoutY="340.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Catálogo:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="340.0" layoutY="405.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusCatButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="340.0" layoutY="375.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusCatButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -194,7 +194,7 @@
                </font>
             </Label>
             <ChoiceBox fx:id="campYear" layoutX="210.0" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
-            <TextField fx:id="catalogoCode" layoutX="210.0" layoutY="410.0" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
+            <TextField fx:id="catalogoCode" layoutX="210.0" layoutY="380.0" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
             <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="345.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusCampButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
@@ -210,6 +210,7 @@
                </font>
             </Label>
             <TextField fx:id="campName" alignment="CENTER" layoutX="210.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#nroCampCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: febrero2020" />
+            <Label fx:id="processWorking" layoutX="35.0" layoutY="415.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" text="obteniendo pedidos entrantes, espere porfavor..." visible="false" />
          </children>
       </AnchorPane>
    </children>

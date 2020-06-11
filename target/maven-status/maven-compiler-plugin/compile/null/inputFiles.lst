@@ -4,7 +4,6 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\view_controllers\ConsultarCampController.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\IFunctionalities.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\persistence\ClienteSubordinadoOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\PedidosObtainer.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Pago.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\StockDevsRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\FormaPago.java
@@ -17,6 +16,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\view_controllers\ConsultarCatalogoController.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\Motivo.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DetalleRow.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\PedidosObtainer.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Observacion.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DetalleInterpreter.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Lider.java
