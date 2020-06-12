@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.sql.Connection;
 import vitniksys.backend.model.*;
 import java.util.concurrent.Future;
-import java.util.concurrent.Callable;
 import vitniksys.backend.interfaces.*;
 import vitniksys.backend.persistence.*;
 import java.util.concurrent.Executors;
@@ -16,6 +15,8 @@ import vitniksys.backend.util.PedidosObtainer;
 public class Functionalities implements IFunctionalities
 {
     private static Functionalities functionalities;
+
+    private Future<List<ClientePreferencial>> customersWithNewOrders;
 
     private Functionalities()
     {
@@ -30,13 +31,19 @@ public class Functionalities implements IFunctionalities
         return Functionalities.functionalities;
     }
 
-
     @Override
-    public List<ClientePreferencial> obtenerPedidos(PedidosObtainer pedidosObtainer) throws Exception
+    public void obtenerPedidos(PedidosObtainer pedidosObtainer) throws Exception
     {
+        List<ClientePreferencial> ret = null;
+
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<List<Pedido>> incomingPedidos = executorService.submit(pedidosObtainer);
-        return null;
+        this.customersWithNewOrders = executorService.submit(pedidosObtainer);
+    }
+    
+    @Override
+    public Future<List<ClientePreferencial>> getCustomersWithNewOrders()
+    {
+        return this.customersWithNewOrders;
     }
 
     @Override

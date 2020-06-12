@@ -31,6 +31,12 @@ public class ClienteSubordinado extends ClientePreferencial
     }
 
     @Override
+    public String toString()
+    {
+        return super.toString()+"\t|_ Lider: "+this.lider.toString();
+    }
+
+    @Override
     public ClientePreferencialOperator operator()
     {
         return ClienteSubordinadoOperator.getOperator();

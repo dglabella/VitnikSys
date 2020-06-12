@@ -2,9 +2,10 @@ package vitniksys.backend.util;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Callable;
-import vitniksys.backend.model.Pedido;
+import java.util.ArrayList;
+import vitniksys.backend.model.ClienteBase;
 import vitniksys.backend.util.PedidosObtainer;
+import vitniksys.backend.model.ClientePreferencial;
 
 /**
 *This class contains the algorithm for translate the information
@@ -47,12 +48,15 @@ public class DetalleInterpreter extends PedidosObtainer
     }
 
     @Override
-    public List<Pedido> getInfo()
-    { 
-        for(int i = 0; i<1000; i++)
+    public List<ClientePreferencial> getInfo()
+    {
+        List<ClientePreferencial> customersWithNewOrders = new ArrayList<>();
+        
+        for(int i = 0; i<100000; i++)
         {
-            System.out.println(i);
+            customersWithNewOrders.add(new ClienteBase(i, "Name"+i, "LastName"+i));
+            System.out.println(customersWithNewOrders.get(i).toString());
         }
-        return null;
+        return customersWithNewOrders;
     }
 }

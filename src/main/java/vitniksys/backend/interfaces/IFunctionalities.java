@@ -2,6 +2,7 @@ package vitniksys.backend.interfaces;
 
 import java.util.List;
 import vitniksys.backend.model.*;
+import java.util.concurrent.Future;
 import vitniksys.backend.util.PedidosObtainer;
 
 /**
@@ -11,7 +12,15 @@ import vitniksys.backend.util.PedidosObtainer;
 */
 public interface IFunctionalities
 {
-    public List<ClientePreferencial> obtenerPedidos(PedidosObtainer pedidosObtainer) throws Exception;
+    /**
+     * 
+     * @param pedidosObtainer The object that performs a process to obtain the incoming "pedidos".
+     * @throws Exception Any exception thrown by java.util.concurrent.Executors
+     * and java.util.concurrent.ExecutorService
+     */
+    public void obtenerPedidos(PedidosObtainer pedidosObtainer) throws Exception;
+
+    public Future<List<ClientePreferencial>> getCustomersWithNewOrders();
 
     public int agregarPedidos(List<ClientePreferencial> clientes) throws Exception;
     

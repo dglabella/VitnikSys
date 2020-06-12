@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
@@ -16,7 +15,6 @@ import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import vitniksys.backend.enums.Mes;
-import vitniksys.backend.model.Pedido;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
@@ -109,8 +107,24 @@ public class ConsultarCampController extends VitnikController implements Initial
     @FXML private void registerButtonPressed() throws Exception
     {
         IFunctionalities functionalities = Functionalities.getFunctionalities();
-        //Triggering "Obtener Pedidos" use case then Triggering "Agregar Pedidos" use case
-        functionalities.agregarPedidos(this.customersWithNewOrders);
+        if(functionalities.getCustomersWithNewOrders().isDone())
+        {
+            try
+            {
+                //Triggering "Obtener Pedidos" use case then Triggering "Agregar Pedidos" use case
+                functionalities.agregarPedidos(functionalities.getCustomersWithNewOrders().get());   
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            this.processWorking.setText("El proceso de obtención de pedidos entrantes todavia no ha finalizado, espere un momento "+ 
+                "y luego intente de nuevo.");
+            this.processWorking.setVisible(true);
+        }
     }
 
     @FXML private void plusCatButtonPressed() throws IOException
