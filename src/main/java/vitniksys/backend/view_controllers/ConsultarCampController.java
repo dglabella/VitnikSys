@@ -111,7 +111,9 @@ public class ConsultarCampController extends VitnikController implements Initial
         {
             try
             {
-                //Triggering "Obtener Pedidos" use case then Triggering "Agregar Pedidos" use case
+                //Triggering "Agregar Pedidos" use case.
+                    //getCustomersWithNewOrders().get() is a blockig execution method
+                    //block for specified timeout with get(long timeout, TimeUnit unit)
                 functionalities.agregarPedidos(functionalities.getCustomersWithNewOrders().get());   
             }
             catch(Exception e)
@@ -121,8 +123,8 @@ public class ConsultarCampController extends VitnikController implements Initial
         }
         else
         {
-            this.processWorking.setText("El proceso de obtención de pedidos entrantes todavia no ha finalizado, espere un momento "+ 
-                "y luego intente de nuevo.");
+            this.processWorking.setText("Espere un momento a que finalize la obtención de pedidos.");
+            this.processWorking.setTextFill(Color.web("#ff0000")); //Red
             this.processWorking.setVisible(true);
         }
     }
