@@ -14,6 +14,10 @@ public class ClienteSubordinado extends ClientePreferencial
 
     //Others
 
+    public ClienteSubordinado(int id)
+    {
+        super(id);
+    }
 
     public ClienteSubordinado(int id, String name, String lastName)
     {

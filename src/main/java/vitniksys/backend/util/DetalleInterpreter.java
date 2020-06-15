@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 import vitniksys.backend.util.PedidosObtainer;
+import vitniksys.backend.model.ClienteBase;
 import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.model.ClienteSubordinado;
+import vitniksys.backend.model.Lider;
 
 /**
 *This class contains the algorithm for translate the information
@@ -40,10 +43,67 @@ public class DetalleInterpreter extends PedidosObtainer
     }
 
     // ================================= private methods =================================
+    private List<ClienteSubordinado> getClientesSub(File detalle)
+    {
+        String line;
+        String [] splitedLine;
+        ClienteSubordinado cliente;
+
+        try{
+            Scanner inputStream = new Scanner(this.detalle);
+            System.out.println("================ Clientes subordinados ================");
+            while(inputStream.hasNext())
+            {
+                line = inputStream.nextLine();
+                System.out.println(line);
+                splitedLine = line.split(";");
+
+                if(!splitedLine[this.ID_LIDER].isEmpty())
+                {
+                    cliente = new ClienteSubordinado(splitedLine[this.ID_CLIENTE]);
+                }
+            }
+    
+            inputStream.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private List<ClienteBase> getClientesBase(File detalle, ClienteList leaders)
+    {
+        String line;
+        String [] splitedLine;
+        ClienteBase cliente;
+
+        try{
+            Scanner inputStream = new Scanner(this.detalle);
+            System.out.println("================ Clientes Base ================");
+            while(inputStream.hasNext())
+            {
+                line = inputStream.nextLine();
+                System.out.println(line);
+                splitedLine = line.split(";");
+                
+                if(splitedLine[this.ID_LIDER].isEmpty() && !leaders.belongs(Integer.parseInt(splitedLine[this.ID_LIDER])))
+                {
+                    cliente = new ClienteBase(splitedLine[this.ID_CLIENTE]);
+                }
+            }
+    
+            inputStream.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }  
+    }
 
     // ================================= protected methods =================================
 
-    // ================================= public methods =================================
+    // ================================= public methods = ================================
 
     /**
      * Create (if not exist) the instance for read the data from the
@@ -67,12 +127,16 @@ public class DetalleInterpreter extends PedidosObtainer
     {
         String line;
         String [] splitedLine;
-        List<ClientePreferencial> customersWithNewOrders = new ArrayList<>();
-        // for(int i = 0; i<100000; i++)
-        // {
-        //     customersWithNewOrders.add(new ClienteBase(i, "Name"+i, "LastName"+i));
-        //     System.out.println(customersWithNewOrders.get(i).toString());
-        // }
+        ClienteSubordinado clienteSub;
+        ClienteBase clienteBase;
+        Lider lider;
+        List<ClienteSubordinado> clientesSubordinados = new ArrayList<>();
+        List<ClienteBase> clientesBase = new ArrayList<>();
+        List<Lider> lideres = new ArrayList<>();
+
+        //return
+        List<ClientePreferencial> ret = new ArrayList<>();
+
         try{
             Scanner inputStream = new Scanner(this.detalle);
 
@@ -81,18 +145,24 @@ public class DetalleInterpreter extends PedidosObtainer
                 line = inputStream.nextLine();
                 System.out.println(line);
                 splitedLine = line.split(";");
-                for(int i = 0; i< splitedLine.length; i++)
+
+                if(!splitedLine[this.ID_LIDER].isEmpty())
+                {
+                    ClienteSubordinado = new ClienteSubordinado(splitedLine[this.ID_CLIENTE]);
+                }
+
+                for(int i = 0; i < splitedLine.length; i++)
                 {
                     System.out.println(splitedLine[i]);
                 }
             }
-
+    
             inputStream.close();
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
-        return customersWithNewOrders;
+        return ret;
     }
 }

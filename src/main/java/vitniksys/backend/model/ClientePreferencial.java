@@ -30,6 +30,11 @@ public abstract class ClientePreferencial
     private boolean active;
     private List<Pedido> pedidosEntrantes;
 
+    public ClientePreferencial(int id)
+    {
+        this.id = id;
+    }
+
     public ClientePreferencial(int id, String name, String lastName)
     {
         this.id = id;
