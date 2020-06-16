@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.ArrayList;
 import vitniksys.backend.model.ClientePreferencial;
 
-public class ClienteList extends List<ClientePreferencial>
+public class ClientList extends List<ClientePreferencial>
 {
-    private ArrayList<ClientePreferencial> clientes;
+    private ArrayList<ClientePreferencial> clients;
 
-    public ClienteList ()
+    public ClientList ()
     {
-        this.clientes = new ArrayList<>();
+        this.clients = new ArrayList<>();
     }
 
     /**
@@ -19,7 +19,7 @@ public class ClienteList extends List<ClientePreferencial>
      */
     public ArrayList<ClientePreferencial> getClientes()
     {
-        return this.clientes;
+        return this.clients;
     }
 
    /**
@@ -28,12 +28,13 @@ public class ClienteList extends List<ClientePreferencial>
     */ 
     public void setClientes(ArrayList<ClientePreferencial> clientes)
     {
-        this.clientes = clientes;
+        this.clients = clientes;
     }
+
     /**
-     * This method determines if the ClientePreferencial with this id
+     * This method determines if the Preferential Client with this id
      * is in the list.
-     * @param id the ClientePreferencial id
+     * @param id the Preferential Client id.
      * @return true if id is in this list, otherwise return false.
      */
     public boolean belongs(int id)
@@ -41,10 +42,10 @@ public class ClienteList extends List<ClientePreferencial>
         int i = 0;
         boolean ret = false;
 
-        while(this.clientes.size() < i && this.clientes.get(i).getId() != id)
+        while(this.clients.size() < i && this.clients.get(i).getId() != id)
             i++;
 
-        if(i <= this.clientes.size())
+        if(i <= this.clients.size())
             ret = true;
 
         return ret;
