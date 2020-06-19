@@ -1,6 +1,5 @@
 package vitniksys.backend.model;
 
-import java.util.List;
 import vitniksys.backend.persistence.ClienteSubordinadoOperator;
 import vitniksys.backend.persistence.ClientePreferencialOperator;
 

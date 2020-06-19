@@ -196,7 +196,6 @@ public class ConsultarCampController extends VitnikController implements Initial
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        System.out.println("".isEmpty()? "ESTA VACIO" : "TIENE ALGO");
         //Creating the expresssion checker object for checking inputs.
         expressionChecker = ExpressionChecker.getExpressionChecker();
 

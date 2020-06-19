@@ -6,10 +6,10 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import vitniksys.backend.model.Lider;
 import vitniksys.backend.model.ClienteBase;
 import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.model.ClienteSubordinado;
+import vitniksys.backend.model.Lider;
 import vitniksys.backend.model.ClientePreferencial;
 
 /**
@@ -59,21 +59,34 @@ public class DetailFileInterpreter extends PedidosObtainer
         ClientList ret = new ClientList();
         Iterator<DetailFileRow> detailFileRowsIterator = this.detailFileRows.iterator();
 
-        System.out.println("================ Leaders ================");
         while(detailFileRowsIterator.hasNext())
         {
             row = detailFileRowsIterator.next();
-            if(!ret.belongs(row.getLeaderId()))
+            if(row.getLeaderId() != -1 && !ret.exist(row.getLeaderId()))
             {
-                //ret.add(detailFileRows.)
+                ret.add(new Lider(row.getLeaderId()));
             }  
         }
+        System.out.println("================ Leaders ================");
         return ret;
     }
 
-    private List<ClienteSubordinado> getSubClients()
+    private ClientList getSubClients()
     {
-        return null;
+        DetailFileRow row;
+        ClientList ret = new ClientList();
+        Iterator<DetailFileRow> detailFileRowsIterator = this.detailFileRows.iterator();
+
+        while(detailFileRowsIterator.hasNext())
+        {
+            row = detailFileRowsIterator.next();
+            if(row.getLeaderId() != -1 && !ret.exist(row.getClientId()))
+            {
+                ret.add(new ClienteSubordinado(row.getClientId()));
+            }  
+        }
+        System.out.println("================ Sub Clients ================");
+        return ret;
     }
 
     private List<ClienteBase> getBaseClients()

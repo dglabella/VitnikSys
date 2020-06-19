@@ -16,6 +16,11 @@ public class Lider extends ClientePreferencial
 
     //Others
     
+    //Constructors
+    public Lider(int id)
+    {
+        super(id);
+    }
 
     public Lider(int id, String name, String lastName)
     {

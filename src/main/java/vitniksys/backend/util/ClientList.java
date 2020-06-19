@@ -13,15 +13,15 @@ public class ClientList extends ArrayList<ClientePreferencial>
 
     /**
      * This method determines if the Preferential Client with this id
-     * is in the list.
+     * exist in this list.
      * @param id the Preferential Client id.
      * @return true if id is in this list, otherwise return false.
      */
-    public boolean belongs(int id)
+    public boolean exist(int id)
     {
         int i = 0;
         boolean ret = false;
-
+        
         while(this.size() < i && this.get(i).getId() != id)
             i++;
 

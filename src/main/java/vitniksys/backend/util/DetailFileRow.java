@@ -30,7 +30,7 @@ public class DetailFileRow
             String name, String quant, String unitPrice, String descCP, String price, String agentComm, String finalPrice, 
             String campNumb, String obs)
     {
-        this.leaderId = (leaderId.isEmpty())? -1 : Integer.parseInt(leaderId);
+        this.leaderId = (leaderId.isEmpty()||leaderId.isBlank())? -1 : Integer.parseInt(leaderId);
         this.clientId = Integer.parseInt(clientId);
         this.deliveryNumber = Integer.parseInt(deliveryNumber);
         this.letters = letters;
