@@ -22,8 +22,8 @@ import javafx.collections.ObservableList;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.util.DetalleInterpreter;
 import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.interfaces.IFunctionalities;
 import vitniksys.backend.functionality_triggers.Functionalities;
 
@@ -79,7 +79,7 @@ public class ConsultarCampController extends VitnikController implements Initial
         //FILE SELECTING METHOD.
         FileChooser fileChooser = new FileChooser();
         File detalle = fileChooser.showOpenDialog(null);
-        this.pedidosObtainer = DetalleInterpreter.createInterpreter(detalle);
+        this.pedidosObtainer = new DetailFileInterpreter(detalle);
         
         if (detalle != null)
         {
@@ -196,6 +196,7 @@ public class ConsultarCampController extends VitnikController implements Initial
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        System.out.println("".isEmpty()? "ESTA VACIO" : "TIENE ALGO");
         //Creating the expresssion checker object for checking inputs.
         expressionChecker = ExpressionChecker.getExpressionChecker();
 

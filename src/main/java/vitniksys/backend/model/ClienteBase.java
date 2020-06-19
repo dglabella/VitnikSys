@@ -14,6 +14,10 @@ public class ClienteBase extends ClientePreferencial
 
     //Others
 
+    public ClienteBase(int id)
+    {
+        super(id);
+    }
 
     public ClienteBase(int id, String name, String lastName)
     {

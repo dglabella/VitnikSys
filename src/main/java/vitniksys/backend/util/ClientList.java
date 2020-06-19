@@ -1,34 +1,14 @@
 package vitniksys.backend.util;
 
-import java.util.List;
 import java.util.ArrayList;
 import vitniksys.backend.model.ClientePreferencial;
 
-public class ClientList extends List<ClientePreferencial>
+public class ClientList extends ArrayList<ClientePreferencial>
 {
-    private ArrayList<ClientePreferencial> clients;
 
     public ClientList ()
     {
-        this.clients = new ArrayList<>();
-    }
-
-    /**
-     * 
-     * @return the encapsulated ArrayList<ClientePreferencial>.
-     */
-    public ArrayList<ClientePreferencial> getClientes()
-    {
-        return this.clients;
-    }
-
-   /**
-    * 
-    * @param clientes set the ArrayList<ClientePreferencial> to the encapsulated field.
-    */ 
-    public void setClientes(ArrayList<ClientePreferencial> clientes)
-    {
-        this.clients = clientes;
+        super();
     }
 
     /**
@@ -42,10 +22,10 @@ public class ClientList extends List<ClientePreferencial>
         int i = 0;
         boolean ret = false;
 
-        while(this.clients.size() < i && this.clients.get(i).getId() != id)
+        while(this.size() < i && this.get(i).getId() != id)
             i++;
 
-        if(i <= this.clients.size())
+        if(i <= this.size())
             ret = true;
 
         return ret;
