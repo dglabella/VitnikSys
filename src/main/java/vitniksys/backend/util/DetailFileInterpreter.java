@@ -3,13 +3,12 @@ package vitniksys.backend.util;
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.Iterator;
-
+import java.util.ArrayList;
+import vitniksys.backend.model.Lider;
 import vitniksys.backend.model.ClienteBase;
 import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.model.ClienteSubordinado;
-import vitniksys.backend.model.Lider;
 import vitniksys.backend.model.ClientePreferencial;
 
 /**
@@ -68,6 +67,11 @@ public class DetailFileInterpreter extends PedidosObtainer
             }  
         }
         System.out.println("================ Leaders ================");
+        Iterator<ClientePreferencial> printList = ret.iterator();
+        while(printList.hasNext())
+        {
+            System.out.println(printList.next().toString()); 
+        }
         return ret;
     }
 
