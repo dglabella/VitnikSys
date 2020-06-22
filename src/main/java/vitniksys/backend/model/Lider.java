@@ -1,17 +1,17 @@
 package vitniksys.backend.model;
 
 import java.util.List;
+import java.util.ArrayList;
 import vitniksys.backend.persistence.LiderOperator;
 import vitniksys.backend.persistence.ClientePreferencialOperator;
 
-public class Lider extends ClientePreferencial
+public class Lider extends ClienteBase
 {
     //Entity properties
     
 
     //Domain Associations
     private Comision comision;
-    private List<EntregaCatalogo> entregasCatalogo;
     private  List<ClienteSubordinado> subordinados;
 
     //Others
@@ -27,7 +27,6 @@ public class Lider extends ClientePreferencial
         super(id, name, lastName);
     }
 
-
     public Comision getComision()
     {
         return this.comision;
@@ -38,24 +37,23 @@ public class Lider extends ClientePreferencial
         this.comision = comision;
     }
 
-    public List<EntregaCatalogo> getEntregasCatalogo()
-    {
-        return this.entregasCatalogo;
-    }
-
-    public void setEntregasCatalogo(List<EntregaCatalogo> entregasCatalogo)
-    {
-        this.entregasCatalogo = entregasCatalogo;
-    }
-
     public List<ClienteSubordinado> getSubordinados()
     {
+        if(this.subordinados == null)
+            this.subordinados = new ArrayList<>();
+            
         return this.subordinados;
     }
 
     public void setSubordinados(List<ClienteSubordinado> subordinados)
     {
         this.subordinados = subordinados;
+    }
+
+    @Override
+    public String toString()
+    {
+        return super.toString() + " - LEADER";
     }
 
     @Override

@@ -54,4 +54,38 @@ public enum TipoArt
         } 
         return ret;
     }
+
+    /**
+     * This method should be used to infer the type from 
+     * the "observation" column in the detail file (.csv).
+     * @param detailObs the observation in the detail file 
+     * @return the representative enum type for that observation 
+     */
+    public static TipoArt inferType(String detailObs)
+    {
+        TipoArt ret;
+
+        if(detailObs.contains("Free Premiums"))
+        {
+            ret = TipoArt.FREEPREMIUM;
+        }
+        else if(detailObs.contains("Oportunidad"))
+        {
+            ret = TipoArt.OPORTUNIDAD;   
+        }
+        else if(detailObs.contains("PR"))
+        {
+            ret = TipoArt.PROMO;
+        }
+        else if(detailObs.contains("Calzado"))
+        {
+            ret = TipoArt.CALZADO;
+        }
+        else
+        {
+            ret = TipoArt.PEDIDO;
+        }
+
+        return ret;
+    }
 }

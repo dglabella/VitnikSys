@@ -86,7 +86,7 @@ public class ConsultarCampController extends VitnikController implements Initial
             this.fileSelected.setText("Archivo seleccionado:");
             this.fileSelected.setVisible(true);
             
-            if(FilenameUtils.getExtension(detalle.getName()).equalsIgnoreCase("csv") )
+            if(FilenameUtils.getExtension(detalle.getName()).equalsIgnoreCase("csv"))
             {
                 this.filePath.setTextFill(Color.web("#000000")); //Black
                 this.filePath.setText(detalle.getAbsolutePath());

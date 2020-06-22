@@ -1,5 +1,6 @@
 package vitniksys.backend.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -24,7 +25,6 @@ public abstract class ClientePreferencial
     private List<Recompra> recompras;
     private List<Pago> pagos;
     private List<Saldo> saldos;
-    private List<EntregaCatalogo> entregaCatalogos;
 
     //Others
     private boolean active;
@@ -150,6 +150,9 @@ public abstract class ClientePreferencial
 
     public List<Pedido> getPedidos()
     {
+        if(this.pedidos == null)
+            this.pedidos = new ArrayList<>();
+                
         return this.pedidos;
     }
 
@@ -196,17 +199,7 @@ public abstract class ClientePreferencial
     public void setSaldos(List<Saldo> saldos)
     {
         this.saldos = saldos;
-    }
-
-    public List<EntregaCatalogo> getEntregaCatalogos()
-    {
-        return this.entregaCatalogos;
-    }
-
-    public void setEntregaCatalogos(List<EntregaCatalogo> entregaCatalogos)
-    {
-        this.entregaCatalogos = entregaCatalogos;
-    }    
+    }   
 
     @Override
     public String toString()

@@ -20,6 +20,13 @@ public class Pedido
     //Others
     private boolean active;
 
+    public Pedido(int quantity, float cost, boolean commissionable)
+    {
+        this.quantity = quantity;
+        this.cost = cost;
+        this.commissionable = commissionable;
+    }
+
     public Pedido(int code, int quantity, float cost, boolean commissionable)
     {
         this.code = code;

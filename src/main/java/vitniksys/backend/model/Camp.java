@@ -24,6 +24,12 @@ public class Camp
     //Others
     private boolean active;
 
+
+    public Camp(int number)
+    {
+        this.number = number;
+    }
+
     public Camp(int number, Mes month, int year)
     {
         this.number = number;

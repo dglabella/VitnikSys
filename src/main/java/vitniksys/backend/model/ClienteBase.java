@@ -11,6 +11,7 @@ public class ClienteBase extends ClientePreferencial
 
     //Domain Associations
     private List<Observacion> observaciones;
+    private List<EntregaCatalogo> entregaCatalogos;
 
     //Others
 
@@ -25,6 +26,16 @@ public class ClienteBase extends ClientePreferencial
     }
 
     //Getters && Setters
+    public List<EntregaCatalogo> getEntregaCatalogos()
+    {
+        return this.entregaCatalogos;
+    }
+
+    public void setEntregaCatalogos(List<EntregaCatalogo> entregaCatalogos)
+    {
+        this.entregaCatalogos = entregaCatalogos;
+    }
+
     public List<Observacion> getObservaciones()
     {
         return this.observaciones;

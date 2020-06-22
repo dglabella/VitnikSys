@@ -6,8 +6,11 @@ import java.util.Scanner;
 import java.util.Iterator;
 import java.util.ArrayList;
 import vitniksys.backend.model.Lider;
+import vitniksys.backend.model.Pedido;
+import vitniksys.backend.enums.TipoArt;
+import vitniksys.backend.model.Articulo;
+import vitniksys.backend.model.Camp;
 import vitniksys.backend.model.ClienteBase;
-import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.model.ClienteSubordinado;
 import vitniksys.backend.model.ClientePreferencial;
 
@@ -52,7 +55,7 @@ public class DetailFileInterpreter extends PedidosObtainer
     }
 
     // ================================= private methods =================================
-    private ClientList getLeaders()
+    private ClientList getAssociatedLeaders()
     {
         DetailFileRow row;
         ClientList ret = new ClientList();
@@ -66,7 +69,7 @@ public class DetailFileInterpreter extends PedidosObtainer
                 ret.add(new Lider(row.getLeaderId()));
             }  
         }
-        System.out.println("================ Leaders ================");
+        System.out.println("================ Associated Leaders ================");
         Iterator<ClientePreferencial> printList = ret.iterator();
         while(printList.hasNext())
         {
@@ -75,27 +78,68 @@ public class DetailFileInterpreter extends PedidosObtainer
         return ret;
     }
 
-    private ClientList getSubClients()
+    private ClientList getOrderMakers(ClientList associatedLeaders)
     {
+        Pedido order;
+        Articulo article;
+        ClientePreferencial client;
         DetailFileRow row;
         ClientList ret = new ClientList();
         Iterator<DetailFileRow> detailFileRowsIterator = this.detailFileRows.iterator();
 
+        ClienteSubordinado subClient;
+
         while(detailFileRowsIterator.hasNext())
         {
             row = detailFileRowsIterator.next();
-            if(row.getLeaderId() != -1 && !ret.exist(row.getClientId()))
+            if(!ret.exist(row.getClientId()))
             {
-                ret.add(new ClienteSubordinado(row.getClientId()));
+                if(row.getLeaderId() != -1)
+                {
+                    subClient = new ClienteSubordinado(row.getClientId());
+                    subClient.setLider((Lider)associatedLeaders.get(associatedLeaders.locate(row.getLeaderId())));
+                    ret.add(subClient);
+                }
+                else
+                {
+                    ret.add(new ClienteBase(row.getClientId()));
+                }
             }  
         }
-        System.out.println("================ Sub Clients ================");
-        return ret;
-    }
 
-    private List<ClienteBase> getBaseClients()
-    {
-        return null;
+        //Aux variable for optimize the process
+        int lastId = -1;
+        client = null;
+        //reset iterator
+        detailFileRowsIterator = this.detailFileRows.iterator();
+
+        while(detailFileRowsIterator.hasNext())
+        {
+            row = detailFileRowsIterator.next();
+            if(lastId != row.getClientId())
+            {
+                lastId = row.getClientId();
+                client = ret.get(ret.locate(lastId));
+            }
+            
+            //all orders are commissionable by default and it's supposed to
+            //be checked manually by the user if some orders are not commissionable.
+            order = new Pedido(row.getQuant(), row.getPrice(), true);
+            article = new Articulo(row.getLetters(), row.getName(), TipoArt.inferType(row.getObs()), row.getUnitPrice());
+            order.setArticulo(article);
+            order.setCamp(new Camp(row.getCampNumb()));
+
+            client.getPedidos().add(order);
+        }
+
+
+        System.out.println("================ Order Makers ================");
+        Iterator<ClientePreferencial> printList = ret.iterator();
+        while(printList.hasNext())
+        {
+            System.out.println(printList.next().toString()); 
+        }
+        return ret;
     }
 
     // ================================= protected methods =================================
@@ -106,8 +150,8 @@ public class DetailFileInterpreter extends PedidosObtainer
     {
         String [] splitedLine;
         
-        //return
-        List<ClientePreferencial> ret = new ArrayList<>();
+        ClientList orderMakers;
+        ClientList associatedLeaders;
 
         try{
             Scanner inputStream = new Scanner(this.detailFile);
@@ -121,15 +165,16 @@ public class DetailFileInterpreter extends PedidosObtainer
                     splitedLine[AGENT_COMM], splitedLine[FINAL_PRICE], splitedLine[CAMP], splitedLine[OBS]));
             }
             inputStream.close();
-            
-            ret.addAll(getLeaders());
-            //ret.addAll(getSubClients());
-            //ret.addAll(getBaseClients());
+
+            associatedLeaders = getAssociatedLeaders();
+            orderMakers = getOrderMakers(associatedLeaders);
         }
         catch(Exception e)
         {
             e.printStackTrace();
+            orderMakers = null;
         }
-        return ret;
+
+        return orderMakers;
     }
 }

@@ -22,11 +22,31 @@ public class ClientList extends ArrayList<ClientePreferencial>
         int i = 0;
         boolean ret = false;
         
-        while(this.size() < i && this.get(i).getId() != id)
+        while(i < this.size() && this.get(i).getId() != id)
             i++;
 
-        if(i <= this.size())
+        if(i < this.size())
             ret = true;
+
+        return ret;
+    }
+
+    /**
+     * This method locates the Preferential Client with this id
+     * @param id the Preferential Client id.
+     * @return the position in the list where the Preferential Client is located.
+     * If -1 is returned, no Preferential Client with this id is in the list.
+     */
+    public int locate(int id)
+    {
+        int i = 0;
+        int ret = -1;
+        
+        while(i < this.size() && this.get(i).getId() != id)
+            i++;
+
+        if(i < this.size())
+            ret = i;
 
         return ret;
     }
