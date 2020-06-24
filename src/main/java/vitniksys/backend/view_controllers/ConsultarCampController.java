@@ -74,7 +74,7 @@ public class ConsultarCampController extends VitnikController implements Initial
         *BUT IF "PEDIDOS" OBTAINING METHOD WILL BE ADDED, HERE IS WHERE IT
         *HAS TO BE IMPLEMENTED.
         */
-        IFunctionalities functionalities = Functionalities.getFunctionalities();
+        IFunctionalities functionalities = new Functionalities();
 
         //FILE SELECTING METHOD.
         FileChooser fileChooser = new FileChooser();
@@ -106,7 +106,7 @@ public class ConsultarCampController extends VitnikController implements Initial
 
     @FXML private void registerButtonPressed() throws Exception
     {
-        IFunctionalities functionalities = Functionalities.getFunctionalities();
+        IFunctionalities functionalities = new Functionalities();
         if(functionalities.getCustomersWithNewOrders().isDone())
         {
             try

@@ -9,7 +9,7 @@ public class ClienteSubordinado extends ClientePreferencial
     
 
     //Domain Associations
-    private Lider lider;
+    private Lider leader;
 
     //Others
 
@@ -25,18 +25,18 @@ public class ClienteSubordinado extends ClientePreferencial
 
     public Lider getLider()
     {
-        return this.lider;
+        return this.leader;
     }
 
     public void setLider(Lider lider)
     {
-        this.lider = lider;
+        this.leader = lider;
     }
 
     @Override
     public String toString()
     {
-        return super.toString()+"\t|_ Lider: "+this.lider.toString();
+        return super.toString()+"\t|_ Lider: "+this.leader.toString();
     }
 
     @Override

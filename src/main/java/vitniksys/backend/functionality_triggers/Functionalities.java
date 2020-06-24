@@ -14,28 +14,16 @@ import vitniksys.backend.util.PedidosObtainer;
 
 public class Functionalities implements IFunctionalities
 {
-    private static Functionalities functionalities;
-
     private Future<List<ClientePreferencial>> customersWithNewOrders;
 
-    private Functionalities()
+    public Functionalities()
     {
         //Empty constructor
-    }
-
-    public static Functionalities getFunctionalities()
-    {
-        if(Functionalities.functionalities == null)
-            Functionalities.functionalities = new Functionalities();
-
-        return Functionalities.functionalities;
     }
 
     @Override
     public void obtenerPedidos(PedidosObtainer pedidosObtainer) throws Exception
     {
-        List<ClientePreferencial> ret = null;
-
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         this.customersWithNewOrders = executorService.submit(pedidosObtainer);
     }
