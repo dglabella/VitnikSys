@@ -1,6 +1,6 @@
 package vitniksys.backend.view_controllers;
 
-public class RegistroClienteController extends VitnikController
+public class ClientRegisterController extends VitnikController
 {
     // ================================= FXML methods =================================
 

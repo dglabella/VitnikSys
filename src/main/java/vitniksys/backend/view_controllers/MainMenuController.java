@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class MenuPrincipalController extends VitnikController implements Initializable
+public class MainMenuController extends VitnikController implements Initializable
 {
     @FXML private ImageView catButton;
     @FXML private TextField textField_cp;
@@ -70,7 +70,7 @@ public class MenuPrincipalController extends VitnikController implements Initial
         String fxml = "ConsultarCatalogo";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        ConsultarCatalogoController ctrller = fxmlLoader.getController();
+        catalogueQueryController ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
@@ -103,7 +103,7 @@ public class MenuPrincipalController extends VitnikController implements Initial
         String fxml = "ConsultarCamp";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        ConsultarCampController ctrller = fxmlLoader.getController();
+        campQueryRegisterController ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);

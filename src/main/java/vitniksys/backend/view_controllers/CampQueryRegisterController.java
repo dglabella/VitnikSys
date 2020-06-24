@@ -27,7 +27,7 @@ import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.interfaces.IFunctionalities;
 import vitniksys.backend.functionality_triggers.Functionalities;
 
-public class ConsultarCampController extends VitnikController implements Initializable
+public class CampQueryRegisterController extends VitnikController implements Initializable
 {
     //Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private final int YEAR_MIN = 2020;
@@ -134,7 +134,7 @@ public class ConsultarCampController extends VitnikController implements Initial
         String fxml = "ConsultarCatalogo";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        ConsultarCatalogoController ctrller = fxmlLoader.getController();
+        catalogueQueryController ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);

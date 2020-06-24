@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.persistence.CatalogoOperator;
 
-public class ConsultarCatalogoController extends VitnikController implements Initializable
+public class CatalogueQueryController extends VitnikController implements Initializable
 {
     private ExpressionChecker expressionChecker;
 
