@@ -9,44 +9,32 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 
 public class MainMenuController extends VitnikController implements Initializable
 {
+    // ================================= FXML variables =================================
+    @FXML private TextField id;
     @FXML private ImageView catButton;
-    @FXML private TextField textField_cp;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
-
-    }
-    
-    @Override
-    protected void refresh()
+    // ================================= FXML methods =================================
+    @FXML
+    private void idOnKeyTyped()
     {
 
     }
 
     @FXML
-    private void textFieldCpOnKeyTyped()
+    private void idOnAction() throws IOException 
     {
-
-    }
-
-    @FXML
-    private void textFieldCpOnAction() throws IOException 
-    {
-        buscarButtonPressed();
+        searchButtonPressed();
     }
 
     @FXML
     private void textFieldCatOnAction() throws IOException
     {
-        buscarButtonPressed();
+        searchButtonPressed();
     }
 
     @FXML
@@ -67,10 +55,10 @@ public class MainMenuController extends VitnikController implements Initializabl
     @FXML
     private void catButtonOnMousePressed() throws IOException
     {
-        String fxml = "ConsultarCatalogo";
+        String fxml = "catalogueQuery";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        catalogueQueryController ctrller = fxmlLoader.getController();
+        CatalogueQueryController ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
@@ -80,35 +68,59 @@ public class MainMenuController extends VitnikController implements Initializabl
     }
 
     @FXML
-    private void buscarButtonPressed() throws IOException
+    private void searchButtonPressed() throws IOException
     {
 
     }
 
     @FXML
-    private void buscarCampButtonPressed()
+    private void searchCampButtonPressed()
     {
 
     }
 
     @FXML
-    private void nuevoCpButtonPressed() throws IOException
+    private void newCpButtonPressed() throws IOException
     {
-            
-    }
-
-    @FXML
-    private void CampButtonPressed() throws IOException
-    {
-        String fxml = "ConsultarCamp";
+        String fxml = "clientRegister";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        campQueryRegisterController ctrller = fxmlLoader.getController();
+        ClientRegisterController ctrller = fxmlLoader.getController();
+        ctrller.setStage(new Stage());
+        ctrller.getStage().setResizable(false);
+        ctrller.getStage().setScene(scene);
+        ctrller.getStage().setTitle("Formulario de registro de Cliente preferencial");
+        ctrller.setPrevController(this);
+        ctrller.getStage().show();      
+    }
+
+    @FXML
+    private void campButtonPressed() throws IOException
+    {
+        String fxml = "campQueryRegister";
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        CampQueryRegisterController ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
         ctrller.getStage().setTitle("Consultar campaña");
         ctrller.setPrevController(this);
         ctrller.getStage().show();
+    }
+    // ================================= private methods =================================
+
+    // ================================= protected methods =================================
+    @Override
+    protected void refresh()
+    {
+
+    }
+
+    // ================================= public methods =================================
+    @Override
+    public void initialize(URL url, ResourceBundle rb)
+    {
+
     }
 }

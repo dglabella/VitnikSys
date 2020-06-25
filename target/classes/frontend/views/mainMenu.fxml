@@ -9,7 +9,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="965.0" style="-fx-background-color: #E00413;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.backend.view_controllers.MenuPrincipalController">   <children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="965.0" style="-fx-background-color: #E00413;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.backend.view_controllers.MainMenuController">
+   <children>
       <ImageView fitHeight="183.0" fitWidth="380.0" layoutX="38.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
          <image>
             <Image url="@../images/VitnikBlanco.png" />
@@ -22,8 +23,8 @@
                   <Font name="Verdana" size="23.0" />
                </font>
             </Text>
-            <TextField fx:id="_textField_cp" layoutX="135.0" layoutY="82.0" onAction="#textFieldCpOnAction" onKeyTyped="#textFieldCpOnKeyTyped" prefHeight="25.0" prefWidth="107.0" promptText="cp:" />
-            <Button fx:id="_button_buscarCp" layoutX="249.0" layoutY="79.0" mnemonicParsing="false" onAction="#buscarButtonPressed" prefHeight="32.0" prefWidth="80.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Buscar" textAlignment="CENTER" wrapText="true">
+            <TextField fx:id="id" layoutX="135.0" layoutY="82.0" onAction="#idOnAction" onKeyTyped="#idOnKeyTyped" prefHeight="25.0" prefWidth="107.0" promptText="cp:" />
+            <Button layoutX="249.0" layoutY="79.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="32.0" prefWidth="80.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Buscar" textAlignment="CENTER" wrapText="true">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -59,8 +60,8 @@
                   <Font name="Verdana" size="23.0" />
                </font>
             </Text>
-            <TextField fx:id="_textField_cat" layoutX="135.0" layoutY="82.0" prefHeight="25.0" prefWidth="107.0" />
-            <Button fx:id="_button_buscarCamp" layoutX="249.0" layoutY="79.0" mnemonicParsing="false" onAction="#buscarCampButtonPressed" prefHeight="32.0" prefWidth="80.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Buscar" textAlignment="CENTER" wrapText="true">
+            <TextField layoutX="135.0" layoutY="82.0" prefHeight="25.0" prefWidth="107.0" />
+            <Button layoutX="249.0" layoutY="79.0" mnemonicParsing="false" onAction="#searchCampButtonPressed" prefHeight="32.0" prefWidth="80.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Buscar" textAlignment="CENTER" wrapText="true">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -76,7 +77,7 @@
       </AnchorPane>
       <AnchorPane layoutX="463.0" layoutY="401.0" prefHeight="158.0" prefWidth="464.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
          <children>
-            <Button fx:id="_button_nuevaCamp" contentDisplay="TOP" mnemonicParsing="false" onAction="#CampButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Campañas" textAlignment="CENTER" wrapText="true">
+            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#campButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Campañas" textAlignment="CENTER" wrapText="true">
                <graphic>
                   <ImageView fitHeight="58.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -91,7 +92,7 @@
                   <Font name="Verdana" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="_button_nuevoVendedor" contentDisplay="TOP" layoutX="232.0" mnemonicParsing="false" onAction="#nuevoCpButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nuevo CP" textAlignment="CENTER" wrapText="true">
+            <Button contentDisplay="TOP" layoutX="232.0" mnemonicParsing="false" onAction="#newCpButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nuevo CP" textAlignment="CENTER" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

@@ -40,9 +40,8 @@ public class CampQueryRegisterController extends VitnikController implements Ini
 
     private ExpressionChecker expressionChecker;
 
-    /**
-     * FXML Objects and variables.
-     */
+    
+    // ================================= FXML variables =================================
     @FXML private TextField campNumber;
     @FXML private TextField campName;
     @FXML private TextField catalogoCode;
@@ -66,7 +65,8 @@ public class CampQueryRegisterController extends VitnikController implements Ini
     @FXML private ChoiceBox campYear;
 
     // ================================= FXML methods =================================
-    @FXML private void selectMethodButtonPressed() throws Exception
+    @FXML
+    private void selectMethodButtonPressed() throws Exception
     {
         /**
         *THIS METHOD IS SUPPOSED TO SELECT A "PEDIDOS" OBTAINING METHOD.
@@ -104,7 +104,8 @@ public class CampQueryRegisterController extends VitnikController implements Ini
         }
     }
 
-    @FXML private void registerButtonPressed() throws Exception
+    @FXML
+    private void registerButtonPressed() throws Exception
     {
         IFunctionalities functionalities = new Functionalities();
         if(functionalities.getCustomersWithNewOrders().isDone())
@@ -129,12 +130,13 @@ public class CampQueryRegisterController extends VitnikController implements Ini
         }
     }
 
-    @FXML private void plusCatButtonPressed() throws IOException
+    @FXML
+    private void plusCatButtonPressed() throws IOException
     {
         String fxml = "ConsultarCatalogo";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        catalogueQueryController ctrller = fxmlLoader.getController();
+        CatalogueQueryController ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
@@ -143,7 +145,8 @@ public class CampQueryRegisterController extends VitnikController implements Ini
         ctrller.getStage().show();
     }
 
-    @FXML private void plusCampButtonPressed()
+    @FXML
+    private void plusCampButtonPressed()
     {
         clearStage();
         //camp name is automatically set.
@@ -151,7 +154,8 @@ public class CampQueryRegisterController extends VitnikController implements Ini
         this.customersWithNewOrders.clear();
     }
 
-    @FXML private void nroCampCheck()
+    @FXML
+    private void nroCampCheck()
     {
         if(this.expressionChecker.onlyNumbers(this.campNumber.getText(), true))
         {

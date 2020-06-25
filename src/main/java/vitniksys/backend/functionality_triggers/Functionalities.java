@@ -5,11 +5,10 @@ import java.util.Iterator;
 import java.sql.Connection;
 import vitniksys.backend.model.*;
 import java.util.concurrent.Future;
+import java.util.concurrent.Executors;
 import vitniksys.backend.interfaces.*;
 import vitniksys.backend.persistence.*;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
-
 import vitniksys.backend.util.PedidosObtainer;
 
 public class Functionalities implements IFunctionalities
@@ -70,10 +69,30 @@ public class Functionalities implements IFunctionalities
     }
     
     @Override
-    public int registrarVendedor(ClientePreferencial cp)
+    public int registrarVendedor(ClientePreferencial cp) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int returnCode = 0;
+        Connection connection = Connector.getConnector().getConnection();
+        try{
+            //START TRANSACTION
+            connection.setAutoCommit(false);
+
+            cp.operator().insert(cp);
+
+            //COMMIT
+            connection.commit();
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            returnCode = -1;
+        }
+        finally
+        {
+            connection.setAutoCommit(true);
+            connection.close();         
+        }
+        return returnCode;
     }
 
     @Override

@@ -12,7 +12,7 @@ public class App extends Application
     @Override
     public void start(final Stage stage) throws IOException
     {
-        String fxml = "MenuPrincipal";
+        String fxml = "mainMenu";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);

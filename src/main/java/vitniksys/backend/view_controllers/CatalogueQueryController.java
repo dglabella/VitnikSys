@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.persistence.CatalogoOperator;
 
 public class CatalogueQueryController extends VitnikController implements Initializable
 {

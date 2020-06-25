@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="450.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.backend.view_controllers.RegistroClienteController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="450.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.backend.view_controllers.ClientRegisterController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
          <children>
@@ -40,7 +40,7 @@
       </AnchorPane>
       <AnchorPane layoutX="20.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="410.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <TextField fx:id="id" layoutX="205.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#cpCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <TextField fx:id="id" layoutX="205.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#idCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
             <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Código Preferencial:" textAlignment="CENTER" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -62,7 +62,7 @@
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="name" layoutX="205.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#nombreCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <TextField fx:id="name" layoutX="205.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#nameCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
             <Label alignment="CENTER_RIGHT" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Nombre:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -73,7 +73,7 @@
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="lastName" layoutX="205.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#apellidoCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <TextField fx:id="lastName" layoutX="205.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#lastNameCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
             <Label alignment="CENTER_RIGHT" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Apellido:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -112,7 +112,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="phoneNumber" layoutX="205.0" layoutY="420.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#telefonoCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <TextField fx:id="phoneNumber" layoutX="205.0" layoutY="420.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#phoneNumberCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
             <Label fx:id="invalidPhoneNumber" layoutX="205.0" layoutY="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
@@ -123,7 +123,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="leaderId" layoutX="205.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#cpLiderCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <TextField fx:id="leaderId" layoutX="205.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#leaderIdCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
             <Label fx:id="invalidLeaderId" layoutX="205.0" layoutY="510.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
