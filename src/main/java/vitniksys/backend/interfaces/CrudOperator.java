@@ -14,18 +14,18 @@ public interface CrudOperator<ModelObject>
      * @param mo The entity to be registered.
      * @return A code for errors checking. 0 represent that no error has occurred.
      */
-    public int insert(ModelObject mo);
+    public int insert(ModelObject mo) throws Exception;
     
     /**
      * Updates persistently an entity of the domain.
      * @param mo The entity to be updated.
      * @return A code for errors checking. 0 represent that no error has occurred.
      */
-    public int update(ModelObject mo);
+    public int update(ModelObject mo) throws Exception;
 
     /**
      * Find all the registered entities of that type.
      * @return A list of all entities found.
      */
-    public List<ModelObject> findAll();  
+    public List<ModelObject> findAll() throws Exception;  
  }

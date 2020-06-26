@@ -150,7 +150,9 @@ public class ClientRegisterController extends VitnikController implements Initia
             client =  new ClienteSubordinado(Integer.parseInt(this.id.getText()), this.name.getText().toUpperCase(), this.lastName.getText().toUpperCase());
         }
 
-        functionalities.registrarVendedor(client);
+        client.setDni(!this.dni.getText().isEmpty()? Long.parseLong(this.dni.getText()) : null);
+
+        functionalities.registrarCliente(client);
     }
 
     // ================================= private methods =================================

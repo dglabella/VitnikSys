@@ -69,7 +69,7 @@ public class Functionalities implements IFunctionalities
     }
     
     @Override
-    public int registrarVendedor(ClientePreferencial cp) throws Exception
+    public int registrarCliente(ClientePreferencial cp) throws Exception
     {
         int returnCode = 0;
         Connection connection = Connector.getConnector().getConnection();
@@ -90,7 +90,7 @@ public class Functionalities implements IFunctionalities
         finally
         {
             connection.setAutoCommit(true);
-            connection.close();         
+            connection.close();
         }
         return returnCode;
     }

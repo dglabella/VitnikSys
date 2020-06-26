@@ -28,7 +28,7 @@ public interface IFunctionalities
 
     public int registrarRecompras(List<Recompra> recompras) throws Exception;
 
-    public int registrarVendedor(ClientePreferencial clientesPreferenciales) throws Exception;
+    public int registrarCliente(ClientePreferencial clientesPreferenciales) throws Exception;
 
     public Camp consultarUltimaCamp() throws Exception;
 
