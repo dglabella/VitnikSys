@@ -1,4 +1,4 @@
-package vitniksys.backend.view_controllers;
+package vitniksys.frontend;
 
 import java.net.URL;
 import java.io.File;
@@ -27,7 +27,7 @@ import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.interfaces.IFunctionalities;
 import vitniksys.backend.functionality_triggers.Functionalities;
 
-public class CampQueryRegisterController extends VitnikController implements Initializable
+public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable
 {
     //Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private final int YEAR_MIN = 2020;
@@ -45,7 +45,7 @@ public class CampQueryRegisterController extends VitnikController implements Ini
     @FXML private TextField campNumber;
     @FXML private TextField campName;
     @FXML private TextField catalogoCode;
-
+    
     @FXML private Label artPedidosQuantity;
     @FXML private Label artRetiradosQuantity;
     @FXML private Label artDevueltosQuantity;
@@ -136,12 +136,12 @@ public class CampQueryRegisterController extends VitnikController implements Ini
         String fxml = "ConsultarCatalogo";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        CatalogueQueryController ctrller = fxmlLoader.getController();
+        CatalogueQueryViewCntlr ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
         ctrller.getStage().setTitle("Consultar Cátalogo");
-        ctrller.setPrevController(this);
+        ctrller.setPrevViewCntlr(this);
         ctrller.getStage().show();
     }
 

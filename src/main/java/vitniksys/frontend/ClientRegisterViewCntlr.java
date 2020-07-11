@@ -1,4 +1,4 @@
-package vitniksys.backend.view_controllers;
+package vitniksys.frontend;
 
 import java.net.URL;
 import javafx.fxml.FXML;
@@ -14,7 +14,7 @@ import vitniksys.backend.model.ClientePreferencial;
 import vitniksys.backend.model.ClienteSubordinado;
 import vitniksys.backend.functionality_triggers.Functionalities;
 
-public class ClientRegisterController extends VitnikController implements Initializable
+public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable
 {
     private ExpressionChecker expressionChecker;
 

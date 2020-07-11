@@ -1,4 +1,4 @@
-package vitniksys.backend.view_controllers;
+package vitniksys.frontend;
 
 import java.net.URL;
 import javafx.fxml.FXML;
@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import vitniksys.backend.util.ExpressionChecker;
 
-public class CatalogueQueryController extends VitnikController implements Initializable
+public class CatalogueQueryViewCntlr extends VitnikViewCntlr implements Initializable
 {
     private ExpressionChecker expressionChecker;
 
@@ -24,7 +24,6 @@ public class CatalogueQueryController extends VitnikController implements Initia
     public void initialize(URL url, ResourceBundle rb)
     {
         expressionChecker =  ExpressionChecker.getExpressionChecker();
-
         textField_stockInicial.setDisable(true);
         textField_stock.setDisable(true);
     }
