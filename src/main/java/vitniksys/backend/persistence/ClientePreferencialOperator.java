@@ -1,8 +1,11 @@
 package vitniksys.backend.persistence;
 
 import java.util.List;
+import java.sql.Types;
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import vitniksys.backend.model.ClientePreferencial;
 import vitniksys.backend.interfaces.IClientePreferencialOperator;
 
@@ -19,16 +22,39 @@ public abstract class ClientePreferencialOperator implements IClientePreferencia
     public int insert(ClientePreferencial cp) throws Exception
     {
         int returnCode;
-        //String sqlStmnt = "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`) VALUES"+
-        //"("+cp.getId()+","+(cp.getDni() == 0)? null : cp.getDni()+","+cp.getName()+","+cp.getLastName()+","+cp.getLocation().isEmpty()? null : cp.getLocation()+","+cp.getBirthdate()+","+cp.getEmail()+","+cp.getPhoneNumber()+");";
-
         String sqlStmnt = "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`) VALUES"+
-        "("+cp.getId()+","+cp.getDni()+",'"+cp.getName()+"','"+cp.getLastName()+"','"+cp.getLocation()+"',"+cp.getBirthdate()+",'"+cp.getEmail()+"',"+cp.getPhoneNumber()+");";
+        "(?, ?, ?, ?, ?, ?, ?, ?);";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        statement.setInt(1, cp.getId());
 
-        Connection connection = Connector.getConnector().getConnection();
-        Statement statement = connection.createStatement();
+        if(cp.getDni()!=0)
+            statement.setLong(2, cp.getDni());
+        else
+            statement.setNull(2, Types.BIGINT);
+        
+        statement.setString(3, cp.getName());
+        statement.setString(4, cp.getLastName());
+
+        if(cp.getLocation() != null && (!cp.getLocation().isEmpty() || !cp.getLocation().isBlank()))
+            statement.setString(5, cp.getLocation());
+        else
+            statement.setNull(5, Types.VARCHAR);
+
+        if(cp.getBirthdate() != null)
+            statement.setDate(6, Date.valueOf(cp.getBirthdate()));
+        else
+            statement.setNull(6, Types.DATE);
+
+        if(cp.getEmail() != null && (!cp.getEmail().isEmpty() || !cp.getEmail().isBlank()))
+            statement.setString(7, cp.getEmail());
+        else
+            statement.setNull(7, Types.VARCHAR);
+
+        if(cp.getPhoneNumber() == 0)
+            statement.setNull(8, Types.BIGINT);
+
         returnCode = statement.executeUpdate(sqlStmnt);
-
+        
         return returnCode;
     }
 

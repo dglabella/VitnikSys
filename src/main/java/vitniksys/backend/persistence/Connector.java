@@ -1,71 +1,69 @@
 package vitniksys.backend.persistence;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 import javax.swing.JOptionPane;
 
-public class Connector {
-    
-    private static final String DRIVER  = "com.mysql.cj.jdbc.Driver"; 
-    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis";
+public class Connector
+{
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis";
     private static final String USER = "root";
     private static final String PASS = "";
-    
-    private static Connector connectorSingleton = null;
+
+    private static Connector connector = null;
     private static Connection connection = null;
-    
-    private Connector(){
-        try 
+
+    private Connector()
+    {
+        try
         {
             Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL,USER,PASS);
-        } 
-        catch (Exception ex) 
+            connection = DriverManager.getConnection(URL, USER, PASS);
+        }
+        catch (Exception ex)
         {
             ex.printStackTrace();
-            //Alert alert =  new Alert(AlertType.ERROR, "Ocurrio un Error en la Conexion");
-            //alert.setTitle("Error");
-            JOptionPane.showMessageDialog(null, "Ocurrio un Error en la Conexion", "Error en la Conexion", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ocurrio un Error en la Conexion", "Error en la Conexion",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    /*
-    private Connector(String driver, String url, String user ,String pass){
-        try 
-        {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url,user,pass);
-        } 
-        catch (Exception ex) 
-        {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Ocurrio un Error en la Conexion", "Error en la Conexion", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    */
-    
+
     public static Connector getConnector()
     {
-        if (Connector.connectorSingleton==null)
+        if (Connector.connector == null)
         {
-            Connector.connectorSingleton = new Connector();
+            Connector.connector = new Connector();
         }
-        return Connector.connectorSingleton;
+        return Connector.connector;
     }
 
-    /*
-    private static Connector createConnector(String driver, String url, String user, String pass)
+    public void closeConnection() throws SQLException
     {
-        if (connectorSingleton==null)
-        {
-            connectorSingleton = new Connector(driver, url, user, pass);
-        }
-        return connectorSingleton;
+        Connector.connection.close();
+        Connector.connector = null;
     }
-    */
 
-    public Connection getConnection()
+    public void startTransaction() throws SQLException
     {
-        return Connector.connection;
+        Connector.connection.setAutoCommit(false);
+    }
+
+    public void commit() throws SQLException
+    {
+        Connector.connection.commit();
+    }
+
+    public void endTransaction() throws SQLException
+    {
+        Connector.connection.setAutoCommit(true);
+    }
+
+    public PreparedStatement getStatement(String SQLstatement) throws SQLException
+    {
+        return Connector.connection.prepareStatement(SQLstatement);
     }
 }

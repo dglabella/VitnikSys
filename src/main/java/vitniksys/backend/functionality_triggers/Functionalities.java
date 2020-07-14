@@ -2,7 +2,6 @@ package vitniksys.backend.functionality_triggers;
 
 import java.util.List;
 import java.util.Iterator;
-import java.sql.Connection;
 import vitniksys.backend.model.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Executors;
@@ -37,10 +36,8 @@ public class Functionalities implements IFunctionalities
     public int agregarPedidos(List<ClientePreferencial> cps) throws Exception
     {
         int returnCode = 0;
-        Connection connection = Connector.getConnector().getConnection();
         try{
-            //START TRANSACTION
-            connection.setAutoCommit(false);
+            Connector.getConnector().startTransaction();
             
             ClientePreferencial cp;
             ClientePreferencialOperator cpOperator;
@@ -52,8 +49,8 @@ public class Functionalities implements IFunctionalities
                 cpOperator = cp.operator();
                 returnCode = cpOperator.agregarPedidos(cp);
             }
-            //COMMIT
-            connection.commit();
+            
+           Connector.getConnector().commit();
         }
         catch (Exception exception)
         {
@@ -62,8 +59,8 @@ public class Functionalities implements IFunctionalities
         }
         finally
         {
-            connection.setAutoCommit(true);
-            connection.close();         
+            Connector.getConnector().endTransaction();
+            Connector.getConnector().closeConnection();
         }
         return returnCode;
     }
@@ -72,15 +69,13 @@ public class Functionalities implements IFunctionalities
     public int registrarCliente(ClientePreferencial cp) throws Exception
     {
         int returnCode = 0;
-        Connection connection = Connector.getConnector().getConnection();
-        try{
-            //START TRANSACTION
-            connection.setAutoCommit(false);
+        try
+        {
+            Connector.getConnector().startTransaction();
 
             cp.operator().insert(cp);
 
-            //COMMIT
-            connection.commit();
+            Connector.getConnector().commit();
         }
         catch (Exception exception)
         {
@@ -89,8 +84,8 @@ public class Functionalities implements IFunctionalities
         }
         finally
         {
-            connection.setAutoCommit(true);
-            connection.close();
+            Connector.getConnector().endTransaction();
+            Connector.getConnector().closeConnection();
         }
         return returnCode;
     }

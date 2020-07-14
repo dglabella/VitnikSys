@@ -1,52 +1,52 @@
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Saldo.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\ExpressionChecker.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\Estado.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\VitnikViewCntlr.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\IFunctionalities.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\persistence\ClienteSubordinadoOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\CampQueryRegisterViewCntlr.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Pago.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\StockDevsRowTable.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\FormaPago.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Camp.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\ClientList.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DevolucionesRowTable.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\persistence\ClientePreferencialOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Recompra.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\ClienteBase.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\ItemPago.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\Motivo.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\ClientRegisterViewCntlr.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\PedidosObtainer.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\CatalogueQueryViewCntlr.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Observacion.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Lider.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\EntregaCatalogo.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Articulo.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\persistence\LiderOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\PagosRowTable.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\MainMenuViewCntlr.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\functionality_triggers\Functionalities.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\ClientePreferencial.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\CrudOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\ArticuloDevuelto.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Pedido.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\persistence\Connector.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\ClienteSubordinado.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\IPedidoOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\persistence\CatalogoOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\Banco.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DetailFileInterpreter.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Comision.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\App.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Catalogo.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DetailFileRow.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\RecomprasRowTable.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\persistence\PedidoOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\IClientePreferencialOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\Mes.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\ICatalogoOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\Devolucion.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\persistence\ClienteBaseOperator.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\enums\TipoArt.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\PedidosRowTable.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\ClientePreferencial.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Devolucion.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\CrudOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Catalogo.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\RecomprasRowTable.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\ArticuloDevuelto.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\enums\Motivo.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\ICatalogoOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\MainMenuViewCntlr.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\PedidosObtainer.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\EntregaCatalogo.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\IClientePreferencialOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Saldo.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Recompra.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\persistence\CatalogoOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\persistence\LiderOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\PedidosRowTable.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\CatalogueQueryViewCntlr.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Pedido.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\ClienteBase.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\ClienteSubordinado.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\ClientRegisterViewCntlr.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\persistence\Connector.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Articulo.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Pago.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\enums\ItemPago.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\CampQueryRegisterViewCntlr.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\enums\TipoArt.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\IFunctionalities.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\DetailFileRow.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Camp.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Lider.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\persistence\ClienteBaseOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\StockDevsRowTable.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\DetailFileInterpreter.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\persistence\ClienteSubordinadoOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\VitnikViewCntlr.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Observacion.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\enums\Estado.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\enums\Mes.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\ClientList.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\PagosRowTable.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\ExpressionChecker.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\persistence\PedidoOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\DevolucionesRowTable.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\App.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\enums\FormaPago.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\enums\Banco.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\persistence\ClientePreferencialOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\Comision.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\functionality_triggers\Functionalities.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\interfaces\IPedidoOperator.java

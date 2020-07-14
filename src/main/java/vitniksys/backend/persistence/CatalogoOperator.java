@@ -13,7 +13,7 @@ public class CatalogoOperator implements ICatalogoOperator
 
     public CatalogoOperator()
     {
-        connection = Connector.getConnector().getConnection();
+        Connector.getConnector()
     }
 
     public int insert(Catalogo catalogo)

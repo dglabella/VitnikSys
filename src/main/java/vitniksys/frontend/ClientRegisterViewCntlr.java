@@ -7,11 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
-import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.interfaces.IFunctionalities;
 import vitniksys.backend.model.ClienteBase;
-import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.ClienteSubordinado;
+import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.interfaces.IFunctionalities;
 import vitniksys.backend.functionality_triggers.Functionalities;
 
 public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable
