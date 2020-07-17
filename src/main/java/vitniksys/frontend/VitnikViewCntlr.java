@@ -1,21 +1,21 @@
-package vitniksys.backend.view_controllers;
+package vitniksys.frontend;
 
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
-public abstract class VitnikController
+public abstract class VitnikViewCntlr
 {
     private Stage stage;
-    private VitnikController prevController;
+    private VitnikViewCntlr prevViewCntlr;
 
-    protected void setPrevController(VitnikController prevController)
+    protected void setPrevViewCntlr(VitnikViewCntlr prevViewCntlr)
     {
-        this.prevController = prevController;
+        this.prevViewCntlr = prevViewCntlr;
     }
 
-    protected VitnikController getPrevController()
+    protected VitnikViewCntlr getPrevViewCntlr()
     {
-        return this.prevController;
+        return this.prevViewCntlr;
     }
 
     protected void setStage(Stage stage)

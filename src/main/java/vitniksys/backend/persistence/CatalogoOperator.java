@@ -1,21 +1,12 @@
 package vitniksys.backend.persistence;
 
-import java.sql.Statement;
-import java.sql.Connection;
 import java.util.ArrayList;
-import vitniksys.backend.interfaces.ICatalogoOperator;
 import vitniksys.backend.model.Catalogo;
+import vitniksys.backend.interfaces.ICatalogoOperator;
 
 //This class intanciates the DAO Object for Catalogo
 public class CatalogoOperator implements ICatalogoOperator
 {
-    private Connection connection;
-
-    public CatalogoOperator()
-    {
-        connection = Connector.getConnector().getConnection();
-    }
-
     public int insert(Catalogo catalogo)
     {
         int errorCode = 0;
@@ -25,9 +16,7 @@ public class CatalogoOperator implements ICatalogoOperator
 
     public Catalogo find(int codigo)
     {
-        Catalogo catalogo = new Catalogo(-1,-1,0f);
-
-        return catalogo;
+        return null;
     }
 
     public ArrayList<Catalogo> findAll()

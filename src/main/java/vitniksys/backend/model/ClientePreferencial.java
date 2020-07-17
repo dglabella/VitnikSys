@@ -10,13 +10,13 @@ public abstract class ClientePreferencial
 {
     //Entity properties
     private int id;
-    private Long dni;
+    private long dni;
     private String name;
     private String lastName;
     private String location;
     private LocalDate birthdate;
     private String email;
-    private Long phoneNumber;
+    private long phoneNumber;
     private Timestamp registrationTime;
 
     //Domain Associations
@@ -61,12 +61,12 @@ public abstract class ClientePreferencial
         this.id = id;
     }
 
-    public Long getDni()
+    public long getDni()
     {
         return this.dni;
     }
 
-    public void setDni(Long dni)
+    public void setDni(long dni)
     {
         this.dni = dni;
     }
@@ -120,11 +120,11 @@ public abstract class ClientePreferencial
         this.email = email;
     }
 
-    public Long getPhoneNumber() {
+    public long getPhoneNumber() {
         return this.phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber)
+    public void setPhoneNumber(long phoneNumber)
     {
         this.phoneNumber = phoneNumber;
     }

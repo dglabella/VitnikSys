@@ -1,4 +1,4 @@
-package vitniksys.backend.view_controllers;
+package vitniksys.frontend;
 
 import java.net.URL;
 import java.io.File;
@@ -25,27 +25,29 @@ import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.ClientePreferencial;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.interfaces.IFunctionalities;
-import vitniksys.backend.functionality_triggers.Functionalities;
+import vitniksys.backend.controllers.OrderController;
 
-public class CampQueryRegisterController extends VitnikController implements Initializable
+public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable
 {
     //Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private final int YEAR_MIN = 2020;
     private final int YEAR_MAX = 2038;
     
-    private PedidosObtainer pedidosObtainer;
+    private PedidosObtainer ordersObtainer;
 
     //The list for save the result of "pedidosObtainer".
     private List<ClientePreferencial> customersWithNewOrders;
 
     private ExpressionChecker expressionChecker;
 
+    private OrderController orderController;
+
     
     // ================================= FXML variables =================================
     @FXML private TextField campNumber;
     @FXML private TextField campName;
     @FXML private TextField catalogoCode;
-
+    
     @FXML private Label artPedidosQuantity;
     @FXML private Label artRetiradosQuantity;
     @FXML private Label artDevueltosQuantity;
@@ -74,12 +76,11 @@ public class CampQueryRegisterController extends VitnikController implements Ini
         *BUT IF "PEDIDOS" OBTAINING METHOD WILL BE ADDED, HERE IS WHERE IT
         *HAS TO BE IMPLEMENTED.
         */
-        IFunctionalities functionalities = new Functionalities();
 
         //FILE SELECTING METHOD.
         FileChooser fileChooser = new FileChooser();
         File detalle = fileChooser.showOpenDialog(null);
-        this.pedidosObtainer = new DetailFileInterpreter(detalle);
+        this.ordersObtainer = new DetailFileInterpreter(detalle);
         
         if (detalle != null)
         {
@@ -93,7 +94,7 @@ public class CampQueryRegisterController extends VitnikController implements Ini
                 this.filePath.setVisible(true);
 
                 //Executing the information gathering process.
-                functionalities.obtenerPedidos(this.pedidosObtainer);
+                this.orderController.obtainOrders(this.ordersObtainer);
             }
             else
             {
@@ -107,15 +108,14 @@ public class CampQueryRegisterController extends VitnikController implements Ini
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        IFunctionalities functionalities = new Functionalities();
-        if(functionalities.getCustomersWithNewOrders().isDone())
+        if(this.orderController.getCustomersWithNewOrders().isDone())
         {
             try
             {
                 //Triggering "Agregar Pedidos" use case.
                     //getCustomersWithNewOrders().get() is a blockig execution method
                     //block for specified timeout with get(long timeout, TimeUnit unit)
-                functionalities.agregarPedidos(functionalities.getCustomersWithNewOrders().get());   
+                    this.orderController.registerOrders(this.orderController.getCustomersWithNewOrders().get());   
             }
             catch(Exception e)
             {
@@ -136,12 +136,12 @@ public class CampQueryRegisterController extends VitnikController implements Ini
         String fxml = "ConsultarCatalogo";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        CatalogueQueryController ctrller = fxmlLoader.getController();
+        CatalogueQueryViewCntlr ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
         ctrller.getStage().setTitle("Consultar Cátalogo");
-        ctrller.setPrevController(this);
+        ctrller.setPrevViewCntlr(this);
         ctrller.getStage().show();
     }
 
@@ -202,9 +202,10 @@ public class CampQueryRegisterController extends VitnikController implements Ini
     {
         //Creating the expresssion checker object for checking inputs.
         expressionChecker = ExpressionChecker.getExpressionChecker();
+        this.orderController = new OrderController();
 
         //Setting values for campMonth choice box.
-        ObservableList<Mes> months  = FXCollections.observableArrayList(null, Mes.ENERO, Mes.FEBRERO, Mes.MARZO, Mes.ABRIL, Mes.MAYO, Mes.JUNIO,
+        ObservableList<Mes> months = FXCollections.observableArrayList(null, Mes.ENERO, Mes.FEBRERO, Mes.MARZO, Mes.ABRIL, Mes.MAYO, Mes.JUNIO,
         Mes.JULIO, Mes.AGOSTO, Mes.SEPTIEMBRE, Mes.OCTUBRE, Mes.NOVIEMBRE, Mes.DICIEMBRE);
         this.campMonth.setItems(months);
 

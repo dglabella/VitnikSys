@@ -1,4 +1,4 @@
-package vitniksys.backend.view_controllers;
+package vitniksys.frontend;
 
 import java.net.URL;
 import vitniksys.App;
@@ -12,7 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
 
-public class MainMenuController extends VitnikController implements Initializable
+public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
 {
     // ================================= FXML variables =================================
     @FXML private TextField id;
@@ -58,12 +58,12 @@ public class MainMenuController extends VitnikController implements Initializabl
         String fxml = "catalogueQuery";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        CatalogueQueryController ctrller = fxmlLoader.getController();
+        CatalogueQueryViewCntlr ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
         ctrller.getStage().setTitle("Consultar Cátalogo");
-        ctrller.setPrevController(this);
+        ctrller.setPrevViewCntlr(this);
         ctrller.getStage().show();
     }
 
@@ -85,12 +85,12 @@ public class MainMenuController extends VitnikController implements Initializabl
         String fxml = "clientRegister";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        ClientRegisterController ctrller = fxmlLoader.getController();
+        ClientRegisterViewCntlr ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
         ctrller.getStage().setTitle("Formulario de registro de Cliente preferencial");
-        ctrller.setPrevController(this);
+        ctrller.setPrevViewCntlr(this);
         ctrller.getStage().show();      
     }
 
@@ -100,12 +100,12 @@ public class MainMenuController extends VitnikController implements Initializabl
         String fxml = "campQueryRegister";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        CampQueryRegisterController ctrller = fxmlLoader.getController();
+        CampQueryRegisterViewCntlr ctrller = fxmlLoader.getController();
         ctrller.setStage(new Stage());
         ctrller.getStage().setResizable(false);
         ctrller.getStage().setScene(scene);
         ctrller.getStage().setTitle("Consultar campaña");
-        ctrller.setPrevController(this);
+        ctrller.setPrevViewCntlr(this);
         ctrller.getStage().show();
     }
     // ================================= private methods =================================
