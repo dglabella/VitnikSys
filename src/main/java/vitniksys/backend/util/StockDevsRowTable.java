@@ -1,6 +1,6 @@
 package vitniksys.backend.util;
 
-import vitniksys.backend.enums.Motivo;
+import vitniksys.backend.model.enums.Motivo;
 
 public class StockDevsRowTable
 {

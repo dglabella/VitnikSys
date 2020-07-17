@@ -1,8 +1,8 @@
 package vitniksys.backend.util;
 
 import java.sql.Timestamp;
-import vitniksys.backend.enums.Motivo;
-import vitniksys.backend.enums.TipoArt;
+import vitniksys.backend.model.enums.Motivo;
+import vitniksys.backend.model.enums.TipoArt;
 
 public class DevolucionesRowTable 
 {

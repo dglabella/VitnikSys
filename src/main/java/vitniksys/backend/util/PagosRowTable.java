@@ -1,10 +1,10 @@
 package vitniksys.backend.util;
 
 import java.sql.Timestamp;
-import vitniksys.backend.enums.Banco;
-import vitniksys.backend.enums.Estado;
-import vitniksys.backend.enums.ItemPago;
-import vitniksys.backend.enums.FormaPago;
+import vitniksys.backend.model.enums.Banco;
+import vitniksys.backend.model.enums.Estado;
+import vitniksys.backend.model.enums.ItemPago;
+import vitniksys.backend.model.enums.FormaPago;
 
 public class PagosRowTable
 {    

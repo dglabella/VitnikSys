@@ -9,11 +9,13 @@ import javafx.application.Application;
 
 public class App extends Application 
 {
+    public static final String GUIs_LOCATION = App.class.getResource("")+"../frontend/GUIs/";
+    public static final String FILE_EXTENSION = ".fxml";
     @Override
     public void start(final Stage stage) throws IOException
     {
-        String fxml = "mainMenu";
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.class.getResource("")+"../frontend/views/"+fxml+".fxml"));
+        String fileName = "mainMenu";
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(GUIs_LOCATION+fileName+FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();

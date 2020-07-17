@@ -2,13 +2,13 @@ package vitniksys.backend.controllers;
 
 import java.util.List;
 import java.util.Iterator;
-import vitniksys.backend.model.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Executors;
-import vitniksys.backend.interfaces.*;
-import vitniksys.backend.persistence.*;
 import java.util.concurrent.ExecutorService;
+import vitniksys.backend.model.interfaces.*;
+import vitniksys.backend.model.persistence.*;
 import vitniksys.backend.util.PedidosObtainer;
+import vitniksys.backend.model.entities.ClientePreferencial;
 
 public class OrderController
 {

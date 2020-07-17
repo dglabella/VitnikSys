@@ -1,15 +1,34 @@
 package vitniksys.backend.controllers;
 
-import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.util.ExceptionAlert;
-import vitniksys.backend.persistence.Connector;
-import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.util.OperationResult;
+import vitniksys.frontend.views.OperationResultView;
+import vitniksys.backend.model.persistence.Connector;
+import vitniksys.backend.model.entities.ClientePreferencial;
 
 public class ClientController
 {
-    public int registerClient(ClientePreferencial cp) throws Exception
+    //Views
+    private OperationResultView operationResultView;
+
+    //Getters && Setters
+    public OperationResultView getOperationResultView()
     {
-        int returnCode = 0;
+        return this.operationResultView;
+    }
+
+    public void setOperationResultView(OperationResultView operationResultView)
+    {
+        this.operationResultView = operationResultView;
+    }
+
+    // ================================= private methods =================================
+
+    // ================================= protected methods =================================
+
+    // ================================= public methods =================================
+    public void registerClient(ClientePreferencial cp) throws Exception
+    {
+        OperationResult operationResult = new OperationResult();
         try
         {
             Connector.getConnector().startTransaction();
@@ -17,19 +36,21 @@ public class ClientController
             cp.operator().insert(cp);
 
             Connector.getConnector().commit();
+
+            operationResult.setCode(OperationResult.SUCCES);
         }
         catch (Exception exception)
         {
             Connector.getConnector().rollBack();
-            ExceptionAlert exceptionAlert = new ExceptionAlert(AlertType.ERROR, exception);
-            exceptionAlert.showAndWait();
-            returnCode = -1;
+            
+            operationResult.setCode(OperationResult.ERROR);
+            operationResult.setException(exception);
         }
         finally
         {
             Connector.getConnector().endTransaction();
             Connector.getConnector().closeConnection();
+            this.operationResultView.showResult(operationResult);
         }
-        return returnCode;
     }
 }

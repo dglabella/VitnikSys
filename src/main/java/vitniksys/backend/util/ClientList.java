@@ -1,7 +1,7 @@
 package vitniksys.backend.util;
 
 import java.util.ArrayList;
-import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.model.entities.ClientePreferencial;
 
 public class ClientList extends ArrayList<ClientePreferencial>
 {

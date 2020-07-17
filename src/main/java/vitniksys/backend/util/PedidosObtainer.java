@@ -2,7 +2,7 @@ package vitniksys.backend.util;
 
 import java.util.List;
 import java.util.concurrent.Callable;
-import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.model.entities.ClientePreferencial;
 
 /**
  * A "PedidosObtainer" object performs a process to obtain the incoming "pedidos".

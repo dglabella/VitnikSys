@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Iterator;
 import java.util.ArrayList;
-import vitniksys.backend.model.Camp;
-import vitniksys.backend.model.Lider;
-import vitniksys.backend.model.Pedido;
-import vitniksys.backend.enums.TipoArt;
-import vitniksys.backend.model.Articulo;
-import vitniksys.backend.model.ClienteBase;
-import vitniksys.backend.model.ClienteSubordinado;
-import vitniksys.backend.model.ClientePreferencial;
+import vitniksys.backend.model.enums.TipoArt;
+import vitniksys.backend.model.entities.Camp;
+import vitniksys.backend.model.entities.Lider;
+import vitniksys.backend.model.entities.Pedido;
+import vitniksys.backend.model.entities.Articulo;
+import vitniksys.backend.model.entities.ClienteBase;
+import vitniksys.backend.model.entities.ClienteSubordinado;
+import vitniksys.backend.model.entities.ClientePreferencial;
 
 /**
 *This class contains the algorithm for translate the information
