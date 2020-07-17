@@ -24,7 +24,6 @@ import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.ClientePreferencial;
 import vitniksys.backend.util.DetailFileInterpreter;
-import vitniksys.backend.interfaces.IFunctionalities;
 import vitniksys.backend.controllers.OrderController;
 
 public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable
