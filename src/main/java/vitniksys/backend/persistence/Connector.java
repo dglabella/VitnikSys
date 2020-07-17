@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 public class Connector
 {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis";
+    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis";
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -56,6 +56,12 @@ public class Connector
     {
         Connector.connection.commit();
     }
+
+    public void rollBack() throws SQLException
+    {
+        Connector.connection.rollback();
+    }
+
 
     public void endTransaction() throws SQLException
     {

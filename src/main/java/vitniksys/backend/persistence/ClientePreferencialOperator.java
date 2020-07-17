@@ -1,10 +1,8 @@
 package vitniksys.backend.persistence;
 
+import java.sql.Date;
 import java.util.List;
 import java.sql.Types;
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.ClientePreferencial;
 import vitniksys.backend.interfaces.IClientePreferencialOperator;
@@ -22,7 +20,7 @@ public abstract class ClientePreferencialOperator implements IClientePreferencia
     public int insert(ClientePreferencial cp) throws Exception
     {
         int returnCode;
-        String sqlStmnt = "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`) VALUES"+
+        String sqlStmnt = "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`) VALUES "+
         "(?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setInt(1, cp.getId());
@@ -50,14 +48,17 @@ public abstract class ClientePreferencialOperator implements IClientePreferencia
         else
             statement.setNull(7, Types.VARCHAR);
 
-        if(cp.getPhoneNumber() == 0)
+        if(cp.getPhoneNumber()!=0)
+            statement.setLong(8, cp.getPhoneNumber());
+        else
             statement.setNull(8, Types.BIGINT);
 
-        returnCode = statement.executeUpdate(sqlStmnt);
+        returnCode = statement.executeUpdate();
+        statement.close();
         
         return returnCode;
     }
-
+    
     @Override
     public List<ClientePreferencial> findAll() throws Exception
     {
@@ -79,5 +80,5 @@ public abstract class ClientePreferencialOperator implements IClientePreferencia
         return 0;
     }
 
-    public abstract int agregarPedidos(ClientePreferencial cp) throws Exception;
+    public abstract int registerOrders(ClientePreferencial cp) throws Exception;
 }

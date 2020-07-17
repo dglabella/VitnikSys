@@ -20,7 +20,7 @@ public class LiderOperator extends ClientePreferencialOperator
     }
 
     @Override
-    public int agregarPedidos(ClientePreferencial cp)
+    public int registerOrders(ClientePreferencial cp)
     {
         System.out.println("Agregando pedidos Lider");
         return 0;

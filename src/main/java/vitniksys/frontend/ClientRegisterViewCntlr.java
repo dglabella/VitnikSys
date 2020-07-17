@@ -5,14 +5,14 @@ import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import vitniksys.backend.model.Lider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
 import vitniksys.backend.model.ClienteBase;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.ClienteSubordinado;
 import vitniksys.backend.model.ClientePreferencial;
-import vitniksys.backend.interfaces.IFunctionalities;
-import vitniksys.backend.functionality_triggers.Functionalities;
+import vitniksys.backend.controllers.ClientController;
 
 public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable
 {
@@ -139,7 +139,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        IFunctionalities functionalities = new Functionalities();
+        ClientController clientController = new ClientController();
         ClientePreferencial client;
         if(this.leaderId.getText().isEmpty())
         {
@@ -148,11 +148,16 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
         else
         {
             client =  new ClienteSubordinado(Integer.parseInt(this.id.getText()), this.name.getText().toUpperCase(), this.lastName.getText().toUpperCase());
+            ((ClienteSubordinado)client).setLider(new Lider(Integer.parseInt(this.leaderId.getText())));
         }
 
-        client.setDni(!this.dni.getText().isEmpty()? Long.parseLong(this.dni.getText()) : null);
+        client.setDni(!this.dni.getText().isEmpty()? Long.parseLong(this.dni.getText()) : 0);
+        client.setLocation(this.location.getText().toUpperCase());
+        client.setBirthdate(this.birthdate.getValue());
+        client.setEmail(this.email.getText());
+        client.setPhoneNumber(!this.phoneNumber.getText().isEmpty()? Long.parseLong(this.phoneNumber.getText()) : 0);
 
-        functionalities.registrarCliente(client);
+        clientController.registerClient(client);
     }
 
     // ================================= private methods =================================
