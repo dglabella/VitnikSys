@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.concurrent.Future;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
-import vitniksys.backend.model.interfaces.*;
-import vitniksys.backend.model.persistence.*;
 import vitniksys.backend.util.PedidosObtainer;
+import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ClientePreferencial;
+import vitniksys.backend.model.persistence.ClientePreferencialOperator;
 
 public class OrderController
 {

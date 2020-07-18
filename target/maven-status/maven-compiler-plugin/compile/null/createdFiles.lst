@@ -43,6 +43,7 @@ vitniksys\backend\model\entities\ArticuloDevuelto.class
 vitniksys\backend\model\persistence\Connector.class
 vitniksys\backend\controllers\ClientController.class
 vitniksys\backend\model\entities\Camp.class
+vitniksys\frontend\views\CampQueryRegisterView.class
 vitniksys\backend\util\DetailFileRow.class
 vitniksys\frontend\GUIsControllers\ClientRegisterViewCntlr.class
 vitniksys\backend\model\enums\FormaPago$1.class

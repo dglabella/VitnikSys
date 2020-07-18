@@ -140,6 +140,11 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
+            <Label fx:id="noResultMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="370.0" text="No hay resultados" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="40.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="20.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="400.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
@@ -149,7 +154,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="135.0" layoutY="520.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#registerButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Registrar">
+            <JFXButton fx:id="register" buttonType="RAISED" layoutX="135.0" layoutY="520.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#registerButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Registrar">
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -163,12 +168,12 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutY="340.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Pedidos:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="orders" alignment="CENTER" layoutY="340.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Pedidos:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="50.0" layoutY="380.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#selectMethodButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="SELECCIONAR" />
+            <JFXButton fx:id="select" buttonType="RAISED" layoutX="50.0" layoutY="380.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#selectMethodButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="SELECCIONAR" />
             <Label fx:id="fileSelected" layoutX="25.0" layoutY="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" visible="false" />
             <Label fx:id="filePath" layoutX="25.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" visible="false" />
             <Label layoutX="210.0" layoutY="340.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Catálogo:" textAlignment="JUSTIFY" textFill="#434343">
@@ -176,7 +181,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="340.0" layoutY="375.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusCatButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
+            <JFXButton fx:id="plusCatalogue" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="340.0" layoutY="375.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusCatButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>

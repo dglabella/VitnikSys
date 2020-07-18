@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
 import vitniksys.backend.model.enums.Mes;
@@ -24,9 +25,10 @@ import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.controllers.OrderController;
+import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.entities.ClientePreferencial;
 
-public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable
+public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView
 {
     //Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private final int YEAR_MIN = 2020;
@@ -35,6 +37,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     private PedidosObtainer ordersObtainer;
 
     //The list for save the result of "pedidosObtainer".
+    //only used when detail file is loaded.
     private List<ClientePreferencial> customersWithNewOrders;
 
     private ExpressionChecker expressionChecker;
@@ -60,9 +63,15 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML private Label fileSelected;
     @FXML private Label filePath;
     @FXML private Label campNumberInvalid;
+    @FXML private Label noResultMessage;
+    @FXML private Label orders;
 
     @FXML private ChoiceBox campMonth;
     @FXML private ChoiceBox campYear;
+
+    @FXML private Button register;
+    @FXML private Button select;
+    @FXML private Button plusCatalogue;
 
     // ================================= FXML methods =================================
     @FXML
@@ -149,7 +158,11 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         clearStage();
         //camp name is automatically set.
         this.campName.setDisable(true);
-        this.customersWithNewOrders.clear();
+        this.customersWithNewOrders = null;
+        this.register.setVisible(true);
+        this.plusCatalogue.setVisible(true);
+        this.select.setVisible(true);
+        this.orders.setVisible(true);
     }
 
     @FXML
@@ -213,5 +226,23 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         for(int i = YEAR_MIN; i<= YEAR_MAX; i++)
             years.add(i);
         this.campYear.setItems(years);
+
+        this.register.setVisible(false);
+        this.noResultMessage.setVisible(false);
+        this.plusCatalogue.setVisible(false);
+        this.select.setVisible(false);
+        this.orders.setVisible(false);
+    }
+
+    @Override
+    public void showNoResult()
+    {
+        this.noResultMessage.setDisable(false);
+    }
+
+    @Override
+    public void showQueriedCamp()
+    {
+
     }
 }
