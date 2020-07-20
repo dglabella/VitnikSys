@@ -70,6 +70,8 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML private ChoiceBox campYear;
 
     @FXML private Button register;
+    @FXML private Button cancel;
+    @FXML private Button search;
     @FXML private Button select;
     @FXML private Button plusCatalogue;
 
@@ -111,7 +113,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
             }
         }
     }
-
+    
     @FXML
     private void registerButtonPressed() throws Exception
     {
@@ -138,6 +140,23 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     @FXML
+    private void cancelButtonPressed()
+    {
+        this.search.setVisible(true);
+        this.register.setVisible(false);
+        this.cancel.setVisible(false);
+        this.orders.setVisible(false);
+        this.select.setVisible(false);
+        clearStage();
+    }
+
+    @FXML
+    private void searchButtonPressed()
+    {
+
+    }
+
+    @FXML
     private void plusCatButtonPressed() throws IOException
     {
         String fileName = "catalogueQuery";
@@ -156,13 +175,15 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     private void plusCampButtonPressed()
     {
         clearStage();
-        //camp name is automatically set.
-        this.campName.setDisable(true);
+        this.campName.setDisable(true); //camp name is automatically set.
         this.customersWithNewOrders = null;
         this.register.setVisible(true);
+        this.cancel.setVisible(true);
         this.plusCatalogue.setVisible(true);
         this.select.setVisible(true);
         this.orders.setVisible(true);
+
+        this.search.setVisible(false);
     }
 
     @FXML
@@ -232,6 +253,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         this.plusCatalogue.setVisible(false);
         this.select.setVisible(false);
         this.orders.setVisible(false);
+        this.cancel.setVisible(false);
     }
 
     @Override
