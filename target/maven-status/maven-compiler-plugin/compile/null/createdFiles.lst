@@ -6,9 +6,9 @@ vitniksys\backend\util\PedidosObtainer.class
 vitniksys\backend\model\entities\Articulo.class
 vitniksys\backend\model\persistence\ClientePreferencialOperator.class
 vitniksys\backend\model\entities\ClienteSubordinado.class
+vitniksys\backend\controllers\CampManagementController.class
 vitniksys\frontend\GUIsControllers\MainMenuViewCntlr.class
 vitniksys\backend\model\entities\Comision.class
-CampController.class
 vitniksys\backend\model\interfaces\IPedidoOperator.class
 vitniksys\backend\model\persistence\CatalogoOperator.class
 vitniksys\backend\model\entities\EntregaCatalogo.class
@@ -28,6 +28,7 @@ vitniksys\frontend\GUIsControllers\VitnikViewCntlr.class
 vitniksys\backend\model\enums\Mes.class
 vitniksys\backend\model\entities\Lider.class
 vitniksys\backend\model\enums\Estado.class
+vitniksys\backend\controllers\ClientManagementController.class
 vitniksys\frontend\GUIsControllers\CampQueryRegisterViewCntlr.class
 vitniksys\backend\model\entities\Recompra.class
 vitniksys\backend\util\PagosRowTable.class
@@ -36,12 +37,10 @@ vitniksys\backend\model\enums\Banco.class
 vitniksys\backend\model\enums\TipoArt$1.class
 vitniksys\backend\util\ClientList.class
 vitniksys\backend\model\interfaces\IClientePreferencialOperator.class
-vitniksys\backend\controllers\OrderController.class
 vitniksys\backend\model\entities\Pago.class
 vitniksys\backend\model\enums\Mes$1.class
 vitniksys\backend\model\entities\ArticuloDevuelto.class
 vitniksys\backend\model\persistence\Connector.class
-vitniksys\backend\controllers\ClientController.class
 vitniksys\backend\model\entities\Camp.class
 vitniksys\frontend\views\CampQueryRegisterView.class
 vitniksys\backend\util\DetailFileRow.class

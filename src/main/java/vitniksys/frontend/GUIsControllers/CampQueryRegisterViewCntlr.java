@@ -8,14 +8,16 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import javafx.util.Duration;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
 import vitniksys.backend.model.enums.Mes;
@@ -24,9 +26,9 @@ import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.util.DetailFileInterpreter;
-import vitniksys.backend.controllers.OrderController;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.entities.ClientePreferencial;
+import vitniksys.backend.controllers.CampManagementController;
 
 public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView
 {
@@ -36,13 +38,9 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     
     private PedidosObtainer ordersObtainer;
 
-    //The list for save the result of "pedidosObtainer".
-    //only used when detail file is loaded.
-    private List<ClientePreferencial> customersWithNewOrders;
-
     private ExpressionChecker expressionChecker;
 
-    private OrderController orderController;
+    private CampManagementController campManagementController;
 
     // ================================= FXML variables =================================
     @FXML private TextField campNumber;
@@ -73,6 +71,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML private Button cancel;
     @FXML private Button search;
     @FXML private Button select;
+    @FXML private Button plusCamp;
     @FXML private Button plusCatalogue;
 
     // ================================= FXML methods =================================
@@ -103,7 +102,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
                 this.filePath.setVisible(true);
 
                 //Executing the information gathering process.
-                this.orderController.obtainOrders(this.ordersObtainer);
+                this.campManagementController.obtainOrders(this.ordersObtainer);
             }
             else
             {
@@ -117,14 +116,14 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        if(this.orderController.getCustomersWithNewOrders().isDone())
+        if(this.campManagementController.getCustomersWithNewOrders().isDone())
         {
             try
             {
                 //Triggering "Agregar Pedidos" use case.
                     //getCustomersWithNewOrders().get() is a blockig execution method
                     //block for specified timeout with get(long timeout, TimeUnit unit)
-                    this.orderController.registerOrders(this.orderController.getCustomersWithNewOrders().get());   
+                    this.campManagementController.registerOrders(this.campManagementController.getCustomersWithNewOrders().get());   
             }
             catch(Exception e)
             {
@@ -147,17 +146,18 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         this.cancel.setVisible(false);
         this.orders.setVisible(false);
         this.select.setVisible(false);
+        this.plusCatalogue.setVisible(false);
         clearStage();
     }
 
     @FXML
     private void searchButtonPressed()
     {
-
+        
     }
 
     @FXML
-    private void plusCatButtonPressed() throws IOException
+    private void plusCatalogueButtonPressed() throws IOException
     {
         String fileName = "catalogueQuery";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
@@ -176,7 +176,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     {
         clearStage();
         this.campName.setDisable(true); //camp name is automatically set.
-        this.customersWithNewOrders = null;
         this.register.setVisible(true);
         this.cancel.setVisible(true);
         this.plusCatalogue.setVisible(true);
@@ -225,7 +224,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     protected void refresh()
     {
-        
+
     }
 
     // ================================= public methods =================================
@@ -234,7 +233,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     {
         //Creating the expresssion checker object for checking inputs.
         expressionChecker = ExpressionChecker.getExpressionChecker();
-        this.orderController = new OrderController();
+        this.campManagementController = new CampManagementController();
 
         //Setting values for campMonth choice box.
         ObservableList<Mes> months = FXCollections.observableArrayList(null, Mes.ENERO, Mes.FEBRERO, Mes.MARZO, Mes.ABRIL, Mes.MAYO, Mes.JUNIO,
@@ -247,6 +246,16 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         for(int i = YEAR_MIN; i<= YEAR_MAX; i++)
             years.add(i);
         this.campYear.setItems(years);
+
+        Tooltip toolTipCreateCamp = new Tooltip();
+        toolTipCreateCamp.setText("Nueva campaña");
+        toolTipCreateCamp.setShowDelay(Duration.seconds(0));
+        this.plusCamp.setTooltip(toolTipCreateCamp);
+
+        Tooltip toolTipCreateCatalogue = new Tooltip();
+        toolTipCreateCatalogue.setText("Nuevo catálogo");
+        toolTipCreateCatalogue.setShowDelay(Duration.seconds(0));
+        this.plusCatalogue.setTooltip(toolTipCreateCatalogue);
 
         this.register.setVisible(false);
         this.noResultMessage.setVisible(false);
@@ -265,6 +274,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showQueriedCamp()
     {
-
+        
     }
 }

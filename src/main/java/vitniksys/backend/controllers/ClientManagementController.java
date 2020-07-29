@@ -5,7 +5,7 @@ import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ClientePreferencial;
 
-public class ClientController
+public class ClientManagementController
 {
     //Views
     private OperationResultView operationResultView;

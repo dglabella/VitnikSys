@@ -10,13 +10,20 @@ import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ClientePreferencial;
 import vitniksys.backend.model.persistence.ClientePreferencialOperator;
 
-public class OrderController
+public class CampManagementController
 {
+    //The list for save the result of "pedidosObtainer".
+    //only used when detail file is loaded.
     private Future<List<ClientePreferencial>> customersWithNewOrders;
-
+    
     public Future<List<ClientePreferencial>> getCustomersWithNewOrders()
     {
         return this.customersWithNewOrders;
+    }
+
+    public void searchCamp()
+    {
+        
     }
 
     public void obtainOrders(PedidosObtainer pedidosObtainer) throws Exception

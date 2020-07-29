@@ -1,7 +1,5 @@
 package vitniksys.backend.model.persistence;
 
-import java.sql.Date;
-import java.sql.Types;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.ClienteSubordinado;
 import vitniksys.backend.model.entities.ClientePreferencial;

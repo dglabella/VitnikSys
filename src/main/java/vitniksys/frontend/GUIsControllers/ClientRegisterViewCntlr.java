@@ -14,7 +14,7 @@ import vitniksys.backend.model.entities.Lider;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.entities.ClienteBase;
-import vitniksys.backend.controllers.ClientController;
+import vitniksys.backend.controllers.ClientManagementController;
 import vitniksys.backend.model.entities.ClienteSubordinado;
 import vitniksys.backend.model.entities.ClientePreferencial;
 
@@ -23,7 +23,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     private ExpressionChecker expressionChecker;
 
     //Controllers
-    private ClientController clientController;
+    private ClientManagementController clientController;
 
     // ================================= FXML variables =================================
     @FXML private TextField id;
@@ -182,7 +182,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     public void initialize(URL url, ResourceBundle rb)
     {
         this.expressionChecker = ExpressionChecker.getExpressionChecker();
-        this.clientController = new ClientController();
+        this.clientController = new ClientManagementController();
         this.clientController.setOperationResultView(this);
     }
 

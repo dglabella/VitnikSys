@@ -9,6 +9,7 @@ public class Camp
     //Entity properties
     private int number;
     private String name;
+    private String alias;
     private Mes month;
     private int year;
     private Timestamp registrationTime;
@@ -65,6 +66,16 @@ public class Camp
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getAlias()
+    {
+        return this.alias;
+    }
+
+    public void setAlias(String alias)
+    {
+        this.alias = alias;
     }
 
     public Mes getMonth()

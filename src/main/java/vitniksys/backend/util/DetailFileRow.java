@@ -37,11 +37,11 @@ public class DetailFileRow
         this.barCode = barCode;
         this.name = name;
         this.quant = Integer.parseInt(quant);
-        this.unitPrice = Float.parseFloat(unitPrice);
-        this.descCP = Float.parseFloat(descCP);
-        this.price = Float.parseFloat(price);
-        this.agentComm = Float.parseFloat(agentComm);
-        this.finalPrice = Float.parseFloat(finalPrice);
+        this.unitPrice = this.customParseFloat(unitPrice);
+        this.descCP = this.customParseFloat(descCP);
+        this.price = this.customParseFloat(price);
+        this.agentComm = this.customParseFloat(agentComm);
+        this.finalPrice = this.customParseFloat(finalPrice);
         this.campNumb = Integer.parseInt(campNumb);
         this.obs = obs;
     }
@@ -185,5 +185,26 @@ public class DetailFileRow
     public void setObs(String obs)
     {
         this.obs = obs;
+    }
+
+    /**
+     * Transform the money value in the detail file to
+     * a float value.
+     * Take in consideration that this method works supposing 
+     * a particular format for the string
+     * @param moneyValue
+     * @return The float representative value of moneyValue
+     */
+    private float customParseFloat(String moneyValue)
+    {
+        //Removing the money sign
+        String aux = moneyValue.charAt(0)=='$'? moneyValue.substring(1).trim():moneyValue;
+        String[] splitedNumber = aux.split("\\.");
+        aux = "";
+        for(int i = 0; i < splitedNumber.length; i++)
+        {
+            aux = aux + splitedNumber[i];
+        }
+        return Float.parseFloat(aux.replace(',','.'));
     }
 }
