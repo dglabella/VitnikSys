@@ -28,7 +28,10 @@ public abstract class ClientePreferencial
 
     //Others
     private boolean active;
-    private List<Pedido> pedidosEntrantes;
+
+    //incomingOrders is supposed to be used for
+    //registrate all new orders from this cp
+    private List<Pedido> incomingOrders;
 
     public ClientePreferencial(int id)
     {
@@ -146,6 +149,19 @@ public abstract class ClientePreferencial
     public void setActive(boolean active)
     {
         this.active = active;
+    }
+
+    public List<Pedido> getIncomingOrders()
+    {
+        if(this.incomingOrders == null)
+            this.incomingOrders =  new ArrayList<>();
+            
+        return this.incomingOrders;
+    }
+
+    public void setIncomingOrders(List<Pedido> incomingOrders)
+    {
+        this.incomingOrders = incomingOrders;
     }
 
     public List<Pedido> getPedidos()

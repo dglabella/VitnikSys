@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.concurrent.Future;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.util.PedidosObtainer;
+import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ClientePreferencial;
 import vitniksys.backend.model.persistence.ClientePreferencialOperator;
@@ -15,12 +17,32 @@ public class CampManagementController
     //The list for save the result of "pedidosObtainer".
     //only used when detail file is loaded.
     private Future<List<ClientePreferencial>> customersWithNewOrders;
+
+    //Views
+    private OperationResultView operationResultView;
+
+    //Getters && Setters
+    public OperationResultView getOperationResultView()
+    {
+        return this.operationResultView;
+    }
+
+    public void setOperationResultView(OperationResultView operationResultView)
+    {
+        this.operationResultView = operationResultView;
+    }
     
     public Future<List<ClientePreferencial>> getCustomersWithNewOrders()
     {
         return this.customersWithNewOrders;
     }
 
+
+    // ================================= private methods =================================
+
+    // ================================= protected methods =================================
+
+    // ================================= public methods =================================
     public void searchCamp()
     {
         
@@ -32,9 +54,9 @@ public class CampManagementController
         this.customersWithNewOrders = executorService.submit(pedidosObtainer);
     }
 
-    public int registerOrders(List<ClientePreferencial> cps) throws Exception
+    public void registerOrders(List<ClientePreferencial> cps) throws Exception
     {
-        int returnCode = 0;
+        OperationResult operationResult = new OperationResult();
         try{
             Connector.getConnector().startTransaction();
             
@@ -46,21 +68,25 @@ public class CampManagementController
             {
                 cp = cpsIterator.next();
                 cpOperator = cp.operator();
-                returnCode = cpOperator.registerOrders(cp);
+                cpOperator.registerOrders(cp);
             }
             
-           Connector.getConnector().commit();
+            Connector.getConnector().commit();
+
+            operationResult.setCode(OperationResult.SUCCES);
         }
         catch (Exception exception)
         {
-            exception.printStackTrace();
-            returnCode = -1;
+            Connector.getConnector().rollBack();
+
+            operationResult.setCode(OperationResult.ERROR);
+            operationResult.setException(exception);
         }
         finally
         {
             Connector.getConnector().endTransaction();
             Connector.getConnector().closeConnection();
+            this.operationResultView.showResult(operationResult);
         }
-        return returnCode;
     }
 }

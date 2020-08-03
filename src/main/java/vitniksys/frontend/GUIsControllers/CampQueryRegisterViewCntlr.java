@@ -22,15 +22,19 @@ import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
 import vitniksys.backend.model.enums.Mes;
 import javafx.collections.ObservableList;
+import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
+import javafx.scene.control.Alert.AlertType;
+import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.entities.ClientePreferencial;
 import vitniksys.backend.controllers.CampManagementController;
 
-public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView
+public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView, OperationResultView
 {
     //Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private final int YEAR_MIN = 2020;
@@ -234,6 +238,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         //Creating the expresssion checker object for checking inputs.
         expressionChecker = ExpressionChecker.getExpressionChecker();
         this.campManagementController = new CampManagementController();
+        this.campManagementController.setOperationResultView(this);
 
         //Setting values for campMonth choice box.
         ObservableList<Mes> months = FXCollections.observableArrayList(null, Mes.ENERO, Mes.FEBRERO, Mes.MARZO, Mes.ABRIL, Mes.MAYO, Mes.JUNIO,
@@ -274,6 +279,13 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showQueriedCamp()
     {
-        
+           
+    }
+
+    @Override
+    public void showResult(OperationResult operationResult)
+    {
+        new CustomAlert().defaultShow(operationResult);
+        this.getStage().close();
     }
 }

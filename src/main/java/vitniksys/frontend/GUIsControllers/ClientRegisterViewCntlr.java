@@ -187,19 +187,11 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     }
 
     // ||
-    // LL View methods
+    // LL ======================= View methods =======================
     @Override
     public void showResult(OperationResult operationResult)
     {
-        CustomAlert customAlert;
-        if(operationResult.getCode() == OperationResult.SUCCES)
-        {
-            customAlert = new CustomAlert(AlertType.INFORMATION, "The operation was succesfully done!");
-        }
-        else
-        {
-            customAlert = new CustomAlert(AlertType.ERROR, operationResult.getException());
-        }
-        customAlert.showAndWait();     
+        new CustomAlert().defaultShow(operationResult);
+        this.getStage().close();
     }
 }

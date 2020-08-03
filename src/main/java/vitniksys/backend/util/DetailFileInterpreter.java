@@ -129,9 +129,8 @@ public class DetailFileInterpreter extends PedidosObtainer
             order.setArticulo(article);
             order.setCamp(new Camp(row.getCampNumb()));
 
-            client.getPedidos().add(order);
+            client.getIncomingOrders().add(order);
         }
-
 
         System.out.println("================ Order Makers ================");
         Iterator<ClientePreferencial> printList = ret.iterator();

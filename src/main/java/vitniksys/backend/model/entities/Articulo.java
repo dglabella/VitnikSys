@@ -82,4 +82,9 @@ public class Articulo
     {
         this.active = active;
     }
+
+    //public OrderOperator operator()
+    //{
+
+	//}
 }

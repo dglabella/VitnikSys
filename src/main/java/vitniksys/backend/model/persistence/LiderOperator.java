@@ -2,13 +2,13 @@ package vitniksys.backend.model.persistence;
 
 import vitniksys.backend.model.entities.ClientePreferencial;
 
-public class LiderOperator extends ClientePreferencialOperator
+public class LiderOperator extends ClienteBaseOperator
 {
     private static LiderOperator operator;
 
     private LiderOperator()
     {
-        //Empty Constructor
+        super();
     }
 
     public static LiderOperator getOperator()
