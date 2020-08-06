@@ -32,7 +32,7 @@ public class ClienteBaseOperator extends ClientePreferencialOperator
         while(incomingOrdersIterator.hasNext())
         {
             incomingOrder = incomingOrdersIterator.next();
-            //incomingOrder.getArticulo().operator();
+            //incomingOrder.getArticulo().
         }
         return 0;
     }  

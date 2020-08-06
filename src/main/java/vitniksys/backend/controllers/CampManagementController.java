@@ -9,6 +9,7 @@ import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.persistence.Connector;
+import vitniksys.backend.model.entities.Camp;
 import vitniksys.backend.model.entities.ClientePreferencial;
 import vitniksys.backend.model.persistence.ClientePreferencialOperator;
 
@@ -45,7 +46,15 @@ public class CampManagementController
     // ================================= public methods =================================
     public void searchCamp()
     {
-        
+        OperationResult operationResult = new OperationResult();
+        try
+        {
+            
+        }
+        catch (Exception exception)
+        {
+            //TODO: handle exception
+        }
     }
 
     public void obtainOrders(PedidosObtainer pedidosObtainer) throws Exception

@@ -24,14 +24,12 @@ import vitniksys.backend.model.enums.Mes;
 import javafx.collections.ObservableList;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
-import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.frontend.views.CampQueryRegisterView;
-import vitniksys.backend.model.entities.ClientePreferencial;
 import vitniksys.backend.controllers.CampManagementController;
 
 public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView, OperationResultView
@@ -157,7 +155,10 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML
     private void searchButtonPressed()
     {
-        
+        if(this.nroCampCheck())
+        {
+            this.campManagementController.searchCamp();
+        }
     }
 
     @FXML
@@ -190,17 +191,21 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     @FXML
-    private void nroCampCheck()
+    private boolean nroCampCheck()
     {
+        boolean ret;
         if(this.expressionChecker.onlyNumbers(this.campNumber.getText(), true))
         {
             this.campNumberInvalid.setVisible(false);
+            ret = true;
         }
         else
         {
             this.campNumberInvalid.setText("Dato invalido");
             this.campNumberInvalid.setVisible(true);
-        }     
+            ret = false;
+        }
+        return ret;
     }
 
     // ================================= private methods =================================

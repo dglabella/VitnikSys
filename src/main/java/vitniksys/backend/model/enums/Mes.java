@@ -4,7 +4,7 @@ public enum Mes
 {
     NA, ENERO, FEBRERO, MARZO, ABRIL, MAYO, JUNIO, JULIO, AGOSTO, SEPTIEMBRE, OCTUBRE, NOVIEMBRE, DICIEMBRE;
 
-    public static Mes ConvertirIntAEnum(int val){
+    public static Mes ConvertIntToEnum(int val){
         Mes ret = null;
         switch (val){
             case 1:
@@ -49,7 +49,7 @@ public enum Mes
         return ret;
     }
 
-    public static int ConvertirEnumAInt(Mes mes){
+    public static int ConvertEnumToInt(Mes mes){
         int ret = 0;
         if(mes!=null){
             switch (mes){

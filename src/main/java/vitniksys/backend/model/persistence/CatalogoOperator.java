@@ -7,6 +7,22 @@ import vitniksys.backend.model.interfaces.ICatalogoOperator;
 //This class intanciates the DAO Object for Catalogo
 public class CatalogoOperator implements ICatalogoOperator
 {
+
+    private static CatalogoOperator operator;
+
+    private CatalogoOperator()
+    {
+        //Empty constructor
+    }
+
+    public static CatalogoOperator getOperator()
+    {
+        if(CatalogoOperator.operator == null)
+            CatalogoOperator.operator = new CatalogoOperator();
+        
+        return CatalogoOperator.operator;
+	}
+
     public int insert(Catalogo catalogo)
     {
         int errorCode = 0;
@@ -21,7 +37,7 @@ public class CatalogoOperator implements ICatalogoOperator
 
     public ArrayList<Catalogo> findAll()
     {
-        ArrayList<Catalogo> catalogos =  new ArrayList();
+        ArrayList<Catalogo> catalogos = new ArrayList<>();
         return catalogos;
     }
 
