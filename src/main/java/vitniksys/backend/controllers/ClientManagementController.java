@@ -3,7 +3,7 @@ package vitniksys.backend.controllers;
 import vitniksys.backend.util.OperationResult;
 import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.persistence.Connector;
-import vitniksys.backend.model.entities.ClientePreferencial;
+import vitniksys.backend.model.entities.PreferentialClient;
 
 public class ClientManagementController
 {
@@ -26,7 +26,7 @@ public class ClientManagementController
     // ================================= protected methods =================================
 
     // ================================= public methods =================================
-    public void registerClient(ClientePreferencial cp) throws Exception
+    public void registerClient(PreferentialClient cp) throws Exception
     {
         OperationResult operationResult = new OperationResult();
         try

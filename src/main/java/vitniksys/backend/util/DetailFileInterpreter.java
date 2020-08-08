@@ -6,13 +6,13 @@ import java.util.Scanner;
 import java.util.Iterator;
 import java.util.ArrayList;
 import vitniksys.backend.model.enums.TipoArt;
-import vitniksys.backend.model.entities.Camp;
-import vitniksys.backend.model.entities.Lider;
-import vitniksys.backend.model.entities.Pedido;
-import vitniksys.backend.model.entities.Articulo;
-import vitniksys.backend.model.entities.ClienteBase;
-import vitniksys.backend.model.entities.ClienteSubordinado;
-import vitniksys.backend.model.entities.ClientePreferencial;
+import vitniksys.backend.model.entities.Campaign;
+import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.entities.PreferentialClient;
 
 /**
 *This class contains the algorithm for translate the information
@@ -66,11 +66,11 @@ public class DetailFileInterpreter extends PedidosObtainer
             row = detailFileRowsIterator.next();
             if(row.getLeaderId() != -1 && !ret.exist(row.getLeaderId()))
             {
-                ret.add(new Lider(row.getLeaderId()));
+                ret.add(new Leader(row.getLeaderId()));
             }  
         }
         System.out.println("================ Associated Leaders ================");
-        Iterator<ClientePreferencial> printList = ret.iterator();
+        Iterator<PreferentialClient> printList = ret.iterator();
         while(printList.hasNext())
         {
             System.out.println(printList.next().toString()); 
@@ -80,14 +80,14 @@ public class DetailFileInterpreter extends PedidosObtainer
 
     private ClientList getOrderMakers(ClientList associatedLeaders)
     {
-        Pedido order;
-        Articulo article;
-        ClientePreferencial client;
+        Order order;
+        Article article;
+        PreferentialClient client;
         DetailFileRow row;
         ClientList ret = new ClientList();
         Iterator<DetailFileRow> detailFileRowsIterator = this.detailFileRows.iterator();
 
-        ClienteSubordinado subClient;
+        SubordinatedClient subClient;
 
         while(detailFileRowsIterator.hasNext())
         {
@@ -96,13 +96,13 @@ public class DetailFileInterpreter extends PedidosObtainer
             {
                 if(row.getLeaderId() != -1)
                 {
-                    subClient = new ClienteSubordinado(row.getClientId());
-                    subClient.setLider((Lider)associatedLeaders.get(associatedLeaders.locate(row.getLeaderId())));
+                    subClient = new SubordinatedClient(row.getClientId());
+                    subClient.setLeader((Leader)associatedLeaders.get(associatedLeaders.locate(row.getLeaderId())));
                     ret.add(subClient);
                 }
                 else
                 {
-                    ret.add(new ClienteBase(row.getClientId()));
+                    ret.add(new BaseClient(row.getClientId()));
                 }
             }  
         }
@@ -124,16 +124,16 @@ public class DetailFileInterpreter extends PedidosObtainer
             
             //all orders are commissionable by default and it's supposed to
             //be checked manually by the user if some orders are not commissionable.
-            order = new Pedido(row.getQuant(), row.getPrice(), true);
-            article = new Articulo(row.getLetters(), row.getName(), TipoArt.inferType(row.getObs()), row.getUnitPrice());
-            order.setArticulo(article);
-            order.setCamp(new Camp(row.getCampNumb()));
+            order = new Order(row.getQuant(), row.getPrice(), true);
+            article = new Article(row.getLetters(), row.getName(), TipoArt.inferType(row.getObs()), row.getUnitPrice());
+            order.setArticle(article);
+            order.setCampaign(new Campaign(row.getCampNumb()));
 
             client.getIncomingOrders().add(order);
         }
 
         System.out.println("================ Order Makers ================");
-        Iterator<ClientePreferencial> printList = ret.iterator();
+        Iterator<PreferentialClient> printList = ret.iterator();
         while(printList.hasNext())
         {
             System.out.println(printList.next().toString()); 
@@ -145,7 +145,7 @@ public class DetailFileInterpreter extends PedidosObtainer
 
     // ================================= public methods = ================================
     @Override
-    public List<ClientePreferencial> getInfo()
+    public List<PreferentialClient> getInfo()
     {
         String [] splitedLine;
         

@@ -40,12 +40,12 @@
       </AnchorPane>
       <AnchorPane layoutX="440.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="420.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <Label alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Artículos pedidos:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="artPedidosQuantityFixed" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Artículos pedidos:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Artículos retirados" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="artRetiradosQuantityFixed" alignment="CENTER_RIGHT" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Artículos retirados" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -60,22 +60,22 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En pedidos:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInPedidosFixed" alignment="CENTER_RIGHT" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En pedidos:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Artículos devueltos:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="artDevueltosQuantityFixed" alignment="CENTER_RIGHT" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Artículos devueltos:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Artículos recomprados:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="artRecompradosQuantityFixed" alignment="CENTER_RIGHT" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Artículos recomprados:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En retiros:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInRetirosFixed" alignment="CENTER_RIGHT" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En retiros:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -100,12 +100,12 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En devoluciones:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInDevolucionesFixed" alignment="CENTER_RIGHT" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En devoluciones:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En recompras:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInRecomprasFixed" alignment="CENTER_RIGHT" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En recompras:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -120,7 +120,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="catálogos entregados:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="catEntregadosQuantityFixed" alignment="CENTER_RIGHT" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="catálogos entregados:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -130,7 +130,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="290.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En catálogos:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label fx:id="totalInCatalogosFixed" alignment="CENTER_RIGHT" layoutY="290.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="En catálogos:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
@@ -140,7 +140,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="noResultMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="370.0" text="No hay resultados" textAlignment="CENTER">
+            <Label fx:id="noResultMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="187.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="370.0" text="No hay resultados" textAlignment="CENTER">
                <font>
                   <Font name="Verdana" size="40.0" />
                </font>

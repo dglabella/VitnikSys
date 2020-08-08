@@ -2,12 +2,12 @@ package vitniksys.backend.util;
 
 import java.util.List;
 import java.util.concurrent.Callable;
-import vitniksys.backend.model.entities.ClientePreferencial;
+import vitniksys.backend.model.entities.PreferentialClient;
 
 /**
  * A "PedidosObtainer" object performs a process to obtain the incoming "pedidos".
  */
-public abstract class PedidosObtainer implements Callable<List<ClientePreferencial>>
+public abstract class PedidosObtainer implements Callable<List<PreferentialClient>>
 {
     /**
      * This method should not be called directly, instead the object that call
@@ -19,10 +19,10 @@ public abstract class PedidosObtainer implements Callable<List<ClientePreferenci
      * @return A list with all the the Clients with "incoming Orders".
      * @see ExecutorService.newSingleThreadExecutor().submit()
      */
-    protected abstract List<ClientePreferencial> getInfo();
+    protected abstract List<PreferentialClient> getInfo();
 
     @Override
-    public List<ClientePreferencial> call()
+    public List<PreferentialClient> call()
     {
         return getInfo();
     }

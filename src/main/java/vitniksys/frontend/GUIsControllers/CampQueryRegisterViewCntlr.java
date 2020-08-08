@@ -3,7 +3,6 @@ package vitniksys.frontend.GUIsControllers;
 import java.net.URL;
 import java.io.File;
 import vitniksys.App;
-import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -24,6 +23,7 @@ import vitniksys.backend.model.enums.Mes;
 import javafx.collections.ObservableList;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
+import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
@@ -46,6 +46,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
 
     // ================================= FXML variables =================================
     @FXML private TextField campNumber;
+    @FXML private TextField campAlias;
     @FXML private TextField campName;
     @FXML private TextField catalogoCode;
     
@@ -59,6 +60,17 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML private Label totalInDevoluciones;
     @FXML private Label totalInRecompras;
     @FXML private Label totalInCatalogos;
+    @FXML private Label artPedidosQuantityFixed;
+    @FXML private Label artRetiradosQuantityFixed;
+    @FXML private Label artDevueltosQuantityFixed;
+    @FXML private Label artRecompradosQuantityFixed;
+    @FXML private Label catEntregadosQuantityFixed;
+    @FXML private Label totalInPedidosFixed;
+    @FXML private Label totalInRetirosFixed;
+    @FXML private Label totalInDevolucionesFixed;
+    @FXML private Label totalInRecomprasFixed;
+    @FXML private Label totalInCatalogosFixed;
+
     @FXML private Label processWorking;
     @FXML private Label fileSelected;
     @FXML private Label filePath;
@@ -66,8 +78,8 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML private Label noResultMessage;
     @FXML private Label orders;
 
-    @FXML private ChoiceBox campMonth;
-    @FXML private ChoiceBox campYear;
+    @FXML private ChoiceBox<Mes> campMonth;
+    @FXML private ChoiceBox<Integer> campYear;
 
     @FXML private Button register;
     @FXML private Button cancel;
@@ -153,11 +165,11 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     @FXML
-    private void searchButtonPressed()
+    private void searchButtonPressed() throws Exception
     {
         if(this.nroCampCheck())
         {
-            this.campManagementController.searchCamp();
+            this.campManagementController.searchCamp(Integer.parseInt(this.campNumber.getText()));
         }
     }
 
@@ -242,8 +254,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     {
         //Creating the expresssion checker object for checking inputs.
         expressionChecker = ExpressionChecker.getExpressionChecker();
-        this.campManagementController = new CampManagementController();
-        this.campManagementController.setOperationResultView(this);
+        this.campManagementController = new CampManagementController(this, this);
 
         //Setting values for campMonth choice box.
         ObservableList<Mes> months = FXCollections.observableArrayList(null, Mes.ENERO, Mes.FEBRERO, Mes.MARZO, Mes.ABRIL, Mes.MAYO, Mes.JUNIO,
@@ -278,19 +289,66 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showNoResult()
     {
-        this.noResultMessage.setDisable(false);
+        this.artDevueltosQuantity.setVisible(false);
+        this.artPedidosQuantity.setVisible(false);
+        this.artRecompradosQuantity.setVisible(false);
+        this.artRetiradosQuantity.setVisible(false);
+        this.catEntregadosQuantity.setVisible(false);
+        this.totalInCatalogos.setVisible(false);
+        this.totalInDevoluciones.setVisible(false);
+        this.totalInPedidos.setVisible(false);
+        this.totalInRecompras.setVisible(false);
+        this.totalInRetiros.setVisible(false);
+        this.artDevueltosQuantityFixed.setVisible(false);
+        this.artPedidosQuantityFixed.setVisible(false);
+        this.artRecompradosQuantityFixed.setVisible(false);
+        this.artRetiradosQuantityFixed.setVisible(false);
+        this.catEntregadosQuantityFixed.setVisible(false);
+        this.totalInCatalogosFixed.setVisible(false);
+        this.totalInDevolucionesFixed.setVisible(false);
+        this.totalInPedidosFixed.setVisible(false);
+        this.totalInRecomprasFixed.setVisible(false);
+        this.totalInRetirosFixed.setVisible(false);
+
+        this.noResultMessage.setVisible(true);
     }
 
     @Override
-    public void showQueriedCamp()
+    public void showQueriedCamp(Campaign campaign)
     {
-           
+        this.noResultMessage.setVisible(false);
+        
+        this.campNumber.setText(Integer.toString(campaign.getNumber()));
+        this.campAlias.setText(campaign.getAlias());
+        this.campName.setText(campaign.getName());
+        this.campMonth.setValue(campaign.getMonth());
+        this.campYear.setValue(campaign.getYear());
+
+        this.artDevueltosQuantity.setVisible(true);
+        this.artPedidosQuantity.setVisible(true);
+        this.artRecompradosQuantity.setVisible(true);
+        this.artRetiradosQuantity.setVisible(true);
+        this.catEntregadosQuantity.setVisible(true);
+        this.totalInCatalogos.setVisible(true);
+        this.totalInDevoluciones.setVisible(true);
+        this.totalInPedidos.setVisible(true);
+        this.totalInRecompras.setVisible(true);
+        this.totalInRetiros.setVisible(true);
+        this.artDevueltosQuantityFixed.setVisible(true);
+        this.artPedidosQuantityFixed.setVisible(true);
+        this.artRecompradosQuantityFixed.setVisible(true);
+        this.artRetiradosQuantityFixed.setVisible(true);
+        this.catEntregadosQuantityFixed.setVisible(true);
+        this.totalInCatalogosFixed.setVisible(true);
+        this.totalInDevolucionesFixed.setVisible(true);
+        this.totalInPedidosFixed.setVisible(true);
+        this.totalInRecomprasFixed.setVisible(true);
+        this.totalInRetirosFixed.setVisible(true);
     }
 
     @Override
     public void showResult(OperationResult operationResult)
     {
         new CustomAlert().defaultShow(operationResult);
-        this.getStage().close();
     }
 }

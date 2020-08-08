@@ -10,13 +10,13 @@ import javafx.scene.control.DatePicker;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.OperationResult;
-import vitniksys.backend.model.entities.Lider;
+import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.frontend.views.OperationResultView;
-import vitniksys.backend.model.entities.ClienteBase;
+import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.controllers.ClientManagementController;
-import vitniksys.backend.model.entities.ClienteSubordinado;
-import vitniksys.backend.model.entities.ClientePreferencial;
+import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.entities.PreferentialClient;
 
 public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable, OperationResultView
 {
@@ -146,16 +146,16 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        ClientePreferencial client;
+        PreferentialClient client;
     
         if(this.leaderId.getText().isEmpty())
         {
-            client =  new ClienteBase(Integer.parseInt(this.id.getText()), this.name.getText().toUpperCase(), this.lastName.getText().toUpperCase());
+            client =  new BaseClient(Integer.parseInt(this.id.getText()), this.name.getText().toUpperCase(), this.lastName.getText().toUpperCase());
         }
         else
         {
-            client =  new ClienteSubordinado(Integer.parseInt(this.id.getText()), this.name.getText().toUpperCase(), this.lastName.getText().toUpperCase());
-            ((ClienteSubordinado)client).setLider(new Lider(Integer.parseInt(this.leaderId.getText())));
+            client =  new SubordinatedClient(Integer.parseInt(this.id.getText()), this.name.getText().toUpperCase(), this.lastName.getText().toUpperCase());
+            ((SubordinatedClient)client).setLeader(new Leader(Integer.parseInt(this.leaderId.getText())));
         }
 
         client.setDni(!this.dni.getText().isEmpty()? Long.parseLong(this.dni.getText()) : 0);
@@ -174,7 +174,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     @Override
     protected void refresh()
     {
-
+        
     }
 
     // ================================= public methods =================================
