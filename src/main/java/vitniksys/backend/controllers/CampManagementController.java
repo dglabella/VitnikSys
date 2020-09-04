@@ -2,26 +2,24 @@ package vitniksys.backend.controllers;
 
 import java.util.List;
 import java.util.Iterator;
-import java.util.concurrent.Future;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
-import vitniksys.backend.model.entities.Campaign;
+import javafx.application.Platform;
+//import java.util.concurrent.Executors;
+import vitniksys.backend.model.enums.Mes;
+//import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.util.PedidosObtainer;
+import vitniksys.backend.model.entities.Campaign;
+import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.persistence.Connector;
-import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.frontend.views.CampQueryRegisterView;
-import vitniksys.backend.model.persistence.CampaignOperator;
+import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
 public class CampManagementController
 {
-    //The list for save the result of "pedidosObtainer".
-    //only used when detail file is loaded.
-    private Future<List<PreferentialClient>> customersWithNewOrders;
-
     //Views
     private CampQueryRegisterView campQueryRegisterView;
     private OperationResultView operationResultView;
@@ -42,12 +40,6 @@ public class CampManagementController
     {
         this.operationResultView = operationResultView;
     }
-    
-    public Future<List<PreferentialClient>> getCustomersWithNewOrders()
-    {
-        return this.customersWithNewOrders;
-    }
-
 
     // ================================= private methods =================================
 
@@ -64,6 +56,146 @@ public class CampManagementController
             {
                 OrderOperator.getOperator();
                 this.campQueryRegisterView.showQueriedCamp(camp);
+            }
+            else
+            {
+                this.campQueryRegisterView.showNoResult();
+            }
+        }
+        catch (Exception exception)
+        {
+            operationResult.setCode(OperationResult.ERROR);
+            operationResult.setException(exception);
+            this.operationResultView.showResult(operationResult);
+        }
+        finally
+        {
+            Connector.getConnector().closeConnection();
+        }
+    }
+
+    public void searchCamp(String campAlias) throws Exception
+    {
+        OperationResult operationResult = new OperationResult();
+        try
+        {
+            Campaign camp = CampaignOperator.getOperator().find(campAlias);
+            if(camp != null)
+            {
+                OrderOperator.getOperator();
+                this.campQueryRegisterView.showQueriedCamp(camp);
+            }
+            else
+            {
+                this.campQueryRegisterView.showNoResult();
+            }
+        }
+        catch (Exception exception)
+        {
+            operationResult.setCode(OperationResult.ERROR);
+            operationResult.setException(exception);
+            this.operationResultView.showResult(operationResult);
+        }
+        finally
+        {
+            Connector.getConnector().closeConnection();
+        }
+    }
+
+    public void searchCamp(Mes month, int year) throws Exception
+    {
+        OperationResult operationResult = new OperationResult();
+        try
+        {
+            Campaign camp = CampaignOperator.getOperator().find(month, year);
+            if(camp != null)
+            {
+                OrderOperator.getOperator();
+                this.campQueryRegisterView.showQueriedCamp(camp);
+            }
+            else
+            {
+                this.campQueryRegisterView.showNoResult();
+            }
+        }
+        catch (Exception exception)
+        {
+            operationResult.setCode(OperationResult.ERROR);
+            operationResult.setException(exception);
+            this.operationResultView.showResult(operationResult);
+        }
+        finally
+        {
+            Connector.getConnector().closeConnection();
+        }
+    }
+
+    public void searchCamps(Mes month) throws Exception
+    {
+        OperationResult operationResult = new OperationResult();
+        try
+        {
+            List<Campaign> camps = CampaignOperator.getOperator().findAll(month);
+            if(camps != null)
+            {
+                OrderOperator.getOperator();
+                this.campQueryRegisterView.showQueriedCamp(camps);
+            }
+            else
+            {
+                this.campQueryRegisterView.showNoResult();
+            }
+        }
+        catch (Exception exception)
+        {
+            operationResult.setCode(OperationResult.ERROR);
+            operationResult.setException(exception);
+            this.operationResultView.showResult(operationResult);
+        }
+        finally
+        {
+            Connector.getConnector().closeConnection();
+        }
+    }
+
+    public void searchCamps(int year) throws Exception
+    {
+        OperationResult operationResult = new OperationResult();
+        try
+        {
+            List<Campaign> camps = CampaignOperator.getOperator().findAll(year);
+            if(camps != null)
+            {
+                OrderOperator.getOperator();
+                this.campQueryRegisterView.showQueriedCamp(camps);
+            }
+            else
+            {
+                this.campQueryRegisterView.showNoResult();
+            }
+        }
+        catch (Exception exception)
+        {
+            operationResult.setCode(OperationResult.ERROR);
+            operationResult.setException(exception);
+            this.operationResultView.showResult(operationResult);
+        }
+        finally
+        {
+            Connector.getConnector().closeConnection();
+        }
+    }
+
+    public void searchCampsByCatalogue(int code) throws Exception
+    {
+        OperationResult operationResult = new OperationResult();
+        try
+        {
+            List<Campaign> camps = CampaignOperator.getOperator().findAll(code);
+            if(camps != null)
+            {
+                OrderOperator.getOperator();
+                this.campQueryRegisterView.showQueriedCamp(camps);
             }
             else
             {
@@ -112,14 +244,19 @@ public class CampManagementController
 
     public void obtainOrders(PedidosObtainer pedidosObtainer) throws Exception
     {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        this.customersWithNewOrders = executorService.submit(pedidosObtainer);
+        //Executor service creates threads that are not JavaFX threads
+        //and thread that are not javaFX threads cannot change the GUI
+        //ExecutorService executorService = Executors.newSingleThreadExecutor();
+        //executorService.execute(pedidosObtainer);
+        //executorService.submit(pedidosObtainer);
+        Platform.runLater(pedidosObtainer);
     }
 
     public void registerOrders(List<PreferentialClient> cps) throws Exception
     {
         OperationResult operationResult = new OperationResult();
-        try{
+        try
+        {
             Connector.getConnector().startTransaction();
             
             PreferentialClient cp;

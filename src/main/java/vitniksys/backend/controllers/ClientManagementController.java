@@ -3,6 +3,9 @@ package vitniksys.backend.controllers;
 import vitniksys.backend.util.OperationResult;
 import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.persistence.Connector;
+import vitniksys.backend.model.persistence.BalanceOperator;
+import vitniksys.backend.model.persistence.CampaignOperator;
+import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 public class ClientManagementController
@@ -34,6 +37,11 @@ public class ClientManagementController
             Connector.getConnector().startTransaction();
 
             cp.operator().insert(cp);
+
+            Balance balance = new Balance();
+            balance.setClient(cp);
+            balance.setCamp(CampaignOperator.getOperator().findLast());
+            BalanceOperator.getOperator().insert(balance);
 
             Connector.getConnector().commit();
 

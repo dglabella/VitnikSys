@@ -3,13 +3,13 @@ package vitniksys.backend.model.persistence;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
 
 public class Connector
 {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis";
+    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis"; //SET GLOBAL time_zone = '-3:00'
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -60,7 +60,6 @@ public class Connector
     {
         Connector.connection.rollback();
     }
-
 
     public void endTransaction() throws SQLException
     {

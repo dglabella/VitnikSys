@@ -15,16 +15,16 @@ public class CampaignOperator implements ICampaignOperator
 
     private CampaignOperator()
     {
-        //Empty Constructor
-    }        
+        // Empty Constructor
+    }
 
     public static CampaignOperator getOperator()
     {
-        if(CampaignOperator.operator == null)
+        if (CampaignOperator.operator == null)
             CampaignOperator.operator = new CampaignOperator();
 
-		return CampaignOperator.operator;
-	}
+        return CampaignOperator.operator;
+    }
 
     @Override
     public int insert(Campaign e) throws Exception
@@ -58,7 +58,7 @@ public class CampaignOperator implements ICampaignOperator
 
         ResultSet resultSet = statement.executeQuery();
 
-        if(resultSet.next())
+        if (resultSet.next())
         {
             ret = new Campaign(resultSet.getInt(1), Mes.ConvertIntToEnum(resultSet.getInt(4)), resultSet.getInt(5));
             ret.setName(resultSet.getString(2));
@@ -71,10 +71,46 @@ public class CampaignOperator implements ICampaignOperator
     }
 
     @Override
+    public Campaign find(String alias) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Campaign find(Mes month, int year) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Campaign> findAll(Mes month) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Campaign> findAll(int year) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Campaign> findByCatalogue(int code) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public Campaign findLast() throws Exception
     {
         Campaign ret = null;
-        //String sqlStmnt = "SELECT * FROM `camps` WHERE `active_row` = ? ORDER BY `nro_camp` DESC;";
+        // String sqlStmnt = "SELECT * FROM `camps` WHERE `active_row` = ? ORDER BY
+        // `nro_camp` DESC;";
         String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = (SELECT MAX(`nro_camp`) FROM `camps` WHERE `active_row` = ?) AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, ACTIVE_ROW);
@@ -82,12 +118,14 @@ public class CampaignOperator implements ICampaignOperator
 
         ResultSet resultSet = statement.executeQuery();
 
-        if(resultSet.next())
+        if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), Mes.ConvertIntToEnum(resultSet.getInt(3)), resultSet.getInt(4));
+            ret = new Campaign(resultSet.getInt(1), Mes.ConvertIntToEnum(resultSet.getInt(4)), resultSet.getInt(5));
             ret.setName(resultSet.getString(2));
-            ret.setRegistrationTime(resultSet.getTimestamp(5));
-            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
+            ret.setAlias(resultSet.getString(3));
+            ret.setRegistrationTime(resultSet.getTimestamp(6));
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+            ret.setActive(resultSet.getBoolean(8));
         }
 
         statement.close();

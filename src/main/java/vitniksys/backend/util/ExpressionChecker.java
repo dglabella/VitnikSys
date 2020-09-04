@@ -53,9 +53,15 @@ public class ExpressionChecker
             pattern = Pattern.compile("[\\d]{1,"+digitLimit+"}");
 
         if (pattern.matcher(string).matches())
+        {
+            System.out.println("true");
             ret = true;
+        }
         else
+        {
+            System.out.println("false");
             ret = false;
+        }
 
         return ret;
     }
@@ -146,23 +152,6 @@ public class ExpressionChecker
         return ret;
     }
 
-    public boolean isCodCat(String string, boolean allowEmpty)
-    {
-        boolean ret;
-
-        if(allowEmpty)
-            pattern = Pattern.compile("([123456]\\d\\d\\d\\d)?");
-        else
-            pattern = Pattern.compile("[123456]\\d\\d\\d\\d");
-
-        if (pattern.matcher(string).matches())
-            ret = true;
-        else
-            ret = false;
-
-        return ret;
-    }
-
     public boolean composedName(String string)
     {
         boolean ret;
@@ -174,6 +163,23 @@ public class ExpressionChecker
         else
             ret = false;
         
+        return ret;
+    }
+
+    public boolean isCatalogueCode(String string, boolean allowEmpty)
+    {
+        boolean ret;
+
+        if(allowEmpty)
+            pattern = Pattern.compile("([1-6]\\d\\d\\d\\d)?");
+        else
+            pattern = Pattern.compile("[1-6]\\d\\d\\d\\d");
+
+        if (pattern.matcher(string).matches())
+            ret = true;
+        else
+            ret = false;
+
         return ret;
     }
 }

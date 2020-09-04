@@ -19,6 +19,11 @@ public class Balance
     //Others
     private boolean active;
 
+    public Balance()
+    {
+        //Default Balance
+    }
+
     public Balance(float balance, float totalInOrdersCom, float totalInOrdersNonCom, float totalInCatalogues, 
     float totalInRepurchases, float totalInPayments, float totalInDevolutions, float totalInCommission)
     {

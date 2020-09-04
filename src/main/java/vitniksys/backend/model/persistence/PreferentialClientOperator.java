@@ -55,14 +55,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
 
         returnCode = statement.executeUpdate();
         statement.close();
-
-        //BALANCE REGISTRATION
-        sqlStmnt = "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?)";
-        statement = Connector.getConnector().getStatement(sqlStmnt);
-        statement.setInt(1, cp.getId());
-
-        
-        
+  
         return returnCode;
     }
     

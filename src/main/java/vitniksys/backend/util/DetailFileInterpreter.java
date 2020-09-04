@@ -6,11 +6,12 @@ import java.util.Scanner;
 import java.util.Iterator;
 import java.util.ArrayList;
 import vitniksys.backend.model.enums.TipoArt;
-import vitniksys.backend.model.entities.Campaign;
-import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 
@@ -48,8 +49,9 @@ public class DetailFileInterpreter extends PedidosObtainer
      * and no data from the file can be obtained.
      * @return an interpreter instance.
      */
-    public DetailFileInterpreter(File detailFile)
+    public DetailFileInterpreter(CampQueryRegisterView campQueryRegisterView, File detailFile)
     {
+        super(campQueryRegisterView);
         this.detailFile = detailFile;
         this.detailFileRows = new ArrayList<>();
     }
@@ -145,7 +147,7 @@ public class DetailFileInterpreter extends PedidosObtainer
 
     // ================================= public methods = ================================
     @Override
-    public List<PreferentialClient> getInfo()
+    public void getInfo()
     {
         String [] splitedLine;
         
@@ -173,7 +175,18 @@ public class DetailFileInterpreter extends PedidosObtainer
             e.printStackTrace();
             orderMakers = null;
         }
+        
+        //Emulates a long interpretation process
+        try
+        {
+            Thread.sleep(3000);
+            //Thread.currentThread().   
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
 
-        return orderMakers;
+        this.getCampQueryRegisterView().orderObtentionCompleted(orderMakers);
     }
 }

@@ -8,15 +8,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
 import vitniksys.backend.util.CustomAlert;
-import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.entities.BaseClient;
-import vitniksys.backend.controllers.ClientManagementController;
+import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.controllers.ClientManagementController;
 
 public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable, OperationResultView
 {
@@ -163,9 +162,9 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
         client.setBirthdate(this.birthdate.getValue());
         client.setEmail(this.email.getText());
         client.setPhoneNumber(!this.phoneNumber.getText().isEmpty()? Long.parseLong(this.phoneNumber.getText()) : 0);
-
+    
         //Use case initiation.
-        this.clientController.registerClient(client);   
+        this.clientController.registerClient(client);
     }
 
     // ================================= private methods =================================
@@ -174,7 +173,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     @Override
     protected void refresh()
     {
-        
+
     }
 
     // ================================= public methods =================================
