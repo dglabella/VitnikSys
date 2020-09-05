@@ -8,7 +8,33 @@ import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
 
 public abstract class PreferentialClientOperator implements IPreferentialClientOperator
-{      
+{
+    private Boolean activeRow;
+
+    /**
+     * Get the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base. Default value: true.
+     * 
+     * @return The state of the entity.
+     */
+    public Boolean isActiveRow()
+    {
+        return this.activeRow;
+    }
+
+    /**
+     * Change the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @param activeRow the value for the operation.
+     */
+    public void setActiveRow(Boolean activeRow)
+    {
+        this.activeRow = activeRow;
+    }
+
     @Override
     public int update(PreferentialClient cp)
     {

@@ -53,4 +53,31 @@ public class CustomAlert extends Alert
         }
         this.showAndWait();   
     }
+
+    public void customShow(OperationResult operationResult)
+    {
+        this.setHeaderText(operationResult.getShortMessage());
+
+        if(operationResult.getCode() == OperationResult.ERROR)
+        {
+            this.setAlertType(AlertType.ERROR);
+            this.setTitle(DEFAULT_ERROR_TITLE);
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            operationResult.getException().printStackTrace(pw);
+            String stackTraceMessage = sw.toString(); // stack trace as a string
+
+            TextArea textArea = new TextArea(operationResult.getDescription()+"\n\n"+stackTraceMessage);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            //textArea.setMaxWidth(Double.MAX_VALUE);
+            //textArea.setMaxHeight(Double.MAX_VALUE);
+
+            Pane pane = new Pane();
+            //pane.setMaxWidth(Double.MAX_VALUE);
+            pane.getChildren().add(textArea);
+            this.getDialogPane().setExpandableContent(pane);
+        }
+        this.showAndWait();   
+    }
 }

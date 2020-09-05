@@ -27,5 +27,5 @@ public interface CrudOperator<Entity>
      * Find all the registered entities of that type.
      * @return A list of all entities found.
      */
-    List<Entity> findAll() throws Exception;  
+    List<Entity> findAll() throws Exception;
  }

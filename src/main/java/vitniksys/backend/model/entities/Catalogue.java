@@ -5,11 +5,11 @@ import java.util.List;
 public class Catalogue
 {
     //Entity properties
-    private int code;
+    private Integer code;
     private int initialStock;
+    private int actualStock;
     private float price;
     private String link;
-    private int actualStock;
 
     //Domain Associations
     private Campaign[] campaigns;
@@ -18,7 +18,7 @@ public class Catalogue
     //Others
     private boolean active;
 
-    public Catalogue(int code, int initialStock, float price)
+    public Catalogue(Integer code, int initialStock, float price)
     {
         this.code = code;
         this.initialStock = initialStock;
@@ -30,7 +30,7 @@ public class Catalogue
      * 
      * @return return the BD table key (column name: cod).
      */
-    public int getCode() 
+    public Integer getCode() 
     {
         return this.code;
     }
@@ -39,7 +39,7 @@ public class Catalogue
      * 
      * @param code set the BD table key (column name: cod).
      */
-    public void setCode(int code)
+    public void setCode(Integer code)
     {
         this.code = code;
     }

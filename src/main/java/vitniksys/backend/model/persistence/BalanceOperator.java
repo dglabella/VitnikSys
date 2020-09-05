@@ -8,6 +8,8 @@ import vitniksys.backend.model.interfaces.IBalanceOperator;
 public class BalanceOperator implements IBalanceOperator
 {
     private static BalanceOperator operator;
+    
+    private Boolean activeRow;
 
     private BalanceOperator()
     {
@@ -20,6 +22,30 @@ public class BalanceOperator implements IBalanceOperator
             BalanceOperator.operator = new BalanceOperator();
 
         return BalanceOperator.operator;
+    }
+
+    /**
+     * Get the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @return The state of the entity.
+     */
+    public Boolean isActiveRow()
+    {
+        return this.activeRow;
+    }
+
+    /**
+     * Change the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @param activeRow the value for the operation.
+     */
+    public void setActiveRow(Boolean activeRow)
+    {
+        this.activeRow = activeRow;
     }
 
     @Override

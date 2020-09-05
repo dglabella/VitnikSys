@@ -146,9 +146,10 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         if(allFieldsOkForRegistration())
         {
             this.campManagementController.registerCamp(Integer.parseInt(this.campNumber.getText()),
-                                                        this.campAlias.getText(),
+                                                        this.campAlias.getText().toUpperCase(),
                                                         this.campMonth.getValue(),
-                                                        this.campYear.getValue());
+                                                        this.campYear.getValue(),
+                !this.catalogoCode.getText().isEmpty()?Integer.parseInt(this.catalogoCode.getText()):null);
         }
 
         if(this.orderMakers != null)
@@ -528,7 +529,8 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showResult(OperationResult operationResult)
     {
-        new CustomAlert().defaultShow(operationResult);
+        //new CustomAlert().defaultShow(operationResult);
+        new CustomAlert().customShow(operationResult);
     }
 
     @Override

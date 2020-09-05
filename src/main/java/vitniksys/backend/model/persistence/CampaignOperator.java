@@ -1,6 +1,7 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
+import java.sql.Types;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.enums.Mes;
@@ -11,11 +12,11 @@ public class CampaignOperator implements ICampaignOperator
 {
     private static CampaignOperator operator;
 
-    private final boolean ACTIVE_ROW = true;
+    private Boolean activeRow;
 
     private CampaignOperator()
     {
-        // Empty Constructor
+        this.activeRow = true;
     }
 
     public static CampaignOperator getOperator()
@@ -26,11 +27,53 @@ public class CampaignOperator implements ICampaignOperator
         return CampaignOperator.operator;
     }
 
-    @Override
-    public int insert(Campaign e) throws Exception
+    /**
+     * Get the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @return The state of the entity.
+     */
+    public Boolean isActiveRow()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.activeRow;
+    }
+
+    /**
+     * Change the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @param activeRow the value for the operation.
+     */
+    public void setActiveRow(Boolean activeRow)
+    {
+        this.activeRow = activeRow;
+    }
+
+    @Override
+    public int insert(Campaign camp) throws Exception
+    {
+        int returnCode;
+        String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `nombre`, `alias`, `mes`, `year` , `cod_cat`) VALUES"+
+        "(?, ?, ?, ?, ?, ?);";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, camp.getNumber());
+        statement.setString(2, camp.getName());
+        statement.setString(3, camp.getAlias());
+        statement.setInt(4, Mes.ConvertEnumToInt(camp.getMonth()));
+        statement.setInt(5, camp.getYear());
+
+        if(camp.getCatalogue()!=null && camp.getCatalogue().getCode()!=null)
+            statement.setInt(6, camp.getCatalogue().getCode());
+        else
+            statement.setNull(6, Types.INTEGER);
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+  
+        return returnCode;
     }
 
     @Override
@@ -54,7 +97,7 @@ public class CampaignOperator implements ICampaignOperator
         String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setInt(1, id);
-        statement.setBoolean(2, ACTIVE_ROW);
+        statement.setBoolean(2, this.activeRow);
 
         ResultSet resultSet = statement.executeQuery();
 
@@ -113,8 +156,8 @@ public class CampaignOperator implements ICampaignOperator
         // `nro_camp` DESC;";
         String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = (SELECT MAX(`nro_camp`) FROM `camps` WHERE `active_row` = ?) AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
-        statement.setBoolean(1, ACTIVE_ROW);
-        statement.setBoolean(2, ACTIVE_ROW);
+        statement.setBoolean(1, this.activeRow);
+        statement.setBoolean(2, this.activeRow);
 
         ResultSet resultSet = statement.executeQuery();
 

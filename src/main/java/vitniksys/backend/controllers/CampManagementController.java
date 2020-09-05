@@ -5,6 +5,7 @@ import java.util.Iterator;
 import javafx.application.Platform;
 //import java.util.concurrent.Executors;
 import vitniksys.backend.model.enums.Mes;
+import vitniksys.backend.util.CustomAlert;
 //import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.util.PedidosObtainer;
@@ -16,6 +17,7 @@ import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CampaignOperator;
+import vitniksys.backend.model.persistence.CatalogueOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
 public class CampManagementController
@@ -289,9 +291,54 @@ public class CampManagementController
         }
     }
 
-    public void registerCamp(int campNumb, String campAlias, Mes month, int year)
+    public void registerCamp(int campNumb, String campAlias, Mes month, int year, Integer catalogueCode) throws Exception
     {
+        OperationResult operationResult = new OperationResult();
+
+        //Succes on normal execution flow
+        operationResult.setCode(OperationResult.SUCCES);
         Campaign camp = new Campaign(campNumb, month, year);
         camp.setAlias(campAlias);
+
+        try
+        {
+            Connector.getConnector().startTransaction();
+
+            if(catalogueCode!=null)
+            {
+                Catalogue catalogue = CatalogueOperator.getOperator().find(catalogueCode);
+
+                if(catalogue!=null)
+                {
+                    camp.setCatalogue(catalogue);
+                }
+                else
+                {
+                    operationResult.setCode(OperationResult.ERROR);
+                    operationResult.setShortMessage("No existe el catálogo especificado.");
+                    operationResult.setDescription("Si desea asociar el catálogo "+catalogueCode+
+                    " a la campaña "+campNumb+" puede registrar primero el catálogo presionando "+
+                    "el botón \"mas\" cercano al campo del catálogo.");
+                    throw OperationResult.getNoException();
+                }
+            }
+
+            CampaignOperator.getOperator().insert(camp);
+
+            Connector.getConnector().commit();
+        }
+        catch (Exception exception)
+        {
+            Connector.getConnector().rollBack();
+            
+            operationResult.setCode(OperationResult.ERROR);
+            operationResult.setException(exception);
+        }
+        finally
+        {
+            Connector.getConnector().endTransaction();
+            Connector.getConnector().closeConnection();
+            this.operationResultView.showResult(operationResult);
+        }
 	}
 }

@@ -9,7 +9,8 @@ import java.sql.PreparedStatement;
 public class Connector
 {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis"; //SET GLOBAL time_zone = '-3:00'
+    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis?serverTimezone=UTC"; 
+    //private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis";//SET GLOBAL time_zone = '-3:00'
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -21,7 +22,7 @@ public class Connector
         try
         {
             Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL, USER, PASS);
+            Connector.connection = DriverManager.getConnection(URL, USER, PASS);
         }
         catch (Exception ex)
         {

@@ -8,6 +8,7 @@ import vitniksys.backend.model.interfaces.IOrderOperator;
 public class OrderOperator implements IOrderOperator
 {
 	private static OrderOperator operator;
+	private Boolean activeRow;
 
 	private OrderOperator()
 	{
@@ -21,6 +22,30 @@ public class OrderOperator implements IOrderOperator
 
 		return OrderOperator.operator;
 	}
+
+	/**
+     * Get the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @return The state of the entity.
+     */
+    public Boolean isActiveRow()
+    {
+        return this.activeRow;
+    }
+
+    /**
+     * Change the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @param activeRow the value for the operation.
+     */
+    public void setActiveRow(Boolean activeRow)
+    {
+        this.activeRow = activeRow;
+    }
 
 	@Override
 	public int insert(Order e) throws Exception

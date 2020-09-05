@@ -1,54 +1,97 @@
 package vitniksys.backend.model.persistence;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.interfaces.ICatalogueOperator;
 
 //This class intanciates the DAO Object for Catalogo
-public class CatalogueOperator implements ICatalogueOperator
-{
+public class CatalogueOperator implements ICatalogueOperator {
 
     private static CatalogueOperator operator;
+    private Boolean activeRow;
 
     private CatalogueOperator()
     {
-        //Empty constructor
+        this.activeRow = true;
     }
 
-    public static CatalogueOperator getOperator()
-    {
-        if(CatalogueOperator.operator == null)
+    public static CatalogueOperator getOperator() {
+        if (CatalogueOperator.operator == null)
             CatalogueOperator.operator = new CatalogueOperator();
-        
-        return CatalogueOperator.operator;
-	}
 
-    public int insert(Catalogue catalogue)
-    {
+        return CatalogueOperator.operator;
+    }
+
+    /**
+     * Get the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base. Default value: true.
+     * 
+     * @return The state of the entity.
+     */
+    public Boolean isActiveRow() {
+        return this.activeRow;
+    }
+
+    /**
+     * Change the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base. Default value: true.
+     * 
+     * @param activeRow the value for the operation.
+     */
+    public void setActiveRow(Boolean activeRow) {
+        this.activeRow = activeRow;
+    }
+
+    public int insert(Catalogue catalogue) {
         int errorCode = 0;
-        
+
         return errorCode;
     }
 
-    public Catalogue find(int id)
+    @Override
+    public Catalogue find(int code) throws Exception
     {
-        return null;
+        Catalogue ret = null;
+        String sqlStmnt = "SELECT * FROM `catalogos` WHERE `cod` = ? AND `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        statement.setInt(1, code);
+        statement.setBoolean(2, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next())
+        {
+            ret =  new Catalogue(code, resultSet.getInt(2), resultSet.getFloat(4));
+            ret.setActualStock(resultSet.getInt(3));
+            ret.setLink(resultSet.getString(5));
+            ret.setActive(this.activeRow);
+        }
+
+        statement.close();
+        return ret;
     }
 
-    public ArrayList<Catalogue> findAll()
+    @Override
+    public ArrayList<Catalogue> findAll() throws Exception
     {
         ArrayList<Catalogue> catalogos = new ArrayList<>();
         return catalogos;
     }
 
-    public int update(Catalogue catalogue)
+    @Override
+    public int update(Catalogue catalogue) throws Exception
     {
         int errorCode = 0;
 
         return errorCode;
     }
 
-    public int delete(int id)
+    @Override
+    public int delete(int id) throws Exception
     {
         int errorCode = 0;
 
