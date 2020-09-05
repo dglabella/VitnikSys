@@ -145,10 +145,10 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     {
         if(allFieldsOkForRegistration())
         {
-            Campaign camp =  new Campaign(Integer.parseInt(this.campNumber.getText()), this.campMonth.getValue(), this.campYear.getValue());
-            camp.setAlias(this.campAlias.getText());
-            camp.setName(this.campMonth.getValue().toString()+"-"+this.campYear.getValue());
-            camp
+            this.campManagementController.registerCamp(Integer.parseInt(this.campNumber.getText()),
+                                                        this.campAlias.getText(),
+                                                        this.campMonth.getValue(),
+                                                        this.campYear.getValue());
         }
 
         if(this.orderMakers != null)

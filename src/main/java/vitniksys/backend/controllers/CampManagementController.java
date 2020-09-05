@@ -288,4 +288,10 @@ public class CampManagementController
             this.operationResultView.showResult(operationResult);
         }
     }
+
+    public void registerCamp(int campNumb, String campAlias, Mes month, int year)
+    {
+        Campaign camp = new Campaign(campNumb, month, year);
+        camp.setAlias(campAlias);
+	}
 }

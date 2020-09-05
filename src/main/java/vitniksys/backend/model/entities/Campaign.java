@@ -35,7 +35,7 @@ public class Campaign
         this.number = number;
         this.month = month;
         this.year = year;
-        this.name = this.month.toString()+this.year;
+        this.name = this.month.toString()+"-"+this.year;
     }
 
     //Getters && Setters
