@@ -146,10 +146,10 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         if(allFieldsOkForRegistration())
         {
             this.campManagementController.registerCamp(Integer.parseInt(this.campNumber.getText()),
-                                                        this.campAlias.getText().toUpperCase(),
+                    !this.campAlias.getText().isEmpty()?this.campAlias.getText().toUpperCase():null,
                                                         this.campMonth.getValue(),
                                                         this.campYear.getValue(),
-                !this.catalogoCode.getText().isEmpty()?Integer.parseInt(this.catalogoCode.getText()):null);
+                    !this.catalogoCode.getText().isEmpty()?Integer.parseInt(this.catalogoCode.getText()):null);
         }
 
         if(this.orderMakers != null)
@@ -493,10 +493,15 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     {
         this.noResultMessage.setVisible(false);
 
-        this.campNumber.setText(Integer.toString(campaign.getNumber()));
-        this.campAlias.setText(campaign.getAlias());
+        //First, change the choicesBoxes values to avoid erase other fields.
+        //(Both choiceBoxes has changedListener attached)
         this.campMonth.setValue(campaign.getMonth());
         this.campYear.setValue(campaign.getYear());
+
+        this.campNumber.setText(Integer.toString(campaign.getNumber()));
+        this.campAlias.setText(campaign.getAlias());
+
+        this.select.setVisible(true);
 
         this.artDevueltosQuantity.setVisible(true);
         this.artPedidosQuantity.setVisible(true);
@@ -517,7 +522,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         this.totalInDevolucionesFixed.setVisible(true);
         this.totalInPedidosFixed.setVisible(true);
         this.totalInRecomprasFixed.setVisible(true);
-        this.totalInRetirosFixed.setVisible(true);
+        this.totalInRetirosFixed.setVisible(true);        
     }
 
     @Override

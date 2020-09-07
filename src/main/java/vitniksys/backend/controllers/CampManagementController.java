@@ -5,7 +5,6 @@ import java.util.Iterator;
 import javafx.application.Platform;
 //import java.util.concurrent.Executors;
 import vitniksys.backend.model.enums.Mes;
-import vitniksys.backend.util.CustomAlert;
 //import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.util.PedidosObtainer;
@@ -51,6 +50,10 @@ public class CampManagementController
     public void searchCamp(int campNumb) throws Exception
     {
         OperationResult operationResult = new OperationResult();
+
+        //Succes on normal execution flow
+        operationResult.setCode(OperationResult.SUCCES);
+        operationResult.setShortMessage(OperationResult.DEFAULT_SUCCES_MESSAGE);
         try
         {
             Campaign camp = CampaignOperator.getOperator().find(campNumb);
@@ -73,6 +76,7 @@ public class CampManagementController
         finally
         {
             Connector.getConnector().closeConnection();
+            this.operationResultView.showResult(operationResult);
         }
     }
 
@@ -297,6 +301,7 @@ public class CampManagementController
 
         //Succes on normal execution flow
         operationResult.setCode(OperationResult.SUCCES);
+        operationResult.setShortMessage(OperationResult.DEFAULT_SUCCES_MESSAGE);
         Campaign camp = new Campaign(campNumb, month, year);
         camp.setAlias(campAlias);
 
@@ -319,7 +324,8 @@ public class CampManagementController
                     operationResult.setDescription("Si desea asociar el catálogo "+catalogueCode+
                     " a la campaña "+campNumb+" puede registrar primero el catálogo presionando "+
                     "el botón \"mas\" cercano al campo del catálogo.");
-                    throw OperationResult.getNoException();
+
+                    throw OperationResult.forcedException();
                 }
             }
 

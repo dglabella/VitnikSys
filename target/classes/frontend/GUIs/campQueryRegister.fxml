@@ -159,7 +159,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <TextField fx:id="campAlias" alignment="CENTER" layoutX="210.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#campAliasCheck" prefHeight="30.0" prefWidth="125.0" />
+            <TextField fx:id="campAlias" layoutX="150.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#campAliasCheck" prefHeight="30.0" prefWidth="240.0" />
             <ChoiceBox fx:id="campMonth" layoutX="210.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
             <ChoiceBox fx:id="campYear" layoutX="210.0" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
             <JFXButton fx:id="select" buttonType="RAISED" layoutX="50.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#selectMethodButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="SELECCIONAR" />
@@ -205,7 +205,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Alias de campaña:" textAlignment="JUSTIFY" textFill="#434343">
+            <Label alignment="CENTER_RIGHT" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="140.0" text="Alias:" textAlignment="JUSTIFY" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>

@@ -2,6 +2,12 @@ package vitniksys.backend.util;
 
 public class OperationResult
 {
+    public static final String DEFAULT_SUCCES_MESSAGE = "The operation was succesfully done!";
+    public static final String DEFAULT_ERROR_MESSAGE = "An Error has ocurred!. For more information, click on \"Show details\".";
+    
+    public static final String DEFAULT_SUCCES_TITLE = "SUCCES";
+    public static final String DEFAULT_ERROR_TITLE = "ERROR";
+
     public static final int SUCCES = 1;
     public static final int ERROR = -1;
 
@@ -10,9 +16,9 @@ public class OperationResult
     private String description;
     private Exception exception;
 
-    public static Exception getNoException()
+    public static Exception forcedException()
     {
-        return new Exception("No exception occurred");
+        return new Exception("Forced exception thrown");
     }
 
     public int getCode()
@@ -25,7 +31,8 @@ public class OperationResult
         this.code = code;
     }
 
-    public String getShortMessage(){
+    public String getShortMessage()
+    {
         return this.shortMessage;
     }
 

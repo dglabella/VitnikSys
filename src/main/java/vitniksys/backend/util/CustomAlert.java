@@ -8,17 +8,11 @@ import javafx.scene.control.TextArea;
 
 public class CustomAlert extends Alert
 {
-    private static final String DEFAULT_SUCCES_MESSAGE = "The operation was succesfully done!";
-    private static final String DEFAULT_ERROR_MESSAGE = "An Error has ocurred!. For more information, click on \"Show details\".";
-
-    private static final String DEFAULT_SUCCES_TITLE = "SUCCES";
-    private static final String DEFAULT_ERROR_TITLE = "ERROR";
-
     public CustomAlert()
     {
         super(AlertType.INFORMATION);
-        this.setTitle(DEFAULT_SUCCES_TITLE);
-        this.setHeaderText(DEFAULT_SUCCES_MESSAGE);
+        this.setTitle(OperationResult.DEFAULT_SUCCES_TITLE);
+        this.setHeaderText(OperationResult.DEFAULT_SUCCES_MESSAGE);
     }
 
     public CustomAlert(AlertType type, String message)
@@ -33,8 +27,8 @@ public class CustomAlert extends Alert
         if(operationResult.getCode() == OperationResult.ERROR)
         {
             this.setAlertType(AlertType.ERROR);
-            this.setTitle(DEFAULT_ERROR_TITLE);
-            this.setHeaderText(DEFAULT_ERROR_MESSAGE);
+            this.setTitle(OperationResult.DEFAULT_ERROR_TITLE);
+            this.setHeaderText(OperationResult.DEFAULT_ERROR_MESSAGE);
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             operationResult.getException().printStackTrace(pw);
@@ -61,7 +55,7 @@ public class CustomAlert extends Alert
         if(operationResult.getCode() == OperationResult.ERROR)
         {
             this.setAlertType(AlertType.ERROR);
-            this.setTitle(DEFAULT_ERROR_TITLE);
+            this.setTitle(OperationResult.DEFAULT_ERROR_TITLE);
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             operationResult.getException().printStackTrace(pw);

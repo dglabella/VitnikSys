@@ -105,6 +105,7 @@ public class CampaignOperator implements ICampaignOperator
         {
             ret = new Campaign(resultSet.getInt(1), Mes.ConvertIntToEnum(resultSet.getInt(4)), resultSet.getInt(5));
             ret.setName(resultSet.getString(2));
+            ret.setAlias(resultSet.getString(3));
             ret.setRegistrationTime(resultSet.getTimestamp(6));
             ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
         }
