@@ -2,16 +2,16 @@ package vitniksys.backend.model.entities;
 
 import java.util.List;
 import java.sql.Timestamp;
-import vitniksys.backend.model.enums.Mes;
+import java.util.ArrayList;
 
 public class Campaign
 {
     //Entity properties
-    private int number;
+    private Integer number;
     private String name;
     private String alias;
-    private Mes month;
-    private int year;
+    private Integer month;
+    private Integer year;
     private Timestamp registrationTime;
 
     //Domain Associations
@@ -24,13 +24,17 @@ public class Campaign
 
     //Others
     private boolean active;
+
+    //incomingOrders is supposed to be used for
+    //registrate all new orders from this cp
+    private List<Order> incomingOrders;
     
-    public Campaign(int number)
+    public Campaign(Integer number)
     {
         this.number = number;
     }
 
-    public Campaign(int number, Mes month, int year)
+    public Campaign(Integer number, Integer month, Integer year)
     {
         this.number = number;
         this.month = month;
@@ -43,7 +47,7 @@ public class Campaign
      * 
      * @return return the BD table key (column name: nro_camp).
      */
-    public int getNumber()
+    public Integer getNumber()
     {
         return this.number;
     }
@@ -52,7 +56,7 @@ public class Campaign
      * 
      * @param number set the BD table key (column name: nro_camp).
      */
-    public void setNumber(int number)
+    public void setNumber(Integer number)
     {
         this.number = number;
     }
@@ -77,22 +81,22 @@ public class Campaign
         this.alias = alias;
     }
 
-    public Mes getMonth()
+    public Integer getMonth()
     {
         return this.month;
     }
 
-    public void setMonth(Mes month)
+    public void setMonth(Integer month)
     {
         this.month = month;
     }
 
-    public int getYear()
+    public Integer getYear()
     {
         return this.year;
     }
 
-    public void setYear(int year)
+    public void setYear(Integer year)
     {
         this.year = year;
     }
@@ -115,6 +119,19 @@ public class Campaign
     public void setActive(boolean active)
     {
         this.active = active;
+    }
+
+    public List<Order> getIncomingOrders()
+    {
+        if(this.incomingOrders == null)
+            this.incomingOrders =  new ArrayList<>();
+            
+        return this.incomingOrders;
+    }
+
+    public void setIncomingOrders(List<Order> incomingOrders)
+    {
+        this.incomingOrders = incomingOrders;
     }
 
     public Catalogue getCatalogue() {

@@ -3,7 +3,6 @@ package vitniksys.backend.model.persistence;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
-import javax.swing.JOptionPane;
 import java.sql.PreparedStatement;
 
 public class Connector
@@ -17,22 +16,13 @@ public class Connector
     private static Connector connector = null;
     private static Connection connection = null;
 
-    private Connector()
+    private Connector() throws ClassNotFoundException, SQLException
     {
-        try
-        {
-            Class.forName(DRIVER);
-            Connector.connection = DriverManager.getConnection(URL, USER, PASS);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Ocurrio un Error en la Conexion", "Error en la Conexion",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        Class.forName(DRIVER);
+        Connector.connection = DriverManager.getConnection(URL, USER, PASS);
     }
 
-    public static Connector getConnector()
+    public static Connector getConnector() throws ClassNotFoundException, SQLException
     {
         if (Connector.connector == null)
         {

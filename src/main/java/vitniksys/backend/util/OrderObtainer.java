@@ -1,30 +1,10 @@
 package vitniksys.backend.util;
 
-import vitniksys.frontend.views.CampQueryRegisterView;
-
 /**
- * A "PedidosObtainer" object performs a process to obtain the incoming "pedidos".
+ * A "OrderObtainer" object performs a process to obtain the incoming orders.
  */
-public abstract class PedidosObtainer implements Runnable
-{
-    private CampQueryRegisterView campQueryRegisterView;
-
-    protected PedidosObtainer(CampQueryRegisterView campQueryRegisterView)
-    {
-        this.campQueryRegisterView = campQueryRegisterView;
-    }
-
-    
-    public CampQueryRegisterView getCampQueryRegisterView()
-    {
-        return this.campQueryRegisterView;
-    }
-
-    public void setCampQueryRegisterView(CampQueryRegisterView campQueryRegisterView)
-    {
-        this.campQueryRegisterView = campQueryRegisterView;
-    }
-
+public abstract class OrderObtainer implements Runnable
+{  
     @Override
     public void run()
     {

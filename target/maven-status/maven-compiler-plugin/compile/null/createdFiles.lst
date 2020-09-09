@@ -1,5 +1,4 @@
 vitniksys\backend\model\enums\Estado$1.class
-vitniksys\frontend\views\OperationResultView.class
 vitniksys\backend\model\entities\Leader.class
 vitniksys\frontend\GUIsControllers\CampQueryRegisterViewCntlr$1.class
 vitniksys\backend\model\entities\Catalogue.class
@@ -33,13 +32,13 @@ vitniksys\backend\model\enums\Banco$1.class
 vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\backend\util\ExpressionChecker.class
 vitniksys\backend\model\enums\ItemPago$1.class
+vitniksys\backend\controllers\CampManagementController$1.class
 vitniksys\backend\model\entities\Observation.class
 vitniksys\backend\model\interfaces\IPreferentialClientOperator.class
 vitniksys\backend\model\entities\BaseClient.class
 vitniksys\backend\util\OperationResult.class
 vitniksys\backend\util\StockDevsRowTable.class
 vitniksys\backend\model\interfaces\ICampaignOperator.class
-vitniksys\backend\util\PedidosObtainer.class
 vitniksys\backend\model\entities\Commission.class
 vitniksys\backend\model\entities\Balance.class
 vitniksys\backend\controllers\CampManagementController.class
@@ -60,6 +59,7 @@ vitniksys\backend\model\enums\Banco.class
 vitniksys\backend\model\persistence\CampaignOperator.class
 vitniksys\backend\model\persistence\BaseClientOperator.class
 vitniksys\frontend\views\CampQueryRegisterView.class
+vitniksys\backend\util\OrderObtainer.class
 vitniksys\backend\model\enums\FormaPago$1.class
 vitniksys\backend\model\interfaces\CrudOperator.class
 vitniksys\backend\util\CustomAlert.class

@@ -1,16 +1,21 @@
 package vitniksys.backend.controllers;
 
+import java.io.File;
+import java.time.Month;
 import java.util.List;
 import java.util.Iterator;
 import javafx.application.Platform;
+import javafx.scene.control.ButtonType;
 //import java.util.concurrent.Executors;
-import vitniksys.backend.model.enums.Mes;
+import vitniksys.backend.util.CustomAlert;
+import vitniksys.backend.util.OrderObtainer;
+import vitniksys.backend.util.UseCaseThreadExecutor;
+import javafx.scene.control.Alert.AlertType;
 //import java.util.concurrent.ExecutorService;
-import vitniksys.backend.util.OperationResult;
-import vitniksys.backend.util.PedidosObtainer;
+import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
-import vitniksys.frontend.views.OperationResultView;
+import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.persistence.OrderOperator;
@@ -21,39 +26,30 @@ import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
 public class CampManagementController
 {
+    public static final int MAX_LENGTH_CAMP_ALIAS = 60;
+
+    private ExpressionChecker expressionChecker;
+    
     //Views
     private CampQueryRegisterView campQueryRegisterView;
-    private OperationResultView operationResultView;
 
-    public CampManagementController(CampQueryRegisterView campQueryRegisterView, OperationResultView operationResultView)
+    public CampManagementController(CampQueryRegisterView campQueryRegisterView)
     {
+        this.expressionChecker = ExpressionChecker.getExpressionChecker();
         this.campQueryRegisterView = campQueryRegisterView;
-        this.operationResultView = operationResultView;
     }
 
     //Getters && Setters
-    public OperationResultView getOperationResultView()
-    {
-        return this.operationResultView;
-    }
-
-    public void setOperationResultView(OperationResultView operationResultView)
-    {
-        this.operationResultView = operationResultView;
-    }
 
     // ================================= private methods =================================
 
     // ================================= protected methods =================================
 
     // ================================= public methods =================================
-    public void searchCamp(int campNumb) throws Exception
+    public void searchCamp(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
     {
-        OperationResult operationResult = new OperationResult();
-
         //Succes on normal execution flow
-        operationResult.setCode(OperationResult.SUCCES);
-        operationResult.setShortMessage(OperationResult.DEFAULT_SUCCES_MESSAGE);
+        CustomAlert customAlert =  new CustomAlert();
         try
         {
             Campaign camp = CampaignOperator.getOperator().find(campNumb);
@@ -69,160 +65,25 @@ public class CampManagementController
         }
         catch (Exception exception)
         {
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-            this.operationResultView.showResult(operationResult);
+            customAlert.setAlertType(AlertType.ERROR);
+            customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
+            customAlert.setHeaderText(CustomAlert.DEFAULT_ERROR_HEADER);
+            customAlert.setException(exception);
         }
         finally
         {
             Connector.getConnector().closeConnection();
-            this.operationResultView.showResult(operationResult);
+            customAlert.customShow();
         }
     }
 
-    public void searchCamp(String campAlias) throws Exception
-    {
-        OperationResult operationResult = new OperationResult();
-        try
-        {
-            Campaign camp = CampaignOperator.getOperator().find(campAlias);
-            if(camp != null)
-            {
-                OrderOperator.getOperator();
-                this.campQueryRegisterView.showQueriedCamp(camp);
-            }
-            else
-            {
-                this.campQueryRegisterView.showNoResult();
-            }
-        }
-        catch (Exception exception)
-        {
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-            this.operationResultView.showResult(operationResult);
-        }
-        finally
-        {
-            Connector.getConnector().closeConnection();
-        }
-    }
-
-    public void searchCamp(Mes month, int year) throws Exception
-    {
-        OperationResult operationResult = new OperationResult();
-        try
-        {
-            Campaign camp = CampaignOperator.getOperator().find(month, year);
-            if(camp != null)
-            {
-                OrderOperator.getOperator();
-                this.campQueryRegisterView.showQueriedCamp(camp);
-            }
-            else
-            {
-                this.campQueryRegisterView.showNoResult();
-            }
-        }
-        catch (Exception exception)
-        {
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-            this.operationResultView.showResult(operationResult);
-        }
-        finally
-        {
-            Connector.getConnector().closeConnection();
-        }
-    }
-
-    public void searchCamps(Mes month) throws Exception
-    {
-        OperationResult operationResult = new OperationResult();
-        try
-        {
-            List<Campaign> camps = CampaignOperator.getOperator().findAll(month);
-            if(camps != null)
-            {
-                OrderOperator.getOperator();
-                this.campQueryRegisterView.showQueriedCamp(camps);
-            }
-            else
-            {
-                this.campQueryRegisterView.showNoResult();
-            }
-        }
-        catch (Exception exception)
-        {
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-            this.operationResultView.showResult(operationResult);
-        }
-        finally
-        {
-            Connector.getConnector().closeConnection();
-        }
-    }
-
-    public void searchCamps(int year) throws Exception
-    {
-        OperationResult operationResult = new OperationResult();
-        try
-        {
-            List<Campaign> camps = CampaignOperator.getOperator().findAll(year);
-            if(camps != null)
-            {
-                OrderOperator.getOperator();
-                this.campQueryRegisterView.showQueriedCamp(camps);
-            }
-            else
-            {
-                this.campQueryRegisterView.showNoResult();
-            }
-        }
-        catch (Exception exception)
-        {
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-            this.operationResultView.showResult(operationResult);
-        }
-        finally
-        {
-            Connector.getConnector().closeConnection();
-        }
-    }
-
-    public void searchCampsByCatalogue(int code) throws Exception
-    {
-        OperationResult operationResult = new OperationResult();
-        try
-        {
-            List<Campaign> camps = CampaignOperator.getOperator().findAll(code);
-            if(camps != null)
-            {
-                OrderOperator.getOperator();
-                this.campQueryRegisterView.showQueriedCamp(camps);
-            }
-            else
-            {
-                this.campQueryRegisterView.showNoResult();
-            }
-        }
-        catch (Exception exception)
-        {
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-            this.operationResultView.showResult(operationResult);
-        }
-        finally
-        {
-            Connector.getConnector().closeConnection();
-        }
-    }
-
+    /**
+     * Search for the last registered campaing.
+     * This method do not show alerts messages.
+     * @throws Exception connection error
+     */
     public void searchLastCamp() throws Exception
     {
-        OperationResult operationResult = new OperationResult();
         try
         {
             Campaign camp = CampaignOperator.getOperator().findLast();
@@ -234,13 +95,10 @@ public class CampManagementController
             {
                 this.campQueryRegisterView.showNoResult();
             }
-            operationResult.setCode(OperationResult.SUCCES);
         }
         catch (Exception exception)
         {
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-            this.operationResultView.showResult(operationResult);
+            exception.printStackTrace();
         }
         finally
         {
@@ -248,103 +106,165 @@ public class CampManagementController
         }
     }
 
-    public void obtainOrders(PedidosObtainer pedidosObtainer) throws Exception
+    public void obtainOrders(OrderObtainer orderObtainer) throws Exception
     {
         //Executor service creates threads that are not JavaFX threads
         //and thread that are not javaFX threads cannot change the GUI
         //ExecutorService executorService = Executors.newSingleThreadExecutor();
         //executorService.execute(pedidosObtainer);
         //executorService.submit(pedidosObtainer);
-        Platform.runLater(pedidosObtainer);
+        Platform.runLater(orderObtainer);
     }
 
-    public void registerOrders(List<PreferentialClient> cps) throws Exception
+    public void registerCamp(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail)
     {
-        OperationResult operationResult = new OperationResult();
-        try
-        {
-            Connector.getConnector().startTransaction();
-            
-            PreferentialClient cp;
-            PreferentialClientOperator cpOperator;
-            Iterator<PreferentialClient> cpsIterator = cps.iterator();
+        CustomAlert customAlert = new CustomAlert(AlertType.NONE, CustomAlert.DEFAULT_WORKING_ON_TITLE,
+                                                    CustomAlert.DEFAULT_WORKING_ON_HEADER);
+        customAlert.customShow();
 
-            while(cpsIterator.hasNext())
+        Platform.runLater(new Runnable()
+        {
+            @Override
+            public void run()
             {
-                cp = cpsIterator.next();
-                cpOperator = cp.operator();
-                cpOperator.registerOrders(cp);
-            }
-            
-            Connector.getConnector().commit();
-
-            operationResult.setCode(OperationResult.SUCCES);
-        }
-        catch (Exception exception)
-        {
-            Connector.getConnector().rollBack();
-
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-        }
-        finally
-        {
-            Connector.getConnector().endTransaction();
-            Connector.getConnector().closeConnection();
-            this.operationResultView.showResult(operationResult);
-        }
-    }
-
-    public void registerCamp(int campNumb, String campAlias, Mes month, int year, Integer catalogueCode) throws Exception
-    {
-        OperationResult operationResult = new OperationResult();
-
-        //Succes on normal execution flow
-        operationResult.setCode(OperationResult.SUCCES);
-        operationResult.setShortMessage(OperationResult.DEFAULT_SUCCES_MESSAGE);
-        Campaign camp = new Campaign(campNumb, month, year);
-        camp.setAlias(campAlias);
-
-        try
-        {
-            Connector.getConnector().startTransaction();
-
-            if(catalogueCode!=null)
-            {
-                Catalogue catalogue = CatalogueOperator.getOperator().find(catalogueCode);
-
-                if(catalogue!=null)
+                //If all fields are OK...
+                if(expressionChecker.onlyNumbers(campNumb, false) && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
+                    && month != null && year != null && expressionChecker.isCatalogueCode(catalogueCode, true))
                 {
-                    camp.setCatalogue(catalogue);
+                    //Succes on normal execution flow
+                    Campaign camp = new Campaign(Integer.valueOf(campNumb), month, year);
+                    camp.setAlias(campAlias);
+
+                    try
+                    {
+                        Connector.getConnector().startTransaction();
+
+                        //Campaing registration with catalogue associated
+                        if(catalogueCode != null)
+                        {
+                            Catalogue catalogue = CatalogueOperator.getOperator().find(Integer.valueOf(catalogueCode));
+
+                            if(catalogue != null)
+                            {
+                                camp.setCatalogue(catalogue);
+                            }
+                            else
+                            {
+                                customAlert.setAlertType(AlertType.ERROR);
+                                customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
+                                customAlert.setHeaderText("No existe el catálogo especificado.");
+                                customAlert.setDescription("Si desea asociar el catálogo "+catalogueCode+
+                                " a la campaña "+campNumb+" puede registrar primero el catálogo presionando "+
+                                "el botón \"mas\" cercano al campo del catálogo.");
+                                customAlert.setException(CustomAlert.irrelevantException());
+                                throw CustomAlert.irrelevantException();
+                            }
+                        }
+
+                        //Campaing registration with orders associated
+                        if(detail != null)
+                        {
+                            OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
+                            Platform.runLater(orderObtainer);
+                        }
+
+                        CampaignOperator.getOperator().insert(camp);
+
+                        Connector.getConnector().commit();
+                    }
+                    catch (Exception exception)
+                    {
+                        try
+                        {
+                            Connector.getConnector().rollBack();
+                        }
+                        catch (Exception exception2)
+                        {
+                            customAlert.setAlertType(AlertType.ERROR);
+                            customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
+                            customAlert.setHeaderText(CustomAlert.DEFAULT_ERROR_HEADER);
+                            customAlert.setException(exception2);
+                        }
+                        customAlert.setAlertType(AlertType.ERROR);
+                        customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
+                        customAlert.setHeaderText(CustomAlert.DEFAULT_ERROR_HEADER);
+                        customAlert.setException(exception);
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            Connector.getConnector().endTransaction();
+                            Connector.getConnector().closeConnection();    
+                        }
+                        catch (Exception exception2)
+                        {
+                            //TODO: handle exception
+                        }
+                        customAlert.customShow();
+                    }
                 }
                 else
-                {
-                    operationResult.setCode(OperationResult.ERROR);
-                    operationResult.setShortMessage("No existe el catálogo especificado.");
-                    operationResult.setDescription("Si desea asociar el catálogo "+catalogueCode+
-                    " a la campaña "+campNumb+" puede registrar primero el catálogo presionando "+
-                    "el botón \"mas\" cercano al campo del catálogo.");
+                {//Conflict with some fields.
+                    customAlert.setAlertType(AlertType.ERROR);
+                    customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
+                    customAlert.setHeaderText("Deben completarse al menos los campos obligatorios para registrar"+
+                                            "una campaña");
+                    customAlert.customShow();
+                } 
+            }  
+        });   
+	}
 
-                    throw OperationResult.forcedException();
+    public void registerOrders(File detail) throws Exception
+    {
+
+        CustomAlert customAlert = new CustomAlert(AlertType.NONE, CustomAlert.DEFAULT_WORKING_ON_TITLE,
+                                                CustomAlert.DEFAULT_WORKING_ON_HEADER);
+        customAlert.customShow();
+
+        Platform.runLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
+
+                    Connector.getConnector().startTransaction();
+
+                    PreferentialClient cp;
+                    PreferentialClientOperator cpOperator;
+                    Iterator<PreferentialClient> cpsIterator = cps.iterator();
+
+                    while(cpsIterator.hasNext())
+                    {
+                        cp = cpsIterator.next();
+                        cpOperator = cp.operator();
+                        cpOperator.registerOrders(cp);
+                    }
+                    
+                    Connector.getConnector().commit();
+                    customAlert.customClose();
+                    customAlert = new CustomAlert(AlertType.INFORMATION, CustomAlert.DEFAULT_SUCCES_TITLE,
+                                                CustomAlert.DEFAULT_SUCCES_HEADER);
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack();
+                    customAlert.customClose();
+
+                    customAlert =  new CustomAlert(AlertType.ERROR, CustomAlert.DEFAULT_ERROR_TITLE, CustomAlert.DEFAULT_ERROR_HEADER, 
+                                                CustomAlert.DEFAULT_DESCRIPTION, exception);
+                    exception.printStackTrace();
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().closeConnection();
                 }
             }
-
-            CampaignOperator.getOperator().insert(camp);
-
-            Connector.getConnector().commit();
-        }
-        catch (Exception exception)
-        {
-            Connector.getConnector().rollBack();
-            
-            operationResult.setCode(OperationResult.ERROR);
-            operationResult.setException(exception);
-        }
-        finally
-        {
-            Connector.getConnector().endTransaction();
-            Connector.getConnector().closeConnection();
-            this.operationResultView.showResult(operationResult);
-        }
-	}
+        });
+    }
 }

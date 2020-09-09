@@ -5,36 +5,83 @@ import java.io.StringWriter;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ButtonType;
 
 public class CustomAlert extends Alert
 {
+    public static final String DEFAULT_SUCCES_HEADER = "The operation was succesfully done!";
+    public static final String DEFAULT_ERROR_HEADER = "An Error has ocurred!. For more information, click on \"Show details\".";
+    public static final String DEFAULT_WORKING_ON_HEADER = "Working on a process. Please wait...";
+    
+    public static final String DEFAULT_SUCCES_TITLE = "SUCCES";
+    public static final String DEFAULT_WORKING_ON_TITLE = "WORKING ON";
+    public static final String DEFAULT_ERROR_TITLE = "ERROR";
+
+    public static final String DEFAULT_DESCRIPTION = "No message to show";
+
+    private String description;
+    private Exception exception;
+
     public CustomAlert()
     {
         super(AlertType.INFORMATION);
-        this.setTitle(OperationResult.DEFAULT_SUCCES_TITLE);
-        this.setHeaderText(OperationResult.DEFAULT_SUCCES_MESSAGE);
+        this.setTitle(DEFAULT_SUCCES_TITLE);
+        this.setHeaderText(DEFAULT_SUCCES_HEADER);
+        this.setResizable(false);
     }
 
-    public CustomAlert(AlertType type, String message)
+    public CustomAlert(AlertType alertType, String title, String headerText)
     {
-        super(type);
-        this.setTitle("Message");
-        this.setHeaderText(message);
+        super(alertType);
+        this.setTitle(title);
+        this.setHeaderText(headerText);
+        this.setResizable(false);
     }
 
-    public void defaultShow(OperationResult operationResult)
+    public CustomAlert(AlertType alertType, String title, String headerText, String description, Exception exception)
     {
-        if(operationResult.getCode() == OperationResult.ERROR)
+        super(alertType);
+        this.setTitle(title);
+        this.setHeaderText(headerText);
+        this.description = description;
+        this.exception = CustomAlert.irrelevantException();
+        this.setResizable(false);
+    }
+
+    public static Exception irrelevantException()
+    {
+        return new Exception("Irrelevant exception");
+    }
+
+    public String getDescription()
+    {
+        return this.description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public Exception getException()
+    {
+        return this.exception;
+    }
+
+    public void setException(Exception exception)
+    {
+        this.exception = exception;
+    }
+
+    public void customShow()
+    {
+        if(this.getException() != null)
         {
-            this.setAlertType(AlertType.ERROR);
-            this.setTitle(OperationResult.DEFAULT_ERROR_TITLE);
-            this.setHeaderText(OperationResult.DEFAULT_ERROR_MESSAGE);
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
-            operationResult.getException().printStackTrace(pw);
-            String stackTraceMessage = sw.toString(); // stack trace as a string
-
-            TextArea textArea = new TextArea(stackTraceMessage);
+            this.getException().printStackTrace(pw);
+            String stackTraceMessage = sw.toString(); //stack trace as a string
+            TextArea textArea = new TextArea((this.getDescription()!=null?this.getDescription()+"\n\n":"")+stackTraceMessage);
             textArea.setEditable(false);
             textArea.setWrapText(true);
             //textArea.setMaxWidth(Double.MAX_VALUE);
@@ -44,34 +91,20 @@ public class CustomAlert extends Alert
             //pane.setMaxWidth(Double.MAX_VALUE);
             pane.getChildren().add(textArea);
             this.getDialogPane().setExpandableContent(pane);
+        }        
+
+        if(this.getAlertType() != AlertType.NONE)
+        {
+            this.showAndWait();
         }
-        this.showAndWait();   
+        else
+        {            
+            this.show();
+        }
     }
 
-    public void customShow(OperationResult operationResult)
+    public void customClose()
     {
-        this.setHeaderText(operationResult.getShortMessage());
-
-        if(operationResult.getCode() == OperationResult.ERROR)
-        {
-            this.setAlertType(AlertType.ERROR);
-            this.setTitle(OperationResult.DEFAULT_ERROR_TITLE);
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            operationResult.getException().printStackTrace(pw);
-            String stackTraceMessage = sw.toString(); // stack trace as a string
-
-            TextArea textArea = new TextArea(operationResult.getDescription()+"\n\n"+stackTraceMessage);
-            textArea.setEditable(false);
-            textArea.setWrapText(true);
-            //textArea.setMaxWidth(Double.MAX_VALUE);
-            //textArea.setMaxHeight(Double.MAX_VALUE);
-
-            Pane pane = new Pane();
-            //pane.setMaxWidth(Double.MAX_VALUE);
-            pane.getChildren().add(textArea);
-            this.getDialogPane().setExpandableContent(pane);
-        }
-        this.showAndWait();   
+        this.setResult(ButtonType.CLOSE);
     }
 }

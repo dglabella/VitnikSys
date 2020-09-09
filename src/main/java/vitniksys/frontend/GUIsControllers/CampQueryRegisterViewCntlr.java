@@ -4,6 +4,7 @@ import java.net.URL;
 import java.io.File;
 import vitniksys.App;
 import java.util.List;
+import java.time.Month;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,43 +21,33 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
-import vitniksys.backend.model.enums.Mes;
 import javafx.collections.ObservableList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
-import vitniksys.backend.util.OperationResult;
-import vitniksys.backend.util.PedidosObtainer;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Campaign;
-import vitniksys.frontend.views.OperationResultView;
-import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.frontend.views.CampQueryRegisterView;
-import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.controllers.CampManagementController;
 
-public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView, OperationResultView
+public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView
 {
     // Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private static final int YEAR_MIN = 2020;
     private static final int YEAR_MAX = 2038;
-    private static final int MAX_LENGTH_CAMP_ALIAS = 60;
 
     private boolean isSearching;
 
-    private PedidosObtainer ordersObtainer;
+    private File detail;
 
     private ExpressionChecker expressionChecker;
-
-    private List<PreferentialClient> orderMakers;
 
     private CampManagementController campManagementController;
 
     // ================================= FXML variables =================================
     @FXML private TextField campNumber;
     @FXML private TextField campAlias;
-    @FXML private TextField catalogoCode;
+    @FXML private TextField catalogueCode;
 
     @FXML private Label artPedidosQuantity;
     @FXML private Label artRetiradosQuantity;
@@ -78,7 +69,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML private Label totalInDevolucionesFixed;
     @FXML private Label totalInRecomprasFixed;
     @FXML private Label totalInCatalogosFixed;
-    @FXML private Label processWorking;
     @FXML private Label fileSelected;
     @FXML private Label filePath;
     @FXML private Label campNumberInvalid;
@@ -88,48 +78,39 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML private Label noResultMessage;
     @FXML private Label orders;
 
-    @FXML private ChoiceBox<Mes> campMonth;
+    @FXML private ChoiceBox<Month> campMonth;
     @FXML private ChoiceBox<Integer> campYear;
 
     @FXML private Button register;
     @FXML private Button cancel;
     @FXML private Button search;
-    @FXML private Button select;
+    @FXML private Button addOrders;
     @FXML private Button plusCamp;
     @FXML private Button plusCatalogue;
 
     // ================================= FXML methods =================================
     @FXML
-    private void selectMethodButtonPressed() throws Exception
+    private void addOrdersButtonPressed() throws Exception
     {
         /**
          * THIS METHOD IS SUPPOSED TO SELECT A "PEDIDOS" OBTAINING METHOD. ACTUALLY IS
-         * HARDCODED FOR FILE SELECTING METHOD (DETALLE.CSV FILE), BUT IF "PEDIDOS"
+         * HARDCODED FOR FILE SELECTING METHOD (Detail.csv FILE), BUT IF "PEDIDOS"
          * OBTAINING METHOD WILL BE ADDED, HERE IS WHERE IT HAS TO BE IMPLEMENTED.
          */
 
-        // FILE SELECTING METHOD.
+        // METHOD: FILE SELECTING .
         FileChooser fileChooser = new FileChooser();
-        File detalle = fileChooser.showOpenDialog(null);
-        this.ordersObtainer = new DetailFileInterpreter(this, detalle);
+        this.detail = fileChooser.showOpenDialog(null);
 
-        if (detalle != null)
+        if (detail != null)
         {
-            if (FilenameUtils.getExtension(detalle.getName()).equalsIgnoreCase("csv"))
+            if (FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase("csv"))
             {
-                this.register.setDisable(true);
-
                 this.fileSelected.setText("Archivo seleccionado:");
                 this.fileSelected.setVisible(true);
-                this.filePath.setTextFill(Color.web("#000000")); // Black
-                this.filePath.setText(detalle.getAbsolutePath());
+                this.filePath.setTextFill(Color.web("#000000")); //Black
+                this.filePath.setText(detail.getAbsolutePath());
                 this.filePath.setVisible(true);
-                this.processWorking.setText("Espere un momento a que finalize la obtención de pedidos.");
-                this.processWorking.setTextFill(Color.web("#3f5fff")); // blue like
-                this.processWorking.setVisible(true);
-
-                // Executing the information gathering process.
-                this.campManagementController.obtainOrders(this.ordersObtainer);
             }
             else
             {
@@ -141,30 +122,21 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     @FXML
-    private void registerButtonPressed() throws Exception
+    private void registerButtonPressed()
     {
-        if(allFieldsOkForRegistration())
-        {
-            this.campManagementController.registerCamp(Integer.parseInt(this.campNumber.getText()),
-                    !this.campAlias.getText().isEmpty()?this.campAlias.getText().toUpperCase():null,
-                                                        this.campMonth.getValue(),
-                                                        this.campYear.getValue(),
-                    !this.catalogoCode.getText().isEmpty()?Integer.parseInt(this.catalogoCode.getText()):null);
-        }
-
-        if(this.orderMakers != null)
-            this.campManagementController.registerOrders(this.orderMakers);
+        this.campManagementController.registerCamp(this.campNumber.getText(), this.campAlias.getText(),
+                                                    this.campMonth.getValue().getValue(), this.campYear.getValue(),
+                                                    this.catalogueCode.getText(), this.detail);
     }
 
     @FXML
     private void cancelButtonPressed()
     {
-        this.orderMakers = null;
         this.search.setVisible(true);
         this.register.setVisible(false);
         this.cancel.setVisible(false);
         this.orders.setVisible(false);
-        this.select.setVisible(false);
+        this.addOrders.setVisible(false);
         this.plusCatalogue.setVisible(false);
         clearStage();
         this.isSearching = true;
@@ -173,30 +145,9 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML
     private void searchButtonPressed() throws Exception
     {
-        if (expressionChecker.onlyNumbers(this.campNumber.getText(), false))
-        {
-            this.campManagementController.searchCamp(Integer.parseInt(this.campNumber.getText()));
-        }
-        else if(this.campAlias.getText().length() <= CampQueryRegisterViewCntlr.MAX_LENGTH_CAMP_ALIAS)
-        {
-            this.campManagementController.searchCamp(this.campAlias.getText());
-        }
-        else if(this.campMonth.getValue() != null && this.campYear.getValue() != null)
-        {
-            this.campManagementController.searchCamp(this.campMonth.getValue(), this.campYear.getValue());
-        }
-        else if(this.campMonth.getValue() != null && this.campYear.getValue() == null)
-        {
-            this.campManagementController.searchCamps(this.campMonth.getValue());
-        }
-        else if(this.campMonth.getValue() == null && this.campYear.getValue() != null)
-        {
-            this.campManagementController.searchCamps(this.campYear.getValue());
-        }
-        else if(this.expressionChecker.isCatalogueCode(this.catalogoCode.getText(), false))
-        {
-            this.campManagementController.searchCampsByCatalogue(Integer.parseInt(this.catalogoCode.getText()));
-        }
+        this.campManagementController.searchCamp(this.campNumber.getText(), this.campAlias.getText(),
+                                                this.campMonth.getValue(), this.campYear.getValue(),
+                                                this.catalogueCode.getText());
     }
 
     @FXML
@@ -222,7 +173,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         this.register.setVisible(true);
         this.cancel.setVisible(true);
         this.plusCatalogue.setVisible(true);
-        this.select.setVisible(true);
+        this.addOrders.setVisible(true);
         this.orders.setVisible(true);
 
         this.search.setVisible(false);
@@ -243,7 +194,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
             this.campAlias.clear();
             this.campMonth.setValue(null);
             this.campYear.setValue(null);
-            this.catalogoCode.clear();
+            this.catalogueCode.clear();
         }
 
         if (this.expressionChecker.onlyNumbers(this.campNumber.getText(), true))
@@ -275,10 +226,10 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
             this.campNumber.clear();
             this.campMonth.setValue(null);
             this.campYear.setValue(null);
-            this.catalogoCode.clear();
+            this.catalogueCode.clear();
         }
     
-        if (this.campAlias.getText().length() <= CampQueryRegisterViewCntlr.MAX_LENGTH_CAMP_ALIAS)
+        if (this.campAlias.getText().length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS)
         {
             this.campAliasInvalid.setVisible(false);
             ret = true;
@@ -310,7 +261,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
             this.campYear.setValue(null);
         }
     
-        if (this.expressionChecker.isCatalogueCode(this.catalogoCode.getText(), true))
+        if (this.expressionChecker.isCatalogueCode(this.catalogueCode.getText(), true))
         {
             this.catalogoCodeInvalid.setVisible(false);
             ret = true;
@@ -330,11 +281,10 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         this.campNumber.clear();
         this.campMonth.setValue(null);
         this.campYear.setValue(null);
-        this.catalogoCode.clear();
+        this.catalogueCode.clear();
 
         this.filePath.setVisible(false);
         this.fileSelected.setVisible(false);
-        this.processWorking.setVisible(false);
 
         this.artDevueltosQuantity.setText("");
         this.artPedidosQuantity.setText("");
@@ -345,23 +295,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         this.totalInPedidos.setText("");
         this.totalInRecompras.setText("");
         this.totalInRetiros.setText("");
-    }
-
-    private boolean allFieldsOkForRegistration()
-    {
-        boolean ret;
-
-        if(this.expressionChecker.onlyNumbers(this.campNumber.getText(), false)
-            && this.campAlias.getText().length() <= CampQueryRegisterViewCntlr.MAX_LENGTH_CAMP_ALIAS
-            && this.campMonth.getValue() != null && this.campYear.getValue() != null
-            && this.expressionChecker.isCatalogueCode(this.catalogoCode.getText(), true))
-        {
-            ret = true;
-        }
-        else
-            ret = false;
-
-        return ret;
     }
 
     // ================================= protected methods =================================
@@ -377,15 +310,16 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     {
         // Creating the expresssion checker object for checking inputs.
         expressionChecker = ExpressionChecker.getExpressionChecker();
-        this.campManagementController = new CampManagementController(this, this);
+        this.campManagementController = new CampManagementController(this);
 
         //Initiallly, search is active.
         this.isSearching = true;
 
         // Setting values and listener for campMonth choice box.
-        ObservableList<Mes> months = FXCollections.observableArrayList(null, Mes.ENERO, Mes.FEBRERO, Mes.MARZO,
-                Mes.ABRIL, Mes.MAYO, Mes.JUNIO, Mes.JULIO, Mes.AGOSTO, Mes.SEPTIEMBRE, Mes.OCTUBRE, Mes.NOVIEMBRE,
-                Mes.DICIEMBRE);
+        ObservableList<Month> months = FXCollections.observableArrayList(null, Month.JANUARY, Month.FEBRUARY,
+            Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE, Month.JULY, Month.AUGUST, Month.SEPTEMBER,
+            Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER);
+
         this.campMonth.setItems(months);
 
         this.campMonth.getSelectionModel().selectedIndexProperty().addListener
@@ -406,7 +340,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
                     {
                         campNumber.clear();
                         campAlias.clear();
-                        catalogoCode.clear();
+                        catalogueCode.clear();
                     }
                 }
             }
@@ -437,7 +371,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
                     {
                         campNumber.clear();
                         campAlias.clear();
-                        catalogoCode.clear();
+                        catalogueCode.clear();
                     }
                 }
             }
@@ -456,7 +390,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         this.register.setVisible(false);
         this.noResultMessage.setVisible(false);
         this.plusCatalogue.setVisible(false);
-        this.select.setVisible(false);
+        this.addOrders.setVisible(false);
         this.orders.setVisible(false);
         this.cancel.setVisible(false);
     }
@@ -495,13 +429,13 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
 
         //First, change the choicesBoxes values to avoid erase other fields.
         //(Both choiceBoxes has changedListener attached)
-        this.campMonth.setValue(campaign.getMonth());
+        this.campMonth.setValue(Month.of(campaign.getMonth()));
         this.campYear.setValue(campaign.getYear());
 
         this.campNumber.setText(Integer.toString(campaign.getNumber()));
         this.campAlias.setText(campaign.getAlias());
 
-        this.select.setVisible(true);
+        this.addOrders.setVisible(true);
 
         this.artDevueltosQuantity.setVisible(true);
         this.artPedidosQuantity.setVisible(true);
@@ -529,21 +463,5 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     public void showQueriedCamp(List<Campaign> camps)
     {
         //show results
-    }
-
-    @Override
-    public void showResult(OperationResult operationResult)
-    {
-        //new CustomAlert().defaultShow(operationResult);
-        new CustomAlert().customShow(operationResult);
-    }
-
-    @Override
-    public void orderObtentionCompleted(List<PreferentialClient> cps)
-    {
-        this.orderMakers = cps;
-        this.register.setDisable(false);
-        this.processWorking.setTextFill(Color.web("#06bd00"));
-        this.processWorking.setText("Archivo detalle procesado exitosamente!");
     }
 }

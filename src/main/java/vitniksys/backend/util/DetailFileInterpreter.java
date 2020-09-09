@@ -11,7 +11,6 @@ import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.BaseClient;
-import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 
@@ -19,9 +18,11 @@ import vitniksys.backend.model.entities.PreferentialClient;
 *This class contains the algorithm for translate the information
 *contained in Detalle.csv File
 */
-public class DetailFileInterpreter extends PedidosObtainer
+public class DetailFileInterpreter extends OrderObtainer
 {
-    //The file to be interpreted for gather the information of the incoming "pedidos".
+    private static String SEPARATOR = ";";
+
+    //The file to be interpreted for gather the information of the incoming orders.
     private File detailFile;
     private List<DetailFileRow> detailFileRows;
 
@@ -49,9 +50,8 @@ public class DetailFileInterpreter extends PedidosObtainer
      * and no data from the file can be obtained.
      * @return an interpreter instance.
      */
-    public DetailFileInterpreter(CampQueryRegisterView campQueryRegisterView, File detailFile)
+    public DetailFileInterpreter(File detailFile)
     {
-        super(campQueryRegisterView);
         this.detailFile = detailFile;
         this.detailFileRows = new ArrayList<>();
     }
@@ -156,10 +156,11 @@ public class DetailFileInterpreter extends PedidosObtainer
 
         try{
             Scanner inputStream = new Scanner(this.detailFile);
-            //Gathering all the lines in the file into memory (detailFileRows).
+            
+            //Gathering all the lines in the file into primary memory (detailFileRows).
             while(inputStream.hasNext())
             {
-                splitedLine = inputStream.nextLine().split(";");
+                splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
                 this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
                     splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 
                     splitedLine[QUANT], splitedLine[UNIT_PRICE], splitedLine[DESC_CP], splitedLine[PRICE], 
@@ -175,18 +176,5 @@ public class DetailFileInterpreter extends PedidosObtainer
             e.printStackTrace();
             orderMakers = null;
         }
-        
-        //Emulates a long interpretation process
-        try
-        {
-            Thread.sleep(3000);
-            //Thread.currentThread().   
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-
-        this.getCampQueryRegisterView().orderObtentionCompleted(orderMakers);
     }
 }

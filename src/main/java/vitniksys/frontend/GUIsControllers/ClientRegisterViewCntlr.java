@@ -7,17 +7,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
-import vitniksys.backend.util.CustomAlert;
-import vitniksys.backend.util.OperationResult;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.BaseClient;
-import vitniksys.frontend.views.OperationResultView;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.controllers.ClientManagementController;
 
-public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable, OperationResultView
+public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable
 {
     private ExpressionChecker expressionChecker;
 
@@ -182,15 +179,5 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     {
         this.expressionChecker = ExpressionChecker.getExpressionChecker();
         this.clientController = new ClientManagementController();
-        this.clientController.setOperationResultView(this);
-    }
-
-    // ||
-    // LL ======================= View methods =======================
-    @Override
-    public void showResult(OperationResult operationResult)
-    {
-        new CustomAlert().defaultShow(operationResult);
-        this.getStage().close();
     }
 }

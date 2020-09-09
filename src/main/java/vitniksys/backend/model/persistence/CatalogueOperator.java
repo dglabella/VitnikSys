@@ -58,7 +58,7 @@ public class CatalogueOperator implements ICatalogueOperator
     }
 
     @Override
-    public Catalogue find(int code) throws Exception
+    public Catalogue find(Integer code) throws Exception
     {
         Catalogue ret = null;
         String sqlStmnt = "SELECT * FROM `catalogos` WHERE `cod` = ? AND `active_row` = ?;";
