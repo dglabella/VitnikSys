@@ -9,7 +9,6 @@ import javafx.scene.control.ButtonType;
 //import java.util.concurrent.Executors;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.util.OrderObtainer;
-import vitniksys.backend.util.UseCaseThreadExecutor;
 import javafx.scene.control.Alert.AlertType;
 //import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.ExpressionChecker;
@@ -174,17 +173,8 @@ public class CampManagementController
                     }
                     catch (Exception exception)
                     {
-                        try
-                        {
-                            Connector.getConnector().rollBack();
-                        }
-                        catch (Exception exception2)
-                        {
-                            customAlert.setAlertType(AlertType.ERROR);
-                            customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
-                            customAlert.setHeaderText(CustomAlert.DEFAULT_ERROR_HEADER);
-                            customAlert.setException(exception2);
-                        }
+                        Connector.getConnector().rollBack();
+                        
                         customAlert.setAlertType(AlertType.ERROR);
                         customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
                         customAlert.setHeaderText(CustomAlert.DEFAULT_ERROR_HEADER);
@@ -192,15 +182,9 @@ public class CampManagementController
                     }
                     finally
                     {
-                        try
-                        {
-                            Connector.getConnector().endTransaction();
-                            Connector.getConnector().closeConnection();    
-                        }
-                        catch (Exception exception2)
-                        {
-                            //TODO: handle exception
-                        }
+                        Connector.getConnector().endTransaction();
+                        Connector.getConnector().closeConnection();   
+                        
                         customAlert.customShow();
                     }
                 }
@@ -218,7 +202,7 @@ public class CampManagementController
 
     public void registerOrders(File detail) throws Exception
     {
-
+        
         CustomAlert customAlert = new CustomAlert(AlertType.NONE, CustomAlert.DEFAULT_WORKING_ON_TITLE,
                                                 CustomAlert.DEFAULT_WORKING_ON_HEADER);
         customAlert.customShow();

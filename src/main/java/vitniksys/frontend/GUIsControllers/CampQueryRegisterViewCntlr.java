@@ -30,8 +30,7 @@ import vitniksys.backend.model.entities.Campaign;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.controllers.CampManagementController;
 
-public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView
-{
+public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView {
     // Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private static final int YEAR_MIN = 2020;
     private static final int YEAR_MAX = 2038;
@@ -44,54 +43,93 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
 
     private CampManagementController campManagementController;
 
-    // ================================= FXML variables =================================
-    @FXML private TextField campNumber;
-    @FXML private TextField campAlias;
-    @FXML private TextField catalogueCode;
-
-    @FXML private Label artPedidosQuantity;
-    @FXML private Label artRetiradosQuantity;
-    @FXML private Label artDevueltosQuantity;
-    @FXML private Label artRecompradosQuantity;
-    @FXML private Label catEntregadosQuantity;
-    @FXML private Label totalInPedidos;
-    @FXML private Label totalInRetiros;
-    @FXML private Label totalInDevoluciones;
-    @FXML private Label totalInRecompras;
-    @FXML private Label totalInCatalogos;
-    @FXML private Label artPedidosQuantityFixed;
-    @FXML private Label artRetiradosQuantityFixed;
-    @FXML private Label artDevueltosQuantityFixed;
-    @FXML private Label artRecompradosQuantityFixed;
-    @FXML private Label catEntregadosQuantityFixed;
-    @FXML private Label totalInPedidosFixed;
-    @FXML private Label totalInRetirosFixed;
-    @FXML private Label totalInDevolucionesFixed;
-    @FXML private Label totalInRecomprasFixed;
-    @FXML private Label totalInCatalogosFixed;
-    @FXML private Label fileSelected;
-    @FXML private Label filePath;
-    @FXML private Label campNumberInvalid;
-    @FXML private Label campAliasInvalid;
-    @FXML private Label catalogoCodeInvalid;
-
-    @FXML private Label noResultMessage;
-    @FXML private Label orders;
-
-    @FXML private ChoiceBox<Month> campMonth;
-    @FXML private ChoiceBox<Integer> campYear;
-
-    @FXML private Button register;
-    @FXML private Button cancel;
-    @FXML private Button search;
-    @FXML private Button addOrders;
-    @FXML private Button plusCamp;
-    @FXML private Button plusCatalogue;
-
-    // ================================= FXML methods =================================
+    // ================================= FXML variables
+    // =================================
     @FXML
-    private void addOrdersButtonPressed() throws Exception
-    {
+    private TextField campNumber;
+    @FXML
+    private TextField campAlias;
+    @FXML
+    private TextField catalogueCode;
+
+    @FXML
+    private Label artPedidosQuantity;
+    @FXML
+    private Label artRetiradosQuantity;
+    @FXML
+    private Label artDevueltosQuantity;
+    @FXML
+    private Label artRecompradosQuantity;
+    @FXML
+    private Label catEntregadosQuantity;
+    @FXML
+    private Label totalInPedidos;
+    @FXML
+    private Label totalInRetiros;
+    @FXML
+    private Label totalInDevoluciones;
+    @FXML
+    private Label totalInRecompras;
+    @FXML
+    private Label totalInCatalogos;
+    @FXML
+    private Label artPedidosQuantityFixed;
+    @FXML
+    private Label artRetiradosQuantityFixed;
+    @FXML
+    private Label artDevueltosQuantityFixed;
+    @FXML
+    private Label artRecompradosQuantityFixed;
+    @FXML
+    private Label catEntregadosQuantityFixed;
+    @FXML
+    private Label totalInPedidosFixed;
+    @FXML
+    private Label totalInRetirosFixed;
+    @FXML
+    private Label totalInDevolucionesFixed;
+    @FXML
+    private Label totalInRecomprasFixed;
+    @FXML
+    private Label totalInCatalogosFixed;
+    @FXML
+    private Label fileSelected;
+    @FXML
+    private Label filePath;
+    @FXML
+    private Label campNumberInvalid;
+    @FXML
+    private Label campAliasInvalid;
+    @FXML
+    private Label catalogoCodeInvalid;
+
+    @FXML
+    private Label noResultMessage;
+    @FXML
+    private Label orders;
+
+    @FXML
+    private ChoiceBox<Month> campMonth;
+    @FXML
+    private ChoiceBox<Integer> campYear;
+
+    @FXML
+    private Button register;
+    @FXML
+    private Button cancel;
+    @FXML
+    private Button search;
+    @FXML
+    private Button addOrders;
+    @FXML
+    private Button plusCamp;
+    @FXML
+    private Button plusCatalogue;
+
+    // ================================= FXML methods
+    // =================================
+    @FXML
+    private void addOrdersButtonPressed() throws Exception {
         /**
          * THIS METHOD IS SUPPOSED TO SELECT A "PEDIDOS" OBTAINING METHOD. ACTUALLY IS
          * HARDCODED FOR FILE SELECTING METHOD (Detail.csv FILE), BUT IF "PEDIDOS"
@@ -102,18 +140,14 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         FileChooser fileChooser = new FileChooser();
         this.detail = fileChooser.showOpenDialog(null);
 
-        if (detail != null)
-        {
-            if (FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase("csv"))
-            {
+        if (detail != null) {
+            if (FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase("csv")) {
                 this.fileSelected.setText("Archivo seleccionado:");
                 this.fileSelected.setVisible(true);
-                this.filePath.setTextFill(Color.web("#000000")); //Black
+                this.filePath.setTextFill(Color.web("#000000")); // Black
                 this.filePath.setText(detail.getAbsolutePath());
                 this.filePath.setVisible(true);
-            }
-            else
-            {
+            } else {
                 this.filePath.setTextFill(Color.web("#ff0000")); // Red
                 this.filePath.setText("el archivo no tiene extension csv");
                 this.filePath.setVisible(true);
@@ -125,8 +159,8 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     private void registerButtonPressed()
     {
         this.campManagementController.registerCamp(this.campNumber.getText(), this.campAlias.getText(),
-                                                    this.campMonth.getValue().getValue(), this.campYear.getValue(),
-                                                    this.catalogueCode.getText(), this.detail);
+                this.campMonth.getValue().getValue(), this.campYear.getValue(), this.catalogueCode.getText(),
+                this.detail);
     }
 
     @FXML

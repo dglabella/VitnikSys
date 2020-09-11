@@ -1,7 +1,7 @@
 package vitniksys.backend.model.interfaces;
 
+import java.time.Month;
 import java.util.List;
-import vitniksys.backend.model.enums.Mes;
 import vitniksys.backend.model.entities.Campaign;
 
 public interface ICampaignOperator extends CrudOperator<Campaign>
@@ -10,9 +10,9 @@ public interface ICampaignOperator extends CrudOperator<Campaign>
 
     Campaign find(String alias) throws Exception;
 
-    Campaign find(Mes month, int year) throws Exception;
+    Campaign find(int month, int year) throws Exception;
 
-    List<Campaign> findAll(Mes month) throws Exception;
+    List<Campaign> findAll(Month month) throws Exception;
 
     List<Campaign> findAll(int year) throws Exception;
 

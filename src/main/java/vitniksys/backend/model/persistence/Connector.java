@@ -2,14 +2,18 @@ package vitniksys.backend.model.persistence;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import javafx.scene.control.Alert.AlertType;
+import vitniksys.backend.util.CustomAlert;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-public class Connector
-{
+public class Connector {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis?serverTimezone=UTC"; 
-    //private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis";//SET GLOBAL time_zone = '-3:00'
+    private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis?serverTimezone=UTC";
+    // private static final String URL =
+    // "jdbc:mysql://localhost:3306/vitniksanluis";//SET GLOBAL time_zone = '-3:00'
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -22,18 +26,34 @@ public class Connector
         Connector.connection = DriverManager.getConnection(URL, USER, PASS);
     }
 
-    public static Connector getConnector() throws ClassNotFoundException, SQLException
+    public static Connector getConnector()
     {
         if (Connector.connector == null)
         {
-            Connector.connector = new Connector();
+            try
+            {
+                Connector.connector = new Connector();
+            }
+            catch (ClassNotFoundException | SQLException exception)
+            {
+                new CustomAlert(AlertType.ERROR, CustomAlert.DEFAULT_ERROR_TITLE , CustomAlert.DEFAULT_ERROR_HEADER,
+                            CustomAlert.DEFAULT_DESCRIPTION, exception).customShow();
+            }
         }
         return Connector.connector;
     }
 
-    public void closeConnection() throws SQLException
+    public void closeConnection()
     {
-        Connector.connection.close();
+        try
+        {
+            Connector.connection.close();
+        }
+        catch (SQLException exception)
+        {
+            new CustomAlert(AlertType.ERROR, CustomAlert.DEFAULT_ERROR_TITLE , CustomAlert.DEFAULT_ERROR_HEADER,
+                            CustomAlert.DEFAULT_DESCRIPTION, exception).customShow();
+        }
         Connector.connector = null;
     }
 
@@ -47,14 +67,30 @@ public class Connector
         Connector.connection.commit();
     }
 
-    public void rollBack() throws SQLException
+    public void rollBack()
     {
-        Connector.connection.rollback();
+        try
+        {
+            Connector.connection.rollback();
+        }
+        catch (Exception exception)
+        {
+            new CustomAlert(AlertType.ERROR, CustomAlert.DEFAULT_ERROR_TITLE , CustomAlert.DEFAULT_ERROR_HEADER,
+                            CustomAlert.DEFAULT_DESCRIPTION, exception).customShow();
+        }
     }
 
-    public void endTransaction() throws SQLException
+    public void endTransaction()
     {
-        Connector.connection.setAutoCommit(true);
+        try
+        {
+            Connector.connection.setAutoCommit(true);
+        }
+        catch (Exception exception)
+        {
+            new CustomAlert(AlertType.ERROR, CustomAlert.DEFAULT_ERROR_TITLE , CustomAlert.DEFAULT_ERROR_HEADER,
+                            CustomAlert.DEFAULT_DESCRIPTION, exception).customShow();
+        }
     }
 
     public PreparedStatement getStatement(String SQLstatement) throws SQLException

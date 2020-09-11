@@ -2,9 +2,9 @@ package vitniksys.backend.model.persistence;
 
 import java.util.List;
 import java.sql.Types;
+import java.time.Month;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import vitniksys.backend.model.enums.Mes;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
 
@@ -54,6 +54,8 @@ public class CampaignOperator implements ICampaignOperator
     @Override
     public int insert(Campaign camp) throws Exception
     {
+        int returnCode = 0;
+        /*
         int returnCode;
         String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `nombre`, `alias`, `mes`, `year` , `cod_cat`) VALUES"+
         "(?, ?, ?, ?, ?, ?);";
@@ -72,7 +74,7 @@ public class CampaignOperator implements ICampaignOperator
 
         returnCode = statement.executeUpdate();
         statement.close();
-  
+        */
         return returnCode;
     }
 
@@ -94,6 +96,7 @@ public class CampaignOperator implements ICampaignOperator
     public Campaign find(int id) throws Exception
     {
         Campaign ret = null;
+        /*
         String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setInt(1, id);
@@ -111,6 +114,7 @@ public class CampaignOperator implements ICampaignOperator
         }
 
         statement.close();
+        */
         return ret;
     }
 
@@ -122,14 +126,14 @@ public class CampaignOperator implements ICampaignOperator
     }
 
     @Override
-    public Campaign find(Mes month, int year) throws Exception
+    public Campaign find(int month, int year) throws Exception
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Campaign> findAll(Mes month) throws Exception
+    public List<Campaign> findAll(Month month) throws Exception
     {
         // TODO Auto-generated method stub
         return null;
@@ -152,7 +156,9 @@ public class CampaignOperator implements ICampaignOperator
     @Override
     public Campaign findLast() throws Exception
     {
+        
         Campaign ret = null;
+        /*
         // String sqlStmnt = "SELECT * FROM `camps` WHERE `active_row` = ? ORDER BY
         // `nro_camp` DESC;";
         String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = (SELECT MAX(`nro_camp`) FROM `camps` WHERE `active_row` = ?) AND `active_row` = ?;";
@@ -173,7 +179,9 @@ public class CampaignOperator implements ICampaignOperator
         }
 
         statement.close();
+        */
         return ret;
+        
     }
 
     @Override

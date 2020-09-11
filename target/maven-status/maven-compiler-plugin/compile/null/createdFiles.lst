@@ -15,7 +15,6 @@ vitniksys\backend\model\interfaces\IBalanceOperator.class
 vitniksys\backend\util\PagosRowTable.class
 vitniksys\backend\model\enums\TipoArt$1.class
 vitniksys\backend\util\ClientList.class
-vitniksys\backend\model\enums\Mes$1.class
 vitniksys\backend\model\persistence\CatalogueOperator.class
 vitniksys\backend\model\persistence\Connector.class
 vitniksys\backend\model\entities\Devolution.class
@@ -36,7 +35,6 @@ vitniksys\backend\controllers\CampManagementController$1.class
 vitniksys\backend\model\entities\Observation.class
 vitniksys\backend\model\interfaces\IPreferentialClientOperator.class
 vitniksys\backend\model\entities\BaseClient.class
-vitniksys\backend\util\OperationResult.class
 vitniksys\backend\util\StockDevsRowTable.class
 vitniksys\backend\model\interfaces\ICampaignOperator.class
 vitniksys\backend\model\entities\Commission.class
@@ -49,13 +47,13 @@ vitniksys\backend\model\enums\TipoArt.class
 vitniksys\backend\model\persistence\LeaderOperator.class
 vitniksys\backend\model\persistence\PreferentialClientOperator.class
 vitniksys\frontend\GUIsControllers\VitnikViewCntlr.class
-vitniksys\backend\model\enums\Mes.class
 vitniksys\backend\model\entities\SubordinatedClient.class
 vitniksys\backend\model\interfaces\IOrderOperator.class
 vitniksys\backend\model\entities\PreferentialClient.class
 vitniksys\frontend\GUIsControllers\CampQueryRegisterViewCntlr.class
 vitniksys\frontend\GUIsControllers\CatalogueQueryViewCntlr.class
 vitniksys\backend\model\enums\Banco.class
+vitniksys\backend\util\VitnikUseCaseThreadExecutor.class
 vitniksys\backend\model\persistence\CampaignOperator.class
 vitniksys\backend\model\persistence\BaseClientOperator.class
 vitniksys\frontend\views\CampQueryRegisterView.class
