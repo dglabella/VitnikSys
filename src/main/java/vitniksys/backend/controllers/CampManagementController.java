@@ -2,10 +2,8 @@ package vitniksys.backend.controllers;
 
 import java.io.File;
 import java.time.Month;
-import java.util.List;
 import java.util.Iterator;
 import javafx.application.Platform;
-import javafx.scene.control.ButtonType;
 //import java.util.concurrent.Executors;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.util.OrderObtainer;
@@ -59,7 +57,7 @@ public class CampManagementController
             }
             else
             {
-                this.campQueryRegisterView.showNoResult();
+                this.campQueryRegisterView.showNoResult("No se encontro la campaña especificada");
             }
         }
         catch (Exception exception)
@@ -92,7 +90,7 @@ public class CampManagementController
             }
             else
             {
-                this.campQueryRegisterView.showNoResult();
+                this.campQueryRegisterView.showNoResult("No se encontro la campaña especificada");
             }
         }
         catch (Exception exception)
@@ -115,139 +113,109 @@ public class CampManagementController
         Platform.runLater(orderObtainer);
     }
 
-    public void registerCamp(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail)
+    public void registerCamp(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception
     {
-        CustomAlert customAlert = new CustomAlert(AlertType.NONE, CustomAlert.DEFAULT_WORKING_ON_TITLE,
-                                                    CustomAlert.DEFAULT_WORKING_ON_HEADER);
-        customAlert.customShow();
-
-        Platform.runLater(new Runnable()
+        //If all fields are OK...
+        if(expressionChecker.onlyNumbers(campNumb, false) && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
+            && month != null && year != null && expressionChecker.isCatalogueCode(catalogueCode, true))
         {
-            @Override
-            public void run()
+            this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+
+            //Succes on normal execution flow
+            Campaign camp = new Campaign(Integer.valueOf(campNumb), month, year);
+            camp.setAlias(campAlias);
+
+            try
             {
-                //If all fields are OK...
-                if(expressionChecker.onlyNumbers(campNumb, false) && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
-                    && month != null && year != null && expressionChecker.isCatalogueCode(catalogueCode, true))
+                Connector.getConnector().startTransaction();
+
+                //Campaing registration with catalogue associated
+                if(catalogueCode != null)
                 {
-                    //Succes on normal execution flow
-                    Campaign camp = new Campaign(Integer.valueOf(campNumb), month, year);
-                    camp.setAlias(campAlias);
+                    Catalogue catalogue = CatalogueOperator.getOperator().find(Integer.valueOf(catalogueCode));
 
-                    try
+                    if(catalogue != null)
                     {
-                        Connector.getConnector().startTransaction();
-
-                        //Campaing registration with catalogue associated
-                        if(catalogueCode != null)
-                        {
-                            Catalogue catalogue = CatalogueOperator.getOperator().find(Integer.valueOf(catalogueCode));
-
-                            if(catalogue != null)
-                            {
-                                camp.setCatalogue(catalogue);
-                            }
-                            else
-                            {
-                                customAlert.setAlertType(AlertType.ERROR);
-                                customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
-                                customAlert.setHeaderText("No existe el catálogo especificado.");
-                                customAlert.setDescription("Si desea asociar el catálogo "+catalogueCode+
-                                " a la campaña "+campNumb+" puede registrar primero el catálogo presionando "+
-                                "el botón \"mas\" cercano al campo del catálogo.");
-                                customAlert.setException(CustomAlert.irrelevantException());
-                                throw CustomAlert.irrelevantException();
-                            }
-                        }
-
-                        //Campaing registration with orders associated
-                        if(detail != null)
-                        {
-                            OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
-                            Platform.runLater(orderObtainer);
-                        }
-
-                        CampaignOperator.getOperator().insert(camp);
-
-                        Connector.getConnector().commit();
+                        camp.setCatalogue(catalogue);
                     }
-                    catch (Exception exception)
-                    {
-                        Connector.getConnector().rollBack();
-                        
-                        customAlert.setAlertType(AlertType.ERROR);
-                        customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
-                        customAlert.setHeaderText(CustomAlert.DEFAULT_ERROR_HEADER);
-                        customAlert.setException(exception);
-                    }
-                    finally
-                    {
-                        Connector.getConnector().endTransaction();
-                        Connector.getConnector().closeConnection();   
-                        
-                        customAlert.customShow();
+                    else
+                    {                        
+                        this.campQueryRegisterView.showError("No existe el catálogo especificado. Si desea"+
+                        " asociar el catálogo "+catalogueCode+" a la campaña "+campNumb+" puede registrar "+
+                        "primero el catálogo presionando el botón \"mas\" cercano al campo del catálogo.");
+
+                        throw new Exception("Irrelevant exception");
                     }
                 }
-                else
-                {//Conflict with some fields.
-                    customAlert.setAlertType(AlertType.ERROR);
-                    customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
-                    customAlert.setHeaderText("Deben completarse al menos los campos obligatorios para registrar"+
-                                            "una campaña");
-                    customAlert.customShow();
-                } 
-            }  
-        });   
-	}
+
+                CampaignOperator.getOperator().insert(camp);
+
+                //Campaing registration with orders associated
+                if(detail != null)
+                {
+                    OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
+                    registerOrders(detail);
+                }
+
+                Connector.getConnector().commit();
+            }
+            catch (Exception exception)
+            {
+                Connector.getConnector().rollBack();
+            }
+            finally
+            {
+                Connector.getConnector().endTransaction();
+                Connector.getConnector().closeConnection();   
+            }
+        }
+        else
+        {
+            //Conflict with some fields.
+            this.campQueryRegisterView.showError("Los campos deben completarse correctamente.");
+            
+            /*
+            customAlert.setAlertType(AlertType.ERROR);
+            customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
+            customAlert.setHeaderText("Deben completarse al menos los campos obligatorios para registrar"+
+                                    "una campaña");
+            customAlert.customShow();
+            */
+        } 
+    }
 
     public void registerOrders(File detail) throws Exception
     {
-        CustomAlert customAlert = new CustomAlert(AlertType.NONE, CustomAlert.DEFAULT_WORKING_ON_TITLE,
-                                                CustomAlert.DEFAULT_WORKING_ON_HEADER);
-        customAlert.customShow();
-
-        Platform.runLater(new Runnable()
+        try
         {
-            @Override
-            public void run()
+            OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
+
+            Connector.getConnector().startTransaction();
+
+            PreferentialClient cp;
+            PreferentialClientOperator cpOperator;
+            Iterator<PreferentialClient> cpsIterator = cps.iterator();
+
+            while(cpsIterator.hasNext())
             {
-                try
-                {
-                    OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
-
-                    Connector.getConnector().startTransaction();
-
-                    PreferentialClient cp;
-                    PreferentialClientOperator cpOperator;
-                    Iterator<PreferentialClient> cpsIterator = cps.iterator();
-
-                    while(cpsIterator.hasNext())
-                    {
-                        cp = cpsIterator.next();
-                        cpOperator = cp.operator();
-                        cpOperator.registerOrders(cp);
-                    }
-                    
-                    Connector.getConnector().commit();
-                    customAlert.customClose();
-                    customAlert = new CustomAlert(AlertType.INFORMATION, CustomAlert.DEFAULT_SUCCES_TITLE,
-                                                CustomAlert.DEFAULT_SUCCES_HEADER);
-                }
-                catch (Exception exception)
-                {
-                    Connector.getConnector().rollBack();
-                    customAlert.customClose();
-
-                    customAlert =  new CustomAlert(AlertType.ERROR, CustomAlert.DEFAULT_ERROR_TITLE, CustomAlert.DEFAULT_ERROR_HEADER, 
-                                                CustomAlert.DEFAULT_DESCRIPTION, exception);
-                    exception.printStackTrace();
-                }
-                finally
-                {
-                    Connector.getConnector().endTransaction();
-                    Connector.getConnector().closeConnection();
-                }
+                cp = cpsIterator.next();
+                cpOperator = cp.operator();
+                cpOperator.registerOrders(cp);
             }
-        });
+            
+            Connector.getConnector().commit();
+        }
+        catch (Exception exception)
+        {
+            Connector.getConnector().rollBack();
+            exception.printStackTrace();
+        }
+        finally
+        {
+            Connector.getConnector().endTransaction();
+            Connector.getConnector().closeConnection();
+        }
+            
+
     }
 }
