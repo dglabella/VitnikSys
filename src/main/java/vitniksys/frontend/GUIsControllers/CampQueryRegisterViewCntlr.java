@@ -129,7 +129,8 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     // ================================= FXML methods
     // =================================
     @FXML
-    private void addOrdersButtonPressed() throws Exception {
+    private void addOrdersButtonPressed() throws Exception
+    {
         /**
          * THIS METHOD IS SUPPOSED TO SELECT A "PEDIDOS" OBTAINING METHOD. ACTUALLY IS
          * HARDCODED FOR FILE SELECTING METHOD (Detail.csv FILE), BUT IF "PEDIDOS"
