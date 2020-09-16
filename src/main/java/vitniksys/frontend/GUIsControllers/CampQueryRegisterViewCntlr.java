@@ -144,21 +144,15 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML
     private Button register;
 
-    @FXML
-    private Button cancel;
+    @FXML private Button cancel;
 
-    @FXML
-    private Button search;
+    @FXML private Button search;
 
-    @FXML
-    private Button addOrders;
+    @FXML private Button addOrders;
 
-    @FXML
-    private Button plusCamp;
-    
-    @FXML
-    private Button plusCatalogue;
+    @FXML private Button plusCamp;
 
+    @FXML private Button plusCatalogue;
     // ================================= FXML methods
     // =================================
     @FXML
