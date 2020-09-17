@@ -18,7 +18,7 @@ import vitniksys.backend.model.entities.PreferentialClient;
 *This class contains the algorithm for translate the information
 *contained in Detalle.csv File
 */
-public class DetailFileInterpreter extends OrderObtainer
+public class DetailFileInterpreter implements OrderObtainer
 {
     private static String SEPARATOR = ";";
 
@@ -147,7 +147,7 @@ public class DetailFileInterpreter extends OrderObtainer
 
     // ================================= public methods = ================================
     @Override
-    public void getInfo()
+    public List<PreferentialClient> getOrderMakers()
     {
         String [] splitedLine;
         
@@ -176,5 +176,6 @@ public class DetailFileInterpreter extends OrderObtainer
             e.printStackTrace();
             orderMakers = null;
         }
+        return (List<PreferentialClient>)orderMakers;
     }
 }

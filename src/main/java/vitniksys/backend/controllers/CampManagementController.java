@@ -1,13 +1,13 @@
 package vitniksys.backend.controllers;
 
 import java.io.File;
+import java.util.List;
 import java.time.Month;
 import java.util.Iterator;
-import javafx.application.Platform;
+import javafx.scene.control.Alert;
+//import javafx.application.Platform;
 //import java.util.concurrent.Executors;
-import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.util.OrderObtainer;
-import javafx.scene.control.Alert.AlertType;
 //import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Campaign;
@@ -39,38 +39,55 @@ public class CampManagementController
     //Getters && Setters
 
     // ================================= private methods =================================
+    private void registerIncomingOrders(File detail) throws Exception
+    {
+        OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
+        List<PreferentialClient> cps = orderObtainer.getOrderMakers();
+        
+        PreferentialClient cp;
+        PreferentialClientOperator cpOperator;
+        Iterator<PreferentialClient> cpsIterator = cps.iterator();
+
+        while(cpsIterator.hasNext())
+        {
+            cp = cpsIterator.next();
+            cpOperator = cp.operator();
+            cpOperator.registerOrders(cp);
+        }
+    }
 
     // ================================= protected methods =================================
 
     // ================================= public methods =================================
     public void searchCamp(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
     {
-        //Succes on normal execution flow
-        CustomAlert customAlert =  new CustomAlert();
+        Alert alert = this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         try
         {
             Campaign camp = CampaignOperator.getOperator().find(campNumb);
             if(camp != null)
             {
                 OrderOperator.getOperator();
+
+                
+                this.campQueryRegisterView.closeProcessIsWorking(alert);
                 this.campQueryRegisterView.showQueriedCamp(camp);
             }
             else
             {
-                this.campQueryRegisterView.showNoResult("No se encontro la campaña especificada");
+                this.campQueryRegisterView.closeProcessIsWorking(alert);
+                this.campQueryRegisterView.showNoResult("No se encontró la campaña especificada");
             }
         }
         catch (Exception exception)
         {
-            customAlert.setAlertType(AlertType.ERROR);
-            customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
-            customAlert.setHeaderText(CustomAlert.DEFAULT_ERROR_HEADER);
-            customAlert.setException(exception);
+            this.campQueryRegisterView.closeProcessIsWorking(alert);
+            this.campQueryRegisterView.showError("Error al buscar la campaña especificada.");
+            throw exception;
         }
         finally
         {
             Connector.getConnector().closeConnection();
-            customAlert.customShow();
         }
     }
 
@@ -90,27 +107,18 @@ public class CampManagementController
             }
             else
             {
-                this.campQueryRegisterView.showNoResult("No se encontro la campaña especificada");
+                this.campQueryRegisterView.showNoResult("No se encontró la última campaña");
             }
         }
         catch (Exception exception)
         {
-            exception.printStackTrace();
+            this.campQueryRegisterView.showError("Error al buscar la última campaña."); 
+            throw exception;
         }
         finally
         {
             Connector.getConnector().closeConnection();
         }
-    }
-
-    public void obtainOrders(OrderObtainer orderObtainer) throws Exception
-    {
-        //Executor service creates threads that are not JavaFX threads
-        //and thread that are not javaFX threads cannot change the GUI
-        //ExecutorService executorService = Executors.newSingleThreadExecutor();
-        //executorService.execute(pedidosObtainer);
-        //executorService.submit(pedidosObtainer);
-        Platform.runLater(orderObtainer);
     }
 
     public void registerCamp(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception
@@ -153,8 +161,7 @@ public class CampManagementController
                 //Campaing registration with orders associated
                 if(detail != null)
                 {
-                    OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
-                    registerOrders(detail);
+                    this.registerIncomingOrders(detail);
                 }
 
                 Connector.getConnector().commit();
@@ -162,60 +169,45 @@ public class CampManagementController
             catch (Exception exception)
             {
                 Connector.getConnector().rollBack();
+                throw exception;
             }
             finally
             {
                 Connector.getConnector().endTransaction();
                 Connector.getConnector().closeConnection();   
+                this.campQueryRegisterView.closeProcessIsWorking();
             }
         }
         else
         {
             //Conflict with some fields.
             this.campQueryRegisterView.showError("Los campos deben completarse correctamente.");
-            
-            /*
-            customAlert.setAlertType(AlertType.ERROR);
-            customAlert.setTitle(CustomAlert.DEFAULT_ERROR_TITLE);
-            customAlert.setHeaderText("Deben completarse al menos los campos obligatorios para registrar"+
-                                    "una campaña");
-            customAlert.customShow();
-            */
         } 
     }
 
     public void registerOrders(File detail) throws Exception
     {
+        this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         try
         {
-            OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
-
             Connector.getConnector().startTransaction();
 
-            PreferentialClient cp;
-            PreferentialClientOperator cpOperator;
-            Iterator<PreferentialClient> cpsIterator = cps.iterator();
+            this.registerIncomingOrders(detail);
 
-            while(cpsIterator.hasNext())
-            {
-                cp = cpsIterator.next();
-                cpOperator = cp.operator();
-                cpOperator.registerOrders(cp);
-            }
-            
             Connector.getConnector().commit();
+
+            this.campQueryRegisterView.showSucces("Las ordenes se agregaron exitosamente!");
         }
         catch (Exception exception)
         {
             Connector.getConnector().rollBack();
-            exception.printStackTrace();
+            this.campQueryRegisterView.showError("Error al intentar registrar los pedidos.");
+            throw exception;
         }
         finally
         {
             Connector.getConnector().endTransaction();
-            Connector.getConnector().closeConnection();
+            Connector.getConnector().closeConnection();   
         }
-            
-
     }
 }

@@ -1,25 +1,16 @@
 package vitniksys.backend.util;
 
+import java.util.List;
+import vitniksys.backend.model.entities.PreferentialClient;
+
 /**
  * A "OrderObtainer" object performs a process to obtain the incoming orders.
  */
-public abstract class OrderObtainer implements Runnable
-{  
-    @Override
-    public void run()
-    {
-        getInfo();
-    }
-
+public interface OrderObtainer
+{
     /**
-     * This method should not be called directly, instead the object that call
-     * this method, should be submited to an java.util.concurrent.ExecutorService object.
-     * A PedidosObtainer object should be used like: 
-     * ExecutorService.newSingleThreadExecutor().submit(pedidosObtainer);
-     * If this method is called directly, if the information to obtain is much bigger
-     * than usual, can freeze the System execution.
+     * Get a list of those preferential clientes who have placed incoming orders.
      * @return A list with all the the Clients with "incoming Orders".
-     * @see ExecutorService.newSingleThreadExecutor().submit()
      */
-    protected abstract void getInfo();
+    List<PreferentialClient> getOrderMakers();
 }

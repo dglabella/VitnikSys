@@ -1,5 +1,7 @@
 package vitniksys.frontend.views;
 
+import javafx.scene.control.Alert;
+
 public interface View
 {
     /**
@@ -7,7 +9,9 @@ public interface View
      * IMPORTANT: DO NOT USE THREAD BLOCKING INSTRUCTIONS HERE.
      * OTHERWISE, THE USE CASE CANNOT CONTINUE.
      */
-    void showProcessIsWorking(String message);
+    Alert showProcessIsWorking(String message);
+
+    void closeProcessIsWorking(Alert alert);
 
     /**
      * Called when a use case has succed.

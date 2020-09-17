@@ -53,9 +53,7 @@ public class CampaignOperator implements ICampaignOperator
 
     @Override
     public int insert(Campaign camp) throws Exception
-    {
-        int returnCode = 0;
-        /*
+    {        
         int returnCode;
         String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `nombre`, `alias`, `mes`, `year` , `cod_cat`) VALUES"+
         "(?, ?, ?, ?, ?, ?);";
@@ -74,7 +72,7 @@ public class CampaignOperator implements ICampaignOperator
 
         returnCode = statement.executeUpdate();
         statement.close();
-        */
+        
         return returnCode;
     }
 
@@ -96,7 +94,7 @@ public class CampaignOperator implements ICampaignOperator
     public Campaign find(int id) throws Exception
     {
         Campaign ret = null;
-        /*
+        
         String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setInt(1, id);
@@ -114,7 +112,7 @@ public class CampaignOperator implements ICampaignOperator
         }
 
         statement.close();
-        */
+        
         return ret;
     }
 
@@ -158,7 +156,7 @@ public class CampaignOperator implements ICampaignOperator
     {
         
         Campaign ret = null;
-        /*
+        
         // String sqlStmnt = "SELECT * FROM `camps` WHERE `active_row` = ? ORDER BY
         // `nro_camp` DESC;";
         String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = (SELECT MAX(`nro_camp`) FROM `camps` WHERE `active_row` = ?) AND `active_row` = ?;";
@@ -179,9 +177,8 @@ public class CampaignOperator implements ICampaignOperator
         }
 
         statement.close();
-        */
-        return ret;
         
+        return ret;  
     }
 
     @Override
