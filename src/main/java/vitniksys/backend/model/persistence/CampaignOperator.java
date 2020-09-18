@@ -61,8 +61,14 @@ public class CampaignOperator implements ICampaignOperator
 
         statement.setInt(1, camp.getNumber());
         statement.setString(2, camp.getName());
-        statement.setString(3, camp.getAlias());
-        statement.setInt(4, Mes.ConvertEnumToInt(camp.getMonth()));
+
+        if(camp.getAlias() == null || camp.getAlias().isBlank())
+        
+            statement.setString(3, camp.getAlias());
+        else
+            statement.setNull(3, Types.VARCHAR);
+
+        statement.setInt(4, camp.getMonth());
         statement.setInt(5, camp.getYear());
 
         if(camp.getCatalogue()!=null && camp.getCatalogue().getCode()!=null)
@@ -104,7 +110,7 @@ public class CampaignOperator implements ICampaignOperator
 
         if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), Mes.ConvertIntToEnum(resultSet.getInt(4)), resultSet.getInt(5));
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
             ret.setName(resultSet.getString(2));
             ret.setAlias(resultSet.getString(3));
             ret.setRegistrationTime(resultSet.getTimestamp(6));
@@ -168,7 +174,7 @@ public class CampaignOperator implements ICampaignOperator
 
         if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), Mes.ConvertIntToEnum(resultSet.getInt(4)), resultSet.getInt(5));
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
             ret.setName(resultSet.getString(2));
             ret.setAlias(resultSet.getString(3));
             ret.setRegistrationTime(resultSet.getTimestamp(6));

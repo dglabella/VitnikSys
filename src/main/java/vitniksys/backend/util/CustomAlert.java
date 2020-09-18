@@ -75,32 +75,39 @@ public class CustomAlert extends Alert
 
     public void customShow()
     {
-        if(this.getException() != null)
-        {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            this.getException().printStackTrace(pw);
-            String stackTraceMessage = sw.toString(); //stack trace as a string
-            TextArea textArea = new TextArea((this.getDescription()!=null?this.getDescription()+"\n\n":"")+stackTraceMessage);
-            textArea.setEditable(false);
-            textArea.setWrapText(true);
-            //textArea.setMaxWidth(Double.MAX_VALUE);
-            //textArea.setMaxHeight(Double.MAX_VALUE);
+        //return new Runnable()
+        //{
+            //@Override
+            //public void run()
+            //{
+                if(getException() != null)
+                {
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    getException().printStackTrace(pw);
+                    String stackTraceMessage = sw.toString(); //stack trace as a string
+                    TextArea textArea = new TextArea((getDescription()!=null?getDescription()+"\n\n":"")+stackTraceMessage);
+                    textArea.setEditable(false);
+                    textArea.setWrapText(true);
+                    //textArea.setMaxWidth(Double.MAX_VALUE);
+                    //textArea.setMaxHeight(Double.MAX_VALUE);
 
-            Pane pane = new Pane();
-            //pane.setMaxWidth(Double.MAX_VALUE);
-            pane.getChildren().add(textArea);
-            this.getDialogPane().setExpandableContent(pane);
-        }        
+                    Pane pane = new Pane();
+                    //pane.setMaxWidth(Double.MAX_VALUE);
+                    pane.getChildren().add(textArea);
+                    getDialogPane().setExpandableContent(pane);
+                }        
 
-        if(this.getAlertType() != AlertType.NONE)
-        {
-            this.showAndWait();
-        }
-        else
-        {            
-            this.show();
-        }
+                if(getAlertType() != AlertType.NONE)
+                {
+                    showAndWait();
+                }
+                else
+                {            
+                    show();
+                }
+            //}
+        //};
     }
 
     public void customClose()

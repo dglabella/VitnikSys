@@ -2,6 +2,7 @@ package vitniksys.backend.model.entities;
 
 import java.util.List;
 import java.sql.Timestamp;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class Campaign
@@ -39,7 +40,8 @@ public class Campaign
         this.number = number;
         this.month = month;
         this.year = year;
-        this.name = this.month.toString()+"-"+this.year;
+        
+        this.name = Month.of(month).toString()+"-"+this.year;
     }
 
     //Getters && Setters

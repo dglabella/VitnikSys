@@ -20,11 +20,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ButtonType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
+import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.frontend.views.CampQueryRegisterView;
@@ -43,6 +47,8 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     private ExpressionChecker expressionChecker;
 
     private CampManagementController campManagementController;
+
+    private CustomAlert customAlert;
 
     // ================================= FXML variables =================================
     @FXML private TextField campNumber;
@@ -72,7 +78,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML private Label filePath;
     @FXML private Label campNumberInvalid;
     @FXML private Label campAliasInvalid;
-    @FXML private Label catalogoCodeInvalid;
+    @FXML private Label catalogueCodeInvalid;
     @FXML private Label noResultMessage;
     @FXML private Label orders;
     @FXML private ChoiceBox<Month> campMonth;
@@ -184,13 +190,47 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     @FXML
+    private void monthComboBoxPressed()
+    {
+         //Clean others invalidity messages
+         this.campNumberInvalid.setVisible(false);
+         this.campAliasInvalid.setVisible(false);
+         this.catalogueCodeInvalid.setVisible(false);
+         
+         //Clean fields if is Searching for a camp
+         if(this.isSearching)
+         {
+             this.campNumber.clear();
+             this.campAlias.clear();
+             this.catalogueCode.clear();
+         }
+    }
+
+    @FXML
+    private void yearComboBoxPressed()
+    {
+         //Clean others invalidity messages
+         this.campNumberInvalid.setVisible(false);
+         this.campAliasInvalid.setVisible(false);
+         this.catalogueCodeInvalid.setVisible(false);
+         
+         //Clean fields if is Searching for a camp
+         if(this.isSearching)
+         {
+             this.campNumber.clear();
+             this.campAlias.clear();
+             this.catalogueCode.clear();
+         }
+    }
+
+    @FXML
     private boolean nroCampCheck()
     {
         boolean ret;
 
         //Clean others invalidity messages
         this.campAliasInvalid.setVisible(false);
-        this.catalogoCodeInvalid.setVisible(false);
+        this.catalogueCodeInvalid.setVisible(false);
         
         //Clean fields if is Searching for a camp
         if(this.isSearching)
@@ -222,7 +262,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
 
         //Clean others invalidity messages
         this.campNumberInvalid.setVisible(false);
-        this.catalogoCodeInvalid.setVisible(false);
+        this.catalogueCodeInvalid.setVisible(false);
         
         //Clean fields if is Searching for a camp
         if(this.isSearching)
@@ -267,13 +307,13 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     
         if (this.expressionChecker.isCatalogueCode(this.catalogueCode.getText(), true))
         {
-            this.catalogoCodeInvalid.setVisible(false);
+            this.catalogueCodeInvalid.setVisible(false);
             ret = true;
         }
         else
         {
-            this.catalogoCodeInvalid.setText("Dato invalido");
-            this.catalogoCodeInvalid.setVisible(true);
+            this.catalogueCodeInvalid.setText("Dato invalido");
+            this.catalogueCodeInvalid.setVisible(true);
             ret = false;
         }
         return ret;
@@ -314,7 +354,10 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     {
         // Creating the expresssion checker object for checking inputs.
         expressionChecker = ExpressionChecker.getExpressionChecker();
+
         this.campManagementController = new CampManagementController(this);
+
+        this.customAlert = new CustomAlert();
 
         //Initiallly, search is active.
         this.isSearching = true;
@@ -326,6 +369,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
 
         this.campMonth.setItems(months);
 
+        /*
         this.campMonth.getSelectionModel().selectedIndexProperty().addListener
         (
             new ChangeListener<Number>()
@@ -337,7 +381,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
                     //Clean others invalidity messages
                     campNumberInvalid.setVisible(false);
                     campAliasInvalid.setVisible(false);
-                    catalogoCodeInvalid.setVisible(false);
+                    catalogueCodeInvalid.setVisible(false);
         
                     //Clean fields if is Searching for a camp
                     if(isSearching)
@@ -349,7 +393,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
                 }
             }
         );
-        
+        */
 
         // Setting values and listener for campYear choice box.
         ObservableList<Integer> years = FXCollections.observableArrayList();
@@ -358,6 +402,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
             years.add(i);
         this.campYear.setItems(years);
 
+        /*
         this.campYear.getSelectionModel().selectedIndexProperty().addListener
         (
             new ChangeListener<Number>()
@@ -368,7 +413,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
                     //Clean others invalidity messages
                     campNumberInvalid.setVisible(false);
                     campAliasInvalid.setVisible(false);
-                    catalogoCodeInvalid.setVisible(false);
+                    catalogueCodeInvalid.setVisible(false);
         
                     //Clean fields if is Searching for a camp
                     if(isSearching)
@@ -380,6 +425,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
                 }
             }
         );
+        */
 
         Tooltip toolTipCreateCamp = new Tooltip();
         toolTipCreateCamp.setText("Nueva campaña");
@@ -403,19 +449,44 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showProcessIsWorking(String message)
     {
+        this.customAlert.setAlertType(AlertType.NONE);
+        this.customAlert.setTitle("PROCESANDO");
+        this.customAlert.setHeaderText(message);
+        this.customAlert.customShow();
+    }
 
+    @Override
+    public void closeProcessIsWorking()
+    {
+        this.customAlert.setResult(ButtonType.CLOSE);
     }
 
     @Override
     public void showSucces(String message)
     {
-
+        this.customAlert.setAlertType(AlertType.INFORMATION);
+        this.customAlert.setTitle("EXITO");
+        this.customAlert.setHeaderText(message);
+        this.customAlert.customShow();
     }
 
     @Override
     public void showError(String message)
     {
+        this.customAlert.setAlertType(AlertType.ERROR);
+        this.customAlert.setTitle("ERROR");
+        this.customAlert.setHeaderText(message);
+        this.customAlert.customShow();
+    }
 
+    @Override
+    public void showError(String message, Exception exception)
+    {
+        this.customAlert.setAlertType(AlertType.ERROR);
+        this.customAlert.setTitle("ERROR");
+        this.customAlert.setHeaderText(message);
+        this.customAlert.setException(exception);
+        this.customAlert.customShow();
     }
 
     @Override
