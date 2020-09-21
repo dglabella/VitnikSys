@@ -32,8 +32,7 @@ public class BaseClientOperator extends PreferentialClientOperator
         while(incomingOrdersIterator.hasNext())
         {
             incomingOrder = incomingOrdersIterator.next();
-            //
-            //incomingOrder.getArticulo().
+            
         }
         return 0;
     }  
