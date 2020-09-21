@@ -1,8 +1,9 @@
 package vitniksys.backend.util;
 
 import java.sql.Timestamp;
+
+import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.enums.Motivo;
-import vitniksys.backend.model.enums.TipoArt;
 
 public class DevolucionesRowTable 
 {
@@ -12,12 +13,12 @@ public class DevolucionesRowTable
     private Float precio;
     private Float precioCom;
     private String nombre;
-    private TipoArt tipo;
+    private ArticleType tipo;
     private Motivo motivo;
     private Timestamp fechaDev;
 
     public DevolucionesRowTable( int codDev, int nroEnvio, int codEjemplar, Float precio, 
-        Float precioCom, String nombre, TipoArt tipo, Motivo motivo, Timestamp fechaDev)
+        Float precioCom, String nombre, ArticleType tipo, Motivo motivo, Timestamp fechaDev)
     {
         this.codDev = codDev;
         this.nroEnvio = nroEnvio;
@@ -91,12 +92,12 @@ public class DevolucionesRowTable
         this.nombre = nombre;
     }
 
-    public TipoArt getTipo()
+    public ArticleType getTipo()
     {
         return this.tipo;
     }
 
-    public void setTipo(TipoArt tipo)
+    public void setTipo(ArticleType tipo)
     {
         this.tipo = tipo;
     }

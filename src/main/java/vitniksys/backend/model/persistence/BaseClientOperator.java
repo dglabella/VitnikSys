@@ -1,7 +1,5 @@
 package vitniksys.backend.model.persistence;
 
-import java.util.Iterator;
-import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 public class BaseClientOperator extends PreferentialClientOperator
@@ -10,30 +8,26 @@ public class BaseClientOperator extends PreferentialClientOperator
 
     protected BaseClientOperator()
     {
-        //Empty Constructor
+        // Empty Constructor
     }
 
     public static BaseClientOperator getOperator()
     {
-        if(BaseClientOperator.operator == null)
+        if (BaseClientOperator.operator == null)
             BaseClientOperator.operator = new BaseClientOperator();
 
         return BaseClientOperator.operator;
     }
 
     @Override
-    public int registerOrders(PreferentialClient cp)
+    public int registerOrders(PreferentialClient cp) throws Exception
     {
         System.out.println("Agregando pedidos Cliente Preferencial Base");
+        int ret = super.registerOrders(cp);
 
-        Order incomingOrder;
-        Iterator<Order> incomingOrdersIterator = cp.getIncomingOrders().iterator();
+        BalanceOperator balanceOperator = BalanceOperator.getOperator();
+        balanceOperator.update(balance);
 
-        while(incomingOrdersIterator.hasNext())
-        {
-            incomingOrder = incomingOrdersIterator.next();
-            
-        }
         return 0;
-    }  
+    }
 }

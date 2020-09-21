@@ -113,7 +113,7 @@ public class CampManagementController
         finally
         {
             Connector.getConnector().closeConnection();
-        }   
+        } 
     }
 
     public void registerCamp(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception
@@ -141,7 +141,7 @@ public class CampManagementController
                         camp.setCatalogue(catalogue);
                     }
                     else
-                    {                        
+                    {
                         this.campQueryRegisterView.closeProcessIsWorking();
                         this.campQueryRegisterView.showError("No existe el catálogo especificado. Si desea"+
                         " asociar el catálogo "+catalogueCode+" a la campaña "+campNumb+" puede registrar "+

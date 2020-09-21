@@ -53,7 +53,7 @@ public class CampaignOperator implements ICampaignOperator
 
     @Override
     public int insert(Campaign camp) throws Exception
-    {        
+    {
         int returnCode;
         String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `nombre`, `alias`, `mes`, `year` , `cod_cat`) VALUES"+
         "(?, ?, ?, ?, ?, ?);";
@@ -80,6 +80,13 @@ public class CampaignOperator implements ICampaignOperator
         statement.close();
         
         return returnCode;
+    }
+
+    @Override
+    public int insertMany(List<Campaign> list) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
     @Override

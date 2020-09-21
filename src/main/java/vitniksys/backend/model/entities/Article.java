@@ -1,13 +1,13 @@
 package vitniksys.backend.model.entities;
 
-import vitniksys.backend.model.enums.TipoArt;
+import vitniksys.backend.model.enums.ArticleType;
 
 public class Article
 {
     //Entity properties
     private String id; //Table id = letra
     private String name;
-    private TipoArt type;
+    private ArticleType type;
     private float unitPrice;
 
     //Domain Associations
@@ -16,7 +16,7 @@ public class Article
     //Others
     private boolean active;
     
-    public Article(String id, String name, TipoArt type, float unitPrice)
+    public Article(String id, String name, ArticleType type, float unitPrice)
     {
         this.id = id;
         this.name = name;
@@ -53,12 +53,12 @@ public class Article
         this.name = name;
     }
 
-    public TipoArt getType()
+    public ArticleType getType()
     {
         return this.type;
     }
 
-    public void setType(TipoArt type)
+    public void setType(ArticleType type)
     {
         this.type = type;
     }

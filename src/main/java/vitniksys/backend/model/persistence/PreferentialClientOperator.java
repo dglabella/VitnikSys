@@ -1,9 +1,14 @@
 package vitniksys.backend.model.persistence;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.sql.Types;
 import java.sql.PreparedStatement;
+
+import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
 
@@ -84,6 +89,13 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
   
         return returnCode;
     }
+
+    @Override
+    public int insertMany(List<PreferentialClient> list) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
     
     @Override
     public List<PreferentialClient> findAll() throws Exception
@@ -106,5 +118,31 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         return 0;
     }
 
-    public abstract int registerOrders(PreferentialClient cp) throws Exception;
+    @Override
+    public int registerOrders(PreferentialClient cp) throws Exception
+    {
+        int ret = 0;
+        
+        List<Article> articles =  new ArrayList<>();
+        Iterator<Order> incomingOrdersIterator = cp.getIncomingOrders().iterator();
+
+        while(incomingOrdersIterator.hasNext())
+            articles.add(incomingOrdersIterator.next().getArticle());
+
+
+        List<Order> orders =  new ArrayList<>();
+        incomingOrdersIterator = cp.getIncomingOrders().iterator();
+
+        while(incomingOrdersIterator.hasNext())
+            orders.add(incomingOrdersIterator.next());
+
+        
+        ArticleOperator articleOperator = ArticleOperator.getOperator();
+        OrderOperator orderOperator = OrderOperator.getOperator();
+        
+        ret += articleOperator.insertMany(articles);
+        ret += orderOperator.insertMany(orders);
+
+        return ret;
+    }
 }

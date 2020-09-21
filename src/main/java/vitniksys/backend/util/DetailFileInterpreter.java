@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Iterator;
 import java.util.ArrayList;
-import vitniksys.backend.model.enums.TipoArt;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
@@ -127,7 +127,7 @@ public class DetailFileInterpreter implements OrderObtainer
             //all orders are commissionable by default and it's supposed to
             //be checked manually by the user if some orders are not commissionable.
             order = new Order(row.getQuant(), row.getPrice(), true);
-            article = new Article(row.getLetters(), row.getName(), TipoArt.inferType(row.getObs()), row.getUnitPrice());
+            article = new Article(row.getLetters(), row.getName(), ArticleType.inferType(row.getObs()), row.getUnitPrice());
             order.setArticle(article);
             order.setCampaign(new Campaign(row.getCampNumb()));
 

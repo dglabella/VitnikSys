@@ -1,0 +1,2 @@
+Es el articulo realmente identificado por el atributo letra? o en realidad la letra es una cuestion del talle
+pero en realidad el articulo es identificado por un codigo numerico seguido de la letra?

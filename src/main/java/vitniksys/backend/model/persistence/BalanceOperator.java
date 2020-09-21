@@ -1,5 +1,6 @@
 package vitniksys.backend.model.persistence;
 
+import java.util.Iterator;
 import java.util.List;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Balance;
@@ -51,21 +52,46 @@ public class BalanceOperator implements IBalanceOperator
     @Override
     public int insert(Balance balance) throws Exception
     {
-        int returnCode;
+        int returnCode = 0;
         String sqlStmnt = "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?)";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, balance.getClient().getId());
         statement.setInt(2, balance.getCampaign().getNumber());
 
-        returnCode = statement.executeUpdate();
+        returnCode += statement.executeUpdate();
         statement.close();
         return returnCode;
     }
 
     @Override
-    public int update(Balance e) throws Exception
+    public int insertMany(List<Balance> list) throws Exception
     {
+        int returnCode = 0;
+        String sqlStmnt = "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?)";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        Balance balance;
+        Iterator<Balance> listIterator = list.iterator();
+
+        while(listIterator.hasNext())
+        {
+            balance = listIterator.next();
+
+            statement.setInt(1, balance.getClient().getId());
+            statement.setInt(2, balance.getCampaign().getNumber());
+
+            returnCode += statement.executeUpdate();
+        }
+
+        statement.close();
+        return returnCode;
+    }
+
+    @Override
+    public int update(Balance balance) throws Exception
+    {
+        //String updateSQLStatement = "UPDATE `saldos` SET `pedidos_comisionables`= `pedidos_comisionables`+100, `pedidos_no_comisionables`= `pedidos_no_comisionables`+200, `catalogos`= `catalogos`+300, `recompras`= `recompras`+400, `pagos`= `pagos`+500, `devoluciones`= `devoluciones`+600, `comision`= `comision`+700, `balance`= -`pedidos_comisionables`-`pedidos_no_comisionables`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision`WHERE `id_cp` = 555 AND `nro_camp` = 221 AND `active_row` = True;";
         // TODO Auto-generated method stub
         return 0;
     }

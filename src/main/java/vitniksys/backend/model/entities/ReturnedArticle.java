@@ -1,7 +1,7 @@
 package vitniksys.backend.model.entities;
 
 import vitniksys.backend.model.enums.Motivo;
-import vitniksys.backend.model.enums.TipoArt;
+import vitniksys.backend.model.enums.ArticleType;
 
 public class ReturnedArticle extends Article
 {
@@ -16,7 +16,7 @@ public class ReturnedArticle extends Article
     //Others
     private boolean active;
 
-    public ReturnedArticle(String id, String name, TipoArt type, float unitPrice, 
+    public ReturnedArticle(String id, String name, ArticleType type, float unitPrice, 
         int unitCode, Motivo reason, boolean repurchased)
     {
         super(id, name, type, unitPrice);

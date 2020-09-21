@@ -1,26 +1,28 @@
 package vitniksys.backend.model.enums;
 
-public enum TipoArt
+public enum ArticleType
 {
     PEDIDO, FREEPREMIUM, CALZADO, PROMO, OPORTUNIDAD, NA;
     
-    public static TipoArt ConvertirIntAEnum(int val){
-        TipoArt ret = null; 
-        switch (val){
+    public static ArticleType IntToEnum(int val)
+    {
+        ArticleType ret = null; 
+        switch (val)
+        {
             case 1:
-                ret = PEDIDO;
+                ret = ArticleType.PEDIDO;
                 break;
             case 2:
-                ret = PROMO;
+                ret = ArticleType.PROMO;
                 break;
             case 3:
-                ret = FREEPREMIUM;
+                ret = ArticleType.FREEPREMIUM;
                 break;
             case 4:
-                ret = CALZADO;
+                ret = ArticleType.CALZADO;
                 break;
             case 5:
-                ret = OPORTUNIDAD;
+                ret = ArticleType.OPORTUNIDAD;
                 break;
             default:
                 ret = NA;
@@ -28,10 +30,13 @@ public enum TipoArt
         return ret;
     }
     
-    public static int ConvertirEnumAInt(TipoArt tipo){
+    public static int EnumToInt(ArticleType articleType)
+    {
         int ret = 0;
-        if(tipo!=null){
-            switch (tipo){
+        if(articleType!=null)
+        {
+            switch (articleType)
+            {
                 case PEDIDO:
                     ret = 1;
                     break;
@@ -61,29 +66,29 @@ public enum TipoArt
      * @param detailObs the observation in the detail file 
      * @return the representative enum type for that observation 
      */
-    public static TipoArt inferType(String detailObs)
+    public static ArticleType inferType(String detailObs)
     {
-        TipoArt ret;
+        ArticleType ret;
 
         if(detailObs.contains("Free Premiums"))
         {
-            ret = TipoArt.FREEPREMIUM;
+            ret = ArticleType.FREEPREMIUM;
         }
         else if(detailObs.contains("Oportunidad"))
         {
-            ret = TipoArt.OPORTUNIDAD;   
+            ret = ArticleType.OPORTUNIDAD;   
         }
         else if(detailObs.contains("PR"))
         {
-            ret = TipoArt.PROMO;
+            ret = ArticleType.PROMO;
         }
         else if(detailObs.contains("Calzado"))
         {
-            ret = TipoArt.CALZADO;
+            ret = ArticleType.CALZADO;
         }
         else
         {
-            ret = TipoArt.PEDIDO;
+            ret = ArticleType.PEDIDO;
         }
 
         return ret;

@@ -1,7 +1,8 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
-
+import java.util.Iterator;
+import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 
@@ -48,14 +49,56 @@ public class OrderOperator implements IOrderOperator
     }
 
 	@Override
-	public int insert(Order e) throws Exception
+	public int insert(Order order) throws Exception
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		int returnCode;
+		String sqlStmnt = "INSERT INTO `pedidos`(`id_cp`, `nro_camp`, `letra`, `cant`, `monto`) VALUES "+
+		"(?, ?, ?, ?, ?);";
+		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+		
+		statement.setInt(1, order.getClient().getId());
+		statement.setInt(2, order.getCampaign().getNumber());
+        statement.setString(3, order.getArticle().getId());
+		statement.setInt(4, order.getQuantity());
+		statement.setFloat(5, order.getCost());
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+  
+        return returnCode;
 	}
 
 	@Override
-	public int update(Order e) throws Exception
+	public int insertMany(List<Order> list) throws Exception
+	{
+		int returnCode = 0;
+        String sqlStmnt = "INSERT INTO `pedidos`(`id_cp`, `nro_camp`, `letra`, `cant`, `monto`) VALUES "+
+		"(?, ?, ?, ?, ?);";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        Order order;
+        Iterator<Order> listIterator = list.iterator();
+
+        while(listIterator.hasNext())
+        {
+            order = listIterator.next();
+
+            statement.setInt(1, order.getClient().getId());
+			statement.setInt(2, order.getCampaign().getNumber());
+			statement.setString(3, order.getArticle().getId());
+			statement.setInt(4, order.getQuantity());
+			statement.setFloat(5, order.getCost());
+
+            returnCode += statement.executeUpdate();
+        }
+
+        statement.close();
+
+        return returnCode;
+	}
+
+	@Override
+	public int update(Order order) throws Exception
 	{
 		// TODO Auto-generated method stub
 		return 0;
