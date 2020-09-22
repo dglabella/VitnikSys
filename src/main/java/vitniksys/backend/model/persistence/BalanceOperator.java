@@ -91,11 +91,31 @@ public class BalanceOperator implements IBalanceOperator
     @Override
     public int update(Balance balance) throws Exception
     {
-        //String updateSQLStatement = "UPDATE `saldos` SET `pedidos_comisionables`= `pedidos_comisionables`+100, `pedidos_no_comisionables`= `pedidos_no_comisionables`+200, `catalogos`= `catalogos`+300, `recompras`= `recompras`+400, `pagos`= `pagos`+500, `devoluciones`= `devoluciones`+600, `comision`= `comision`+700, `balance`= -`pedidos_comisionables`-`pedidos_no_comisionables`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision`WHERE `id_cp` = 555 AND `nro_camp` = 221 AND `active_row` = True;";
-        // TODO Auto-generated method stub
-        return 0;
-    }
+        int returnCode = 0;
+        String sqlStmnt = "UPDATE `saldos` SET `pedidos_comisionables`= `pedidos_comisionables`+ ?, "+
+        "`pedidos_no_comisionables`= `pedidos_no_comisionables`+ ?, `catalogos`= `catalogos`+ ?, "+
+        "`recompras`= `recompras`+ ?, `pagos`= `pagos`+ ?, `devoluciones`= `devoluciones`+ ?, "+
+        "`comision`= `comision`+ ?, `balance`= -`pedidos_comisionables`-`pedidos_no_comisionables`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "+
+        "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setFloat(1, balance.getTotalInOrdersCom());
+        statement.setFloat(2, balance.getTotalInOrdersNonCom());
+        statement.setFloat(3, balance.getTotalInCatalogues());
+        statement.setFloat(4, balance.getTotalInRepurchases());
+        statement.setFloat(5, balance.getTotalInPayments());
+        statement.setFloat(6, balance.getTotalInDevolutions());
+        statement.setFloat(7, balance.getTotalInCommission()) ;
+        statement.setFloat(8, balance.getClient().getId());
+        statement.setFloat(9, balance.getCampaign().getNumber());
+        statement.setBoolean(10, this.activeRow);
+
+        returnCode += statement.executeUpdate();
+        statement.close();
+        return returnCode;
+    }
+    
     @Override
     public List<Balance> findAll() throws Exception
     {

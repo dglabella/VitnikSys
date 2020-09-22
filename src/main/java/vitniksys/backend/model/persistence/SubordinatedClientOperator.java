@@ -44,11 +44,4 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
 
         return returnCode;
     }
-
-    @Override
-    public int registerOrders(PreferentialClient cp)
-    {
-        System.out.println("Agregando pedidos Cliente Preferencial Subordinado");
-        return 0;
-    }
 }

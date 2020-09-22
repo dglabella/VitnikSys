@@ -24,10 +24,9 @@ public class Balance
         //Default Balance
     }
 
-    public Balance(float balance, float totalInOrdersCom, float totalInOrdersNonCom, float totalInCatalogues, 
+    public Balance(float totalInOrdersCom, float totalInOrdersNonCom, float totalInCatalogues, 
     float totalInRepurchases, float totalInPayments, float totalInDevolutions, float totalInCommission)
     {
-        this.balance = balance;
         this.totalInOrdersCom = totalInOrdersCom;
         this.totalInOrdersNonCom = totalInOrdersNonCom;
         this.totalInCatalogues = totalInCatalogues;

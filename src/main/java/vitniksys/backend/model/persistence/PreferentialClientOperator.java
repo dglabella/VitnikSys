@@ -8,6 +8,7 @@ import java.sql.Types;
 import java.sql.PreparedStatement;
 
 import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
@@ -137,11 +138,22 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
             orders.add(incomingOrdersIterator.next());
 
         
+        Balance balance = new Balance();
+        balance.setClient(cp);
+        //Any camp is ok, since all incoming orders are from the same campaign
+        balance.setCamp(cp.getIncomingOrders().get(0).getCampaign());
+        incomingOrdersIterator = cp.getIncomingOrders().iterator();
+
+        while(incomingOrdersIterator.hasNext())
+            balance.setTotalInOrdersCom(balance.getTotalInOrdersCom()+incomingOrdersIterator.next().getCost());
+        
         ArticleOperator articleOperator = ArticleOperator.getOperator();
         OrderOperator orderOperator = OrderOperator.getOperator();
+        BalanceOperator balanceOperator = BalanceOperator.getOperator();
         
         ret += articleOperator.insertMany(articles);
         ret += orderOperator.insertMany(orders);
+        ret += balanceOperator.update(balance);
 
         return ret;
     }

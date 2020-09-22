@@ -26,7 +26,7 @@ public class Order
         this.cost = cost;
         this.commissionable = commissionable;
     }
-
+    
     public Order(int code, int quantity, float cost, boolean commissionable)
     {
         this.code = code;
@@ -114,27 +114,33 @@ public class Order
         this.active = active;
     }
 
-    public PreferentialClient getClient() {
+    public PreferentialClient getClient()
+    {
         return this.client;
     }
 
-    public void setClient(PreferentialClient client) {
+    public void setClient(PreferentialClient client)
+    {
         this.client = client;
     }
 
-    public Campaign getCampaign() {
+    public Campaign getCampaign()
+    {
         return this.campaign;
     }
 
-    public void setCampaign(Campaign campaign) {
+    public void setCampaign(Campaign campaign)
+    {
         this.campaign = campaign;
     }
 
-    public Article getArticle() {
+    public Article getArticle()
+    {
         return this.article;
     }
 
-    public void setArticle(Article article) {
+    public void setArticle(Article article)
+    {
         this.article = article;
     }
 }

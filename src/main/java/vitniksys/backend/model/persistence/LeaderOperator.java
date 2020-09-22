@@ -18,11 +18,4 @@ public class LeaderOperator extends BaseClientOperator
 
         return LeaderOperator.operator;
     }
-
-    @Override
-    public int registerOrders(PreferentialClient cp)
-    {
-        System.out.println("Agregando pedidos Lider");
-        return 0;
-    }
 }
