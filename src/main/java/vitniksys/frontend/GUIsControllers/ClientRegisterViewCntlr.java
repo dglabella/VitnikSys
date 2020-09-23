@@ -5,18 +5,21 @@ import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import vitniksys.frontend.views.View;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
-import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.util.CustomAlert;
+import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.model.entities.BaseClient;
-import vitniksys.backend.model.entities.SubordinatedClient;
-import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.controllers.ClientManagementController;
 
-public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable
+public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable, View
 {
     private ExpressionChecker expressionChecker;
+
+    private CustomAlert customAlert;
 
     //Controllers
     private ClientManagementController clientController;
@@ -28,7 +31,6 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     @FXML private TextField lastName;
     @FXML private TextField location;
     @FXML private TextField email;
-    @FXML private DatePicker birthdate;
     @FXML private TextField phoneNumber;
     @FXML private TextField leaderId;
 
@@ -39,6 +41,10 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     @FXML private Label invalidEmail; 
     @FXML private Label invalidPhoneNumber;
     @FXML private Label invalidLeaderId;
+
+    @FXML private DatePicker birthdate;
+
+    @FXML private CheckBox isLeader;
 
     // ================================= FXML methods =================================
     @FXML
@@ -52,7 +58,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
         {
             this.invalidId.setText("Dato invalido");
             this.invalidId.setVisible(true);
-        }    
+        }
     }
 
     @FXML
@@ -66,7 +72,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
         {
             this.invalidDni.setText("Dato invalido");
             this.invalidDni.setVisible(true);
-        }   
+        }
     }
 
     @FXML
@@ -94,7 +100,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
         {
             this.invalidLastName.setText("Dato invalido");
             this.invalidLastName.setVisible(true);
-        }  
+        }
     }
 
     @FXML
@@ -136,32 +142,30 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
         {
             this.invalidLeaderId.setText("Dato invalido");
             this.invalidLeaderId.setVisible(true);
-        }  
+        }
     }
 
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        PreferentialClient client;
-    
-        if(this.leaderId.getText().isEmpty())
+        this.clientController.registerClient(Integer.parseInt(this.id.getText()), Long.parseLong(this.dni.getText()),
+            this.name.getText(), this.lastName.getText(), this.location.getText(), this.birthdate.getValue(),
+            this.email.getText(), Long.parseLong(this.phoneNumber.getText()), this.isLeader.isSelected(), 
+            Integer.parseInt(this.leaderId.getText()));
+    }
+
+    @FXML
+    private void isLeaderCheckBoxPressed() throws Exception
+    {
+        if(this.isLeader.isSelected())
         {
-            client =  new BaseClient(Integer.parseInt(this.id.getText()), this.name.getText().toUpperCase(), this.lastName.getText().toUpperCase());
+            this.leaderId.clear();
+            this.leaderId.setDisable(true);
         }
         else
         {
-            client =  new SubordinatedClient(Integer.parseInt(this.id.getText()), this.name.getText().toUpperCase(), this.lastName.getText().toUpperCase());
-            ((SubordinatedClient)client).setLeader(new Leader(Integer.parseInt(this.leaderId.getText())));
+            this.leaderId.setDisable(false);
         }
-
-        client.setDni(!this.dni.getText().isEmpty()? Long.parseLong(this.dni.getText()) : 0);
-        client.setLocation(this.location.getText().toUpperCase());
-        client.setBirthdate(this.birthdate.getValue());
-        client.setEmail(this.email.getText());
-        client.setPhoneNumber(!this.phoneNumber.getText().isEmpty()? Long.parseLong(this.phoneNumber.getText()) : 0);
-    
-        //Use case initiation.
-        this.clientController.registerClient(client);
     }
 
     // ================================= private methods =================================
@@ -178,6 +182,56 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     public void initialize(URL url, ResourceBundle rb)
     {
         this.expressionChecker = ExpressionChecker.getExpressionChecker();
-        this.clientController = new ClientManagementController();
+        this.clientController = new ClientManagementController(this);
+    }
+
+    // ================================= view methods =================================
+    @Override
+    public void showProcessIsWorking(String message)
+    {
+        this.customAlert.setAlertType(AlertType.NONE);
+        this.customAlert.setTitle("PROCESANDO");
+        this.customAlert.setHeaderText(message);
+        this.customAlert.customShow();
+    }
+
+    @Override
+    public void closeProcessIsWorking()
+    {
+        this.customAlert.setResult(ButtonType.CLOSE);
+    }
+
+    @Override
+    public void showSucces(String message)
+    {
+        this.customAlert.setAlertType(AlertType.INFORMATION);
+        this.customAlert.setTitle("EXITO");
+        this.customAlert.setHeaderText(message);
+        this.customAlert.customShow();
+    }
+
+    @Override
+    public void showError(String message)
+    {
+        this.customAlert.setAlertType(AlertType.ERROR);
+        this.customAlert.setTitle("ERROR");
+        this.customAlert.setHeaderText(message);
+        this.customAlert.customShow();
+    }
+
+    @Override
+    public void showError(String message, Exception exception)
+    {
+        this.customAlert.setAlertType(AlertType.ERROR);
+        this.customAlert.setTitle("ERROR");
+        this.customAlert.setHeaderText(message);
+        this.customAlert.setException(exception);
+        this.customAlert.customShow();
+    }
+
+    @Override
+    public void showNoResult(String message)
+    {
+        // Do nothing
     }
 }

@@ -1,15 +1,14 @@
 package vitniksys.backend.model.persistence;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.sql.Types;
+import java.util.Iterator;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
-
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
-import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
 
@@ -70,8 +69,8 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         else
             statement.setNull(5, Types.VARCHAR);
 
-        if(cp.getBirthdate() != null)
-            statement.setDate(6, Date.valueOf(cp.getBirthdate()));
+        if(cp.getBirthDate() != null)
+            statement.setDate(6, Date.valueOf(cp.getBirthDate()));
         else
             statement.setNull(6, Types.DATE);
 

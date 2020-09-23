@@ -23,9 +23,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ButtonType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
@@ -556,6 +553,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showQueriedCamp(List<Campaign> camps)
     {
-
+        
     }
 }

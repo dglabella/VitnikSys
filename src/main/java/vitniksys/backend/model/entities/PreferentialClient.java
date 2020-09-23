@@ -1,8 +1,8 @@
 package vitniksys.backend.model.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.time.LocalDate;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
@@ -14,7 +14,7 @@ public abstract class PreferentialClient
     private String name;
     private String lastName;
     private String location;
-    private LocalDate birthdate;
+    private LocalDate birthDate;
     private String email;
     private long phoneNumber;
     private Timestamp registrationTime;
@@ -103,14 +103,14 @@ public abstract class PreferentialClient
         this.location = location;
     }
 
-    public LocalDate getBirthdate()
+    public LocalDate getBirthDate()
     {
-        return this.birthdate;
+        return this.birthDate;
     }
 
-    public void setBirthdate(LocalDate birthdate)
+    public void setBirthDate(LocalDate birthDate)
     {
-        this.birthdate = birthdate;
+        this.birthDate = birthDate;
     }
 
     public String getEmail()

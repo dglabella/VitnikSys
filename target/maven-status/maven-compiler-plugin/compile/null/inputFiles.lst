@@ -2,6 +2,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\ICampaignOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\ExpressionChecker.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Article.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\ArticleOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IOrderOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\Connector.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\Estado.java
@@ -10,6 +11,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\StockDevsRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\CatalogueDeliver.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\SubordinatedClient.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IArticleOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\PreferentialClient.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\ClientList.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DevolucionesRowTable.java
@@ -19,6 +21,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IPreferentialClientOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\CampaignOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Catalogue.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\ArticleType.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\OrderObtainer.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\PreferentialClientOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\GUIsControllers\VitnikViewCntlr.java
@@ -37,7 +40,6 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\FormaPago.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\CatalogueOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Observation.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\TipoArt.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\BaseClientOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\Motivo.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Order.java

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -10,9 +11,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="450.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.GUIsControllers.ClientRegisterViewCntlr">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="880.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.GUIsControllers.ClientRegisterViewCntlr">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="880.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
          <children>
             <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -22,7 +23,7 @@
                   <InnerShadow height="4.3" radius="1.65" width="4.3" />
                </effect>
             </ImageView>
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="395.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="825.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -31,44 +32,44 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <Label layoutX="75.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" text="Ingrese nuevo vendedor" textFill="WHITE">
+            <Label layoutX="225.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="450.0" text="Ingrese nuevo cliente preferencial" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="28.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="20.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="410.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+      <AnchorPane layoutX="20.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="410.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <TextField fx:id="id" layoutX="205.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#idCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Código Preferencial:" textAlignment="CENTER" textFill="#434343">
+            <TextField fx:id="id" layoutX="210.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#idCheck" prefHeight="30.0" prefWidth="190.0" promptText="Número cp" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Número de Cliente:" textAlignment="CENTER" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="invalidId" layoutX="205.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
+            <Label fx:id="invalidId" layoutX="210.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="dni" layoutX="205.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#dniCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="DNI:" textFill="#434343">
+            <TextField fx:id="dni" layoutX="210.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#dniCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="DNI:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="invalidDni" layoutX="205.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
+            <Label fx:id="invalidDni" layoutX="210.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="name" layoutX="205.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#nameCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label alignment="CENTER_RIGHT" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Nombre:" textFill="#434343">
+            <TextField fx:id="name" layoutX="210.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#nameCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <Label alignment="CENTER_RIGHT" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Nombre:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="invalidName" layoutX="205.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
+            <Label fx:id="invalidName" layoutX="210.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
                </font>
@@ -89,47 +90,69 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="location" layoutX="205.0" layoutY="240.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" promptText="lugar" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label alignment="CENTER_RIGHT" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Fecha de nacimiento:" textFill="#434343">
+            <TextField fx:id="location" layoutX="205.0" layoutY="240.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" promptText="Ej: San Luis" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="450.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="410.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+         <children>
+            <Label alignment="CENTER_RIGHT" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Fecha de nacimiento:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <DatePicker fx:id="birthdate" layoutX="205.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" />
-            <TextField fx:id="email" layoutX="205.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#emailCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label alignment="CENTER_RIGHT" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="E-mail:" textFill="#434343">
+            <DatePicker fx:id="birthdate" layoutX="210.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" />
+            <TextField fx:id="email" layoutX="210.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#emailCheck" prefHeight="30.0" prefWidth="190.0" promptText="cualquiercosa@ejemplo.com" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <Label alignment="CENTER_RIGHT" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="E-mail:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="invalidEmail" layoutX="205.0" layoutY="390.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
+            <Label fx:id="invalidEmail" layoutX="210.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="420.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Teléfono:" textFill="#434343">
+            <Label alignment="CENTER_RIGHT" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="Teléfono:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="phoneNumber" layoutX="205.0" layoutY="420.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#phoneNumberCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label fx:id="invalidPhoneNumber" layoutX="205.0" layoutY="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
+            <TextField fx:id="phoneNumber" layoutX="210.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#phoneNumberCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <Label fx:id="invalidPhoneNumber" layoutX="210.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="CP Lider (si posee):" textFill="#434343">
+            <Label alignment="CENTER_RIGHT" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" text="CP Lider (si posee):" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="leaderId" layoutX="205.0" layoutY="480.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#leaderIdCheck" prefHeight="30.0" prefWidth="190.0" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
-            <Label fx:id="invalidLeaderId" layoutX="205.0" layoutY="510.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
+            <TextField fx:id="leaderId" layoutX="210.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#leaderIdCheck" prefHeight="30.0" prefWidth="190.0" promptText="Número cp de Líder" style="-fx-background-color: Transparent; -fx-border-color: transparent transparent  #E00413 transparent;" />
+            <Label fx:id="invalidLeaderId" layoutX="210.0" layoutY="290.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="190.0" text="Ingrese dato valido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="140.0" layoutY="545.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#registerButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Registrar">
+            <CheckBox fx:id="isLeader" layoutX="140.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#isLeaderCheckBoxPressed" prefHeight="30.0" prefWidth="120.0" text="Es  Lider?">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </CheckBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="40.0" layoutY="435.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="800.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="150.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Cancelar">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_checked_60px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" layoutX="550.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#registerButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Registrar">
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
