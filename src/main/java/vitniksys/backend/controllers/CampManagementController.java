@@ -6,6 +6,7 @@ import java.time.Month;
 import java.util.Iterator;
 //import javafx.application.Platform;
 //import java.util.concurrent.Executors;
+import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.OrderObtainer;
 //import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.ExpressionChecker;
@@ -37,6 +38,27 @@ public class CampManagementController
     //Getters && Setters
 
     // ================================= private methods =================================
+    private boolean allFieldsAreOk(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode)
+    {
+        boolean ret = false;
+        if(this.expressionChecker.onlyNumbers(campNumb, false) && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
+            && month != null && year != null && this.expressionChecker.isCatalogueCode(catalogueCode, true))
+        {
+            ret = true;
+        }
+        return ret;
+    }
+
+    private boolean detailFileIsOk(File detail)
+    {
+        boolean ret = false;
+
+        if (detail != null && FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase("csv"))
+            ret = true;
+            
+        return ret;
+    }
+
     private void registerIncomingOrders(File detail) throws Exception
     {
         OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
@@ -119,8 +141,7 @@ public class CampManagementController
     public void registerCamp(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception
     {
         //If all fields are OK...
-        if(expressionChecker.onlyNumbers(campNumb, false) && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
-            && month != null && year != null && expressionChecker.isCatalogueCode(catalogueCode, true))
+        if(allFieldsAreOk(campNumb, campAlias, month, year, catalogueCode))
         {
             this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
 
@@ -154,7 +175,7 @@ public class CampManagementController
                 CampaignOperator.getOperator().insert(camp);
 
                 //Campaing registration with orders associated
-                if(detail != null)
+                if(detailFileIsOk(detail))
                 {
                     this.registerIncomingOrders(detail);
                 }

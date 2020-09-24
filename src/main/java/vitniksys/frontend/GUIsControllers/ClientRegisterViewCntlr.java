@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import vitniksys.frontend.views.View;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -148,10 +149,9 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        this.clientController.registerClient(Integer.parseInt(this.id.getText()), Long.parseLong(this.dni.getText()),
-            this.name.getText(), this.lastName.getText(), this.location.getText(), this.birthdate.getValue(),
-            this.email.getText(), Long.parseLong(this.phoneNumber.getText()), this.isLeader.isSelected(), 
-            Integer.parseInt(this.leaderId.getText()));
+        this.clientController.registerClient(this.id.getText(), this.dni.getText(), this.name.getText(),
+            this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),
+            this.phoneNumber.getText(), this.isLeader.isSelected(), this.leaderId.getText());
     }
 
     @FXML
@@ -183,6 +183,8 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     {
         this.expressionChecker = ExpressionChecker.getExpressionChecker();
         this.clientController = new ClientManagementController(this);
+
+        this.customAlert = new CustomAlert();
     }
 
     // ================================= view methods =================================
@@ -208,6 +210,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
         this.customAlert.setTitle("EXITO");
         this.customAlert.setHeaderText(message);
         this.customAlert.customShow();
+        this.getStage().close();
     }
 
     @Override

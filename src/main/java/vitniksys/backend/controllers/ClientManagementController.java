@@ -1,11 +1,13 @@
 package vitniksys.backend.controllers;
 
 import java.time.LocalDate;
+
+import javafx.application.Platform;
 import vitniksys.frontend.views.View;
+import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.BaseClient;
-import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
@@ -28,10 +30,18 @@ public class ClientManagementController
     //Getters && Setters
 
     // ================================= private methods =================================
-    private boolean allFieldsAreOk(Integer id, Long dni, String name, String lastName, String location,
-    LocalDate birthDate, String email, Long phoneNumber, Integer leaderId)
+    private boolean allFieldsAreOk(String id, String dni, String name, String lastName, 
+        String email, String phoneNumber, String leaderId)
     {
-        return false;
+        boolean ret = false;
+        if(this.expressionChecker.onlyNumbers(id, false) && this.expressionChecker.onlyNumbers(dni, true)
+            && this.expressionChecker.composedName(name) && this.expressionChecker.composedName(lastName)
+            && this.expressionChecker.isEmail(email, true) && this.expressionChecker.onlyNumbers(phoneNumber, true)
+            && this.expressionChecker.onlyNumbers(leaderId, true))
+        {
+            ret = true;
+        }
+        return ret;
     }
     // ================================= protected methods =================================
 
@@ -39,24 +49,30 @@ public class ClientManagementController
     public void registerClient(String id, String dni, String name, String lastName, String location,
             LocalDate birthDate, String email, String phoneNumber, Boolean isLeader, String leaderId) throws Exception
     {
-        if(allFieldsAreOk(id, dni, name, lastName, location, birthDate, email, phoneNumber, leaderId))
+        if(allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId))
         {
             this.view.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-            PreferentialClient cp;
 
+            PreferentialClient cp;
             if(isLeader)
             {
-                cp = new Leader(id, name, lastName);
+                cp = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
             }
-            else if(leaderId)
+            else if(leaderId != null && !leaderId.isBlank())
             {
-                cp = new BaseClient(id, name, lastName);
+                cp = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                ((SubordinatedClient)cp).setLeader(new Leader(Integer.parseInt(leaderId)));
+            }
+            else
+            {
+                cp =  new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
             }
 
-            cp.setLocation(location);
+            cp.setDni(!dni.isBlank()?Long.parseLong(dni):null);
+            cp.setLocation(location.toUpperCase());
             cp.setBirthDate(birthDate);
             cp.setEmail(email);
-            cp.setPhoneNumber(phoneNumber);
+            cp.setPhoneNumber(!phoneNumber.isBlank()?Long.parseLong(phoneNumber):null);
 
             try
             {

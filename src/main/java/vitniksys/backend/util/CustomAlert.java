@@ -3,6 +3,7 @@ package vitniksys.backend.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javafx.scene.layout.Pane;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ButtonType;
@@ -75,39 +76,32 @@ public class CustomAlert extends Alert
 
     public void customShow()
     {
-        //return new Runnable()
-        //{
-            //@Override
-            //public void run()
-            //{
-                if(getException() != null)
-                {
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw);
-                    getException().printStackTrace(pw);
-                    String stackTraceMessage = sw.toString(); //stack trace as a string
-                    TextArea textArea = new TextArea((getDescription()!=null?getDescription()+"\n\n":"")+stackTraceMessage);
-                    textArea.setEditable(false);
-                    textArea.setWrapText(true);
-                    //textArea.setMaxWidth(Double.MAX_VALUE);
-                    //textArea.setMaxHeight(Double.MAX_VALUE);
+        if(getException() != null)
+        {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            getException().printStackTrace(pw);
+            String stackTraceMessage = sw.toString(); //stack trace as a string
+            TextArea textArea = new TextArea((getDescription()!=null?getDescription()+"\n\n":"")+stackTraceMessage);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+            //textArea.setMaxWidth(Double.MAX_VALUE);
+            //textArea.setMaxHeight(Double.MAX_VALUE);
 
-                    Pane pane = new Pane();
-                    //pane.setMaxWidth(Double.MAX_VALUE);
-                    pane.getChildren().add(textArea);
-                    getDialogPane().setExpandableContent(pane);
-                }        
+            Pane pane = new Pane();
+            //pane.setMaxWidth(Double.MAX_VALUE);
+            pane.getChildren().add(textArea);
+            getDialogPane().setExpandableContent(pane);
+        }        
 
-                if(getAlertType() != AlertType.NONE)
-                {
-                    showAndWait();
-                }
-                else
-                {            
-                    show();
-                }
-            //}
-        //};
+        if(getAlertType() != AlertType.NONE)
+        {
+            showAndWait();
+        }
+        else
+        {
+            show();
+        }
     }
 
     public void customClose()

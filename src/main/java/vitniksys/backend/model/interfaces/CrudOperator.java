@@ -14,7 +14,7 @@ public interface CrudOperator<Entity>
      * @param e The entity to be registered.
      * @return A code for errors checking. 0 represent that an error has occurred.
      */
-    int insert(Entity e) throws Exception;
+    int insert(Entity entity) throws Exception;
 
     /**
      * Registers persistently a list of entities of the domain.
@@ -30,7 +30,7 @@ public interface CrudOperator<Entity>
      * @param e The entity to be updated.
      * @return A code for errors checking. 0 represent that an error has occurred.
      */
-    int update(Entity e) throws Exception;
+    int update(Entity entity) throws Exception;
 
     /**
      * Find all the registered entities of that type.

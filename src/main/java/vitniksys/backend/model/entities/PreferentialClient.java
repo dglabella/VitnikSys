@@ -10,13 +10,13 @@ public abstract class PreferentialClient
 {
     //Entity properties
     private int id;
-    private long dni;
+    private Long dni;
     private String name;
     private String lastName;
     private String location;
     private LocalDate birthDate;
     private String email;
-    private long phoneNumber;
+    private Long phoneNumber;
     private Timestamp registrationTime;
 
     //Domain Associations
@@ -64,12 +64,12 @@ public abstract class PreferentialClient
         this.id = id;
     }
 
-    public long getDni()
+    public Long getDni()
     {
         return this.dni;
     }
 
-    public void setDni(long dni)
+    public void setDni(Long dni)
     {
         this.dni = dni;
     }
@@ -123,11 +123,11 @@ public abstract class PreferentialClient
         this.email = email;
     }
 
-    public long getPhoneNumber() {
+    public Long getPhoneNumber() {
         return this.phoneNumber;
     }
 
-    public void setPhoneNumber(long phoneNumber)
+    public void setPhoneNumber(Long phoneNumber)
     {
         this.phoneNumber = phoneNumber;
     }
@@ -164,37 +164,45 @@ public abstract class PreferentialClient
         this.incomingOrders = incomingOrders;
     }
     
-    public List<Order> getOrders() {
+    public List<Order> getOrders()
+    {
         if(this.orders == null)
             this.orders = new ArrayList<>();
         return this.orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Order> orders)
+    {
         this.orders = orders;
     }
 
-    public List<Devolution> getDevolutions() {
+    public List<Devolution> getDevolutions()
+    {
         return this.devolutions;
     }
 
-    public void setDevolutions(List<Devolution> devolutions) {
+    public void setDevolutions(List<Devolution> devolutions)
+    {
         this.devolutions = devolutions;
     }
 
-    public List<Repurchase> getRepurchases() {
+    public List<Repurchase> getRepurchases()
+    {
         return this.repurchases;
     }
 
-    public void setRepurchases(List<Repurchase> repurchases) {
+    public void setRepurchases(List<Repurchase> repurchases)
+    {
         this.repurchases = repurchases;
     }
 
-    public List<Payment> getPayments() {
+    public List<Payment> getPayments()
+    {
         return this.payments;
     }
 
-    public void setPayments(List<Payment> payments) {
+    public void setPayments(List<Payment> payments)
+    {
         this.payments = payments;
     }
 
@@ -202,7 +210,8 @@ public abstract class PreferentialClient
         return this.balances;
     }
 
-    public void setBalances(List<Balance> balances) {
+    public void setBalances(List<Balance> balances)
+    {
         this.balances = balances;
     }
 
