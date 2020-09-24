@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import vitniksys.frontend.views.View;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;

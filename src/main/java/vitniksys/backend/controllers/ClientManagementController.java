@@ -1,8 +1,6 @@
 package vitniksys.backend.controllers;
 
 import java.time.LocalDate;
-
-import javafx.application.Platform;
 import vitniksys.frontend.views.View;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.util.ExpressionChecker;

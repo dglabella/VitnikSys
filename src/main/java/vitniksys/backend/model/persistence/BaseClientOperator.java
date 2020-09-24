@@ -1,18 +1,21 @@
 package vitniksys.backend.model.persistence;
 
-import java.sql.Types;
 import java.sql.Date;
+import java.sql.Types;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.PreferentialClient;
 
-public class BaseClientOperator extends PreferentialClientOperator {
+public class BaseClientOperator extends PreferentialClientOperator
+{
     private static BaseClientOperator operator;
 
-    protected BaseClientOperator() {
+    protected BaseClientOperator()
+    {
         // Empty Constructor
     }
 
-    public static BaseClientOperator getOperator() {
+    public static BaseClientOperator getOperator()
+    {
         if (BaseClientOperator.operator == null)
             BaseClientOperator.operator = new BaseClientOperator();
 
