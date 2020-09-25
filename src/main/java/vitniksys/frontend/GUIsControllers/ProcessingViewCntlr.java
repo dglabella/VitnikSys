@@ -21,7 +21,15 @@ public class ProcessingViewCntlr extends VitnikViewCntlr implements Initializabl
     // ================================= protected methods ==============================
 
     // ================================= public methods =================================
-    
+    public void setMessage1(String message1)
+    {
+        this.message1.setText(message1);
+    }
+
+    public void setMessage2(String message2)
+    {
+        this.message2.setText(message2);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)

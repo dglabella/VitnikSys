@@ -1,6 +1,8 @@
 package vitniksys.backend.controllers;
 
 import java.time.LocalDate;
+
+import javafx.application.Platform;
 import vitniksys.frontend.views.View;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.util.ExpressionChecker;
@@ -50,7 +52,7 @@ public class ClientManagementController
         if(allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId))
         {
             this.view.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-
+            
             PreferentialClient cp;
             if(isLeader)
             {
@@ -95,6 +97,10 @@ public class ClientManagementController
             {
                 Connector.getConnector().endTransaction();
                 Connector.getConnector().closeConnection();
+                for(int i = 0; i < 100000; i++)
+                {
+                    System.out.println(i);
+                }
                 this.view.closeProcessIsWorking();
                 this.view.showSucces("El Cliente se ha registrado exitosamente!");
             }
