@@ -7,6 +7,9 @@ import java.util.Iterator;
 //import javafx.application.Platform;
 //import java.util.concurrent.Executors;
 import org.apache.commons.io.FilenameUtils;
+
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import vitniksys.backend.util.OrderObtainer;
 //import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.ExpressionChecker;
@@ -59,8 +62,9 @@ public class CampManagementController
         return ret;
     }
 
-    private void registerIncomingOrders(File detail) throws Exception
+    private Integer registerIncomingOrders(File detail) throws Exception
     {
+        Integer returnCode = 0;
         OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
         List<PreferentialClient> cps = orderObtainer.getOrderMakers();
         
@@ -72,8 +76,10 @@ public class CampManagementController
         {
             cp = cpsIterator.next();
             cpOperator = cp.operator();
-            cpOperator.registerOrders(cp);
+            returnCode += cpOperator.registerOrders(cp);
         }
+
+        return returnCode;
     }
 
     // ================================= protected methods =================================
@@ -145,57 +151,71 @@ public class CampManagementController
         {
             this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
 
-            Campaign camp = new Campaign(Integer.valueOf(campNumb), month, year);
-            camp.setAlias(campAlias.isBlank()?null:campAlias);
-
-            try
+            Task task = new Task<Integer>()
             {
-                Connector.getConnector().startTransaction();
-
-                //Campaing registration with catalogue associated
-                if(catalogueCode != null && !catalogueCode.isEmpty())
+                @Override
+                protected Integer call() throws Exception
                 {
-                    Catalogue catalogue = CatalogueOperator.getOperator().find(Integer.valueOf(catalogueCode));
+                    //returnCode is intended for future implementations
+                    int returnCode = 0;
+                    Campaign camp = new Campaign(Integer.valueOf(campNumb), month, year);
+                    camp.setAlias(campAlias.isBlank()?null:campAlias);
 
-                    if(catalogue != null)
+                    try
                     {
-                        camp.setCatalogue(catalogue);
+                        Connector.getConnector().startTransaction();
+
+                        //Campaing registration with catalogue associated
+                        if(catalogueCode != null && !catalogueCode.isEmpty())
+                        {
+                            Catalogue catalogue = CatalogueOperator.getOperator().find(Integer.valueOf(catalogueCode));
+
+                            if(catalogue != null)
+                            {
+                                camp.setCatalogue(catalogue);
+                            }
+                            else
+                            {
+                                returnCode = 0;
+                                campQueryRegisterView.closeProcessIsWorking();
+                                campQueryRegisterView.showError("No existe el catálogo especificado. Si desea"+
+                                " asociar el catálogo "+catalogueCode+" a la campaña "+campNumb+" puede registrar "+
+                                "primero el catálogo presionando el botón \"mas\" cercano al campo del catálogo.");
+
+                                throw new Exception("Irrelevant exception");
+                            }
+                        }
+
+                        returnCode += CampaignOperator.getOperator().insert(camp);
+
+                        //Campaing registration with orders associated
+                        if(detailFileIsOk(detail))
+                        {
+                            returnCode += registerIncomingOrders(detail);
+                        }
+
+                        Connector.getConnector().commit();
+                        campQueryRegisterView.closeProcessIsWorking();
+                        campQueryRegisterView.showSucces("La campaña se ha registrado exitosamente!");
                     }
-                    else
+                    catch (Exception exception)
                     {
-                        this.campQueryRegisterView.closeProcessIsWorking();
-                        this.campQueryRegisterView.showError("No existe el catálogo especificado. Si desea"+
-                        " asociar el catálogo "+catalogueCode+" a la campaña "+campNumb+" puede registrar "+
-                        "primero el catálogo presionando el botón \"mas\" cercano al campo del catálogo.");
-
-                        throw new Exception("Irrelevant exception");
+                        Connector.getConnector().rollBack();
+                        returnCode = 0;
+                        campQueryRegisterView.closeProcessIsWorking();
+                        campQueryRegisterView.showError("Error al intentar registrar la campaña", exception);
+                        throw exception;
                     }
+                    finally
+                    {
+                        Connector.getConnector().endTransaction();
+                        Connector.getConnector().closeConnection();
+                    }
+                    return returnCode;
                 }
+            };
 
-                CampaignOperator.getOperator().insert(camp);
-
-                //Campaing registration with orders associated
-                if(detailFileIsOk(detail))
-                {
-                    this.registerIncomingOrders(detail);
-                }
-
-                Connector.getConnector().commit();
-                this.campQueryRegisterView.closeProcessIsWorking();
-                this.campQueryRegisterView.showSucces("La campaña se ha registrado exitosamente!");
-            }
-            catch (Exception exception)
-            {
-                Connector.getConnector().rollBack();
-                this.campQueryRegisterView.closeProcessIsWorking();
-                this.campQueryRegisterView.showError("Error al intentar registrar la campaña", exception);
-                throw exception;
-            }
-            finally
-            {
-                Connector.getConnector().endTransaction();
-                Connector.getConnector().closeConnection();
-            }
+            Platform.runLater(task);
         }
         else
         {

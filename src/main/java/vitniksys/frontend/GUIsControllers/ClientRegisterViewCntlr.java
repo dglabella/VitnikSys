@@ -1,11 +1,7 @@
 package vitniksys.frontend.GUIsControllers;
 
 import java.net.URL;
-import vitniksys.App;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -23,8 +19,6 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     private ExpressionChecker expressionChecker;
 
     private CustomAlert customAlert;
-
-    private ProcessingViewCntlr processingViewCtrller;
 
     //Controllers
     private ClientManagementController clientController;
@@ -195,32 +189,16 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     @Override
     public void showProcessIsWorking(String message)
     {
-        try
-        {
-            String fileName = "processing";
-            FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
-            Scene scene = new Scene(fxmlLoader.load());
-            this.processingViewCtrller = fxmlLoader.getController();
-            this.processingViewCtrller.setStage(new Stage());
-            this.processingViewCtrller.getStage().setResizable(false);
-            this.processingViewCtrller.getStage().setScene(scene);
-            this.processingViewCtrller.getStage().setTitle("PROCESO EN CURSO");
-            this.processingViewCtrller.setPrevViewCntlr(this);
-            
-            System.out.println(this.processingViewCtrller.getStage().getModality());
-            this.processingViewCtrller.getStage().show();
-
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-        }
+        // this.customAlert.setAlertType(AlertType.NONE);
+        // this.customAlert.setTitle("PROCESANDO");
+        // this.customAlert.setHeaderText(message);
+        // this.customAlert.customShow();
     }
 
     @Override
     public void closeProcessIsWorking()
     {
-        this.processingViewCtrller.getStage().close();
+        // this.customAlert.customClose();
     }
 
     @Override

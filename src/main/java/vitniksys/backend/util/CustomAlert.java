@@ -94,13 +94,14 @@ public class CustomAlert extends Alert
             getDialogPane().setExpandableContent(pane);
         }        
 
+        
         if(getAlertType() != AlertType.NONE)
         {
-            showAndWait();
+            this.showAndWait();
         }
         else
         {
-            show();
+            this.show();
         }
     }
 

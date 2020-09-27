@@ -75,7 +75,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
     @Override
     public int registerOrders(PreferentialClient cp) throws Exception
     {
-        int ret = 0;
+        int returnCode = 0;
         
         List<Article> articles =  new ArrayList<>();
         Iterator<Order> incomingOrdersIterator = cp.getIncomingOrders().iterator();
@@ -104,10 +104,10 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         OrderOperator orderOperator = OrderOperator.getOperator();
         BalanceOperator balanceOperator = BalanceOperator.getOperator();
         
-        ret += articleOperator.insertMany(articles);
-        ret += orderOperator.insertMany(orders);
-        ret += balanceOperator.update(balance);
+        returnCode += articleOperator.insertMany(articles);
+        returnCode += orderOperator.insertMany(orders);
+        returnCode += balanceOperator.update(balance);
 
-        return ret;
+        return returnCode;
     }
 }

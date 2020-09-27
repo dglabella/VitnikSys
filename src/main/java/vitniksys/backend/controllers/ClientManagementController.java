@@ -1,7 +1,7 @@
 package vitniksys.backend.controllers;
 
 import java.time.LocalDate;
-
+import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.frontend.views.View;
 import vitniksys.backend.model.entities.Leader;
@@ -52,58 +52,65 @@ public class ClientManagementController
         if(allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId))
         {
             this.view.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-            
-            PreferentialClient cp;
-            if(isLeader)
+            Task task = new Task<Integer>()
             {
-                cp = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
-            }
-            else if(leaderId != null && !leaderId.isBlank())
-            {
-                cp = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
-                ((SubordinatedClient)cp).setLeader(new Leader(Integer.parseInt(leaderId)));
-            }
-            else
-            {
-                cp =  new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
-            }
-
-            cp.setDni(!dni.isBlank()?Long.parseLong(dni):null);
-            cp.setLocation(location.toUpperCase());
-            cp.setBirthDate(birthDate);
-            cp.setEmail(email);
-            cp.setPhoneNumber(!phoneNumber.isBlank()?Long.parseLong(phoneNumber):null);
-
-            try
-            {
-                Connector.getConnector().startTransaction();
-
-                cp.operator().insert(cp);
-
-                Balance balance = new Balance();
-                balance.setClient(cp);
-                balance.setCamp(CampaignOperator.getOperator().findLast());
-                BalanceOperator.getOperator().insert(balance);
-
-                Connector.getConnector().commit();
-            }
-            catch (Exception exception)
-            {
-                Connector.getConnector().rollBack();
-                this.view.closeProcessIsWorking();
-                this.view.showError("Error al intentar registrar la campaña.", exception);
-            }
-            finally
-            {
-                Connector.getConnector().endTransaction();
-                Connector.getConnector().closeConnection();
-                for(int i = 0; i < 100000; i++)
+                @Override
+                protected Integer call() throws Exception
                 {
-                    System.out.println(i);
+                    //returnCode is intended for future implementations
+                    int returnCode = 0;
+                    PreferentialClient cp;
+                    if(isLeader)
+                    {
+                        cp = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                    }
+                    else if(leaderId != null && !leaderId.isBlank())
+                    {
+                        cp = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        ((SubordinatedClient)cp).setLeader(new Leader(Integer.parseInt(leaderId)));
+                    }
+                    else
+                    {
+                        cp =  new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                    }
+
+                    cp.setDni(!dni.isBlank()?Long.parseLong(dni):null);
+                    cp.setLocation(location.toUpperCase());
+                    cp.setBirthDate(birthDate);
+                    cp.setEmail(email);
+                    cp.setPhoneNumber(!phoneNumber.isBlank()?Long.parseLong(phoneNumber):null);
+
+                    try
+                    {
+                        Connector.getConnector().startTransaction();
+
+                        returnCode += cp.operator().insert(cp);
+
+                        Balance balance = new Balance();
+                        balance.setClient(cp);
+                        balance.setCamp(CampaignOperator.getOperator().findLast());
+                        returnCode += BalanceOperator.getOperator().insert(balance);
+
+                        Connector.getConnector().commit();
+                    }
+                    catch (Exception exception)
+                    {
+                        Connector.getConnector().rollBack();
+                        view.closeProcessIsWorking();
+                        view.showError("Error al intentar registrar la campaña.", exception);
+                    }
+                    finally
+                    {
+                        Connector.getConnector().endTransaction();
+                        Connector.getConnector().closeConnection();
+                        view.closeProcessIsWorking();
+                        view.showSucces("El Cliente se ha registrado exitosamente!");
+                    }
+                    return returnCode;
                 }
-                this.view.closeProcessIsWorking();
-                this.view.showSucces("El Cliente se ha registrado exitosamente!");
-            }
+            };
+
+            Platform.runLater(task);
         }
         else
         {
