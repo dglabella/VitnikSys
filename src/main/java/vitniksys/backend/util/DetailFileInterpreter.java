@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.enums.ArticleType;
-import vitniksys.backend.model.persistence.BaseClientOperator;
-import vitniksys.backend.model.persistence.LeaderOperator;
-import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.persistence.Connector;
+import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 
@@ -158,6 +158,7 @@ public class DetailFileInterpreter implements OrderObtainer
     // ================================= protected methods =================================
 
     // ================================= public methods = ================================
+
     /**
      * Testing purpose
      */
@@ -185,16 +186,51 @@ public class DetailFileInterpreter implements OrderObtainer
             associatedLeaders = getAssociatedLeaders();
             orderMakers = getOrderMakers(associatedLeaders);
 
-            PreferentialClientOperator prefClientOperator;
-            if(associatedLeaders.get(0) != null)
+            PreferentialClient prefClient;
+            Balance balance;
+            Campaign camp = orderMakers.get(0).getIncomingOrders().get(0).getCampaign();
+            Iterator<PreferentialClient> prefClientIterator = associatedLeaders.iterator();
+
+            Connector.getConnector().startTransaction();
+
+            while(prefClientIterator.hasNext())
             {
-                prefClientOperator = associatedLeaders.get(0).operator();
-                prefClientOperator.insertMany(associatedLeaders);
+                prefClient = prefClientIterator.next();
+                prefClient.setName("Test Name "+prefClient.getId());
+                prefClient.setLastName("Test Lastname "+prefClient.getId());
+                prefClient.operator().insert(prefClient);
+
+                balance = new Balance();
+                balance.setClient(prefClient);
+                balance.setCamp(camp);
+
+                BalanceOperator.getOperator().insert(balance);
             }
 
-            prefClientOperator = orderMakers.get(0).operator();
-            //prefClientOperator.insertMany(list)
-            
+            prefClientIterator = orderMakers.iterator();
+
+            while(prefClientIterator.hasNext())
+            {
+                prefClient = prefClientIterator.next();
+
+                if(!associatedLeaders.exist(prefClient.getId()))
+                {
+                    prefClient.setName("Test Name "+prefClient.getId());
+                    prefClient.setLastName("Test Lastname "+prefClient.getId());
+                    prefClient.operator().insert(prefClient);
+
+                    balance = new Balance();
+                    balance.setClient(prefClient);
+                    balance.setCamp(camp);
+
+                    BalanceOperator.getOperator().insert(balance);
+                }
+            }
+
+            Connector.getConnector().commit();
+
+            Connector.getConnector().endTransaction();
+            Connector.getConnector().closeConnection();
         }
         catch(Exception exception)
         {

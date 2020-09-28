@@ -102,7 +102,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         // METHOD: FILE SELECTING .
         FileChooser fileChooser = new FileChooser();
         this.detail = fileChooser.showOpenDialog(null);
-
+        
         if (this.detail != null)
         {
             if (FilenameUtils.getExtension(this.detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
