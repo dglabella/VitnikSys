@@ -12,7 +12,7 @@ import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
 public abstract class PreferentialClientOperator implements IPreferentialClientOperator
 {
     private Boolean activeRow;
-
+    
     /**
      * Get the flag state with which the DAO operator performs a CRUD operation.
      * Ignore this if it not exist an implementation for active or inactive rows in
@@ -39,13 +39,6 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
 
     @Override
     public int update(PreferentialClient cp)
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int insertMany(List<PreferentialClient> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

@@ -31,6 +31,7 @@ vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\backend\model\enums\ArticleType.class
 vitniksys\backend\util\ExpressionChecker.class
 vitniksys\backend\model\enums\ItemPago$1.class
+vitniksys\backend\controllers\CampManagementController$1.class
 vitniksys\backend\controllers\ClientManagementController$1.class
 vitniksys\backend\model\entities\Observation.class
 vitniksys\backend\model\interfaces\IPreferentialClientOperator.class

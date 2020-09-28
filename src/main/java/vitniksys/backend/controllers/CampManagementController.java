@@ -41,23 +41,37 @@ public class CampManagementController
     //Getters && Setters
 
     // ================================= private methods =================================
-    private boolean allFieldsAreOk(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode)
+    private boolean allFieldsAreOk(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail)
     {
         boolean ret = false;
         if(this.expressionChecker.onlyNumbers(campNumb, false) && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
-            && month != null && year != null && this.expressionChecker.isCatalogueCode(catalogueCode, true))
+            && month != null && year != null && this.expressionChecker.isCatalogueCode(catalogueCode, true) && detailFileIsOk(detail, true))
         {
             ret = true;
         }
         return ret;
     }
 
-    private boolean detailFileIsOk(File detail)
+    private boolean detailFileIsOk(File detail, boolean allowEmptyFile)
     {
         boolean ret = false;
 
-        if (detail != null && FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase("csv"))
-            ret = true;
+        if(allowEmptyFile)
+        {
+            if(detail == null)
+            {
+                ret = true;
+            }
+            else if(FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+            {
+                ret = true; 
+            }
+        }
+        else
+        {
+            if (detail != null && FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+                ret = true;
+        }
             
         return ret;
     }
@@ -65,18 +79,19 @@ public class CampManagementController
     private Integer registerIncomingOrders(File detail) throws Exception
     {
         Integer returnCode = 0;
+        
         OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
         List<PreferentialClient> cps = orderObtainer.getOrderMakers();
         
-        PreferentialClient cp;
+        PreferentialClient prefClient;
         PreferentialClientOperator cpOperator;
         Iterator<PreferentialClient> cpsIterator = cps.iterator();
 
         while(cpsIterator.hasNext())
         {
-            cp = cpsIterator.next();
-            cpOperator = cp.operator();
-            returnCode += cpOperator.registerOrders(cp);
+            prefClient = cpsIterator.next();
+            cpOperator = prefClient.operator();
+            returnCode += cpOperator.registerOrders(prefClient);
         }
 
         return returnCode;
@@ -147,11 +162,11 @@ public class CampManagementController
     public void registerCamp(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception
     {
         //If all fields are OK...
-        if(allFieldsAreOk(campNumb, campAlias, month, year, catalogueCode))
+        if(allFieldsAreOk(campNumb, campAlias, month, year, catalogueCode, detail))
         {
             this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
 
-            Task task = new Task<Integer>()
+            Task<Integer> task = new Task<>()
             {
                 @Override
                 protected Integer call() throws Exception
@@ -189,7 +204,7 @@ public class CampManagementController
                         returnCode += CampaignOperator.getOperator().insert(camp);
 
                         //Campaing registration with orders associated
-                        if(detailFileIsOk(detail))
+                        if(detail != null)
                         {
                             returnCode += registerIncomingOrders(detail);
                         }

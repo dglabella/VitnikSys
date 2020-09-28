@@ -2,6 +2,7 @@ package vitniksys.backend.model.persistence;
 
 import java.sql.Date;
 import java.sql.Types;
+import java.util.List;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.entities.PreferentialClient;
@@ -68,5 +69,12 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         statement.close();
         
         return returnCode;
+    }
+
+    @Override
+    public int insertMany(List<PreferentialClient> list) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return 0;
     }
 }

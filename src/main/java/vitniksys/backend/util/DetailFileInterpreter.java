@@ -9,6 +9,9 @@ import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.enums.ArticleType;
+import vitniksys.backend.model.persistence.BaseClientOperator;
+import vitniksys.backend.model.persistence.LeaderOperator;
+import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
@@ -20,6 +23,8 @@ import vitniksys.backend.model.entities.PreferentialClient;
 */
 public class DetailFileInterpreter implements OrderObtainer
 {
+    public static final String FILE_EXTENSION = "csv";
+
     private static String SEPARATOR = ";";
 
     //The file to be interpreted for gather the information of the incoming orders.
@@ -96,17 +101,24 @@ public class DetailFileInterpreter implements OrderObtainer
             row = detailFileRowsIterator.next();
             if(!ret.exist(row.getClientId()))
             {
-                if(row.getLeaderId() != -1)
-                {
-                    subClient = new SubordinatedClient(row.getClientId());
-                    subClient.setLeader((Leader)associatedLeaders.get(associatedLeaders.locate(row.getLeaderId())));
-                    ret.add(subClient);
-                }
-                else
+                if(row.getLeaderId() == -1)
                 {
                     ret.add(new BaseClient(row.getClientId()));
                 }
-            }  
+                else 
+                {
+                    if (associatedLeaders.exist(row.getClientId()))
+                    {
+                        ret.add(new Leader(row.getClientId()));
+                    }
+                    else
+                    {
+                        subClient = new SubordinatedClient(row.getClientId());
+                        subClient.setLeader((Leader)associatedLeaders.get(associatedLeaders.locate(row.getLeaderId())));
+                        ret.add(subClient);
+                    }
+                }
+            }
         }
 
         //Aux variable for optimize the process
@@ -138,7 +150,7 @@ public class DetailFileInterpreter implements OrderObtainer
         Iterator<PreferentialClient> printList = ret.iterator();
         while(printList.hasNext())
         {
-            System.out.println(printList.next().toString()); 
+            System.out.println(printList.next().toString());
         }
         return ret;
     }
@@ -146,8 +158,10 @@ public class DetailFileInterpreter implements OrderObtainer
     // ================================= protected methods =================================
 
     // ================================= public methods = ================================
-    @Override
-    public List<PreferentialClient> getOrderMakers()
+    /**
+     * Testing purpose
+     */
+    public void insertClientFromDetailFile()
     {
         String [] splitedLine;
         
@@ -170,10 +184,59 @@ public class DetailFileInterpreter implements OrderObtainer
 
             associatedLeaders = getAssociatedLeaders();
             orderMakers = getOrderMakers(associatedLeaders);
+
+            PreferentialClientOperator prefClientOperator;
+            if(associatedLeaders.get(0) != null)
+            {
+                prefClientOperator = associatedLeaders.get(0).operator();
+                prefClientOperator.insertMany(associatedLeaders);
+            }
+
+            prefClientOperator = orderMakers.get(0).operator();
+            //prefClientOperator.insertMany(list)
+            
         }
-        catch(Exception e)
+        catch(Exception exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
+            orderMakers = null;
+        }
+    }
+
+    @Override
+    public List<PreferentialClient> getOrderMakers()
+    {
+        String [] splitedLine;
+        
+        ClientList orderMakers;
+        ClientList associatedLeaders;
+
+        try{
+            Scanner inputStream = new Scanner(this.detailFile);
+            
+            //Gathering all the lines in the file into primary memory (detailFileRows).
+            while(inputStream.hasNext())
+            {
+                splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
+
+                // System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" -- "+splitedLine[DELIVERY_NUMBER]+
+                //     " -- "+splitedLine[LETTERS]+" -- "+splitedLine[BARCODE]+" -- "+splitedLine[NAME]+" -- "+splitedLine[QUANT]+
+                //     " -- "+splitedLine[UNIT_PRICE]+" -- "+splitedLine[DESC_CP]+" -- "+splitedLine[PRICE]+" -- "+
+                //     splitedLine[AGENT_COMM]+" -- "+splitedLine[FINAL_PRICE]+" -- "+splitedLine[CAMP]+" -- "+splitedLine[OBS]);
+
+                this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
+                    splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 
+                    splitedLine[QUANT], splitedLine[UNIT_PRICE], splitedLine[DESC_CP], splitedLine[PRICE], 
+                    splitedLine[AGENT_COMM], splitedLine[FINAL_PRICE], splitedLine[CAMP], splitedLine[OBS]));
+            }
+            inputStream.close();
+
+            associatedLeaders = getAssociatedLeaders();
+            orderMakers = getOrderMakers(associatedLeaders);
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();
             orderMakers = null;
         }
         return (List<PreferentialClient>)orderMakers;

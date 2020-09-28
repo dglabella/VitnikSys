@@ -52,7 +52,7 @@ public class ClientManagementController
         if(allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId))
         {
             this.view.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-            Task task = new Task<Integer>()
+            Task<Integer> task = new Task<>()
             {
                 @Override
                 protected Integer call() throws Exception

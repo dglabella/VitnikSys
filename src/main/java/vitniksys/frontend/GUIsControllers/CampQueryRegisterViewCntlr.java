@@ -24,6 +24,8 @@ import javafx.scene.control.ButtonType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import vitniksys.backend.util.CustomAlert;
+import vitniksys.backend.util.DetailFileInterpreter;
+
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
@@ -101,9 +103,9 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         FileChooser fileChooser = new FileChooser();
         this.detail = fileChooser.showOpenDialog(null);
 
-        if (detail != null)
+        if (this.detail != null)
         {
-            if (FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase("csv"))
+            if (FilenameUtils.getExtension(this.detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
             {
                 this.fileSelected.setText("Archivo seleccionado:");
                 this.fileSelected.setVisible(true);
@@ -114,8 +116,9 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
             else
             {
                 this.filePath.setTextFill(Color.web("#ff0000")); // Red
-                this.filePath.setText("el archivo no tiene extension csv");
+                this.filePath.setText("El archivo no tiene extension csv."+"\nSelecciones nuevamente o el archivo será descartado.");
                 this.filePath.setVisible(true);
+                this.detail = null;
             }
         }
     }
@@ -125,9 +128,9 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     {
         try
         {
-            this.campManagementController.registerCamp(this.campNumber.getText(), this.campAlias.getText(),
-                    this.campMonth.getValue().getValue(), this.campYear.getValue(), this.catalogueCode.getText(),
-                    this.detail);
+            this.campManagementController.registerCamp(this.campNumber.getText(), this.campAlias.getText(), 
+                this.campMonth.getValue() != null? this.campMonth.getValue().getValue() : null, 
+                this.campYear.getValue(), this.catalogueCode.getText(), this.detail);
         }
         catch (Exception e)
         {

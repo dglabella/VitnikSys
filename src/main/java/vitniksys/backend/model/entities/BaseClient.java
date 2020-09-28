@@ -46,6 +46,11 @@ public class BaseClient extends PreferentialClient
     }
 
     @Override
+    public String toString()
+    {
+        return super.toString() + " - BASE CLIENT";
+    }
+    @Override
     public PreferentialClientOperator operator()
     {
         return BaseClientOperator.getOperator();
