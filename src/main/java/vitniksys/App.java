@@ -17,8 +17,6 @@ public class App extends Application
     @Override
     public void start(final Stage stage) throws IOException
     {
-        new DetailFileInterpreter(new FileChooser().showOpenDialog(null)).insertClientFromDetailFile();
-        
         String fileName = "mainMenu";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(GUIs_LOCATION + fileName + FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
