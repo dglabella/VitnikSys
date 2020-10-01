@@ -1,9 +1,15 @@
 package vitniksys.backend.model.persistence;
 
 import java.sql.Date;
-import java.sql.Types;
 import java.util.List;
+import java.sql.Types;
+import java.time.ZoneId;
+import java.time.Instant;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
+
+import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 public class LeaderOperator extends BaseClientOperator
@@ -21,6 +27,57 @@ public class LeaderOperator extends BaseClientOperator
             LeaderOperator.operator = new LeaderOperator();
 
         return LeaderOperator.operator;
+    }
+
+    /**
+     * Change the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @param activeRow the value for the operation.
+     */
+    public LeaderOperator setActiveRow(Boolean activeRow)
+    {
+        this.activeRow = activeRow;
+        return LeaderOperator.operator;
+    }
+
+    @Override
+    public List<PreferentialClient> findAll() throws Exception
+    {
+        List<PreferentialClient> ret  = new ArrayList<>();
+
+        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `es_lider` = ? AND `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        statement.setBoolean(1, true);
+        statement.setBoolean(2, this.activeRow);
+        ResultSet resultSet = statement.executeQuery();
+
+        Leader leader;
+        while(resultSet.next())
+        {
+            leader = new Leader(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            
+            leader.setDni(resultSet.getLong(2));
+            leader.setLocation(resultSet.getString(5));
+            Date date = resultSet.getDate(6);
+            if(!resultSet.wasNull())
+            {
+                leader.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+            leader.setEmail(resultSet.getString(7));
+            leader.setPhoneNumber(resultSet.getLong(8));
+
+            ret.add(leader);
+        }
+
+        statement.close();
+  
+        if(ret.size() == 0)
+            ret = null;
+
+        return ret;
     }
 
     @Override

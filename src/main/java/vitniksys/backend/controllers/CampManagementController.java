@@ -4,21 +4,22 @@ import java.io.File;
 import java.util.List;
 import java.time.Month;
 import java.util.Iterator;
-//import javafx.application.Platform;
+import java.util.ArrayList;
+import javafx.concurrent.Task;
+import javafx.application.Platform;
 //import java.util.concurrent.Executors;
 import org.apache.commons.io.FilenameUtils;
-
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import vitniksys.backend.util.OrderObtainer;
 //import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CatalogueOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
@@ -202,6 +203,24 @@ public class CampManagementController
                         }
 
                         returnCode += CampaignOperator.getOperator().insert(camp);
+
+                        List<PreferentialClient> prefClientList = new ArrayList<>();
+
+                        Iterator<PreferentialClient> prefClientIterator = PreferentialClientOperator.findAllPrefClients(true).iterator();
+                        while(prefClientIterator.hasNext())
+                            prefClientList.add(prefClientIterator.next());
+
+                        List<Balance> balancesList = new ArrayList<>();
+                        prefClientIterator = prefClientList.iterator();
+                        while(prefClientIterator.hasNext())
+                        {
+                            Balance b = new Balance();
+                            b.setClient(prefClientIterator.next());
+                            b.setCamp(camp);
+                            balancesList.add(new Balance());
+                        }
+                        
+                        returnCode += BalanceOperator.getOperator().insertMany(balancesList);
 
                         //Campaing registration with orders associated
                         if(detail != null)

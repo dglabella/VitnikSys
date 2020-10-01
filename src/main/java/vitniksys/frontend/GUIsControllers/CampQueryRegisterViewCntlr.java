@@ -20,16 +20,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ButtonType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import vitniksys.backend.util.CustomAlert;
-import vitniksys.backend.util.DetailFileInterpreter;
-
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Campaign;
+import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.controllers.CampManagementController;
 
@@ -345,7 +343,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     protected void refresh()
     {
-
+        
     }
 
     // ================================= public methods =================================
@@ -458,7 +456,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void closeProcessIsWorking()
     {
-        this.customAlert.setResult(ButtonType.CLOSE);
+        this.customAlert.customClose();
     }
 
     @Override

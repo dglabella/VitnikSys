@@ -14,7 +14,7 @@ public class BalanceOperator implements IBalanceOperator
 
     private BalanceOperator()
     {
-        // Empty constructor
+        this.activeRow = true;
     }
 
     public static BalanceOperator getOperator()
@@ -44,9 +44,10 @@ public class BalanceOperator implements IBalanceOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public void setActiveRow(Boolean activeRow)
+    public BalanceOperator setActiveRow(Boolean activeRow)
     {
         this.activeRow = activeRow;
+        return BalanceOperator.operator;
     }
 
     @Override

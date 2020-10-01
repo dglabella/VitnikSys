@@ -1,9 +1,14 @@
 package vitniksys.backend.model.persistence;
 
 import java.sql.Date;
-import java.sql.Types;
 import java.util.List;
+import java.sql.Types;
+import java.time.ZoneId;
+import java.time.Instant;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
+import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 public class BaseClientOperator extends PreferentialClientOperator
@@ -12,7 +17,7 @@ public class BaseClientOperator extends PreferentialClientOperator
 
     protected BaseClientOperator()
     {
-        // Empty Constructor
+        this.activeRow = true;
     }
 
     public static BaseClientOperator getOperator()
@@ -21,6 +26,57 @@ public class BaseClientOperator extends PreferentialClientOperator
             BaseClientOperator.operator = new BaseClientOperator();
 
         return BaseClientOperator.operator;
+    }
+
+    /**
+     * Change the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base.
+     * Default value: true.
+     * @param activeRow the value for the operation.
+     */
+    public BaseClientOperator setActiveRow(Boolean activeRow)
+    {
+        this.activeRow = activeRow;
+        return BaseClientOperator.operator;
+    }
+
+    @Override
+    public List<PreferentialClient> findAll() throws Exception
+    {
+        List<PreferentialClient> ret  = new ArrayList<>();
+
+        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        statement.setBoolean(1, false);
+        statement.setBoolean(2, this.activeRow);
+        ResultSet resultSet = statement.executeQuery();
+
+        BaseClient baseClient;
+        while(resultSet.next())
+        {
+            baseClient = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            
+            baseClient.setDni(resultSet.getLong(2));
+            baseClient.setLocation(resultSet.getString(5));
+            Date date = resultSet.getDate(6);
+            if(!resultSet.wasNull())
+            {
+                baseClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+            baseClient.setEmail(resultSet.getString(7));
+            baseClient.setPhoneNumber(resultSet.getLong(8));
+
+            ret.add(baseClient);
+        }
+
+        statement.close();
+  
+        if(ret.size() == 0)
+            ret = null;
+
+        return ret;
     }
 
     @Override

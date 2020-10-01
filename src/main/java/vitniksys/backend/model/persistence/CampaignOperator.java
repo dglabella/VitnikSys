@@ -46,9 +46,10 @@ public class CampaignOperator implements ICampaignOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public void setActiveRow(Boolean activeRow)
+    public CampaignOperator setActiveRow(Boolean activeRow)
     {
         this.activeRow = activeRow;
+        return CampaignOperator.operator;
     }
 
     @Override

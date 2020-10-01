@@ -8,16 +8,20 @@ import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.interfaces.ICatalogueOperator;
 
 //This class intanciates the DAO Object for Catalogo
-public class CatalogueOperator implements ICatalogueOperator {
+public class CatalogueOperator implements ICatalogueOperator
+{
 
     private static CatalogueOperator operator;
+
     private Boolean activeRow;
 
-    private CatalogueOperator() {
+    private CatalogueOperator()
+    {
         this.activeRow = true;
     }
 
-    public static CatalogueOperator getOperator() {
+    public static CatalogueOperator getOperator()
+    {
         if (CatalogueOperator.operator == null)
             CatalogueOperator.operator = new CatalogueOperator();
 
@@ -31,7 +35,8 @@ public class CatalogueOperator implements ICatalogueOperator {
      * 
      * @return The state of the entity.
      */
-    public Boolean isActiveRow() {
+    public Boolean isActiveRow()
+    {
         return this.activeRow;
     }
 
@@ -42,9 +47,10 @@ public class CatalogueOperator implements ICatalogueOperator {
      * 
      * @param activeRow the value for the operation.
      */
-    public void setActiveRow(Boolean activeRow)
+    public CatalogueOperator setActiveRow(Boolean activeRow)
     {
         this.activeRow = activeRow;
+        return CatalogueOperator.operator;
     }
 
     public int insert(Catalogue catalogue)
@@ -72,11 +78,11 @@ public class CatalogueOperator implements ICatalogueOperator {
 
         ResultSet resultSet = statement.executeQuery();
 
-        if (resultSet.next()) {
+        if (resultSet.next())
+        {
             ret = new Catalogue(code, resultSet.getInt(2), resultSet.getFloat(4));
             ret.setActualStock(resultSet.getInt(3));
             ret.setLink(resultSet.getString(5));
-            ret.setActive(this.activeRow);
         }
 
         statement.close();

@@ -13,7 +13,7 @@ public class OrderOperator implements IOrderOperator
 
 	private OrderOperator()
 	{
-		// Empty constructor
+		this.activeRow = true;
 	}
 
 	public static OrderOperator getOperator()
@@ -43,9 +43,10 @@ public class OrderOperator implements IOrderOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public void setActiveRow(Boolean activeRow)
+    public OrderOperator setActiveRow(Boolean activeRow)
     {
-        this.activeRow = activeRow;
+		this.activeRow = activeRow;
+		return OrderOperator.operator;
     }
 
 	@Override
@@ -81,8 +82,8 @@ public class OrderOperator implements IOrderOperator
 
         while(listIterator.hasNext())
         {
-            order = listIterator.next();
-
+			order = listIterator.next();
+			
             statement.setInt(1, order.getClient().getId());
 			statement.setInt(2, order.getCampaign().getNumber());
 			statement.setString(3, order.getArticle().getId());

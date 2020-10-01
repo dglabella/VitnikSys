@@ -76,12 +76,15 @@ public class DetailFileInterpreter implements OrderObtainer
                 ret.add(new Leader(row.getLeaderId()));
             }  
         }
+
+        /*
         System.out.println("================ Associated Leaders ================");
         Iterator<PreferentialClient> printList = ret.iterator();
         while(printList.hasNext())
         {
             System.out.println(printList.next().toString()); 
         }
+        */
         return ret;
     }
 
@@ -142,16 +145,18 @@ public class DetailFileInterpreter implements OrderObtainer
             article = new Article(row.getLetters(), row.getName(), ArticleType.inferType(row.getObs()), row.getUnitPrice());
             order.setArticle(article);
             order.setCampaign(new Campaign(row.getCampNumb()));
-
+            order.setClient(client);
             client.getIncomingOrders().add(order);
         }
 
+        /*
         System.out.println("================ Order Makers ================");
         Iterator<PreferentialClient> printList = ret.iterator();
         while(printList.hasNext())
         {
             System.out.println(printList.next().toString());
         }
+        */
         return ret;
     }
 
