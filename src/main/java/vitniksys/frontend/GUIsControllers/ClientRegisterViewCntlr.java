@@ -169,11 +169,6 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     // ================================= private methods =================================
 
     // ================================= protected methods =================================
-    @Override
-    protected void refresh()
-    {
-
-    }
 
     // ================================= public methods =================================
     @Override

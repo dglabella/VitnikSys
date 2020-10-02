@@ -12,26 +12,26 @@ public class CatalogueQueryViewCntlr extends VitnikViewCntlr implements Initiali
 {
     private ExpressionChecker expressionChecker;
 
+    // ================================= FXML variables =================================
     @FXML private TextField textField_link;
     @FXML private TextField textField_stock;
     @FXML private TextField textField_codCat;
     @FXML private TextField textField_precio;
     @FXML private TextField textField_stockInicial;
 
-    @FXML Button button_plusButton;
+    @FXML private Button button_plusButton;
 
+    // ================================= FXML methods =================================
+
+    // ================================= protected methods =================================
+
+    // ================================= public methods =================================
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
         expressionChecker =  ExpressionChecker.getExpressionChecker();
         textField_stockInicial.setDisable(true);
         textField_stock.setDisable(true);
-    }
-    
-    @Override
-    protected void refresh()
-    {
-
     }
 
     @FXML private void plusButtonPressed()

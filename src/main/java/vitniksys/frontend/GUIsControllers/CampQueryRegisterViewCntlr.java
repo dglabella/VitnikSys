@@ -340,11 +340,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     // ================================= protected methods =================================
-    @Override
-    protected void refresh()
-    {
-        
-    }
 
     // ================================= public methods =================================
     @Override
@@ -554,6 +549,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showQueriedCamp(List<Campaign> camps)
     {
-        
+           
     }
 }

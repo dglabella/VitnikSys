@@ -125,15 +125,14 @@ public class CampManagementController
 
                 try
                 {
+                    campQueryRegisterView.closeProcessIsWorking();
                     if(camp != null)
                     {
                         returnCode = 1;
-                        campQueryRegisterView.closeProcessIsWorking();
                         campQueryRegisterView.showQueriedCamp(camp);
                     }
                     else
                     {
-                        campQueryRegisterView.closeProcessIsWorking();
                         campQueryRegisterView.showNoResult("No se encontró la campaña especificada");
                     }
                 }

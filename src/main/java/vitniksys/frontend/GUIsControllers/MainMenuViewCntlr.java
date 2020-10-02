@@ -111,11 +111,6 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     // ================================= private methods =================================
 
     // ================================= protected methods =================================
-    @Override
-    protected void refresh()
-    {
-
-    }
 
     // ================================= public methods =================================
     @Override

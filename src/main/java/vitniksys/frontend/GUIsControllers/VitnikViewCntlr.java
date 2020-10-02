@@ -33,11 +33,4 @@ public abstract class VitnikViewCntlr
     {
         this.stage.close();
     }
-
-    /**
-     * Refresh the stage with new data.
-     * This method should be called if it is necesary
-     * show some changes on the stage.
-     */
-    protected abstract void refresh();
 }

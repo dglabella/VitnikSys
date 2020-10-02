@@ -36,10 +36,4 @@ public class ProcessingViewCntlr extends VitnikViewCntlr implements Initializabl
     {
         // TODO Auto-generated method stub
     }
-
-    @Override
-    protected void refresh()
-    {
-        // TODO Auto-generated method stub
-    }
 }
