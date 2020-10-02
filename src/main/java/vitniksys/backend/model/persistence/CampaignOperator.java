@@ -133,15 +133,55 @@ public class CampaignOperator implements ICampaignOperator
     @Override
     public Campaign find(String alias) throws Exception
     {
-        // TODO Auto-generated method stub
-        return null;
+        Campaign ret = null;
+        
+        String sqlStmnt = "SELECT * FROM `camps` WHERE `alias` LIKE '%"+(alias != null && !alias.isBlank()?alias:"")+"%' AND `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        
+        statement.setBoolean(1, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next())
+        {
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            ret.setName(resultSet.getString(2));
+            ret.setAlias(resultSet.getString(3));
+            ret.setRegistrationTime(resultSet.getTimestamp(6));
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+        }
+
+        statement.close();
+        
+        return ret;
     }
 
     @Override
     public Campaign find(int month, int year) throws Exception
     {
-        // TODO Auto-generated method stub
-        return null;
+        Campaign ret = null;
+        
+        String sqlStmnt = "SELECT * FROM `camps` WHERE `mes` = ? AND `year` = ? AND `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        
+        statement.setInt(1, month);
+        statement.setInt(2, year);
+        statement.setBoolean(3, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next())
+        {
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            ret.setName(resultSet.getString(2));
+            ret.setAlias(resultSet.getString(3));
+            ret.setRegistrationTime(resultSet.getTimestamp(6));
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+        }
+
+        statement.close();
+        
+        return ret;
     }
 
     @Override

@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 import java.time.Month;
 import java.util.Iterator;
-import java.util.ArrayList;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 //import java.util.concurrent.Executors;
@@ -12,14 +11,12 @@ import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.OrderObtainer;
 //import java.util.concurrent.ExecutorService;
 import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CatalogueOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
@@ -104,30 +101,58 @@ public class CampManagementController
     public void searchCamp(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
     {
         this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-        try
+        
+        Task<Integer> task = new Task<>()
         {
-            Campaign camp = CampaignOperator.getOperator().find(campNumb);
-            if(camp != null)
-            {        
-                this.campQueryRegisterView.closeProcessIsWorking();
-                this.campQueryRegisterView.showQueriedCamp(camp);
-            }
-            else
+            @Override
+            protected Integer call() throws Exception
             {
-                this.campQueryRegisterView.closeProcessIsWorking();
-                this.campQueryRegisterView.showNoResult("No se encontró la campaña especificada");
+                int returnCode = 0;
+                Campaign camp = null;
+
+                if(campNumb != null && !campNumb.isBlank())
+                {
+                    camp = CampaignOperator.getOperator().find(Integer.parseInt(campNumb));
+                }
+                else if(month != null && year != null)
+                {
+                    camp = CampaignOperator.getOperator().find(month.getValue(), year);
+                }
+                else if(campAlias != null && !campAlias.isBlank())
+                {
+                    camp = CampaignOperator.getOperator().find(campAlias);
+                }
+
+                try
+                {
+                    if(camp != null)
+                    {
+                        returnCode = 1;
+                        campQueryRegisterView.closeProcessIsWorking();
+                        campQueryRegisterView.showQueriedCamp(camp);
+                    }
+                    else
+                    {
+                        campQueryRegisterView.closeProcessIsWorking();
+                        campQueryRegisterView.showNoResult("No se encontró la campaña especificada");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    returnCode = 0;
+                    campQueryRegisterView.closeProcessIsWorking();
+                    campQueryRegisterView.showError("Error al buscar la campaña especificada.", exception);
+                    throw exception;
+                }
+                finally
+                {
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
             }
-        }
-        catch (Exception exception)
-        {
-            this.campQueryRegisterView.closeProcessIsWorking();
-            this.campQueryRegisterView.showError("Error al buscar la campaña especificada.", exception);
-            throw exception;
-        }
-        finally
-        {
-            Connector.getConnector().closeConnection();
-        }
+        };
+
+        Platform.runLater(task);
     }
 
     /**
@@ -202,25 +227,7 @@ public class CampManagementController
                             }
                         }
 
-                        returnCode += CampaignOperator.getOperator().insert(camp);
-
-                        List<PreferentialClient> prefClientList = new ArrayList<>();
-
-                        Iterator<PreferentialClient> prefClientIterator = PreferentialClientOperator.findAllPrefClients(true).iterator();
-                        while(prefClientIterator.hasNext())
-                            prefClientList.add(prefClientIterator.next());
-
-                        List<Balance> balancesList = new ArrayList<>();
-                        prefClientIterator = prefClientList.iterator();
-                        while(prefClientIterator.hasNext())
-                        {
-                            Balance b = new Balance();
-                            b.setClient(prefClientIterator.next());
-                            b.setCamp(camp);
-                            balancesList.add(new Balance());
-                        }
-                        
-                        returnCode += BalanceOperator.getOperator().insertMany(balancesList);
+                        returnCode += CampaignOperator.getOperator().insert(camp); // Balances insertion handler by a DB Trigger.
 
                         //Campaing registration with orders associated
                         if(detail != null)
