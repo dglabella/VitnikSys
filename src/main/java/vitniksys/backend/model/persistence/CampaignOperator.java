@@ -1,5 +1,6 @@
 package vitniksys.backend.model.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.Types;
 import java.time.Month;
@@ -131,9 +132,9 @@ public class CampaignOperator implements ICampaignOperator
     }
 
     @Override
-    public Campaign find(String alias) throws Exception
+    public List<Campaign> findAll(String alias) throws Exception
     {
-        Campaign ret = null;
+        List<Campaign> ret = new ArrayList<>();
         
         String sqlStmnt = "SELECT * FROM `camps` WHERE `alias` LIKE '%"+(alias != null && !alias.isBlank()?alias:"")+"%' AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -142,17 +143,22 @@ public class CampaignOperator implements ICampaignOperator
 
         ResultSet resultSet = statement.executeQuery();
 
-        if (resultSet.next())
+        Campaign camp;
+        while (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
-            ret.setName(resultSet.getString(2));
-            ret.setAlias(resultSet.getString(3));
-            ret.setRegistrationTime(resultSet.getTimestamp(6));
-            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            camp.setName(resultSet.getString(2));
+            camp.setAlias(resultSet.getString(3));
+            camp.setRegistrationTime(resultSet.getTimestamp(6));
+            camp.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+            ret.add(camp);
         }
 
         statement.close();
         
+        if(ret.size() == 0)
+            ret = null;
+
         return ret;
     }
 

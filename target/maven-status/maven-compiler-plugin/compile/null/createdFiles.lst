@@ -54,6 +54,7 @@ vitniksys\frontend\GUIsControllers\VitnikViewCntlr.class
 vitniksys\backend\model\enums\ArticleType$1.class
 vitniksys\backend\model\entities\SubordinatedClient.class
 vitniksys\backend\model\interfaces\IOrderOperator.class
+vitniksys\frontend\GUIsControllers\VitnikTableViewCntlr.class
 vitniksys\backend\model\entities\PreferentialClient.class
 vitniksys\frontend\GUIsControllers\CampQueryRegisterViewCntlr.class
 vitniksys\backend\model\persistence\ArticleOperator.class

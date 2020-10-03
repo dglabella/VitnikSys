@@ -109,10 +109,15 @@ public class CampManagementController
             {
                 int returnCode = 0;
                 Campaign camp = null;
+                List<Campaign> camps = null;
 
                 if(campNumb != null && !campNumb.isBlank())
                 {
                     camp = CampaignOperator.getOperator().find(Integer.parseInt(campNumb));
+                }
+                else if(catalogueCode != null && !catalogueCode.isBlank())
+                {
+                    camps = CampaignOperator.getOperator().findByCatalogue(Integer.parseInt(catalogueCode));
                 }
                 else if(month != null && year != null)
                 {
@@ -120,7 +125,7 @@ public class CampManagementController
                 }
                 else if(campAlias != null && !campAlias.isBlank())
                 {
-                    camp = CampaignOperator.getOperator().find(campAlias);
+                    camps = CampaignOperator.getOperator().findAll(campAlias.toUpperCase());
                 }
 
                 try
@@ -130,6 +135,11 @@ public class CampManagementController
                     {
                         returnCode = 1;
                         campQueryRegisterView.showQueriedCamp(camp);
+                    }
+                    else if(camps != null)
+                    {
+                        returnCode = 1;
+                        campQueryRegisterView.showQueriedCamp(camps);
                     }
                     else
                     {
@@ -150,7 +160,7 @@ public class CampManagementController
                 return returnCode;
             }
         };
-
+        
         Platform.runLater(task);
     }
 

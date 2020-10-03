@@ -1,8 +1,8 @@
 package vitniksys.backend.model.entities;
 
 import java.util.List;
-import java.sql.Timestamp;
 import java.time.Month;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Campaign
@@ -136,12 +136,19 @@ public class Campaign
         this.incomingOrders = incomingOrders;
     }
 
-    public Catalogue getCatalogue() {
+    public Catalogue getCatalogue()
+    {
         return this.catalogue;
     }
 
-    public void setCatalogue(Catalogue catalogue) {
+    public void setCatalogue(Catalogue catalogue)
+    {
         this.catalogue = catalogue;
+    }
+
+    public Integer getCatalogueCode()
+    {
+        return this.catalogue != null? this.catalogue.getCode():null;
     }
 
     public List<Payment> getPayments()

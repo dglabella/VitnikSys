@@ -58,13 +58,13 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
         String fileName = "catalogueQuery";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
-        CatalogueQueryViewCntlr ctrller = fxmlLoader.getController();
-        ctrller.setStage(new Stage());
-        ctrller.getStage().setResizable(false);
-        ctrller.getStage().setScene(scene);
-        ctrller.getStage().setTitle("Consultar Cátalogo");
-        ctrller.setPrevViewCntlr(this);
-        ctrller.getStage().show();
+        CatalogueQueryViewCntlr viewCtrller = fxmlLoader.getController();
+        viewCtrller.setStage(new Stage());
+        viewCtrller.getStage().setResizable(false);
+        viewCtrller.getStage().setScene(scene);
+        viewCtrller.getStage().setTitle("Consultar Cátalogo");
+        viewCtrller.setPrevViewCntlr(this);
+        viewCtrller.getStage().show();
     }
 
     @FXML
@@ -85,13 +85,13 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
         String fileName = "clientRegister";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
-        ClientRegisterViewCntlr ctrller = fxmlLoader.getController();
-        ctrller.setStage(new Stage());
-        ctrller.getStage().setResizable(false);
-        ctrller.getStage().setScene(scene);
-        ctrller.getStage().setTitle("Formulario de registro de Cliente preferencial");
-        ctrller.setPrevViewCntlr(this);
-        ctrller.getStage().show();      
+        ClientRegisterViewCntlr viewCtrller = fxmlLoader.getController();
+        viewCtrller.setStage(new Stage());
+        viewCtrller.getStage().setResizable(false);
+        viewCtrller.getStage().setScene(scene);
+        viewCtrller.getStage().setTitle("Formulario de registro de Cliente preferencial");
+        viewCtrller.setPrevViewCntlr(this);
+        viewCtrller.getStage().show();      
     }
 
     @FXML
@@ -100,13 +100,13 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
         String fileName = "campQueryRegister";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
-        CampQueryRegisterViewCntlr ctrller = fxmlLoader.getController();
-        ctrller.setStage(new Stage());
-        ctrller.getStage().setResizable(false);
-        ctrller.getStage().setScene(scene);
-        ctrller.getStage().setTitle("Consultar campaña");
-        ctrller.setPrevViewCntlr(this);
-        ctrller.getStage().show();
+        CampQueryRegisterViewCntlr viewCtrller = fxmlLoader.getController();
+        viewCtrller.setStage(new Stage());
+        viewCtrller.getStage().setResizable(false);
+        viewCtrller.getStage().setScene(scene);
+        viewCtrller.getStage().setTitle("Consultar campaña");
+        viewCtrller.setPrevViewCntlr(this);
+        viewCtrller.getStage().show();
     }
     // ================================= private methods =================================
 

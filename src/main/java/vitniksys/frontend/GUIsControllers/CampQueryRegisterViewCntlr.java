@@ -442,7 +442,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showProcessIsWorking(String message)
     {
-        this.customAlert.setAlertType(AlertType.NONE);
+        this.customAlert.setAlertType(AlertType.INFORMATION);
         this.customAlert.setTitle("PROCESANDO");
         this.customAlert.setHeaderText(message);
         this.customAlert.customShow();
@@ -510,7 +510,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     @Override
-    public void showQueriedCamp(Campaign campaign)
+    public void showQueriedCamp(Campaign campaign) throws Exception
     {
         this.noResultMessage.setVisible(false);
 
@@ -547,8 +547,18 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     @Override
-    public void showQueriedCamp(List<Campaign> camps)
+    public void showQueriedCamp(List<Campaign> camps) throws Exception
     {
-           
+        String fileName = "searchResultTable";
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
+        Scene scene = new Scene(fxmlLoader.load());
+        SearchResultTableViewCntlr viewCtrller = fxmlLoader.getController();
+        viewCtrller.setStage(new Stage());
+        viewCtrller.getStage().setResizable(false);
+        viewCtrller.getStage().setScene(scene);
+        viewCtrller.getStage().setTitle("Resultados de búsqueda");
+        viewCtrller.setPrevViewCntlr(this);
+        viewCtrller.setCamps(camps);
+        viewCtrller.getStage().show();
     }
 }

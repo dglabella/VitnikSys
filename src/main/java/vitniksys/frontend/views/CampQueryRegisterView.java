@@ -5,7 +5,7 @@ import vitniksys.backend.model.entities.Campaign;
 
 public interface CampQueryRegisterView extends View
 {
-    void showQueriedCamp(Campaign camp);
+    void showQueriedCamp(Campaign camp) throws Exception;
 
-    void showQueriedCamp(List<Campaign> camps);
+    void showQueriedCamp(List<Campaign> camps) throws Exception;
 }

@@ -94,15 +94,15 @@ public class CustomAlert extends Alert
             getDialogPane().setExpandableContent(pane);
         }        
 
-        
-        if(getAlertType() != AlertType.NONE)
-        {
-            this.showAndWait();
-        }
-        else
-        {
-            this.show();
-        }
+        this.show();
+        // if(getAlertType() != AlertType.NONE)
+        // {
+        //     this.showAndWait();
+        // }
+        // else
+        // {
+        //     this.show();
+        // }
     }
 
     public void customClose()

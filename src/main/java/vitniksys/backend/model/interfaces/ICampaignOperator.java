@@ -8,9 +8,9 @@ public interface ICampaignOperator extends CrudOperator<Campaign>
 {
     Campaign find(int id) throws Exception;
 
-    Campaign find(String alias) throws Exception;
-
     Campaign find(int month, int year) throws Exception;
+
+    List<Campaign> findAll(String alias) throws Exception;
 
     List<Campaign> findAll(Month month) throws Exception;
 
