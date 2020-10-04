@@ -97,10 +97,10 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     @FXML
     private void campButtonPressed() throws IOException
     {
-        String fileName = "campQueryRegister";
+        String fileName = "searchCamps";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
-        CampQueryRegisterViewCntlr viewCtrller = fxmlLoader.getController();
+        SearchCampsViewCntlr viewCtrller = fxmlLoader.getController();
         viewCtrller.setStage(new Stage());
         viewCtrller.getStage().setResizable(false);
         viewCtrller.getStage().setScene(scene);

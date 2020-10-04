@@ -1,5 +1,7 @@
 package vitniksys.frontend.views;
 
+import vitniksys.backend.util.CustomAlert;
+
 public interface View
 {
     /**
@@ -7,9 +9,9 @@ public interface View
      * IMPORTANT: DO NOT USE THREAD BLOCKING INSTRUCTIONS HERE.
      * OTHERWISE, THE USE CASE CANNOT CONTINUE.
      */
-    void showProcessIsWorking(String message);
+    CustomAlert showProcessIsWorking(String message);
 
-    void closeProcessIsWorking();
+    void closeProcessIsWorking(CustomAlert customAlert);
 
     /**
      * Called when a use case has succed.
@@ -24,7 +26,7 @@ public interface View
     /**
      * Called when a use case has not succed.
      */
-    void showError(String message, Exception exception);
+    void showError(String message, String description, Exception exception);
 
     /**
      * Called when a use case does not return an expected result.

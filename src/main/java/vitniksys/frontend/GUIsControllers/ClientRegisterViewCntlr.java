@@ -18,8 +18,6 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
 {
     private ExpressionChecker expressionChecker;
 
-    private CustomAlert customAlert;
-
     //Controllers
     private ClientManagementController clientController;
 
@@ -176,53 +174,38 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
     {
         this.expressionChecker = ExpressionChecker.getExpressionChecker();
         this.clientController = new ClientManagementController(this);
-
-        this.customAlert = new CustomAlert();
     }
 
     // ================================= view methods =================================
     @Override
-    public void showProcessIsWorking(String message)
+    public CustomAlert showProcessIsWorking(String message)
     {
-        // this.customAlert.setAlertType(AlertType.NONE);
-        // this.customAlert.setTitle("PROCESANDO");
-        // this.customAlert.setHeaderText(message);
-        // this.customAlert.customShow();
+        return new CustomAlert(AlertType.NONE, "PROCESANDO", message).customShow();
     }
 
     @Override
-    public void closeProcessIsWorking()
+    public void closeProcessIsWorking(CustomAlert customAlert)
     {
-        // this.customAlert.customClose();
+        customAlert.customClose();
     }
 
     @Override
     public void showSucces(String message)
     {
-        this.customAlert.setAlertType(AlertType.INFORMATION);
-        this.customAlert.setTitle("EXITO");
-        this.customAlert.setHeaderText(message);
-        this.customAlert.customShow();
+        new CustomAlert(AlertType.INFORMATION, "EXITO", message).customShow();
         this.getStage().close();
     }
 
     @Override
     public void showError(String message)
     {
-        this.customAlert.setAlertType(AlertType.ERROR);
-        this.customAlert.setTitle("ERROR");
-        this.customAlert.setHeaderText(message);
-        this.customAlert.customShow();
+        new CustomAlert(AlertType.ERROR, "ERROR", message).customShow();
     }
 
     @Override
-    public void showError(String message, Exception exception)
+    public void showError(String message, String description, Exception exception)
     {
-        this.customAlert.setAlertType(AlertType.ERROR);
-        this.customAlert.setTitle("ERROR");
-        this.customAlert.setHeaderText(message);
-        this.customAlert.setException(exception);
-        this.customAlert.customShow();
+        new CustomAlert(AlertType.ERROR, "ERROR", message, description, exception).customShow();
     }
 
     @Override

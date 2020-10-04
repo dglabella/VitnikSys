@@ -45,8 +45,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
 
     private CampManagementController campManagementController;
 
-    private CustomAlert customAlert;
-
     // ================================= FXML variables =================================
     @FXML private TextField campNumber;
     @FXML private TextField campAlias;
@@ -350,8 +348,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
 
         this.campManagementController = new CampManagementController(this);
 
-        this.customAlert = new CustomAlert();
-
         //Initiallly, search is active.
         this.isSearching = true;
 
@@ -440,46 +436,33 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
 
     // ================================= view methods =================================
     @Override
-    public void showProcessIsWorking(String message)
+    public CustomAlert showProcessIsWorking(String message)
     {
-        this.customAlert.setAlertType(AlertType.INFORMATION);
-        this.customAlert.setTitle("PROCESANDO");
-        this.customAlert.setHeaderText(message);
-        this.customAlert.customShow();
+        return new CustomAlert(AlertType.NONE, "PROCESANDO", message).customShow();
     }
 
     @Override
-    public void closeProcessIsWorking()
+    public void closeProcessIsWorking(CustomAlert customAlert)
     {
-        this.customAlert.customClose();
+        customAlert.customClose();
     }
 
     @Override
     public void showSucces(String message)
     {
-        this.customAlert.setAlertType(AlertType.INFORMATION);
-        this.customAlert.setTitle("EXITO");
-        this.customAlert.setHeaderText(message);
-        this.customAlert.customShow();
+        new CustomAlert(AlertType.INFORMATION, "EXITO", message).customShow();
     }
 
     @Override
     public void showError(String message)
     {
-        this.customAlert.setAlertType(AlertType.ERROR);
-        this.customAlert.setTitle("ERROR");
-        this.customAlert.setHeaderText(message);
-        this.customAlert.customShow();
+        new CustomAlert(AlertType.ERROR, "ERROR", message).customShow();
     }
 
     @Override
-    public void showError(String message, Exception exception)
+    public void showError(String message, String description, Exception exception)
     {
-        this.customAlert.setAlertType(AlertType.ERROR);
-        this.customAlert.setTitle("ERROR");
-        this.customAlert.setHeaderText(message);
-        this.customAlert.setException(exception);
-        this.customAlert.customShow();
+        new CustomAlert(AlertType.ERROR, "ERROR", message, description, exception).customShow();
     }
 
     @Override
@@ -549,16 +532,6 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @Override
     public void showQueriedCamp(List<Campaign> camps) throws Exception
     {
-        String fileName = "searchResultTable";
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
-        Scene scene = new Scene(fxmlLoader.load());
-        SearchResultTableViewCntlr viewCtrller = fxmlLoader.getController();
-        viewCtrller.setStage(new Stage());
-        viewCtrller.getStage().setResizable(false);
-        viewCtrller.getStage().setScene(scene);
-        viewCtrller.getStage().setTitle("Resultados de búsqueda");
-        viewCtrller.setPrevViewCntlr(this);
-        viewCtrller.setCamps(camps);
-        viewCtrller.getStage().show();
+        
     }
 }

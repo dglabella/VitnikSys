@@ -1,9 +1,9 @@
 package vitniksys.backend.util;
 
+import javafx.stage.Stage;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javafx.scene.layout.Pane;
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ButtonType;
@@ -22,7 +22,7 @@ public class CustomAlert extends Alert
 
     private String description;
     private Exception exception;
-
+    
     public CustomAlert()
     {
         super(AlertType.INFORMATION);
@@ -74,15 +74,15 @@ public class CustomAlert extends Alert
         this.exception = exception;
     }
 
-    public void customShow()
+    private void build()
     {
         if(getException() != null)
         {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
-            getException().printStackTrace(pw);
+            this.getException().printStackTrace(pw);
             String stackTraceMessage = sw.toString(); //stack trace as a string
-            TextArea textArea = new TextArea((getDescription()!=null?getDescription()+"\n\n":"")+stackTraceMessage);
+            TextArea textArea = new TextArea((this.getDescription()!=null?this.getDescription()+"\n\n":"")+stackTraceMessage);
             textArea.setEditable(false);
             textArea.setWrapText(true);
             //textArea.setMaxWidth(Double.MAX_VALUE);
@@ -91,22 +91,34 @@ public class CustomAlert extends Alert
             Pane pane = new Pane();
             //pane.setMaxWidth(Double.MAX_VALUE);
             pane.getChildren().add(textArea);
-            getDialogPane().setExpandableContent(pane);
-        }        
+            this.getDialogPane().setExpandableContent(pane);
+        }
+    }
 
-        this.show();
-        // if(getAlertType() != AlertType.NONE)
-        // {
-        //     this.showAndWait();
-        // }
-        // else
-        // {
-        //     this.show();
-        // }
+    public CustomAlert customShow()
+    {
+        build();
+        ((Stage)this.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
+
+        if(this.getAlertType() != AlertType.NONE)
+        {
+            this.showAndWait();
+        }
+        else
+        {
+            /*
+            Iterator<ButtonType> iterator = this.getButtonTypes().iterator();
+            while(iterator.hasNext())
+                this.getDialogPane().lookupButton(iterator.next()).setVisible(false);
+            */
+            this.show();
+        }
+        return this;
     }
 
     public void customClose()
     {
         this.setResult(ButtonType.CLOSE);
+        this.close();;
     }
 }

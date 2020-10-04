@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.frontend.views.View;
+import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Balance;
@@ -51,7 +52,7 @@ public class ClientManagementController
     {
         if(allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId))
         {
-            this.view.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+            CustomAlert customAlert = this.view.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
             Task<Integer> task = new Task<>()
             {
                 @Override
@@ -96,14 +97,14 @@ public class ClientManagementController
                     catch (Exception exception)
                     {
                         Connector.getConnector().rollBack();
-                        view.closeProcessIsWorking();
-                        view.showError("Error al intentar registrar la campaña.", exception);
+                        view.closeProcessIsWorking(customAlert);
+                        view.showError("Error al intentar registrar la campaña.", null, exception);
                     }
                     finally
                     {
                         Connector.getConnector().endTransaction();
                         Connector.getConnector().closeConnection();
-                        view.closeProcessIsWorking();
+                        view.closeProcessIsWorking(customAlert);
                         view.showSucces("El Cliente se ha registrado exitosamente!");
                     }
                     return returnCode;

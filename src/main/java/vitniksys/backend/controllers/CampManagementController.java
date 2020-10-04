@@ -7,6 +7,7 @@ import java.util.Iterator;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 //import java.util.concurrent.Executors;
+import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.OrderObtainer;
 //import java.util.concurrent.ExecutorService;
@@ -100,14 +101,14 @@ public class CampManagementController
     // ================================= public methods =================================
     public void searchCamp(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
     {
-        this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        CustomAlert customAlert = this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         
-        Task<Integer> task = new Task<>()
+        Task<Void> task = new Task<>()
         {
             @Override
-            protected Integer call() throws Exception
+            protected Void call() throws Exception
             {
-                int returnCode = 0;
+                int retCode = 0;
                 Campaign camp = null;
                 List<Campaign> camps = null;
 
@@ -130,15 +131,15 @@ public class CampManagementController
 
                 try
                 {
-                    campQueryRegisterView.closeProcessIsWorking();
+                    campQueryRegisterView.closeProcessIsWorking(customAlert);
                     if(camp != null)
                     {
-                        returnCode = 1;
+                        retCode = 1;
                         campQueryRegisterView.showQueriedCamp(camp);
                     }
                     else if(camps != null)
                     {
-                        returnCode = 1;
+                        retCode = 1;
                         campQueryRegisterView.showQueriedCamp(camps);
                     }
                     else
@@ -148,16 +149,16 @@ public class CampManagementController
                 }
                 catch (Exception exception)
                 {
-                    returnCode = 0;
-                    campQueryRegisterView.closeProcessIsWorking();
-                    campQueryRegisterView.showError("Error al buscar la campaña especificada.", exception);
+                    retCode = 0;
+                    campQueryRegisterView.closeProcessIsWorking(customAlert);
+                    campQueryRegisterView.showError("Error al buscar la campaña especificada.", null, exception);
                     throw exception;
                 }
                 finally
                 {
                     Connector.getConnector().closeConnection();
                 }
-                return returnCode;
+                return null;
             }
         };
         
@@ -185,7 +186,7 @@ public class CampManagementController
         }
         catch (Exception exception)
         {
-            this.campQueryRegisterView.showError("Error al buscar la última campaña.", exception); 
+            this.campQueryRegisterView.showError("Error al buscar la última campaña.", null, exception); 
             throw exception;
         }
         finally
@@ -199,7 +200,7 @@ public class CampManagementController
         //If all fields are OK...
         if(allFieldsAreOk(campNumb, campAlias, month, year, catalogueCode, detail))
         {
-            this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+            CustomAlert customAlert = this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
 
             Task<Integer> task = new Task<>()
             {
@@ -227,7 +228,7 @@ public class CampManagementController
                             else
                             {
                                 returnCode = 0;
-                                campQueryRegisterView.closeProcessIsWorking();
+                                campQueryRegisterView.closeProcessIsWorking(customAlert);
                                 campQueryRegisterView.showError("No existe el catálogo especificado. Si desea"+
                                 " asociar el catálogo "+catalogueCode+" a la campaña "+campNumb+" puede registrar "+
                                 "primero el catálogo presionando el botón \"mas\" cercano al campo del catálogo.");
@@ -245,15 +246,15 @@ public class CampManagementController
                         }
 
                         Connector.getConnector().commit();
-                        campQueryRegisterView.closeProcessIsWorking();
+                        campQueryRegisterView.closeProcessIsWorking(customAlert);
                         campQueryRegisterView.showSucces("La campaña se ha registrado exitosamente!");
                     }
                     catch (Exception exception)
                     {
                         Connector.getConnector().rollBack();
                         returnCode = 0;
-                        campQueryRegisterView.closeProcessIsWorking();
-                        campQueryRegisterView.showError("Error al intentar registrar la campaña", exception);
+                        campQueryRegisterView.closeProcessIsWorking(customAlert);
+                        campQueryRegisterView.showError("Error al intentar registrar la campaña", null, exception);
                         throw exception;
                     }
                     finally
@@ -276,7 +277,7 @@ public class CampManagementController
 
     public void registerOrders(File detail) throws Exception
     {
-        this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        CustomAlert customAlert = this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         try
         {
             Connector.getConnector().startTransaction();
@@ -285,14 +286,14 @@ public class CampManagementController
 
             Connector.getConnector().commit();
 
-            this.campQueryRegisterView.closeProcessIsWorking();
+            this.campQueryRegisterView.closeProcessIsWorking(customAlert);
             this.campQueryRegisterView.showSucces("Las ordenes se agregaron exitosamente!");
         }
         catch (Exception exception)
         {
             Connector.getConnector().rollBack();
-            this.campQueryRegisterView.closeProcessIsWorking();
-            this.campQueryRegisterView.showError("Error al intentar registrar los pedidos.", exception);
+            this.campQueryRegisterView.closeProcessIsWorking(customAlert);
+            this.campQueryRegisterView.showError("Error al intentar registrar los pedidos.", null, exception);
             throw exception;
         }
         finally
