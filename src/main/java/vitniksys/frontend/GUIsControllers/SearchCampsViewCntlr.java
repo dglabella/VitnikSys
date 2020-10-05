@@ -3,13 +3,9 @@ package vitniksys.frontend.GUIsControllers;
 import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
-import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Campaign;
@@ -27,7 +23,7 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     @FXML
     private void acceptButtonPressed()
     {
-
+        
     }
 
     // ================================= private methods ================================

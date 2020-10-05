@@ -15,7 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr implements Initializable
 {
-    private List<ObservableList<Entity>> tablesEntityLists;
+    private List<ObservableList<Entity>> tableDataLists;
 
     private List<SelectionMode> selectionModes;
 
@@ -23,27 +23,9 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
 
     private List<TableColumn> columns;
 
-    private List<PropertyValueFactory> properties;
+    private List<PropertyValueFactory> propertiesValues;
 
     // ================================= FXML variables =================================
-
-
-    protected VitnikTableViewCntlr()
-    {
-        this.tables = new ArrayList<>();
-        this.tablesEntityLists = new ArrayList<>();
-    }
-
-    protected VitnikTableViewCntlr(List<TableView<Entity>> tables)
-    {
-        this.tables = tables;
-        this.tablesEntityLists = new ArrayList<>();
-        for(int i = 0; i < this.tables.size(); i++)
-        {
-            this.tables.get(i).getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-            this.tablesEntityLists.add(FXCollections.observableArrayList());
-        }
-    }
 
     // ================================= FXML methods ===================================
 
@@ -59,26 +41,97 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
      */
     private void initTables()
     {
+        for(int i = 0; i < this.tables.size(); i++)
+        {
+            this.tables.get(i).getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            this.tableDataLists.add(FXCollections.observableArrayList());
+            this.tables.get(i).setItems(this.tableDataLists.get(i));
+        }
+
         Iterator<TableColumn> columnsIterator = this.columns.iterator();
-        Iterator<PropertyValueFactory> propertiesIterator = this.properties.iterator();
+        Iterator<PropertyValueFactory> propertiesValuesIterator = this.propertiesValues.iterator();
 
         while(columnsIterator.hasNext())
-        {
-            columnsIterator.next().setCellValueFactory(propertiesIterator.next());
-        }
-        
-        //this.column1.setCellValueFactory(new PropertyValueFactory<Entity, Type>(propertyNameCol1));
+            columnsIterator.next().setCellValueFactory(propertiesValuesIterator.next());
     }
 
     // ================================= protected methods ==============================
     protected void registerTable(TableView<Entity> table)
     {
+        if(this.tables == null)
+            this.tables = new ArrayList<>();
+
         this.tables.add(table);
+    }
+
+    protected void registerTables(List<TableView<Entity>> tables)
+    {
+        if(this.tables == null)
+            this.tables = new ArrayList<>();
+
+        this.tables.addAll(tables);
     }
 
     protected TableView<Entity> getTable(int tableNumber)
     {
         return this.tables.get(tableNumber);
+    }
+
+    protected List<TableView<Entity>> getTables()
+    {
+        return this.tables;
+    }
+
+    protected void registerColumn(TableColumn column)
+    {
+        if(this.columns == null)
+            this.columns = new ArrayList<>();
+
+        this.columns.add(column);
+    }
+
+    protected void registerColumns(List<TableColumn> columns)
+    {
+        if(this.columns == null)
+            this.columns = new ArrayList<>();
+
+        this.columns.addAll(columns);
+    }
+
+    protected void registerPropertiesValues(PropertyValueFactory propertyValue)
+    {
+        if(this.propertiesValues == null)
+            this.propertiesValues = new ArrayList<>();
+        
+        this.propertiesValues.add(propertyValue);
+    }
+
+    protected void registerPropertiesValues(List<PropertyValueFactory> propertiesValues)
+    {
+        if(this.propertiesValues == null)
+            this.propertiesValues = new ArrayList<>();
+        
+        this.propertiesValues.addAll(propertiesValues);
+    }
+
+    protected void loadData(int tableNumber, Entity data)
+    {
+        this.tableDataLists.get(tableNumber).add(data);
+    }
+
+    protected void loadData (int tableNumber, int position, Entity data)
+    {
+        this.tableDataLists.get(tableNumber).add(position, data);
+    }
+
+    protected void loadData(List<Entity> data, int tableNumber)
+    {
+        this.tableDataLists.get(tableNumber).addAll(data);
+    }
+
+    protected void loadData(int tableNumber, int position, List<Entity> data)
+    {
+        this.tableDataLists.get(tableNumber).addAll(position, data);
     }
 
     // ================================= public methods =================================
@@ -93,7 +146,7 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        this.initTables();
         this.customInitialize(location, resources);
+        this.initTables();
     }
 }
