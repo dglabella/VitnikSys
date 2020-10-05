@@ -5,6 +5,8 @@ import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
@@ -18,12 +20,42 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     private CampManagementController campManagementController;
 
     // ================================= FXML variables  =================================
+    @FXML private Spinner<Integer> campNumber;
+
+    @FXML private AutoCompleteTextField<?> campAlias;
+    @FXML private AutoCompleteTextField<?> catalogueCode;
+
+    @FXML private ChoiceBox<?> campMonth;
+    @FXML private ChoiceBox<?> campYear;
+
+    @FXML private TableView<?> resultTable;
+
+    @FXML private TableColumn<?, ?> column1;
+    @FXML private TableColumn<?, ?> column2;
+    @FXML private TableColumn<?, ?> column3;
+    @FXML private TableColumn<?, ?> column4;
+    @FXML private TableColumn<?, ?> column5;
+    @FXML private TableColumn<?, ?> column6;
 
     // ================================= FXML methods ===================================
-    @FXML
-    private void acceptButtonPressed()
+    @FXML private void acceptButtonPressed()
     {
         
+    }
+
+    @FXML private void backButtonPressed()
+    {
+
+    }
+
+    @FXML private void monthComboBoxPressed()
+    {
+
+    }
+
+    @FXML private void yearComboBoxPressed()
+    {
+
     }
 
     // ================================= private methods ================================

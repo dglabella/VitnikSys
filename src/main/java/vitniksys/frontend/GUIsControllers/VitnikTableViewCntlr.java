@@ -47,7 +47,7 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
             this.tableDataLists.add(FXCollections.observableArrayList());
             this.tables.get(i).setItems(this.tableDataLists.get(i));
         }
-
+        
         Iterator<TableColumn> columnsIterator = this.columns.iterator();
         Iterator<PropertyValueFactory> propertiesValuesIterator = this.propertiesValues.iterator();
 
@@ -58,17 +58,11 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
     // ================================= protected methods ==============================
     protected void registerTable(TableView<Entity> table)
     {
-        if(this.tables == null)
-            this.tables = new ArrayList<>();
-
         this.tables.add(table);
     }
 
     protected void registerTables(List<TableView<Entity>> tables)
     {
-        if(this.tables == null)
-            this.tables = new ArrayList<>();
-
         this.tables.addAll(tables);
     }
 
@@ -84,33 +78,22 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
 
     protected void registerColumn(TableColumn column)
     {
-        if(this.columns == null)
-            this.columns = new ArrayList<>();
-
         this.columns.add(column);
     }
 
     protected void registerColumns(List<TableColumn> columns)
     {
-        if(this.columns == null)
-            this.columns = new ArrayList<>();
-
         this.columns.addAll(columns);
     }
 
     protected void registerPropertiesValues(PropertyValueFactory propertyValue)
     {
-        if(this.propertiesValues == null)
-            this.propertiesValues = new ArrayList<>();
         
         this.propertiesValues.add(propertyValue);
     }
 
     protected void registerPropertiesValues(List<PropertyValueFactory> propertiesValues)
-    {
-        if(this.propertiesValues == null)
-            this.propertiesValues = new ArrayList<>();
-        
+    {        
         this.propertiesValues.addAll(propertiesValues);
     }
 
@@ -137,15 +120,19 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
     // ================================= public methods =================================
 
     /**
-     * This method is called inside the initialize method
-     * from the class javafx.fxml.Initializable therefore
-     * it should be treated like such.
+     * This method is called inside the initialize method.
+     * IMPORTANT: This method is supposed to be used for register 
+     * the tables, the columns and the properties values.
      */
     public abstract void customInitialize(URL location, ResourceBundle resources);
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        this.tables = new ArrayList<>();
+        this.columns = new ArrayList<>();
+        this.propertiesValues = new ArrayList<>();
+        this.tableDataLists = new ArrayList<>();
         this.customInitialize(location, resources);
         this.initTables();
     }
