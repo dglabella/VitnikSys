@@ -31,10 +31,6 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     }
 
     // ================================= private methods ================================
-    private void initTables()
-    {
-        
-    }
 
     // ================================= protected methods ==============================
 
