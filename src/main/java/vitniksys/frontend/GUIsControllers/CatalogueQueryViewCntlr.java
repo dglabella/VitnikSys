@@ -21,9 +21,14 @@ public class CatalogueQueryViewCntlr extends VitnikViewCntlr implements Initiali
 
     @FXML private Button button_plusButton;
 
-    // ================================= FXML methods =================================
+    // ================================= FXML methods ===================================
 
-    // ================================= protected methods =================================
+    // ================================= protected methods ==============================
+    @Override
+    protected void manualInitialize() throws Exception
+    {
+        
+    }
 
     // ================================= public methods =================================
     @Override

@@ -93,6 +93,11 @@ public class Campaign
         this.month = month;
     }
 
+    public Month getEnumMonth()
+    {
+        return Month.of(this.month);
+    }
+
     public Integer getYear()
     {
         return this.year;

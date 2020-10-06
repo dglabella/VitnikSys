@@ -33,4 +33,11 @@ public abstract class VitnikViewCntlr
     {
         this.stage.close();
     }
+
+    /**
+     * This method is supposed to be used when some code needs
+     * to be separated from the initialize (javafx.fxml.Initializable)
+     * that execute automatically.
+     */
+    protected abstract void manualInitialize() throws Exception;
 }

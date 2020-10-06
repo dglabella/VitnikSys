@@ -99,7 +99,7 @@ public class CampManagementController
     // ================================= protected methods =================================
 
     // ================================= public methods =================================
-    public void searchCamp(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
+    public void searchCamps(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
     {
         CustomAlert customAlert = this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         
@@ -127,6 +127,83 @@ public class CampManagementController
                 else if(campAlias != null && !campAlias.isBlank())
                 {
                     camps = CampaignOperator.getOperator().findAll(campAlias.toUpperCase());
+                }
+                else
+                {
+                    camps = CampaignOperator.getOperator().findAll();
+                }
+
+                try
+                {
+                    campQueryRegisterView.closeProcessIsWorking(customAlert);
+                    if(camp != null)
+                    {
+                        retCode = 1;
+                        campQueryRegisterView.showQueriedCamp(camp);
+                    }
+                    else if(camps != null)
+                    {
+                        retCode = 1;
+                        campQueryRegisterView.showQueriedCamp(camps);
+                    }
+                    else
+                    {
+                        campQueryRegisterView.showNoResult("No se encontró la campaña especificada");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    retCode = 0;
+                    campQueryRegisterView.closeProcessIsWorking(customAlert);
+                    campQueryRegisterView.showError("Error al buscar la campaña especificada.", null, exception);
+                    throw exception;
+                }
+                finally
+                {
+                    Connector.getConnector().closeConnection();
+                }
+                return null;
+            }
+        };
+        
+        Platform.runLater(task);
+    }
+
+    public void searchCampsAssociated(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
+    {
+
+        //COMO ASOCIAR ENTIDADES? MANDAR FLAG POR PARAMETRO? CREAR OTRO METODO? SOBRECARGAR EL METODO? MEPA QUE ES SOBRECARGAR EL METODO find(), findAll()
+
+        CustomAlert customAlert = this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected Void call() throws Exception
+            {
+                int retCode = 0;
+                Campaign camp = null;
+                List<Campaign> camps = null;
+
+                if(campNumb != null && !campNumb.isBlank())
+                {
+                    camp = CampaignOperator.getOperator().find(Integer.parseInt(campNumb));
+                }
+                else if(catalogueCode != null && !catalogueCode.isBlank())
+                {
+                    camps = CampaignOperator.getOperator().findByCatalogue(Integer.parseInt(catalogueCode));
+                }
+                else if(month != null && year != null)
+                {
+                    camp = CampaignOperator.getOperator().find(month.getValue(), year);
+                }
+                else if(campAlias != null && !campAlias.isBlank())
+                {
+                    camps = CampaignOperator.getOperator().findAll(campAlias.toUpperCase());
+                }
+                else
+                {
+                    camps = CampaignOperator.getOperator().findAll();
                 }
 
                 try

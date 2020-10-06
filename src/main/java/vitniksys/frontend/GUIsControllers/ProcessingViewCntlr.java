@@ -19,6 +19,11 @@ public class ProcessingViewCntlr extends VitnikViewCntlr implements Initializabl
     // ================================= private methods ================================
 
     // ================================= protected methods ==============================
+    @Override
+    protected void manualInitialize() throws Exception
+    {
+        
+    }
 
     // ================================= public methods =================================
     public void setMessage1(String message1)

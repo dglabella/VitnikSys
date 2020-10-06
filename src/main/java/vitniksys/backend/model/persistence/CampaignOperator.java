@@ -101,8 +101,31 @@ public class CampaignOperator implements ICampaignOperator
     @Override
     public List<Campaign> findAll() throws Exception
     {
-        // TODO Auto-generated method stub
-        return null;
+        List<Campaign> ret = new ArrayList<>();
+        
+        String sqlStmnt = "SELECT * FROM `camps` WHERE `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        statement.setBoolean(1, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        Campaign camp;
+        while (resultSet.next())
+        {
+            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            camp.setName(resultSet.getString(2));
+            camp.setAlias(resultSet.getString(3));
+            camp.setRegistrationTime(resultSet.getTimestamp(6));
+            camp.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+            ret.add(camp);
+        }
+
+        statement.close();
+        
+        if(ret.size() == 0)
+            ret = null;
+
+        return ret;
     }
 
     @Override

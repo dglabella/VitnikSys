@@ -95,7 +95,7 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     }
 
     @FXML
-    private void campButtonPressed() throws IOException
+    private void campButtonPressed() throws Exception
     {
         String fileName = "searchCamps";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
@@ -107,12 +107,18 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
         viewCtrller.getStage().setTitle("Consultar campaña");
         viewCtrller.setPrevViewCntlr(this);
         viewCtrller.getStage().show();
+        viewCtrller.manualInitialize();
     }
     // ================================= private methods =================================
 
-    // ================================= protected methods =================================
+    // ================================= protected methods ===============================
+    @Override
+    protected void manualInitialize() throws Exception
+    {
+        
+    }
 
-    // ================================= public methods =================================
+    // ================================= public methods ==================================
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {

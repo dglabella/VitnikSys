@@ -166,9 +166,14 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
 
     // ================================= private methods =================================
 
-    // ================================= protected methods =================================
+    // ================================= protected methods ===============================
+    @Override
+    protected void manualInitialize() throws Exception
+    {
+        
+    }
 
-    // ================================= public methods =================================
+    // ================================= public methods ==================================
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -176,7 +181,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
         this.clientController = new ClientManagementController(this);
     }
 
-    // ================================= view methods =================================
+    // ================================= view methods ==================================
     @Override
     public CustomAlert showProcessIsWorking(String message)
     {

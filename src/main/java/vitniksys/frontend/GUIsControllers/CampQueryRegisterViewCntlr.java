@@ -151,7 +151,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     @FXML
     private void searchButtonPressed() throws Exception
     {
-        this.campManagementController.searchCamp(this.campNumber.getText(), this.campAlias.getText(),
+        this.campManagementController.searchCamps(this.campNumber.getText(), this.campAlias.getText(),
                                                 this.campMonth.getValue(), this.campYear.getValue(),
                                                 this.catalogueCode.getText());
     }
@@ -338,6 +338,11 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     }
 
     // ================================= protected methods =================================
+    @Override
+    protected void manualInitialize() throws Exception
+    {
+        
+    }
 
     // ================================= public methods =================================
     @Override
@@ -533,5 +538,17 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
     public void showQueriedCamp(List<Campaign> camps) throws Exception
     {
         
+    }
+
+    @Override
+    public void reportQueriedCamp(Campaign camp)
+    {
+
+    }
+
+    @Override
+    public void reportQueriedCamps(List<Campaign> camps)
+    {
+
     }
 }
