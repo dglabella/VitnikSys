@@ -37,6 +37,7 @@ vitniksys\backend\controllers\ClientManagementController$1.class
 vitniksys\backend\model\entities\Observation.class
 vitniksys\backend\model\interfaces\IPreferentialClientOperator.class
 vitniksys\backend\model\entities\BaseClient.class
+vitniksys\frontend\GUIsControllers\InfoQueriedCampsViewCntlr.class
 vitniksys\frontend\GUIsControllers\SearchCampsViewCntlr.class
 vitniksys\frontend\GUIsControllers\ProcessingViewCntlr.class
 vitniksys\frontend\views\View.class
@@ -56,6 +57,7 @@ vitniksys\backend\model\entities\SubordinatedClient.class
 vitniksys\backend\model\interfaces\IOrderOperator.class
 vitniksys\frontend\GUIsControllers\VitnikTableViewCntlr.class
 vitniksys\backend\model\entities\PreferentialClient.class
+vitniksys\backend\controllers\CampManagementController$3.class
 vitniksys\frontend\GUIsControllers\CampQueryRegisterViewCntlr.class
 vitniksys\backend\model\persistence\ArticleOperator.class
 vitniksys\frontend\GUIsControllers\CatalogueQueryViewCntlr.class
