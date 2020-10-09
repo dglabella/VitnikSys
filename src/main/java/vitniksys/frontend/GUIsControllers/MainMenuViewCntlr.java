@@ -5,7 +5,6 @@ import vitniksys.App;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -18,7 +17,7 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     @FXML private TextField id;
     @FXML private ImageView catButton;
 
-    // ================================= FXML methods =================================
+    // ================================== FXML methods ==================================
     @FXML
     private void idOnKeyTyped()
     {
@@ -26,13 +25,13 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     }
 
     @FXML
-    private void idOnAction() throws IOException 
+    private void idOnAction() throws Exception
     {
         searchButtonPressed();
     }
 
     @FXML
-    private void textFieldCatOnAction() throws IOException
+    private void textFieldCatOnAction() throws Exception
     {
         searchButtonPressed();
     }
@@ -51,9 +50,8 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
         catButton.setFitWidth(catButton.getFitWidth()-10);
     }
 
-
     @FXML
-    private void catButtonOnMousePressed() throws IOException
+    private void catButtonOnMousePressed() throws Exception
     {
         String fileName = "catalogueQuery";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
@@ -68,19 +66,29 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     }
 
     @FXML
-    private void searchButtonPressed() throws IOException
+    private void searchButtonPressed() throws Exception
     {
 
     }
 
     @FXML
-    private void searchCampButtonPressed()
+    private void searchCampButtonPressed() throws Exception
     {
-
+        String fileName = "searchCamps";
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
+        Scene scene = new Scene(fxmlLoader.load());
+        SearchCampsViewCntlr viewCtrller = fxmlLoader.getController();
+        viewCtrller.setStage(new Stage());
+        viewCtrller.getStage().setResizable(false);
+        viewCtrller.getStage().setScene(scene);
+        viewCtrller.getStage().setTitle("Consultar campaña");
+        viewCtrller.setPrevViewCntlr(this);
+        viewCtrller.getStage().show();
+        viewCtrller.manualInitialize();
     }
 
     @FXML
-    private void newCpButtonPressed() throws IOException
+    private void newCpButtonPressed() throws Exception
     {
         String fileName = "clientRegister";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
@@ -95,27 +103,27 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     }
 
     @FXML
-    private void campButtonPressed() throws Exception
+    private void newCampButtonPressed() throws Exception
     {
-        String fileName = "searchCamps";
+        String fileName = "campRegister";
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
-        SearchCampsViewCntlr viewCtrller = fxmlLoader.getController();
+        CampRegisterViewCntlr viewCtrller = fxmlLoader.getController();
         viewCtrller.setStage(new Stage());
         viewCtrller.getStage().setResizable(false);
         viewCtrller.getStage().setScene(scene);
-        viewCtrller.getStage().setTitle("Consultar campaña");
+        viewCtrller.getStage().setTitle("Crear campaña");
         viewCtrller.setPrevViewCntlr(this);
         viewCtrller.getStage().show();
-        viewCtrller.manualInitialize();
     }
     // ================================= private methods =================================
+
 
     // ================================= protected methods ===============================
     @Override
     protected void manualInitialize() throws Exception
     {
-        
+
     }
 
     // ================================= public methods ==================================

@@ -1,4 +1,5 @@
 vitniksys\backend\model\enums\Estado$1.class
+vitniksys\frontend\GUIsControllers\CampRegisterViewCntlr.class
 vitniksys\backend\model\entities\Leader.class
 vitniksys\backend\model\entities\Catalogue.class
 vitniksys\backend\controllers\CampManagementController$2.class
@@ -58,7 +59,6 @@ vitniksys\backend\model\interfaces\IOrderOperator.class
 vitniksys\frontend\GUIsControllers\VitnikTableViewCntlr.class
 vitniksys\backend\model\entities\PreferentialClient.class
 vitniksys\backend\controllers\CampManagementController$3.class
-vitniksys\frontend\GUIsControllers\CampQueryRegisterViewCntlr.class
 vitniksys\backend\model\persistence\ArticleOperator.class
 vitniksys\frontend\GUIsControllers\CatalogueQueryViewCntlr.class
 vitniksys\backend\model\enums\Banco.class

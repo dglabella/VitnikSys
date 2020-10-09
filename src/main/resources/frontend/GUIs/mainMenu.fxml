@@ -79,7 +79,7 @@
       </AnchorPane>
       <AnchorPane layoutX="463.0" layoutY="401.0" prefHeight="158.0" prefWidth="464.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
          <children>
-            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#campButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nueva Campaña" textAlignment="CENTER" wrapText="true">
+            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#newCampButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nueva Campaña" textAlignment="CENTER" wrapText="true">
                <graphic>
                   <ImageView fitHeight="74.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>

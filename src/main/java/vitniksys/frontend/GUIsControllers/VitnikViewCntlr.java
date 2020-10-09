@@ -8,6 +8,7 @@ public abstract class VitnikViewCntlr
     private Stage stage;
     private VitnikViewCntlr prevViewCntlr;
 
+    // ================================= Getters && setters =================================
     protected void setPrevViewCntlr(VitnikViewCntlr prevViewCntlr)
     {
         this.prevViewCntlr = prevViewCntlr;
@@ -28,6 +29,9 @@ public abstract class VitnikViewCntlr
         return this.stage;
     }
 
+    protected static void 
+
+    // ==================================== FXML methods ====================================
     @FXML
     private void backButtonPressed()
     {
@@ -39,5 +43,13 @@ public abstract class VitnikViewCntlr
      * to be separated from the initialize (javafx.fxml.Initializable)
      * that execute automatically.
      */
+
+    // =================================== private methods ==================================
+
+
+    // ================================= protected methods ==================================
+
+
+    // =================================== public methods ===================================
     protected abstract void manualInitialize() throws Exception;
 }

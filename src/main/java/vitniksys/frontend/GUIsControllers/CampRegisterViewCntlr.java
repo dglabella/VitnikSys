@@ -31,7 +31,7 @@ import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.controllers.CampManagementController;
 
-public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView
+public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampQueryRegisterView
 {
     // Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private static final int YEAR_MIN = 2020;
@@ -392,7 +392,7 @@ public class CampQueryRegisterViewCntlr extends VitnikViewCntlr implements Initi
         // Setting values and listener for campYear choice box.
         ObservableList<Integer> years = FXCollections.observableArrayList();
         years.add(null);
-        for (int i = CampQueryRegisterViewCntlr.YEAR_MIN; i <= CampQueryRegisterViewCntlr.YEAR_MAX; i++)
+        for (int i = CampRegisterViewCntlr.YEAR_MIN; i <= CampRegisterViewCntlr.YEAR_MAX; i++)
             years.add(i);
         this.campYear.setItems(years);
 
