@@ -23,6 +23,7 @@ public class App extends Application
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(GUIs_LOCATION + fileName + FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+        stage.setTitle("Menu principal");
         stage.show();
     }
 

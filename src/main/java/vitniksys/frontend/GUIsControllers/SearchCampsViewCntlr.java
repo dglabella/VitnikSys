@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
@@ -69,23 +71,16 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         Pero entonces deberia consultar todas las campañas asociadas
         y podria llegar a ser costoso.
         mejor consultar todas las camps no asociadas, luego seleccionar
-        y consultar las seleccionadas. Se da mas la situacion de que se 
+        y consultar las seleccionadas. Se da mas la situacion de que se
         consulten pocas que muchas.
         */
 
         //this.resultTable.getSelectionModel().getSelectedItems()
 
-        String fileName = "infoQueriedCamps";
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
-        Scene scene = new Scene(fxmlLoader.load());
-        InfoQueriedCampsViewCntlr viewCtrller = fxmlLoader.getController();
-        viewCtrller.setStage(new Stage());
-        viewCtrller.getStage().setResizable(false);
-        viewCtrller.getStage().setScene(scene);
-        viewCtrller.getStage().setTitle("Consultar campaña");
-        viewCtrller.setPrevViewCntlr(this);
+        VitnikViewCntlr viewCtrller = this.createStage("Consultar campaña", "infoQueriedCamps");
         viewCtrller.getStage().show();
-        viewCtrller.loadQueriedCamps(selectedCamps);
+
+        ((InfoQueriedCampsViewCntlr)viewCtrller).loadQueriedCamps(selectedCamps);
     }
 
     @FXML private void monthComboBoxPressed()
@@ -99,6 +94,7 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     }
 
     // ================================= private methods ================================
+
 
     // ================================= protected methods ==============================
     @Override
@@ -149,7 +145,11 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         //Default button
         this.accept.setDefaultButton(true);
 
-        //TextFields.bindAutoCompletion(this.campAlias, thi);
+        Iterator<Campaign> campsIterator = this.selectedCamps.iterator();
+        while(campsIterator.hasNext())
+            campsIterator.next().getAlias();
+
+        TextFields.bindAutoCompletion(this.campAlias, )
 
         this.campManagementController = new CampManagementController(this);
     }
