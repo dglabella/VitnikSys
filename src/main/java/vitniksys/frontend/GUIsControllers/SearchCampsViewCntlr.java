@@ -7,9 +7,8 @@ import java.time.Month;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.util.ArrayList;
 import java.util.Iterator;
-
+import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
@@ -85,7 +84,7 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
     @FXML private void monthComboBoxPressed()
     {
-
+        
     }
 
     @FXML private void yearComboBoxPressed()
@@ -145,11 +144,12 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         //Default button
         this.accept.setDefaultButton(true);
 
+        List<String> aliasList = new ArrayList<>();
         Iterator<Campaign> campsIterator = this.selectedCamps.iterator();
         while(campsIterator.hasNext())
-            campsIterator.next().getAlias();
+            aliasList.add(campsIterator.next().getAlias());
 
-        TextFields.bindAutoCompletion(this.campAlias, )
+        TextFields.bindAutoCompletion(this.campAlias, aliasList);
 
         this.campManagementController = new CampManagementController(this);
     }
