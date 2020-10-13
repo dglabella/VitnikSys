@@ -1,5 +1,6 @@
 package vitniksys.frontend.GUIsControllers;
 
+import java.lang.invoke.StringConcatException;
 import java.net.URL;
 import vitniksys.App;
 import java.util.List;
@@ -9,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Collection;
+
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
@@ -100,13 +103,15 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     protected void manualInitialize() throws Exception
     {
         //all null for get all the camps
-        this.campManagementController.searchCamps(null, null, null, null, null);
+        this.campManagementController.searchCamps(null, null, null, null, null);        
     }
 
     // ================================= public methods =================================
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
+        this.campManagementController = new CampManagementController(this);
+
         List<TableColumn> columns = new ArrayList<>();
         columns.add(column1);
         columns.add(column2);
@@ -143,15 +148,6 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
         //Default button
         this.accept.setDefaultButton(true);
-
-        List<String> aliasList = new ArrayList<>();
-        Iterator<Campaign> campsIterator = this.selectedCamps.iterator();
-        while(campsIterator.hasNext())
-            aliasList.add(campsIterator.next().getAlias());
-
-        TextFields.bindAutoCompletion(this.campAlias, aliasList);
-
-        this.campManagementController = new CampManagementController(this);
     }
     
     // ================================= view methods =================================
@@ -201,17 +197,17 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     public void showQueriedCamp(List<Campaign> camps) throws Exception
     {
         this.loadData(this.RESULT_TABLE_NUMBER, camps);
-    }
 
-    @Override
-    public void reportQueriedCamp(Campaign camp)
-    {
-        // do nothing
-    }
+        /*
+        // load suggestions to auto completion textfields
+        List<String> aliasList = new ArrayList<>();
+        Iterator<Campaign> campsIterator = this.resultTable.getItems().iterator();
+        while(campsIterator.hasNext())
+            aliasList.add(campsIterator.next().getAlias());
+        
+        */
 
-    @Override
-    public void reportQueriedCamps(List<Campaign> camps)
-    {
-        this.selectedCamps = camps;
+        String[] suggestions = {"Danilo","Daniel","dolores"};
+        TextFields.bindAutoCompletion(this.campAlias, suggestions);
     }
 }

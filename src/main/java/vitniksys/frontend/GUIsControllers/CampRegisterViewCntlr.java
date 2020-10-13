@@ -539,16 +539,4 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     {
         
     }
-
-    @Override
-    public void reportQueriedCamp(Campaign camp)
-    {
-
-    }
-
-    @Override
-    public void reportQueriedCamps(List<Campaign> camps)
-    {
-
-    }
 }

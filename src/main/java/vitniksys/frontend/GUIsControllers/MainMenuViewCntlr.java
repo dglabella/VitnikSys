@@ -63,8 +63,7 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     {
         VitnikViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps");
         viewCntlr.getStage().show();
-
-        //((SearchCampsViewCntlr)viewCntlr).manualInitialize();
+        ((SearchCampsViewCntlr)viewCntlr).manualInitialize();
     }
 
     @FXML
