@@ -1,17 +1,18 @@
 package vitniksys.frontend.GUIsControllers;
 
-import java.lang.invoke.StringConcatException;
+
 import java.net.URL;
+import java.util.Set;
 import vitniksys.App;
 import java.util.List;
 import java.time.Month;
 import javafx.fxml.FXML;
+import java.util.HashSet;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
@@ -19,9 +20,11 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
@@ -52,6 +55,8 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
     @FXML private ChoiceBox<Month> campMonth;
     @FXML private ChoiceBox<Integer> campYear;
+
+    @FXML private ListView<String> suggestionList;
 
     @FXML private TableView<Campaign> resultTable;
 
@@ -103,7 +108,8 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     protected void manualInitialize() throws Exception
     {
         //all null for get all the camps
-        this.campManagementController.searchCamps(null, null, null, null, null);        
+        this.campManagementController.searchCamps(null, null, null, null, null);
+        System.out.println("333333333333333333333333333");
     }
 
     // ================================= public methods =================================
@@ -147,7 +153,7 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         this.campYear.setItems(years);
 
         //Default button
-        this.accept.setDefaultButton(true);
+        //this.accept.setDefaultButton(true);
     }
     
     // ================================= view methods =================================
@@ -207,7 +213,14 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         
         */
 
-        String[] suggestions = {"Danilo","Daniel","dolores"};
-        TextFields.bindAutoCompletion(this.campAlias, suggestions);
+        //String[] suggestions = {"Danilo","Daniel","dolores"};\
+        ArrayList<String> suggestions = new ArrayList<>();
+        suggestions.add("danilo");
+        suggestions.add("aixa");
+        suggestions.add("caquina");
+
+        AutoCompletionTool autoCompletionTool  = new AutoCompletionTool(this.campAlias, suggestions, this.suggestionList);
+
+        //TextFields.bindAutoCompletion(this.campAlias, SuggestionProvider.create(suggestions));
     }
 }
