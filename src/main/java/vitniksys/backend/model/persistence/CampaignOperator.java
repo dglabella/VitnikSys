@@ -57,26 +57,24 @@ public class CampaignOperator implements ICampaignOperator
     public int insert(Campaign camp) throws Exception
     {
         int returnCode;
-        String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `nombre`, `alias`, `mes`, `year` , `cod_cat`) VALUES"+
+        String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year` , `cod_cat`) VALUES"+
         "(?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, camp.getNumber());
-        statement.setString(2, camp.getName());
 
         if(camp.getAlias() == null || camp.getAlias().isBlank())
-        
-            statement.setString(3, camp.getAlias());
+            statement.setString(2, camp.getAlias());
         else
-            statement.setNull(3, Types.VARCHAR);
+            statement.setNull(2, Types.VARCHAR);
 
-        statement.setInt(4, camp.getMonth());
-        statement.setInt(5, camp.getYear());
+        statement.setInt(3, camp.getMonth());
+        statement.setInt(4, camp.getYear());
 
         if(camp.getCatalogue()!=null && camp.getCatalogue().getCode()!=null)
-            statement.setInt(6, camp.getCatalogue().getCode());
+            statement.setInt(5, camp.getCatalogue().getCode());
         else
-            statement.setNull(6, Types.INTEGER);
+            statement.setNull(5, Types.INTEGER);
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -112,11 +110,10 @@ public class CampaignOperator implements ICampaignOperator
         Campaign camp;
         while (resultSet.next())
         {
-            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
-            camp.setName(resultSet.getString(2));
-            camp.setAlias(resultSet.getString(3));
-            camp.setRegistrationTime(resultSet.getTimestamp(6));
-            camp.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
+            camp.setAlias(resultSet.getString(2));
+            camp.setRegistrationTime(resultSet.getTimestamp(5));
+            camp.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
             ret.add(camp);
         }
 
@@ -142,11 +139,10 @@ public class CampaignOperator implements ICampaignOperator
 
         if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
-            ret.setName(resultSet.getString(2));
-            ret.setAlias(resultSet.getString(3));
-            ret.setRegistrationTime(resultSet.getTimestamp(6));
-            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
+            ret.setAlias(resultSet.getString(2));
+            ret.setRegistrationTime(resultSet.getTimestamp(5));
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
         }
 
         statement.close();
@@ -169,11 +165,10 @@ public class CampaignOperator implements ICampaignOperator
         Campaign camp;
         while (resultSet.next())
         {
-            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
-            camp.setName(resultSet.getString(2));
-            camp.setAlias(resultSet.getString(3));
-            camp.setRegistrationTime(resultSet.getTimestamp(6));
-            camp.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
+            camp.setAlias(resultSet.getString(2));
+            camp.setRegistrationTime(resultSet.getTimestamp(5));
+            camp.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
             ret.add(camp);
         }
 
@@ -201,11 +196,10 @@ public class CampaignOperator implements ICampaignOperator
 
         if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
-            ret.setName(resultSet.getString(2));
-            ret.setAlias(resultSet.getString(3));
-            ret.setRegistrationTime(resultSet.getTimestamp(6));
-            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
+            ret.setAlias(resultSet.getString(2));
+            ret.setRegistrationTime(resultSet.getTimestamp(5));
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
         }
 
         statement.close();
@@ -251,12 +245,11 @@ public class CampaignOperator implements ICampaignOperator
 
         if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
-            ret.setName(resultSet.getString(2));
-            ret.setAlias(resultSet.getString(3));
-            ret.setRegistrationTime(resultSet.getTimestamp(6));
-            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(7)));
-            ret.setActive(resultSet.getBoolean(8));
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
+            ret.setAlias(resultSet.getString(2));
+            ret.setRegistrationTime(resultSet.getTimestamp(5));
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
+            ret.setActive(resultSet.getBoolean(7));
         }
 
         statement.close();

@@ -2,39 +2,28 @@ package vitniksys.frontend.GUIsControllers;
 
 
 import java.net.URL;
-import java.util.Set;
-import vitniksys.App;
 import java.util.List;
 import java.time.Month;
 import javafx.fxml.FXML;
-import java.util.HashSet;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.Collection;
-import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
-import org.controlsfx.control.textfield.TextFields;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import impl.org.controlsfx.autocompletion.SuggestionProvider;
 import vitniksys.backend.controllers.CampManagementController;
-import org.controlsfx.control.textfield.AutoCompletionBinding;
 
 public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> implements CampQueryRegisterView
 {
@@ -48,10 +37,14 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
     private List<Campaign> selectedCamps;
 
+    private List<String> suggestions;
+
+    private AutoCompletionTool autoCompletionTool;
+
     // ================================= FXML variables  =================================
     @FXML private Spinner<Integer> campNumber;
 
-    @FXML private TextField campAlias, catalogueCode;
+    @FXML private TextField searchField, catalogueCode;
 
     @FXML private ChoiceBox<Month> campMonth;
     @FXML private ChoiceBox<Integer> campYear;
@@ -92,7 +85,7 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
     @FXML private void monthComboBoxPressed()
     {
-        
+
     }
 
     @FXML private void yearComboBoxPressed()
@@ -109,7 +102,6 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     {
         //all null for get all the camps
         this.campManagementController.searchCamps(null, null, null, null, null);
-        System.out.println("333333333333333333333333333");
     }
 
     // ================================= public methods =================================
@@ -117,6 +109,8 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
         this.campManagementController = new CampManagementController(this);
+        this.suggestions = new ArrayList<>();
+        this.autoCompletionTool = new AutoCompletionTool(this.searchField, this.suggestions, this.suggestionList);
 
         List<TableColumn> columns = new ArrayList<>();
         columns.add(column1);
@@ -202,25 +196,17 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     @Override
     public void showQueriedCamp(List<Campaign> camps) throws Exception
     {
-        this.loadData(this.RESULT_TABLE_NUMBER, camps);
+        for(int i = 0; i< camps.size();  i++)
+        {
+            if(camps.get(i).getAlias() != null)
+                this.autoCompletionTool.getSuggestions().add(camps.get(i).getAlias());
+            
+            if(camps.get(i).getCatalogueCode() != null)
+                this.autoCompletionTool.getSuggestions().add(camps.get(i).getCatalogueCode().toString());
 
-        /*
-        // load suggestions to auto completion textfields
-        List<String> aliasList = new ArrayList<>();
-        Iterator<Campaign> campsIterator = this.resultTable.getItems().iterator();
-        while(campsIterator.hasNext())
-            aliasList.add(campsIterator.next().getAlias());
+            this.autoCompletionTool.getSuggestions().add(camps.get(i).getNumber().toString());
+        }
         
-        */
-
-        //String[] suggestions = {"Danilo","Daniel","dolores"};\
-        ArrayList<String> suggestions = new ArrayList<>();
-        suggestions.add("danilo");
-        suggestions.add("aixa");
-        suggestions.add("caquina");
-
-        AutoCompletionTool autoCompletionTool  = new AutoCompletionTool(this.campAlias, suggestions, this.suggestionList);
-
-        //TextFields.bindAutoCompletion(this.campAlias, SuggestionProvider.create(suggestions));
+        this.loadData(this.RESULT_TABLE_NUMBER, camps);
     }
 }

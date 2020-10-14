@@ -9,7 +9,6 @@ public class Campaign
 {
     //Entity properties
     private Integer number;
-    private String name;
     private String alias;
     private Integer month;
     private Integer year;
@@ -40,8 +39,6 @@ public class Campaign
         this.number = number;
         this.month = month;
         this.year = year;
-        
-        this.name = Month.of(month).toString()+"-"+this.year;
     }
 
     //Getters && Setters
@@ -61,16 +58,6 @@ public class Campaign
     public void setNumber(Integer number)
     {
         this.number = number;
-    }
-
-    public String getName()
-    {
-        return this.name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
     }
 
     public String getAlias()
