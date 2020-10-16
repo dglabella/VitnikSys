@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TextField;
@@ -37,8 +38,6 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     private static final int YEAR_MIN = 2020;
     private static final int YEAR_MAX = 2038;
 
-    private boolean isSearching;
-
     private File detail;
 
     private ExpressionChecker expressionChecker;
@@ -46,29 +45,11 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     private CampManagementController campManagementController;
 
     // ================================= FXML variables =================================
-    @FXML private TextField campNumber;
+    @FXML private Spinner<Integer> campNumber;
+
     @FXML private TextField campAlias;
     @FXML private TextField catalogueCode;
-    @FXML private Label artPedidosQuantity;
-    @FXML private Label artRetiradosQuantity;
-    @FXML private Label artDevueltosQuantity;
-    @FXML private Label artRecompradosQuantity;
-    @FXML private Label catEntregadosQuantity;
-    @FXML private Label totalInPedidos;
-    @FXML private Label totalInRetiros;
-    @FXML private Label totalInDevoluciones;
-    @FXML private Label totalInRecompras;
-    @FXML private Label totalInCatalogos;
-    @FXML private Label artPedidosQuantityFixed;
-    @FXML private Label artRetiradosQuantityFixed;
-    @FXML private Label artDevueltosQuantityFixed;
-    @FXML private Label artRecompradosQuantityFixed;
-    @FXML private Label catEntregadosQuantityFixed;
-    @FXML private Label totalInPedidosFixed;
-    @FXML private Label totalInRetirosFixed;
-    @FXML private Label totalInDevolucionesFixed;
-    @FXML private Label totalInRecomprasFixed;
-    @FXML private Label totalInCatalogosFixed;
+    
     @FXML private Label fileSelected;
     @FXML private Label filePath;
     @FXML private Label campNumberInvalid;
@@ -76,13 +57,12 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     @FXML private Label catalogueCodeInvalid;
     @FXML private Label noResultMessage;
     @FXML private Label orders;
+
     @FXML private ChoiceBox<Month> campMonth;
     @FXML private ChoiceBox<Integer> campYear;
+
     @FXML private Button register;
-    @FXML private Button cancel;
-    @FXML private Button search;
     @FXML private Button addOrders;
-    @FXML private Button plusCamp;
     @FXML private Button plusCatalogue;
 
     // ================================= FXML methods =================================
@@ -124,7 +104,7 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     {
         try
         {
-            this.campManagementController.registerCamp(this.campNumber.getText(), this.campAlias.getText(), 
+            this.campManagementController.registerCamp(this.campNumber.getValue(), this.campAlias.getText(), 
                 this.campMonth.getValue() != null? this.campMonth.getValue().getValue() : null, 
                 this.campYear.getValue(), this.catalogueCode.getText(), this.detail);
         }
@@ -133,19 +113,6 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    private void cancelButtonPressed()
-    {
-        this.search.setVisible(true);
-        this.register.setVisible(false);
-        this.cancel.setVisible(false);
-        this.orders.setVisible(false);
-        this.addOrders.setVisible(false);
-        this.plusCatalogue.setVisible(false);
-        clearStage();
-        this.isSearching = true;
     }
 
     @FXML

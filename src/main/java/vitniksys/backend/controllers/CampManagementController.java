@@ -43,6 +43,9 @@ public class CampManagementController
     private boolean allFieldsAreOk(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail)
     {
         boolean ret = false;
+
+
+
         if(this.expressionChecker.onlyNumbers(campNumb, false) && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
             && month != null && year != null && this.expressionChecker.isCatalogueCode(catalogueCode, true) && detailFileIsOk(detail, true))
         {
@@ -169,78 +172,40 @@ public class CampManagementController
         Platform.runLater(task);
     }
 
-    public void searchCampsAssociated(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
+    public Campaign simpleCampQuery(Integer campNumb)
     {
+        final Campaign ret = null;
 
-        //COMO ASOCIAR ENTIDADES? MANDAR FLAG POR PARAMETRO? CREAR OTRO METODO? SOBRECARGAR EL METODO? MEPA QUE ES SOBRECARGAR EL METODO find(), findAll()
-
-        CustomAlert customAlert = this.campQueryRegisterView.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-        
-        Task<Void> task = new Task<>()
+        new Runnable()
         {
             @Override
-            protected Void call() throws Exception
+            public void run()
             {
-                int retCode = 0;
-                Campaign camp = null;
-                List<Campaign> camps = null;
-
-                if(campNumb != null && !campNumb.isBlank())
-                {
-                    camp = CampaignOperator.getOperator().find(Integer.parseInt(campNumb));
-                }
-                else if(catalogueCode != null && !catalogueCode.isBlank())
-                {
-                    camps = CampaignOperator.getOperator().findByCatalogue(Integer.parseInt(catalogueCode));
-                }
-                else if(month != null && year != null)
-                {
-                    camp = CampaignOperator.getOperator().find(month.getValue(), year);
-                }
-                else if(campAlias != null && !campAlias.isBlank())
-                {
-                    camps = CampaignOperator.getOperator().findAll(campAlias.toUpperCase());
-                }
-                else
-                {
-                    camps = CampaignOperator.getOperator().findAll();
-                }
-
                 try
                 {
-                    campQueryRegisterView.closeProcessIsWorking(customAlert);
-                    if(camp != null)
-                    {
-                        retCode = 1;
-                        campQueryRegisterView.showQueriedCamp(camp);
-                    }
-                    else if(camps != null)
-                    {
-                        retCode = 1;
-                        campQueryRegisterView.showQueriedCamp(camps);
-                    }
-                    else
-                    {
-                        campQueryRegisterView.showNoResult("No se encontró la campaña especificada");
-                    }
+                    ret = CampaignOperator.getOperator().find(campNumb);
                 }
-                catch (Exception exception)
+                catch(Exception exception)
                 {
-                    retCode = 0;
-                    campQueryRegisterView.closeProcessIsWorking(customAlert);
-                    campQueryRegisterView.showError("Error al buscar la campaña especificada.", null, exception);
-                    throw exception;
+                    exception.printStackTrace();
                 }
                 finally
                 {
-                    Connector.getConnector().closeConnection();
+                    try
+                    {
+                        Connector.getConnector().closeConnection();
+                    }
+                    catch (Exception exception2)
+                    {
+                        exception2.printStackTrace();
+                    }
+                    
                 }
-                return null;
             }
         };
-        
-        Platform.runLater(task);
+        return null;
     }
+    
 
     /**
      * Search for the last registered campaing.
@@ -272,7 +237,7 @@ public class CampManagementController
         } 
     }
 
-    public void registerCamp(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception
+    public void registerCamp(Integer campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception
     {
         //If all fields are OK...
         if(allFieldsAreOk(campNumb, campAlias, month, year, catalogueCode, detail))

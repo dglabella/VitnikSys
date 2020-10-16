@@ -8,18 +8,11 @@ import javafx.fxml.FXML;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.frontend.views.CampQueryRegisterView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,25 +24,12 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
     private int RESULT_TABLE_NUMBER;
 
-    private ExpressionChecker expressionChecker;
-
     private CampManagementController campManagementController;
 
     private List<Campaign> selectedCamps;
 
-    private List<String> suggestions;
-
-    private AutoCompletionTool autoCompletionTool;
-
     // ================================= FXML variables  =================================
-    @FXML private Spinner<Integer> campNumber;
-
-    @FXML private TextField searchField, catalogueCode;
-
-    @FXML private ChoiceBox<Month> campMonth;
-    @FXML private ChoiceBox<Integer> campYear;
-
-    @FXML private ListView<String> suggestionList;
+    @FXML private TextField searchField;
 
     @FXML private TableView<Campaign> resultTable;
 
@@ -100,18 +80,13 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     @Override
     protected void manualInitialize() throws Exception
     {
-        //all null for get all the camps
-        this.campManagementController.searchCamps(null, null, null, null, null);
+
     }
 
     // ================================= public methods =================================
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        this.campManagementController = new CampManagementController(this);
-        this.suggestions = new ArrayList<>();
-        this.autoCompletionTool = new AutoCompletionTool(this.searchField, this.suggestions, this.suggestionList);
-
         List<TableColumn> columns = new ArrayList<>();
         columns.add(column1);
         columns.add(column2);
@@ -132,22 +107,8 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
 
-
-        //Setting months for the month ChoiceBox.
-        ObservableList<Month> months = FXCollections.observableArrayList(null, Month.JANUARY, Month.FEBRUARY,
-            Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE, Month.JULY, Month.AUGUST, Month.SEPTEMBER,
-            Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER);
-        this.campMonth.setItems(months);
-
-        //Setting years for the year ChoiceBox.
-        ObservableList<Integer> years = FXCollections.observableArrayList();
-        years.add(null);
-        for (int i = SearchCampsViewCntlr.YEAR_MIN; i <= SearchCampsViewCntlr.YEAR_MAX; i++)
-            years.add(i);
-        this.campYear.setItems(years);
-
-        //Default button
-        //this.accept.setDefaultButton(true);
+        this.campManagementController = new CampManagementController(this);
+        this.campManagementController.searchCamps(null, null, null, null, null);
     }
     
     // ================================= view methods =================================
@@ -196,17 +157,6 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     @Override
     public void showQueriedCamp(List<Campaign> camps) throws Exception
     {
-        for(int i = 0; i< camps.size();  i++)
-        {
-            if(camps.get(i).getAlias() != null)
-                this.autoCompletionTool.getSuggestions().add(camps.get(i).getAlias());
-            
-            if(camps.get(i).getCatalogueCode() != null)
-                this.autoCompletionTool.getSuggestions().add(camps.get(i).getCatalogueCode().toString());
-
-            this.autoCompletionTool.getSuggestions().add(camps.get(i).getNumber().toString());
-        }
-        
         this.loadData(this.RESULT_TABLE_NUMBER, camps);
     }
 }

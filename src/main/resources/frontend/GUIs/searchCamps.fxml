@@ -2,11 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -77,12 +74,7 @@
                         <Font name="Britannic Bold" size="28.0" />
                      </font>
                   </Label>
-                  <Spinner fx:id="campNumber" layoutX="12.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" />
-                  <ChoiceBox fx:id="campMonth" layoutX="412.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#monthComboBoxPressed" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #FFFFFF;" />
-                  <ChoiceBox fx:id="campYear" layoutX="562.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#yearComboBoxPressed" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #FFFFFF;" />
-                  <TextField fx:id="searchField" layoutX="130.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
-                  <TextField fx:id="catalogueCode" layoutX="660.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="80.0" />
-                  <ListView fx:id="suggestionList" layoutX="130.0" layoutY="97.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="250.0" />
+                  <TextField fx:id="searchField" layoutX="20.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" />
                </children>
             </AnchorPane>
          </children>

@@ -46,7 +46,7 @@ public class ClientManagementController
     }
     // ================================= protected methods =================================
 
-    // ================================= public methods =================================
+    // ================================= public methods ====================================
     public void registerClient(String id, String dni, String name, String lastName, String location,
             LocalDate birthDate, String email, String phoneNumber, Boolean isLeader, String leaderId) throws Exception
     {
