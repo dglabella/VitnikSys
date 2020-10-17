@@ -172,41 +172,6 @@ public class CampManagementController
         Platform.runLater(task);
     }
 
-    public Campaign simpleCampQuery(Integer campNumb)
-    {
-        final Campaign ret = null;
-
-        new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try
-                {
-                    ret = CampaignOperator.getOperator().find(campNumb);
-                }
-                catch(Exception exception)
-                {
-                    exception.printStackTrace();
-                }
-                finally
-                {
-                    try
-                    {
-                        Connector.getConnector().closeConnection();
-                    }
-                    catch (Exception exception2)
-                    {
-                        exception2.printStackTrace();
-                    }
-                    
-                }
-            }
-        };
-        return null;
-    }
-    
-
     /**
      * Search for the last registered campaing.
      * This method do not show alerts messages.

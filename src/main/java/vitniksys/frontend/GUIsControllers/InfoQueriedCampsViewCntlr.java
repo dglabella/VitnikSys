@@ -31,7 +31,7 @@ public class InfoQueriedCampsViewCntlr extends VitnikViewCntlr implements Initia
 
     // ================================= protected methods ==============================
     @Override
-    protected void manualInitialize() throws Exception
+    protected void manualInitialize()
     {
 
     }

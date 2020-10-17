@@ -59,7 +59,7 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     }
 
     @FXML
-    private void searchCampButtonPressed() throws Exception
+    private void searchCampButtonPressed()
     {
         VitnikViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps");
         viewCntlr.getStage().show();
@@ -67,13 +67,13 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     }
 
     @FXML
-    private void newCpButtonPressed() throws Exception
+    private void newCpButtonPressed()
     {
         this.createStage("Formulario de registro de Cliente preferencial", "clientRegister").getStage().show();
     }
 
     @FXML
-    private void newCampButtonPressed() throws Exception
+    private void newCampButtonPressed()
     {
         this.createStage("Crear campaña", "campRegister").getStage().show();
     }
@@ -82,7 +82,7 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
 
     // ================================= protected methods ===============================
     @Override
-    protected void manualInitialize() throws Exception
+    protected void manualInitialize()
     {
         
     }

@@ -33,11 +33,21 @@ public abstract class VitnikViewCntlr
         return this.stage;
     }
 
-    protected VitnikViewCntlr createStage(String title, String sceneName) throws Exception
+    protected VitnikViewCntlr createStage(String title, String sceneName)
     {
         String fileName = sceneName;
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
-        Scene scene = new Scene(fxmlLoader.load());
+        FXMLLoader fxmlLoader = null;
+        Scene scene = null;
+        try
+        {
+            fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION+fileName+App.FILE_EXTENSION));
+            scene = new Scene(fxmlLoader.load());
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();
+        }
+        
         VitnikViewCntlr viewCtrller = fxmlLoader.getController();
         viewCtrller.setStage(new Stage());
         viewCtrller.getStage().setResizable(false);
@@ -67,5 +77,5 @@ public abstract class VitnikViewCntlr
 
 
     // =================================== public methods ===================================
-    protected abstract void manualInitialize() throws Exception;
+    protected abstract void manualInitialize();
 }

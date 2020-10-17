@@ -110,71 +110,32 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
         }
         catch (Exception e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void searchButtonPressed() throws Exception
+    private void plusCatalogueButtonPressed()
     {
-        this.campManagementController.searchCamps(this.campNumber.getText(), this.campAlias.getText(),
-                                                this.campMonth.getValue(), this.campYear.getValue(),
-                                                this.catalogueCode.getText());
-    }
-
-    @FXML
-    private void plusCatalogueButtonPressed() throws IOException
-    {
-        String fileName = "catalogueQuery";
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION + fileName + App.FILE_EXTENSION));
-        Scene scene = new Scene(fxmlLoader.load());
-        CatalogueQueryViewCntlr ctrller = fxmlLoader.getController();
-        ctrller.setStage(new Stage());
-        ctrller.getStage().setResizable(false);
-        ctrller.getStage().setScene(scene);
-        ctrller.getStage().setTitle("Consultar Cátalogo");
-        ctrller.setPrevViewCntlr(this);
-        ctrller.getStage().show();
+        this.createStage("Consultar Cátalogo", "catalogueQuery").getStage().show();
     }
 
     @FXML
     private void monthComboBoxPressed()
     {
-         //Clean others invalidity messages
-         this.campNumberInvalid.setVisible(false);
-         this.campAliasInvalid.setVisible(false);
-         this.catalogueCodeInvalid.setVisible(false);
-         
-         //Clean fields if is Searching for a camp
-         if(this.isSearching)
-         {
-             this.campNumber.clear();
-             this.campAlias.clear();
-             this.catalogueCode.clear();
-         }
     }
 
     @FXML
     private void yearComboBoxPressed()
     {
-         //Clean others invalidity messages
-         this.campNumberInvalid.setVisible(false);
-         this.campAliasInvalid.setVisible(false);
-         this.catalogueCodeInvalid.setVisible(false);
-         
-         //Clean fields if is Searching for a camp
-         if(this.isSearching)
-         {
-             this.campNumber.clear();
-             this.campAlias.clear();
-             this.catalogueCode.clear();
-         }
+
     }
 
     @FXML
     private boolean nroCampCheck()
     {
+        return false;
+        /*
         boolean ret;
 
         //Clean others invalidity messages
@@ -202,6 +163,7 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
             ret = false;
         }
         return ret;
+        */
     }
 
     @FXML
@@ -213,14 +175,6 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
         this.campNumberInvalid.setVisible(false);
         this.catalogueCodeInvalid.setVisible(false);
         
-        //Clean fields if is Searching for a camp
-        if(this.isSearching)
-        {
-            this.campNumber.clear();
-            this.campMonth.setValue(null);
-            this.campYear.setValue(null);
-            this.catalogueCode.clear();
-        }
     
         if (this.campAlias.getText().length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS)
         {
@@ -244,15 +198,6 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
         //Clean invalidity messages
         this.campNumberInvalid.setVisible(false);
         this.campAliasInvalid.setVisible(false);
-        
-        //Clean fields if is Searching for a camp
-        if(this.isSearching)
-        {
-            this.campNumber.clear();
-            this.campAlias.clear();
-            this.campMonth.setValue(null);
-            this.campYear.setValue(null);
-        }
     
         if (this.expressionChecker.isCatalogueCode(this.catalogueCode.getText(), true))
         {
@@ -271,28 +216,18 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     // ================================= private methods =================================
     private void clearStage()
     {
-        this.campNumber.clear();
+        this.campNumber.getValueFactory().setValue(null);
         this.campMonth.setValue(null);
         this.campYear.setValue(null);
         this.catalogueCode.clear();
 
         this.filePath.setVisible(false);
         this.fileSelected.setVisible(false);
-
-        this.artDevueltosQuantity.setText("");
-        this.artPedidosQuantity.setText("");
-        this.artRecompradosQuantity.setText("");
-        this.artRetiradosQuantity.setText("");
-        this.totalInCatalogos.setText("");
-        this.totalInDevoluciones.setText("");
-        this.totalInPedidos.setText("");
-        this.totalInRecompras.setText("");
-        this.totalInRetiros.setText("");
     }
 
     // ================================= protected methods =================================
     @Override
-    protected void manualInitialize() throws Exception
+    protected void manualInitialize()
     {
         
     }

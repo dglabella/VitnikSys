@@ -168,7 +168,7 @@ public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initiali
 
     // ================================= protected methods ===============================
     @Override
-    protected void manualInitialize() throws Exception
+    protected void manualInitialize()
     {
         
     }

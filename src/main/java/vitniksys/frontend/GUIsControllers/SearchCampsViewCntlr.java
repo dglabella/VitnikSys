@@ -1,6 +1,5 @@
 package vitniksys.frontend.GUIsControllers;
 
-
 import java.net.URL;
 import java.util.List;
 import java.time.Month;
@@ -28,64 +27,72 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
     private List<Campaign> selectedCamps;
 
-    // ================================= FXML variables  =================================
-    @FXML private TextField searchField;
+    // ================================= FXML variables
+    // =================================
+    @FXML
+    private TextField searchField;
 
-    @FXML private TableView<Campaign> resultTable;
+    @FXML
+    private TableView<Campaign> resultTable;
 
-    @FXML private TableColumn<Campaign, Integer> column1;
-    @FXML private TableColumn<Campaign, String> column2;
-    @FXML private TableColumn<Campaign, Month> column3;
-    @FXML private TableColumn<Campaign, Integer> column4;
-    @FXML private TableColumn<Campaign, Integer> column5;
+    @FXML
+    private TableColumn<Campaign, Integer> column1;
+    @FXML
+    private TableColumn<Campaign, String> column2;
+    @FXML
+    private TableColumn<Campaign, Month> column3;
+    @FXML
+    private TableColumn<Campaign, Integer> column4;
+    @FXML
+    private TableColumn<Campaign, Integer> column5;
 
-    @FXML private Button accept;
+    @FXML
+    private Button accept;
 
     // ================================= FXML methods ===================================
     @FXML
     private void acceptButtonPressed() throws Exception
     {
         /*
-        Buscar camps de nuevo pero asociadas.
-        porque? si puedo mandarlas directamente.
-        Pero entonces deberia consultar todas las campañas asociadas
-        y podria llegar a ser costoso.
-        mejor consultar todas las camps no asociadas, luego seleccionar
-        y consultar las seleccionadas. Se da mas la situacion de que se
-        consulten pocas que muchas.
-        */
+         * Buscar camps de nuevo pero asociadas. porque? si puedo mandarlas
+         * directamente. Pero entonces deberia consultar todas las campañas asociadas y
+         * podria llegar a ser costoso. mejor consultar todas las camps no asociadas,
+         * luego seleccionar y consultar las seleccionadas. Se da mas la situacion de
+         * que se consulten pocas que muchas.
+         */
 
-        //this.resultTable.getSelectionModel().getSelectedItems()
+        // this.resultTable.getSelectionModel().getSelectedItems()
 
         VitnikViewCntlr viewCtrller = this.createStage("Consultar campaña", "infoQueriedCamps");
         viewCtrller.getStage().show();
 
-        ((InfoQueriedCampsViewCntlr)viewCtrller).loadQueriedCamps(selectedCamps);
+        ((InfoQueriedCampsViewCntlr) viewCtrller).loadQueriedCamps(selectedCamps);
     }
 
-    @FXML private void monthComboBoxPressed()
+    @FXML
+    private void monthComboBoxPressed()
     {
 
     }
 
-    @FXML private void yearComboBoxPressed()
+    @FXML
+    private void yearComboBoxPressed()
     {
 
     }
 
     // ================================= private methods ================================
 
-
     // ================================= protected methods ==============================
     @Override
-    protected void manualInitialize() throws Exception
+    protected void manualInitialize()
     {
 
     }
 
     // ================================= public methods =================================
     @Override
-    public void customInitialize(URL location, ResourceBundle resources) throws Exception
+    public void customInitialize(URL location, ResourceBundle resources)
     {
         List<TableColumn> columns = new ArrayList<>();
         columns.add(column1);
@@ -102,13 +109,21 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         propertiesValues.add(new PropertyValueFactory<>("CatalogueCode"));
 
         this.registerTable(this.resultTable);
-        this.RESULT_TABLE_NUMBER = 0; //because is the first table registered.
+        this.RESULT_TABLE_NUMBER = 0; // because is the first table registered.
 
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
 
         this.campManagementController = new CampManagementController(this);
-        this.campManagementController.searchCamps(null, null, null, null, null);
+
+        try
+        {
+            this.campManagementController.searchCamps(null, null, null, null, null);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     
     // ================================= view methods =================================
