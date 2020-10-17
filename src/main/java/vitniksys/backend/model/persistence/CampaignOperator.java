@@ -58,12 +58,12 @@ public class CampaignOperator implements ICampaignOperator
     {
         int returnCode;
         String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year` , `cod_cat`) VALUES"+
-        "(?, ?, ?, ?, ?, ?);";
+        "(?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, camp.getNumber());
 
-        if(camp.getAlias() == null || camp.getAlias().isBlank())
+        if(camp.getAlias() != null || !camp.getAlias().isBlank())
             statement.setString(2, camp.getAlias());
         else
             statement.setNull(2, Types.VARCHAR);
@@ -71,7 +71,7 @@ public class CampaignOperator implements ICampaignOperator
         statement.setInt(3, camp.getMonth());
         statement.setInt(4, camp.getYear());
 
-        if(camp.getCatalogue()!=null && camp.getCatalogue().getCode()!=null)
+        if(camp.getCatalogue() != null && camp.getCatalogue().getCode() != null)
             statement.setInt(5, camp.getCatalogue().getCode());
         else
             statement.setNull(5, Types.INTEGER);

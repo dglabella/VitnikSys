@@ -45,7 +45,7 @@ public class CustomAlert extends Alert
         this.setTitle(title);
         this.setHeaderText(headerText);
         this.description = description;
-        this.exception = CustomAlert.irrelevantException();
+        this.exception = exception;
         this.setResizable(false);
     }
 
@@ -76,7 +76,7 @@ public class CustomAlert extends Alert
 
     private void build()
     {
-        if(getException() != null)
+        if(this.getException() != null)
         {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);

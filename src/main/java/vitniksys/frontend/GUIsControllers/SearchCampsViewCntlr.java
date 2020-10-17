@@ -12,12 +12,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
+import vitniksys.frontend.views.CampaignView;
 import vitniksys.backend.model.entities.Campaign;
-import vitniksys.frontend.views.CampQueryRegisterView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.controllers.CampManagementController;
 
-public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> implements CampQueryRegisterView
+public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> implements CampaignView
 {
     public static final int YEAR_MIN = 2020, YEAR_MAX = 2038;
 

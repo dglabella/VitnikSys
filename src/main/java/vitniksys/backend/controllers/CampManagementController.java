@@ -6,17 +6,15 @@ import java.time.Month;
 import java.util.Iterator;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
-//import java.util.concurrent.Executors;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.OrderObtainer;
-//import java.util.concurrent.ExecutorService;
+import vitniksys.frontend.views.CampaignView;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
-import vitniksys.frontend.views.CampQueryRegisterView;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CatalogueOperator;
@@ -29,9 +27,9 @@ public class CampManagementController
     private ExpressionChecker expressionChecker;
     
     //Views
-    private CampQueryRegisterView campQueryRegisterView;
+    private CampaignView campQueryRegisterView;
 
-    public CampManagementController(CampQueryRegisterView campQueryRegisterView)
+    public CampManagementController(CampaignView campQueryRegisterView)
     {
         this.expressionChecker = ExpressionChecker.getExpressionChecker();
         this.campQueryRegisterView = campQueryRegisterView;
@@ -40,13 +38,11 @@ public class CampManagementController
     //Getters && Setters
 
     // ================================= private methods =================================
-    private boolean allFieldsAreOk(String campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail)
+    private boolean allFieldsAreOk(Integer campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail)
     {
         boolean ret = false;
 
-
-
-        if(this.expressionChecker.onlyNumbers(campNumb, false) && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
+        if(campNumb != null && campAlias.length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS 
             && month != null && year != null && this.expressionChecker.isCatalogueCode(catalogueCode, true) && detailFileIsOk(detail, true))
         {
             ret = true;
@@ -216,8 +212,8 @@ public class CampManagementController
                 {
                     //returnCode is intended for future implementations
                     int returnCode = 0;
-                    Campaign camp = new Campaign(Integer.valueOf(campNumb), month, year);
-                    camp.setAlias(campAlias.isBlank()?null:campAlias);
+                    Campaign camp = new Campaign(campNumb, month, year);
+                    camp.setAlias(campAlias.isBlank()?null:campAlias.toUpperCase());
 
                     try
                     {
@@ -245,7 +241,7 @@ public class CampManagementController
                         }
 
                         returnCode += CampaignOperator.getOperator().insert(camp); // Balances insertion handler by a DB Trigger.
-
+                        
                         //Campaing registration with orders associated
                         if(detail != null)
                         {
