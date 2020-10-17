@@ -139,20 +139,6 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     }
 
     @FXML
-    private void plusCampButtonPressed()
-    {
-        this.isSearching = false;
-        clearStage();
-        this.register.setVisible(true);
-        this.cancel.setVisible(true);
-        this.plusCatalogue.setVisible(true);
-        this.addOrders.setVisible(true);
-        this.orders.setVisible(true);
-
-        this.search.setVisible(false);
-    }
-
-    @FXML
     private void monthComboBoxPressed()
     {
          //Clean others invalidity messages
