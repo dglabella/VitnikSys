@@ -36,9 +36,9 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
 
     private File detail;
 
-    private int lastCampNumber;
-
     private ExpressionChecker expressionChecker;
+
+    private Campaign lastCamp;
 
     private CampManagementController campManagementController;
 
@@ -118,52 +118,6 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     }
 
     @FXML
-    private void monthComboBoxPressed()
-    {
-    }
-
-    @FXML
-    private void yearComboBoxPressed()
-    {
-
-    }
-
-    @FXML
-    private boolean nroCampCheck()
-    {
-        return false;
-        /*
-        boolean ret;
-
-        //Clean others invalidity messages
-        this.campAliasInvalid.setVisible(false);
-        this.catalogueCodeInvalid.setVisible(false);
-        
-        //Clean fields if is Searching for a camp
-        if(this.isSearching)
-        {
-            this.campAlias.clear();
-            this.campMonth.setValue(null);
-            this.campYear.setValue(null);
-            this.catalogueCode.clear();
-        }
-
-        if (this.expressionChecker.onlyNumbers(this.campNumber.getText(), true))
-        {
-            this.campNumberInvalid.setVisible(false);
-            ret = true;
-        }
-        else
-        {
-            this.campNumberInvalid.setText("Dato invalido");
-            this.campNumberInvalid.setVisible(true);
-            ret = false;
-        }
-        return ret;
-        */
-    }
-
-    @FXML
     private boolean campAliasCheck()
     {
         boolean ret;
@@ -240,7 +194,7 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
         }
 
         // setting the camp number spinner
-        this.campNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, lastCampNumber+1));
+        this.campNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, lastCamp.getNumber()+1));
 
         // Setting values and listener for campMonth choice box.
         ObservableList<Month> months = FXCollections.observableArrayList(null, Month.JANUARY, Month.FEBRUARY,
@@ -255,6 +209,13 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
         for (int i = CampRegisterViewCntlr.YEAR_MIN; i <= CampRegisterViewCntlr.YEAR_MAX; i++)
             years.add(i);
         this.campYear.setItems(years);
+
+        this.campMonth.setValue(Month.of((this.lastCamp.getMonth()%12)+1));
+
+        if(this.lastCamp.getMonth() == 12)
+        {
+            this.campYear.setValue(this.lastCamp.getYear()+1);
+        }
 
         Tooltip toolTipCreateCatalogue = new Tooltip();
         toolTipCreateCatalogue.setText("Nuevo catálogo");
@@ -303,7 +264,7 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     @Override
     public void showQueriedCamp(Campaign campaign) throws Exception
     {
-        this.lastCampNumber = campaign.getNumber();
+        this.lastCamp = campaign;
     }
 
     @Override

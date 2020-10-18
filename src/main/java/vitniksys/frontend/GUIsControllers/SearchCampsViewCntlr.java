@@ -82,6 +82,10 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     }
 
     // ================================= private methods ================================
+    private void makeFilteredTable()
+    {
+
+    }
 
     // ================================= protected methods ==============================
     @Override
@@ -173,5 +177,7 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     public void showQueriedCamp(List<Campaign> camps) throws Exception
     {
         this.loadData(this.RESULT_TABLE_NUMBER, camps);
+
+        makeFilteredTable();
     }
 }
