@@ -117,6 +117,11 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
         this.tableDataLists.get(tableNumber).addAll(position, data);
     }
 
+    protected ObservableList<Entity> getObservableListFromTable(int tableNumber)
+    {
+        return this.tableDataLists.get(tableNumber);
+    }
+
     // ================================= public methods =================================
 
     /**

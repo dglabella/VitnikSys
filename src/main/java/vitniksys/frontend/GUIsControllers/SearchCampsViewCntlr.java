@@ -2,7 +2,10 @@ package vitniksys.frontend.GUIsControllers;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Observable;
 import java.time.Month;
+
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -69,22 +72,30 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         ((InfoQueriedCampsViewCntlr) viewCtrller).loadQueriedCamps(selectedCamps);
     }
 
-    @FXML
-    private void monthComboBoxPressed()
-    {
-
-    }
-
-    @FXML
-    private void yearComboBoxPressed()
-    {
-
-    }
-
     // ================================= private methods ================================
     private void makeFilteredTable()
     {
-
+        FilteredList<Campaign> filteredData = new FilteredList<>(this.getObservableListFromTable(RESULT_TABLE_NUMBER), s -> true);
+        this.searchField.textProperty().addListener((obs, oldValue, newValue) ->
+        {
+            filteredData.setPredicate(camp -> 
+            {
+                boolean ret;
+                if (newValue.isBlank() || camp.getAlias().contains(newValue.toUpperCase()) ||
+                    String.valueOf(camp.getNumber()).contains(newValue) ||
+                    String.valueOf(camp.getCatalogueCode()).contains(newValue) ||
+                    String.valueOf(camp.getMonth()).contains(newValue) ||
+                    String.valueOf(camp.getYear()).contains(newValue) )
+                {
+                    ret = true;
+                }
+                else
+                {
+                    ret = false;
+                }
+                return ret;
+            });
+        });
     }
 
     // ================================= protected methods ==============================
