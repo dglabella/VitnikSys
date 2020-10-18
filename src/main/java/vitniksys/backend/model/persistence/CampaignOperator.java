@@ -1,10 +1,10 @@
 package vitniksys.backend.model.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.sql.Types;
 import java.time.Month;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
@@ -57,13 +57,13 @@ public class CampaignOperator implements ICampaignOperator
     public int insert(Campaign camp) throws Exception
     {
         int returnCode;
-        String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year` , `cod_cat`) VALUES"+
+        String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year`, `cod_cat`) VALUES"+
         "(?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, camp.getNumber());
 
-        if(camp.getAlias() != null || !camp.getAlias().isBlank())
+        if(camp.getAlias() != null && !camp.getAlias().isBlank())
             statement.setString(2, camp.getAlias());
         else
             statement.setNull(2, Types.VARCHAR);

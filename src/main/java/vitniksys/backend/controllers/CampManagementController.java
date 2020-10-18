@@ -239,7 +239,7 @@ public class CampManagementController
                                 throw new Exception("Irrelevant exception");
                             }
                         }
-
+                        
                         returnCode += CampaignOperator.getOperator().insert(camp); // Balances insertion handler by a DB Trigger.
                         
                         //Campaing registration with orders associated

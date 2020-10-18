@@ -60,35 +60,35 @@ public class ClientManagementController
                 {
                     //returnCode is intended for future implementations
                     int returnCode = 0;
-                    PreferentialClient cp;
+                    PreferentialClient prefClient;
                     if(isLeader)
                     {
-                        cp = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        prefClient = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
                     }
                     else if(leaderId != null && !leaderId.isBlank())
                     {
-                        cp = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
-                        ((SubordinatedClient)cp).setLeader(new Leader(Integer.parseInt(leaderId)));
+                        prefClient = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        ((SubordinatedClient)prefClient).setLeader(new Leader(Integer.parseInt(leaderId)));
                     }
                     else
                     {
-                        cp =  new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        prefClient =  new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
                     }
 
-                    cp.setDni(!dni.isBlank()?Long.parseLong(dni):null);
-                    cp.setLocation(location.toUpperCase());
-                    cp.setBirthDate(birthDate);
-                    cp.setEmail(email);
-                    cp.setPhoneNumber(!phoneNumber.isBlank()?Long.parseLong(phoneNumber):null);
+                    prefClient.setDni(!dni.isBlank()?Long.parseLong(dni):null);
+                    prefClient.setLocation(location.toUpperCase());
+                    prefClient.setBirthDate(birthDate);
+                    prefClient.setEmail(email);
+                    prefClient.setPhoneNumber(!phoneNumber.isBlank()?Long.parseLong(phoneNumber):null);
 
                     try
                     {
                         Connector.getConnector().startTransaction();
 
-                        returnCode += cp.operator().insert(cp);
+                        returnCode += prefClient.operator().insert(prefClient);
 
                         Balance balance = new Balance();
-                        balance.setClient(cp);
+                        balance.setClient(prefClient);
                         balance.setCamp(CampaignOperator.getOperator().findLast());
                         returnCode += BalanceOperator.getOperator().insert(balance);
 

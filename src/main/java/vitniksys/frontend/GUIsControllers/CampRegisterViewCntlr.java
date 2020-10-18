@@ -167,11 +167,6 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     private boolean campAliasCheck()
     {
         boolean ret;
-
-        //Clean others invalidity messages
-        this.campNumberInvalid.setVisible(false);
-        this.catalogueCodeInvalid.setVisible(false);
-        
     
         if (this.campAlias.getText().length() <= CampManagementController.MAX_LENGTH_CAMP_ALIAS)
         {
@@ -191,10 +186,6 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     private boolean catalogoCodeCheck()
     {
         boolean ret;
-
-        //Clean invalidity messages
-        this.campNumberInvalid.setVisible(false);
-        this.campAliasInvalid.setVisible(false);
     
         if (this.expressionChecker.isCatalogueCode(this.catalogueCode.getText(), true))
         {
@@ -249,7 +240,7 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
         }
 
         // setting the camp number spinner
-		this.campNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, lastCampNumber+1));
+        this.campNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, lastCampNumber+1));
 
         // Setting values and listener for campMonth choice box.
         ObservableList<Month> months = FXCollections.observableArrayList(null, Month.JANUARY, Month.FEBRUARY,
@@ -288,6 +279,7 @@ public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializa
     public void showSucces(String message)
     {
         new CustomAlert(AlertType.INFORMATION, "EXITO", message).customShow();
+        this.getStage().close();
     }
 
     @Override

@@ -94,12 +94,14 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
             ret.add(prefClient);
         }
 
+        /*
         System.out.println("================ prefClients ================");
         Iterator<PreferentialClient> printList = ret.iterator();
         while(printList.hasNext())
         {
             System.out.println(printList.next().toString());
         }
+        */
 
         statement.close();
 
