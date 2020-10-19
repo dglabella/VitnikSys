@@ -5,9 +5,10 @@ import java.sql.Timestamp;
 public class Order
 {
     //Entity properties
-    private int code;
-    private int quantity;
-    private float cost;
+    private Integer code;
+    private Integer deliveryNumber;
+    private Integer quantity;
+    private Float cost;
     private Timestamp withdrawalDate;
     private Timestamp registrationTime;
     private boolean commissionable;
@@ -20,14 +21,14 @@ public class Order
     //Others
     private boolean active;
 
-    public Order(int quantity, float cost, boolean commissionable)
+    public Order(Integer quantity, Float cost, boolean commissionable)
     {
         this.quantity = quantity;
         this.cost = cost;
         this.commissionable = commissionable;
     }
     
-    public Order(int code, int quantity, float cost, boolean commissionable)
+    public Order(Integer code, Integer quantity, Float cost, boolean commissionable)
     {
         this.code = code;
         this.quantity = quantity;
@@ -40,7 +41,7 @@ public class Order
      * 
      * @return return the BD table key (column name: cod).
      */
-    public int getCode()
+    public Integer getCode()
     {
         return this.code;
     }
@@ -49,27 +50,37 @@ public class Order
      * 
      * @param code set the BD table key (column name: cod).
      */
-    public void setCode(int code)
+    public void setCode(Integer code)
     {
         this.code = code;
     }
 
-    public int getQuantity()
+    public Integer getDeliveryNumber()
+    {
+        return this.deliveryNumber;
+    }
+
+    public void setDeliveryNumber(Integer deliveryNumber)
+    {
+        this.deliveryNumber = deliveryNumber;
+    }
+
+    public Integer getQuantity()
     {
         return this.quantity;
     }
 
-    public void setQuantity(int quantity)
+    public void setQuantity(Integer quantity)
     {
         this.quantity = quantity;
     }
 
-    public float getCost()
+    public Float getCost()
     {
         return this.cost;
     }
 
-    public void setCost(float cost)
+    public void setCost(Float cost)
     {
         this.cost = cost;
     }

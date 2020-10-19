@@ -2,14 +2,12 @@ package vitniksys.frontend.GUIsControllers;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Observable;
 import java.time.Month;
-
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
+import java.util.function.Predicate;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
@@ -30,27 +28,20 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
     private List<Campaign> selectedCamps;
 
-    // ================================= FXML variables
-    // =================================
-    @FXML
-    private TextField searchField;
+    //private String searchFieldEntry = "";
 
-    @FXML
-    private TableView<Campaign> resultTable;
+    // ================================= FXML variables =================================
+    @FXML private TextField searchField;
 
-    @FXML
-    private TableColumn<Campaign, Integer> column1;
-    @FXML
-    private TableColumn<Campaign, String> column2;
-    @FXML
-    private TableColumn<Campaign, Month> column3;
-    @FXML
-    private TableColumn<Campaign, Integer> column4;
-    @FXML
-    private TableColumn<Campaign, Integer> column5;
+    @FXML private TableView<Campaign> resultTable;
 
-    @FXML
-    private Button accept;
+    @FXML private TableColumn<Campaign, Integer> column1;
+    @FXML private TableColumn<Campaign, String> column2;
+    @FXML private TableColumn<Campaign, Month> column3;
+    @FXML private TableColumn<Campaign, Integer> column4;
+    @FXML private TableColumn<Campaign, Integer> column5;
+
+    @FXML private Button accept;
 
     // ================================= FXML methods ===================================
     @FXML
@@ -73,30 +64,6 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     }
 
     // ================================= private methods ================================
-    private void makeFilteredTable()
-    {
-        FilteredList<Campaign> filteredData = new FilteredList<>(this.getObservableListFromTable(RESULT_TABLE_NUMBER), s -> true);
-        this.searchField.textProperty().addListener((obs, oldValue, newValue) ->
-        {
-            filteredData.setPredicate(camp -> 
-            {
-                boolean ret;
-                if (newValue.isBlank() || camp.getAlias().contains(newValue.toUpperCase()) ||
-                    String.valueOf(camp.getNumber()).contains(newValue) ||
-                    String.valueOf(camp.getCatalogueCode()).contains(newValue) ||
-                    String.valueOf(camp.getMonth()).contains(newValue) ||
-                    String.valueOf(camp.getYear()).contains(newValue) )
-                {
-                    ret = true;
-                }
-                else
-                {
-                    ret = false;
-                }
-                return ret;
-            });
-        });
-    }
 
     // ================================= protected methods ==============================
     @Override
@@ -123,8 +90,10 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         propertiesValues.add(new PropertyValueFactory<>("year"));
         propertiesValues.add(new PropertyValueFactory<>("CatalogueCode"));
 
+
         this.registerTable(this.resultTable);
         this.RESULT_TABLE_NUMBER = 0; // because is the first table registered.
+        
 
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
@@ -139,6 +108,32 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
         {
             e.printStackTrace();
         }
+
+
+        //
+        this.searchField.textProperty().addListener((obs, oldValue, newValue) -> 
+        {
+            this.filterTable(this.RESULT_TABLE_NUMBER, new Predicate<Campaign>()
+            {
+                @Override
+                public boolean test(Campaign camp)
+                {
+                    boolean ret;
+                    if (newValue.isBlank() || (camp.getAlias() != null && camp.getAlias().contains(newValue.toUpperCase())) ||
+                        String.valueOf(camp.getNumber()).contains(newValue) ||
+                        (camp.getCatalogueCode() != null && String.valueOf(camp.getCatalogueCode()).contains(newValue)) ||
+                        String.valueOf(camp.getMonth()).contains(newValue) || String.valueOf(camp.getYear()).contains(newValue))
+                    {
+                        ret = true;
+                    }
+                    else
+                    {
+                        ret = false;
+                    }
+                    return ret;
+                }
+            });
+        });
     }
     
     // ================================= view methods =================================
@@ -188,7 +183,5 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
     public void showQueriedCamp(List<Campaign> camps) throws Exception
     {
         this.loadData(this.RESULT_TABLE_NUMBER, camps);
-
-        makeFilteredTable();
     }
 }

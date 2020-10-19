@@ -6,10 +6,13 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import java.util.function.Predicate;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -54,6 +57,7 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
     }
 
     // ================================= protected methods ==============================
+
     protected void registerTable(TableView<Entity> table)
     {
         this.tables.add(table);
@@ -117,9 +121,12 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
         this.tableDataLists.get(tableNumber).addAll(position, data);
     }
 
-    protected ObservableList<Entity> getObservableListFromTable(int tableNumber)
+    protected void filterTable(int tableNumber, Predicate<Entity> predicate)
     {
-        return this.tableDataLists.get(tableNumber);
+        //this.tableDataLists.get(tableNumber).filtered(predicate);
+        //FilteredList<Entity> filteredData = new FilteredList<>(this.tableDataLists.get(tableNumber), s -> true);
+        //filteredData.setPredicate(predicate);
+        this.tables.get(tableNumber).setItems(this.tableDataLists.get(tableNumber).filtered(predicate)); 
     }
 
     // ================================= public methods =================================

@@ -3,14 +3,14 @@ package vitniksys.backend.model.entities;
 public class Balance
 {
     //Entity properties
-    private float balance;
-    private float totalInOrdersCom;
-    private float totalInOrdersNonCom;
-    private float totalInCatalogues;
-    private float totalInRepurchases;
-    private float totalInPayments;
-    private float totalInDevolutions;
-    private float totalInCommission;
+    private Float balance;
+    private Float totalInOrdersCom;
+    private Float totalInOrdersNonCom;
+    private Float totalInCatalogues;
+    private Float totalInRepurchases;
+    private Float totalInPayments;
+    private Float totalInDevolutions;
+    private Float totalInCommission;
 
     //Domain Associations
     private PreferentialClient client;
@@ -24,8 +24,8 @@ public class Balance
         //Default Balance
     }
 
-    public Balance(float totalInOrdersCom, float totalInOrdersNonCom, float totalInCatalogues, 
-    float totalInRepurchases, float totalInPayments, float totalInDevolutions, float totalInCommission)
+    public Balance(Float totalInOrdersCom, Float totalInOrdersNonCom, Float totalInCatalogues, 
+    Float totalInRepurchases, Float totalInPayments, Float totalInDevolutions, Float totalInCommission)
     {
         this.totalInOrdersCom = totalInOrdersCom;
         this.totalInOrdersNonCom = totalInOrdersNonCom;
@@ -37,82 +37,82 @@ public class Balance
     }
 
     //Getters && Setters
-    public float getBalance()
+    public Float getBalance()
     {
         return this.balance;
     }
 
-    public void setBalance(float balance)
+    public void setBalance(Float balance)
     {
         this.balance = balance;
     }
 
-    public float getTotalInOrdersCom()
+    public Float getTotalInOrdersCom()
     {
         return this.totalInOrdersCom;
     }
 
-    public void setTotalInOrdersCom(float totalInOrdersCom)
+    public void setTotalInOrdersCom(Float totalInOrdersCom)
     {
         this.totalInOrdersCom = totalInOrdersCom;
     }
 
-    public float getTotalInOrdersNonCom()
+    public Float getTotalInOrdersNonCom()
     {
         return this.totalInOrdersNonCom;
     }
 
-    public void setTotalInOrdersNonCom(float totalInOrdersNonCom)
+    public void setTotalInOrdersNonCom(Float totalInOrdersNonCom)
     {
         this.totalInOrdersNonCom = totalInOrdersNonCom;
     }
 
-    public float getTotalInCatalogues()
+    public Float getTotalInCatalogues()
     {
         return this.totalInCatalogues;
     }
 
-    public void setTotalInCatalogues(float totalInCatalogues)
+    public void setTotalInCatalogues(Float totalInCatalogues)
     {
         this.totalInCatalogues = totalInCatalogues;
     }
 
-    public float getTotalInRepurchases()
+    public Float getTotalInRepurchases()
     {
         return this.totalInRepurchases;
     }
 
-    public void setTotalInRepurchases(float totalInRepurchases)
+    public void setTotalInRepurchases(Float totalInRepurchases)
     {
         this.totalInRepurchases = totalInRepurchases;
     }
 
-    public float getTotalInPayments()
+    public Float getTotalInPayments()
     {
         return this.totalInPayments;
     }
 
-    public void setTotalInPayments(float totalInPayments)
+    public void setTotalInPayments(Float totalInPayments)
     {
         this.totalInPayments = totalInPayments;
     }
 
-    public float getTotalInDevolutions()
+    public Float getTotalInDevolutions()
     {
         return this.totalInDevolutions;
     }
 
-    public void setTotalInDevolutions(float totalInDevolutions)
+    public void setTotalInDevolutions(Float totalInDevolutions)
     {
         this.totalInDevolutions = totalInDevolutions;
     }
 
-    public float getTotalInCommission()
+    public Float getTotalInCommission()
     {
         return this.totalInCommission;
     }
 
-    public void setTotalInCommission(float totalInCommission)
+    public void setTotalInCommission(Float totalInCommission)
     {
         this.totalInCommission = totalInCommission;
     }

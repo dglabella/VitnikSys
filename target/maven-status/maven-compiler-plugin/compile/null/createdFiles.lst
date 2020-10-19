@@ -5,6 +5,7 @@ vitniksys\backend\model\entities\Catalogue.class
 vitniksys\backend\controllers\CampManagementController$2.class
 vitniksys\backend\model\enums\Motivo$1.class
 vitniksys\backend\model\entities\Order.class
+vitniksys\frontend\GUIsControllers\SearchCampsViewCntlr$1.class
 vitniksys\backend\model\entities\CatalogueDeliver.class
 vitniksys\backend\model\persistence\BalanceOperator.class
 vitniksys\backend\model\entities\Payment.class

@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="710.0" prefWidth="1300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.GUIsControllers.ClientManagamentViewCntlr">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.GUIsControllers.ClientManagamentViewCntlr">
    <children>
       <AnchorPane prefHeight="60.0" prefWidth="1300.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
          <children>
@@ -96,12 +96,12 @@
       </AnchorPane>
       <GridPane layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1300.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="1300.0" prefWidth="1300.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints fillHeight="false" maxHeight="60.0" minHeight="30.0" percentHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
-            <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" percentHeight="0.0" prefHeight="310.0" vgrow="SOMETIMES" />
-            <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="280.0" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" percentHeight="0.0" prefHeight="500.0" vgrow="SOMETIMES" />
+            <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="460.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1300.0" style="-fx-background-color: white; -fx-border-color: black black transparent black;">
@@ -159,7 +159,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <TableView fx:id="_table_pedidos" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;" GridPane.rowIndex="1">
+            <TableView fx:id="_table_pedidos" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;" GridPane.rowIndex="1">
                <columns>
                   <TableColumn fx:id="_column_nroEnvioPed" minWidth="105.0" prefWidth="105.0" text="Nro Envío" />
                   <TableColumn fx:id="_column_codEjemplarPed" minWidth="105.0" prefWidth="105.0" text="Ejemplar" />
@@ -174,22 +174,22 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Accordion fx:id="_accordion_acordionTablas" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="1300.0" GridPane.rowIndex="2">
+            <Accordion fx:id="_accordion_acordionTablas" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1300.0" GridPane.rowIndex="2">
               <panes>
-                <TitledPane fx:id="_titledPane_pagos" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="1300.0" text="Pagos $$$$$$$$$$$$$$$$$" textFill="#27a800">
+                <TitledPane fx:id="_titledPane_pagos" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1300.0" text="Pagos $$$$$$$$$$$$$$$$$" textFill="#27a800">
                   <content>
-                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="1300.0">
+                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="1300.0">
                            <children>
                               <GridPane layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="1300.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" percentHeight="0.0" prefHeight="166.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" percentHeight="0.0" prefHeight="340.0" vgrow="SOMETIMES" />
                                   <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TableView fx:id="_table_pagos" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: white; -fx-border-color: transparent black black black;">
+                                    <TableView fx:id="_table_pagos" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: white; -fx-border-color: transparent black black black;">
                                        <columns>
                                           <TableColumn fx:id="_column_codPago" minWidth="100.0" prefWidth="100.0" text="Código" />
                                           <TableColumn fx:id="_column_id" minWidth="100.0" prefWidth="100.0" text="ID/descripción" />
@@ -228,20 +228,20 @@
                         </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane fx:id="_titledPane_devs" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="1300.0" text="Devoluciones $$$$$$$$$$$$$$$$$" textFill="#f58300">
+                <TitledPane fx:id="_titledPane_devs" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="1300.0" text="Devoluciones $$$$$$$$$$$$$$$$$" textFill="#f58300">
                   <content>
-                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="206.0" minWidth="206.0" prefHeight="206.0" prefWidth="1300.0">
+                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="1300.0">
                            <children>
-                              <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="1300.0">
+                              <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="1300.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="165.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="340.0" vgrow="SOMETIMES" />
                                   <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TableView fx:id="_table_devol" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;">
+                                    <TableView fx:id="_table_devol" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;">
                                        <columns>
                                           <TableColumn fx:id="_column_codDevDev" minWidth="80.0" text="Código" />
                                           <TableColumn fx:id="_column_nroEnvioDev" minWidth="100.0" prefWidth="100.0" text="Nro Envío" />
@@ -280,20 +280,20 @@
                         </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane fx:id="_titledPane_recompras" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="1300.0" text="Recompras $$$$$$$$$$$$$$$$$" textFill="#0004ff">
+                <TitledPane fx:id="_titledPane_recompras" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="1300.0" text="Recompras $$$$$$$$$$$$$$$$$" textFill="#0004ff">
                   <content>
-                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="230.0" prefWidth="1300.0">
+                    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="1300.0">
                            <children>
                               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="1300.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="166.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="340.0" vgrow="SOMETIMES" />
                                   <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TableView fx:id="_table_recompras" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="166.0" prefWidth="1300.0">
+                                    <TableView fx:id="_table_recompras" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="1300.0">
                                        <columns>
                                           <TableColumn fx:id="_column_codDevRec" minWidth="100.0" prefWidth="110.0" text="Código Dev" />
                                           <TableColumn fx:id="_column_nroEnvioRec" minWidth="100.0" prefWidth="110.0" text="Nro Envío" />

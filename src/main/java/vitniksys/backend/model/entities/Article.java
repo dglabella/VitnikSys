@@ -8,7 +8,7 @@ public class Article
     private String id; //Table id = letra
     private String name;
     private ArticleType type;
-    private float unitPrice;
+    private Float unitPrice;
 
     //Domain Associations
 
@@ -16,7 +16,7 @@ public class Article
     //Others
     private boolean active;
     
-    public Article(String id, String name, ArticleType type, float unitPrice)
+    public Article(String id, String name, ArticleType type, Float unitPrice)
     {
         this.id = id;
         this.name = name;
@@ -63,12 +63,12 @@ public class Article
         this.type = type;
     }
 
-    public float getUnitPrice()
+    public Float getUnitPrice()
     {
         return this.unitPrice;
     }
 
-    public void setUnitPrice(float unitPrice)
+    public void setUnitPrice(Float unitPrice)
     {
         this.unitPrice = unitPrice;
     }
