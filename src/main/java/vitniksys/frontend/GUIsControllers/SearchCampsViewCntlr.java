@@ -18,7 +18,7 @@ import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.controllers.CampManagementController;
 
-public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> implements CampaignView
+public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignView
 {
     public static final int YEAR_MIN = 2020, YEAR_MAX = 2038;
 
@@ -57,7 +57,7 @@ public class SearchCampsViewCntlr extends VitnikTableViewCntlr<Campaign> impleme
 
         // this.resultTable.getSelectionModel().getSelectedItems()
 
-        VitnikViewCntlr viewCtrller = this.createStage("Consultar campaña", "infoQueriedCamps");
+        ViewCntlr viewCtrller = this.createStage("Consultar campaña", "infoQueriedCamps");
         viewCtrller.getStage().show();
 
         ((InfoQueriedCampsViewCntlr) viewCtrller).loadQueriedCamps(selectedCamps);

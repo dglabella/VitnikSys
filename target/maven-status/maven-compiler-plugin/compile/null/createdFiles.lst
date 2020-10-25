@@ -7,6 +7,7 @@ vitniksys\backend\model\enums\Motivo$1.class
 vitniksys\backend\model\entities\Order.class
 vitniksys\frontend\GUIsControllers\SearchCampsViewCntlr$1.class
 vitniksys\backend\model\entities\CatalogueDeliver.class
+vitniksys\frontend\GUIsControllers\ViewCntlr.class
 vitniksys\backend\model\persistence\BalanceOperator.class
 vitniksys\backend\model\entities\Payment.class
 vitniksys\backend\model\entities\Campaign.class
@@ -49,17 +50,17 @@ vitniksys\backend\model\entities\Commission.class
 vitniksys\backend\model\entities\Balance.class
 vitniksys\backend\controllers\CampManagementController.class
 vitniksys\frontend\GUIsControllers\MainMenuViewCntlr.class
+vitniksys\frontend\GUIsControllers\TableViewCntlr.class
 vitniksys\frontend\views\CampaignView.class
 vitniksys\backend\model\enums\ItemPago.class
 vitniksys\backend\util\AutoCompletionTool.class
 vitniksys\backend\util\RecomprasRowTable.class
 vitniksys\backend\model\persistence\LeaderOperator.class
 vitniksys\backend\model\persistence\PreferentialClientOperator.class
-vitniksys\frontend\GUIsControllers\VitnikViewCntlr.class
+vitniksys\frontend\GUIsControllers\ClientManagamentViewCntlr.class
 vitniksys\backend\model\enums\ArticleType$1.class
 vitniksys\backend\model\entities\SubordinatedClient.class
 vitniksys\backend\model\interfaces\IOrderOperator.class
-vitniksys\frontend\GUIsControllers\VitnikTableViewCntlr.class
 vitniksys\backend\model\entities\PreferentialClient.class
 vitniksys\backend\model\persistence\ArticleOperator.class
 vitniksys\frontend\GUIsControllers\CatalogueQueryViewCntlr.class

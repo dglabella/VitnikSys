@@ -9,7 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import vitniksys.backend.model.entities.Campaign;
 
-public class InfoQueriedCampsViewCntlr extends VitnikViewCntlr implements Initializable
+public class InfoQueriedCampsViewCntlr extends ViewCntlr implements Initializable
 {
     private List<Campaign> camps;
 

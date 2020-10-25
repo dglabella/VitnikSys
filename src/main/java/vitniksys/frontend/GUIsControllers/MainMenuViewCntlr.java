@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
 
-public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
+public class MainMenuViewCntlr extends ViewCntlr implements Initializable
 {
     // ================================= FXML variables =================================
     @FXML private TextField id;
@@ -61,7 +61,7 @@ public class MainMenuViewCntlr extends VitnikViewCntlr implements Initializable
     @FXML
     private void searchCampButtonPressed()
     {
-        VitnikViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps");
+        ViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps");
         viewCntlr.getStage().show();
         ((SearchCampsViewCntlr)viewCntlr).manualInitialize();
     }

@@ -7,18 +7,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
-public abstract class VitnikViewCntlr
+public abstract class ViewCntlr
 {
     private Stage stage;
-    private VitnikViewCntlr prevViewCntlr;
+    private ViewCntlr prevViewCntlr;
 
     // ================================= Getters && setters =================================
-    protected void setPrevViewCntlr(VitnikViewCntlr prevViewCntlr)
+    protected void setPrevViewCntlr(ViewCntlr prevViewCntlr)
     {
         this.prevViewCntlr = prevViewCntlr;
     }
 
-    protected VitnikViewCntlr getPrevViewCntlr()
+    protected ViewCntlr getPrevViewCntlr()
     {
         return this.prevViewCntlr;
     }
@@ -33,7 +33,7 @@ public abstract class VitnikViewCntlr
         return this.stage;
     }
 
-    protected VitnikViewCntlr createStage(String title, String sceneName)
+    protected ViewCntlr createStage(String title, String sceneName)
     {
         String fileName = sceneName;
         FXMLLoader fxmlLoader = null;
@@ -48,7 +48,7 @@ public abstract class VitnikViewCntlr
             exception.printStackTrace();
         }
         
-        VitnikViewCntlr viewCtrller = fxmlLoader.getController();
+        ViewCntlr viewCtrller = fxmlLoader.getController();
         viewCtrller.setStage(new Stage());
         viewCtrller.getStage().setResizable(false);
         viewCtrller.getStage().setScene(scene);

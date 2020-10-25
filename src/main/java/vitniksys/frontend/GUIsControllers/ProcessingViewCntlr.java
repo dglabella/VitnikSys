@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 
-public class ProcessingViewCntlr extends VitnikViewCntlr implements Initializable
+public class ProcessingViewCntlr extends ViewCntlr implements Initializable
 {
     // ================================= FXML variables =================================
     @FXML private Label message1;

@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import vitniksys.backend.util.ExpressionChecker;
 
-public class CatalogueQueryViewCntlr extends VitnikViewCntlr implements Initializable
+public class CatalogueQueryViewCntlr extends ViewCntlr implements Initializable
 {
     private ExpressionChecker expressionChecker;
 

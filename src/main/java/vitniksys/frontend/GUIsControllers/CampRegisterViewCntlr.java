@@ -28,7 +28,7 @@ import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.controllers.CampManagementController;
 
-public class CampRegisterViewCntlr extends VitnikViewCntlr implements Initializable, CampaignView
+public class CampRegisterViewCntlr extends ViewCntlr implements Initializable, CampaignView
 {
     // Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private static final int YEAR_MIN = 2020;

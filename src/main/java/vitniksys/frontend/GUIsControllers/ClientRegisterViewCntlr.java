@@ -14,7 +14,7 @@ import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.controllers.ClientManagementController;
 
-public class ClientRegisterViewCntlr extends VitnikViewCntlr implements Initializable, View
+public class ClientRegisterViewCntlr extends ViewCntlr implements Initializable, View
 {
     private ExpressionChecker expressionChecker;
 

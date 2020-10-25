@@ -8,21 +8,19 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import java.util.function.Predicate;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr implements Initializable
+public abstract class TableViewCntlr extends ViewCntlr implements Initializable
 {
-    private List<ObservableList<Entity>> tableDataLists;
+    private List<ObservableList> tableDataLists;
 
     private List<SelectionMode> selectionModes;
 
-    private List<TableView<Entity>> tables;
+    private List<TableView> tables;
 
     private List<TableColumn> columns;
 
@@ -40,7 +38,7 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
      * the quantity of properties is greather than the quantity of columns, the
      * remaining properties simply will be ignored.
      */
-    private void initTables() 
+    private void initTables()
     {
         for (int i = 0; i < this.tables.size(); i++)
         {
@@ -57,28 +55,21 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
     }
 
     // ================================= protected methods ==============================
+    @Override
+    protected void manualInitialize()
+    {
 
-    protected void registerTable(TableView<Entity> table)
+    }
+
+    protected void registerTable(TableView table)
     {
         this.tables.add(table);
     }
 
-    protected void registerTables(List<TableView<Entity>> tables)
+    protected void registerTables(List<TableView> tables)
     {
         this.tables.addAll(tables);
     }
-
-    /*
-    protected TableView<Entity> getTable(int tableNumber)
-    {
-        return this.tables.get(tableNumber);
-    }
-
-    protected List<TableView<Entity>> getTables()
-    {
-        return this.tables;
-    }
-    */
 
     protected void registerColumn(TableColumn column)
     {
@@ -101,27 +92,27 @@ public abstract class VitnikTableViewCntlr<Entity> extends VitnikViewCntlr imple
         this.propertiesValues.addAll(propertiesValues);
     }
 
-    protected void loadData(int tableNumber, Entity data)
+    protected void loadData(int tableNumber, Object data)
     {
         this.tableDataLists.get(tableNumber).add(data);
     }
 
-    protected void loadData(int tableNumber, int position, Entity data)
+    protected void loadData(int tableNumber, int position, Object data)
     {
         this.tableDataLists.get(tableNumber).add(position, data);
     }
 
-    protected void loadData(int tableNumber, List<Entity> data)
+    protected void loadData(int tableNumber, List data)
     {
         this.tableDataLists.get(tableNumber).addAll(data);
     }
 
-    protected void loadData(int tableNumber, int position, List<Entity> data)
+    protected void loadData(int tableNumber, int position, List data)
     {
         this.tableDataLists.get(tableNumber).addAll(position, data);
     }
 
-    protected void filterTable(int tableNumber, Predicate<Entity> predicate)
+    protected void filterTable(int tableNumber, Predicate predicate)
     {
         //this.tableDataLists.get(tableNumber).filtered(predicate);
         //FilteredList<Entity> filteredData = new FilteredList<>(this.tableDataLists.get(tableNumber), s -> true);
