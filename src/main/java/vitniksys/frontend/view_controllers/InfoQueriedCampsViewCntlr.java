@@ -49,4 +49,11 @@ public class InfoQueriedCampsViewCntlr extends ViewCntlr implements Initializabl
         // TODO Auto-generated method stub
 
     }
+
+    @Override
+    public void customInitialize(URL location, ResourceBundle resources) throws Exception
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

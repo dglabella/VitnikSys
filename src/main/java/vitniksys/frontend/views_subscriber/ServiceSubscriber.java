@@ -1,9 +1,14 @@
 package vitniksys.frontend.views_subscriber;
 
 import vitniksys.backend.util.CustomAlert;
+import vitniksys.backend.model.services.Service;
 
 public interface ServiceSubscriber
 {
+
+    Service getService();
+
+    void setService(Service service);
     /**
      * Called everytime that a use case is initiated.
      * IMPORTANT: DO NOT USE THREAD BLOCKING INSTRUCTIONS HERE.

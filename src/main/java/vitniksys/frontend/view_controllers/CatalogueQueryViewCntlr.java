@@ -3,12 +3,11 @@ package vitniksys.frontend.view_controllers;
 import java.net.URL;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import vitniksys.backend.util.ExpressionChecker;
 
-public class CatalogueQueryViewCntlr extends ViewCntlr implements Initializable
+public class CatalogueQueryViewCntlr extends ViewCntlr
 {
     private ExpressionChecker expressionChecker;
 
@@ -22,6 +21,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements Initializable
     @FXML private Button button_plusButton;
 
     // ================================= FXML methods ===================================
+
 
     // ================================= protected methods ==============================
     @Override
@@ -51,6 +51,13 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements Initializable
 
     @FXML private void actualizarButtonPressed()
     {
+
+    }
+
+    @Override
+    public void customInitialize(URL location, ResourceBundle resources) throws Exception
+    {
+        // TODO Auto-generated method stub
 
     }
 }

@@ -41,4 +41,11 @@ public class ProcessingViewCntlr extends ViewCntlr implements Initializable
     {
         // TODO Auto-generated method stub
     }
+
+    @Override
+    public void customInitialize(URL location, ResourceBundle resources) throws Exception
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

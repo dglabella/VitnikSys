@@ -20,6 +20,7 @@ vitniksys\backend\model\persistence\CatalogueOperator.class
 vitniksys\frontend\view_controllers\TableViewCntlr.class
 vitniksys\backend\model\persistence\Connector.class
 vitniksys\frontend\view_controllers\ClientManagamentViewCntlr.class
+vitniksys\backend\model\services\Service.class
 vitniksys\frontend\view_controllers\SearchCampsViewCntlr.class
 vitniksys\backend\model\entities\Devolution.class
 vitniksys\backend\model\entities\ReturnedArticle.class
@@ -68,6 +69,7 @@ vitniksys\backend\util\OrderObtainer.class
 vitniksys\backend\model\enums\FormaPago$1.class
 vitniksys\backend\model\services\CampaignService.class
 vitniksys\backend\model\interfaces\CrudOperator.class
+vitniksys\backend\model\services\CatalogueService.class
 vitniksys\backend\util\CustomAlert.class
 vitniksys\backend\util\DevolucionesRowTable.class
 vitniksys\backend\model\services\CampaignService$2.class

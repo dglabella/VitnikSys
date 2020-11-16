@@ -2,13 +2,20 @@ package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 
-public class ClientManagamentViewCntlr implements Initializable
+public class ClientManagamentViewCntlr extends ViewCntlr
 {
+
     @Override
-    public void initialize(URL location, ResourceBundle resources)
+    protected void manualInitialize()
     {
-        
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void customInitialize(URL location, ResourceBundle resources) throws Exception
+    {
+        // TODO Auto-generated method stub
+
     }
 }

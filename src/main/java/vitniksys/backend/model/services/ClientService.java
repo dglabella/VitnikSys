@@ -5,7 +5,6 @@ import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Leader;
-import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.persistence.Connector;
@@ -15,19 +14,8 @@ import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.frontend.views_subscriber.ServiceSubscriber;
 
-public class ClientService
+public class ClientService extends Service
 {
-    private ExpressionChecker expressionChecker;
-
-    //Views
-    private ServiceSubscriber view;
-
-    public ClientService(ServiceSubscriber view)
-    {
-        this.view = view;
-        this.expressionChecker = ExpressionChecker.getExpressionChecker();
-    }
-
     //Getters && Setters
 
     // ================================= private methods =================================
@@ -35,10 +23,10 @@ public class ClientService
         String email, String phoneNumber, String leaderId)
     {
         boolean ret = false;
-        if(this.expressionChecker.onlyNumbers(id, false) && this.expressionChecker.onlyNumbers(dni, true)
-            && this.expressionChecker.composedName(name) && this.expressionChecker.composedName(lastName)
-            && this.expressionChecker.isEmail(email, true) && this.expressionChecker.onlyNumbers(phoneNumber, true)
-            && this.expressionChecker.onlyNumbers(leaderId, true))
+        if(this.getExpressionChecker().onlyNumbers(id, false) && this.getExpressionChecker().onlyNumbers(dni, true)
+            && this.getExpressionChecker().composedName(name) && this.getExpressionChecker().composedName(lastName)
+            && this.getExpressionChecker().isEmail(email, true) && this.getExpressionChecker().onlyNumbers(phoneNumber, true)
+            && this.getExpressionChecker().onlyNumbers(leaderId, true))
         {
             ret = true;
         }
@@ -52,7 +40,7 @@ public class ClientService
     {
         if(allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId))
         {
-            CustomAlert customAlert = this.view.showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+            CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
             Task<Integer> task = new Task<>()
             {
                 @Override
@@ -97,15 +85,15 @@ public class ClientService
                     catch (Exception exception)
                     {
                         Connector.getConnector().rollBack();
-                        view.closeProcessIsWorking(customAlert);
-                        view.showError("Error al intentar registrar la campaña.", null, exception);
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showError("Error al intentar registrar la campaña.", null, exception);
                     }
                     finally
                     {
                         Connector.getConnector().endTransaction();
                         Connector.getConnector().closeConnection();
-                        view.closeProcessIsWorking(customAlert);
-                        view.showSucces("El Cliente se ha registrado exitosamente!");
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showSucces("El Cliente se ha registrado exitosamente!");
                     }
                     return returnCode;
                 }
@@ -116,7 +104,7 @@ public class ClientService
         else
         {
             //Conflict with some fields.
-            this.view.showError("Los campos deben completarse correctamente.");
+            this.getServiceSubscriber().showError("Los campos deben completarse correctamente.");
         }
     }
 }

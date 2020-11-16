@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import java.util.function.Predicate;
 import javafx.scene.control.TableView;
 import javafx.collections.FXCollections;
@@ -14,7 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public abstract class TableViewCntlr extends ViewCntlr implements Initializable
+public abstract class TableViewCntlr extends ViewCntlr
 {
     private List<ObservableList> tableDataLists;
 
@@ -54,13 +53,7 @@ public abstract class TableViewCntlr extends ViewCntlr implements Initializable
             columnsIterator.next().setCellValueFactory(propertiesValuesIterator.next());
     }
 
-    // ================================= protected methods ==============================
-    @Override
-    protected void manualInitialize()
-    {
-
-    }
-
+    // ================================= protected methods =============================
     protected void registerTable(TableView table)
     {
         this.tables.add(table);
@@ -129,10 +122,10 @@ public abstract class TableViewCntlr extends ViewCntlr implements Initializable
      * properties values is important to match all the elements correctly.
      * Tables id will be: 0 for the first registered table, 1 for the second and so on.
      */
-    public abstract void customInitialize(URL location, ResourceBundle resources) throws Exception;
+    public abstract void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
+    public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
         this.tables = new ArrayList<>();
         this.columns = new ArrayList<>();
@@ -141,7 +134,7 @@ public abstract class TableViewCntlr extends ViewCntlr implements Initializable
         
         try
         {
-            this.customInitialize(location, resources);
+            this.customTableViewInitialize(location, resources);
         }
         catch (Exception e)
         {

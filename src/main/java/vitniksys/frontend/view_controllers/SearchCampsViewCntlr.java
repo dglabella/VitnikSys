@@ -11,8 +11,6 @@ import java.util.function.Predicate;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
-import vitniksys.backend.util.CustomAlert;
-import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
@@ -23,8 +21,6 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
     public static final int YEAR_MIN = 2020, YEAR_MAX = 2038;
 
     private int RESULT_TABLE_NUMBER;
-
-    private CampaignService campManagementController;
 
     private List<Campaign> selectedCamps;
 
@@ -57,7 +53,7 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
 
         // this.resultTable.getSelectionModel().getSelectedItems()
 
-        ViewCntlr viewCtrller = this.createStage("Consultar campaña", "infoQueriedCamps");
+        ViewCntlr viewCtrller = this.createStage("Consultar campaña", "infoQueriedCamps", new CampaignService());
         viewCtrller.getStage().show();
 
         ((InfoQueriedCampsViewCntlr) viewCtrller).loadQueriedCamps(selectedCamps);
@@ -65,16 +61,25 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
 
     // ================================= private methods ================================
 
+
     // ================================= protected methods ==============================
     @Override
     protected void manualInitialize()
     {
-
+        try
+        {
+            ((CampaignService)this.getService()).searchCamps(null, null, null, null, null);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
+    
 
     // ================================= public methods =================================
     @Override
-    public void customInitialize(URL location, ResourceBundle resources)
+    public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
         List<TableColumn> columns = new ArrayList<>();
         columns.add(column1);
@@ -98,19 +103,8 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
 
-        this.campManagementController = new CampaignService(this);
 
-        try
-        {
-            this.campManagementController.searchCamps(null, null, null, null, null);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-
-        //
+        //Setting the filter binding to the text field
         this.searchField.textProperty().addListener((obs, oldValue, newValue) -> 
         {
             this.filterTable(this.RESULT_TABLE_NUMBER, new Predicate<Campaign>()
@@ -136,43 +130,7 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
         });
     }
     
-    // ================================= view methods =================================
-    @Override
-    public CustomAlert showProcessIsWorking(String message)
-    {
-        return new CustomAlert(AlertType.NONE, "PROCESANDO", message).customShow();
-    }
-
-    @Override
-    public void closeProcessIsWorking(CustomAlert customAlert)
-    {
-        customAlert.customClose();
-    }
-
-    @Override
-    public void showSucces(String message)
-    {
-        new CustomAlert(AlertType.INFORMATION, "EXITO", message).customShow();
-    }
-
-    @Override
-    public void showError(String message)
-    {
-        new CustomAlert(AlertType.ERROR, "ERROR", message).customShow();
-    }
-
-    @Override
-    public void showError(String message, String description, Exception exception)
-    {
-        new CustomAlert(AlertType.ERROR, "ERROR", message, description, exception).customShow();
-    }
-
-    @Override
-    public void showNoResult(String message)
-    {
-        new CustomAlert(AlertType.INFORMATION, "SIN RESULTADOS", message);
-    }
-
+    // ================================= campaign service subscriber methods =================================
     @Override
     public void showQueriedCamp(Campaign campaign) throws Exception
     {

@@ -6,8 +6,11 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
+import vitniksys.backend.model.services.ClientService;
+import vitniksys.backend.model.services.CampaignService;
+import vitniksys.backend.model.services.CatalogueService;
 
-public class MainMenuViewCntlr extends ViewCntlr implements Initializable
+public class MainMenuViewCntlr extends ViewCntlr
 {
     // ================================= FXML variables =================================
     @FXML private TextField id;
@@ -49,7 +52,7 @@ public class MainMenuViewCntlr extends ViewCntlr implements Initializable
     @FXML
     private void catButtonOnMousePressed() throws Exception
     {
-        this.createStage("Consultar Cátalogo", "catalogueQuery").getStage().show();
+        this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueService()).getStage().show();
     }
 
     @FXML
@@ -61,23 +64,24 @@ public class MainMenuViewCntlr extends ViewCntlr implements Initializable
     @FXML
     private void searchCampButtonPressed()
     {
-        ViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps");
+        ViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps", new CampaignService());
         viewCntlr.getStage().show();
-        ((SearchCampsViewCntlr)viewCntlr).manualInitialize();
+        viewCntlr.manualInitialize();
     }
 
     @FXML
     private void newCpButtonPressed()
     {
-        this.createStage("Formulario de registro de Cliente preferencial", "clientRegister").getStage().show();
+        this.createStage("Formulario de registro de Cliente preferencial", "clientRegister", new ClientService()).getStage().show();
     }
 
     @FXML
     private void newCampButtonPressed()
     {
-        ViewCntlr viewCntlr = this.createStage("Crear campaña", "campRegister");
+        
+        ViewCntlr viewCntlr = this.createStage("Crear campaña", "campRegister", new CampaignService());
         viewCntlr.getStage().show();
-        ((CampRegisterViewCntlr)viewCntlr).manualInitialize();
+        viewCntlr.manualInitialize();
     }
 
     // ================================= private methods =================================
@@ -91,8 +95,9 @@ public class MainMenuViewCntlr extends ViewCntlr implements Initializable
     }
 
     // ================================= public methods ==================================
+
     @Override
-    public void initialize(URL url, ResourceBundle rb)
+    public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
 
     }
