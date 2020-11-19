@@ -1,15 +1,15 @@
 package vitniksys.backend.util;
 
-import vitniksys.backend.model.enums.Motivo;
+import vitniksys.backend.model.enums.Reason;
 
 public class StockDevsRowTable
 {
     private int codEjemplar;
     private String nombre;
     private float precio;
-    private Motivo motivo;
+    private Reason motivo;
 
-    public StockDevsRowTable(int codEjemplar, float precio, String nombre, Motivo motivo)
+    public StockDevsRowTable(int codEjemplar, float precio, String nombre, Reason motivo)
     {
         this.codEjemplar = codEjemplar;
         this.nombre = nombre;
@@ -48,12 +48,12 @@ public class StockDevsRowTable
         this.precio = precio;
     }
 
-    public Motivo getMotivo()
+    public Reason getMotivo()
     {
         return this.motivo;
     }
 
-    public void setMotivo(Motivo motivo)
+    public void setMotivo(Reason motivo)
     {
         this.motivo = motivo;
     }

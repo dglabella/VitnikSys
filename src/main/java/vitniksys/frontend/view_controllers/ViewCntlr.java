@@ -1,6 +1,5 @@
 package vitniksys.frontend.view_controllers;
 
-
 import java.net.URL;
 import vitniksys.App;
 import javafx.fxml.FXML;

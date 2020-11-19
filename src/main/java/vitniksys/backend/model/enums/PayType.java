@@ -1,11 +1,12 @@
 package vitniksys.backend.model.enums;
 
-public enum FormaPago
+public enum PayType
 {
     EFECTIVO,DEPOSITO,TRANSFERENCIA,TARJETA,RAPIPAGO,CONVENIO,DEBITO,NA;
     
-    public static FormaPago ConvertirIntAEnum(int val){
-        FormaPago ret = null;
+    public static PayType toEnum(int val)
+    {
+        PayType ret = null;
         
         switch (val){
             case 1:
@@ -36,10 +37,12 @@ public enum FormaPago
         return ret;
     }
     
-    public static int ConvertirEnumAInt(FormaPago forma){
+    public static int toInt(PayType type)
+    {
         int ret = 0;
-        if(forma!=null){
-            switch (forma){
+
+        if(type!=null){
+            switch (type){
                 case EFECTIVO:
                     ret = 1;
                     break;

@@ -1,11 +1,12 @@
 package vitniksys.backend.model.enums;
 
-public enum Estado
+public enum PayStatus
 {
     RECIBIDO,ENVIADO,ENVIO_PENDIENTE,COBRADO,COBRO_PENDIENTE,NA;
     
-    public static Estado ConvertirIntAEnum(int val){
-        Estado ret = null;
+    public static PayStatus ConvertirIntAEnum(int val)
+    {
+        PayStatus ret = null;
         
         switch (val){
             case 1:
@@ -29,7 +30,8 @@ public enum Estado
         return ret;
     }
     
-    public static int ConvertirEnumAInt(Estado estado){
+    public static int ConvertirEnumAInt(PayStatus estado)
+    {
         int ret = 0;
         if(estado!=null){
             switch (estado){

@@ -1,10 +1,10 @@
 package vitniksys.backend.util;
 
 import java.sql.Timestamp;
-import vitniksys.backend.model.enums.Banco;
-import vitniksys.backend.model.enums.Estado;
-import vitniksys.backend.model.enums.ItemPago;
-import vitniksys.backend.model.enums.FormaPago;
+import vitniksys.backend.model.enums.Bank;
+import vitniksys.backend.model.enums.PayItem;
+import vitniksys.backend.model.enums.PayType;
+import vitniksys.backend.model.enums.PayStatus;
 
 public class PagosRowTable
 {    
@@ -12,13 +12,13 @@ public class PagosRowTable
     private int codPago;
     private String id;
     private float monto;
-    private ItemPago item;
-    private FormaPago tipo;
-    private Estado estado;
-    private Banco banco;
+    private PayItem item;
+    private PayType tipo;
+    private PayStatus estado;
+    private Bank banco;
 
-    public PagosRowTable(int codPago, String id, float monto, ItemPago item, 
-        FormaPago tipo, Estado estado, Banco banco, Timestamp fecha)
+    public PagosRowTable(int codPago, String id, float monto, PayItem item, 
+        PayType tipo, PayStatus estado, Bank banco, Timestamp fecha)
     {
         this.fecha = fecha;
         this.codPago = codPago;
@@ -71,42 +71,42 @@ public class PagosRowTable
         this.monto = monto;
     }
 
-    public ItemPago getItem()
+    public PayItem getItem()
     {
         return this.item;
     }
 
-    public void setItem(ItemPago item)
+    public void setItem(PayItem item)
     {
         this.item = item;
     }
 
-    public FormaPago getTipo()
+    public PayType getTipo()
     {
         return this.tipo;
     }
 
-    public void setTipo(FormaPago tipo)
+    public void setTipo(PayType tipo)
     {
         this.tipo = tipo;
     }
 
-    public Estado getEstado()
+    public PayStatus getEstado()
     {
         return this.estado;
     }
 
-    public void setEstado(Estado estado)
+    public void setEstado(PayStatus estado)
     {
         this.estado = estado;
     }
 
-    public Banco getBanco()
+    public Bank getBanco()
     {
         return this.banco;
     }
 
-    public void setBanco(Banco banco)
+    public void setBanco(Bank banco)
     {
         this.banco = banco;
     } 

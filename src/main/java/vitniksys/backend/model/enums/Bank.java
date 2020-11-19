@@ -1,11 +1,12 @@
 package vitniksys.backend.model.enums;
 
-public enum Banco
+public enum Bank
 {
     NA,SANTANDER,NACION,ICBC,SUPERVILLE,HSBC,GALICIA;
     
-    public static Banco ConvertirIntAEnum(int val){
-        Banco ret = null;
+    public static Bank toEnum(int val)
+    {
+        Bank ret = null;
         
         switch (val){
             case 1:
@@ -32,7 +33,8 @@ public enum Banco
         return ret;
     }
     
-    public static int ConvertirEnumAInt(Banco banco){
+    public static int toInt(Bank banco)
+    {
         int ret = 0;
         if(banco!=null){
             switch (banco){

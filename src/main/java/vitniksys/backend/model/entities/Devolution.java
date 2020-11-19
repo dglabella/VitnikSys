@@ -2,7 +2,7 @@ package vitniksys.backend.model.entities;
 
 import java.sql.Timestamp;
 
-import vitniksys.backend.model.enums.Motivo;
+import vitniksys.backend.model.enums.Reason;
 
 public class Devolution
 {
@@ -10,7 +10,7 @@ public class Devolution
     private int code;
     private int quantity;
     private float cost;
-    private Motivo reason;
+    private Reason reason;
     private Timestamp registrationTime;
 
     //Domain Associations
@@ -21,7 +21,7 @@ public class Devolution
     //Others
     private boolean active;
 
-    public Devolution(int code, int quantity, float cost, Motivo reason, Timestamp registrationTime)
+    public Devolution(int code, int quantity, float cost, Reason reason, Timestamp registrationTime)
     {
         this.code = code;
         this.quantity = quantity;
@@ -69,12 +69,12 @@ public class Devolution
         this.cost = cost;
     }
 
-    public Motivo getReason()
+    public Reason getReason()
     {
         return this.reason;
     }
 
-    public void setReason(Motivo reason)
+    public void setReason(Reason reason)
     {
         this.reason = reason;
     }

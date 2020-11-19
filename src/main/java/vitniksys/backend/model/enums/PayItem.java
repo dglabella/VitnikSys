@@ -1,11 +1,12 @@
 package vitniksys.backend.model.enums;
 
-public enum ItemPago
+public enum PayItem
 {
     PEDIDO, CATALAGO, RECOMPRA, NA;
 
-    public static ItemPago ConvertirIntAEnum(int val) {
-        ItemPago ret;
+    public static PayItem toEnum(int val)
+    {
+        PayItem ret;
         switch (val){
             case 1:
                 ret = PEDIDO;
@@ -22,7 +23,8 @@ public enum ItemPago
         return ret;
     }
 
-    public static int ConvertirEnumAInt(ItemPago item) {
+    public static int toInt(PayItem item)
+    {
         int ret;
         switch (item){
             case PEDIDO:

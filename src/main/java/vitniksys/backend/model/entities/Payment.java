@@ -1,10 +1,10 @@
 package vitniksys.backend.model.entities;
 
 import java.sql.Timestamp;
-import vitniksys.backend.model.enums.Banco;
-import vitniksys.backend.model.enums.Estado;
-import vitniksys.backend.model.enums.ItemPago;
-import vitniksys.backend.model.enums.FormaPago;
+import vitniksys.backend.model.enums.Bank;
+import vitniksys.backend.model.enums.PayItem;
+import vitniksys.backend.model.enums.PayType;
+import vitniksys.backend.model.enums.PayStatus;
 
 public class Payment
 {
@@ -12,10 +12,10 @@ public class Payment
     private int code;
     private String descriptor;
     private float amount;
-    private ItemPago item;
-    private FormaPago paymentMethod;
-    private Banco bank;
-    private Estado paymentStatus;
+    private PayItem item;
+    private PayType paymentMethod;
+    private Bank bank;
+    private PayStatus paymentStatus;
     private Timestamp registrationTime;
 
     //Domain Associations
@@ -72,42 +72,42 @@ public class Payment
         this.amount = amount;
     }
 
-    public ItemPago getItem()
+    public PayItem getItem()
     {
         return this.item;
     }
 
-    public void setItem(ItemPago item)
+    public void setItem(PayItem item)
     {
         this.item = item;
     }
 
-    public FormaPago getPaymentMethod()
+    public PayType getPaymentMethod()
     {
         return this.paymentMethod;
     }
 
-    public void setPaymentMethod(FormaPago paymentMethod)
+    public void setPaymentMethod(PayType paymentMethod)
     {
         this.paymentMethod = paymentMethod;
     }
 
-    public Banco getBank()
+    public Bank getBank()
     {
         return this.bank;
     }
 
-    public void setBank(Banco bank)
+    public void setBank(Bank bank)
     {
         this.bank = bank;
     }
 
-    public Estado getPaymentStatus()
+    public PayStatus getPaymentStatus()
     {
         return this.paymentStatus;
     }
 
-    public void setPaymentStatus(Estado paymentStatus)
+    public void setPaymentStatus(PayStatus paymentStatus)
     {
         this.paymentStatus = paymentStatus;
     }
