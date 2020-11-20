@@ -27,6 +27,15 @@ public abstract class TableViewCntlr extends ViewCntlr
 
     // ================================= FXML variables =================================
 
+        //column2.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        //column2.setOnEditCommit(e->
+        //{
+        //    e.getTableView().getItems().get(e.getTablePosition().getRow()).setAlias(e.getNewValue());
+        //});
+
+        //resultTable.setEditable(true);
+
     // ================================= FXML methods ===================================
 
     // ================================= private methods ================================

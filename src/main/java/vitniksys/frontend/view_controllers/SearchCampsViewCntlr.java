@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import vitniksys.backend.model.services.CampaignService;
 import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
 
@@ -129,16 +128,6 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
                 }
             });
         });
-
-
-        //column2.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        //column2.setOnEditCommit(e->
-        //{
-        //    e.getTableView().getItems().get(e.getTablePosition().getRow()).setAlias(e.getNewValue());
-        //});
-
-        //resultTable.setEditable(true);
     }
     
     // ================================= campaign service subscriber methods =================================
