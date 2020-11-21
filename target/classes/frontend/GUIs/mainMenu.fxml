@@ -2,6 +2,8 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,22 +11,17 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="965.0" style="-fx-background-color: #E00413;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.view_controllers.MainMenuViewCntlr">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="710.0" prefWidth="970.0" style="-fx-background-color: #E00413;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.view_controllers.MainMenuViewCntlr">
    <children>
-      <ImageView fitHeight="183.0" fitWidth="380.0" layoutX="38.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
+      <ImageView fitHeight="183.0" fitWidth="380.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
          <image>
             <Image url="@../images/VitnikBlanco.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="463.0" layoutY="40.0" prefHeight="158.0" prefWidth="464.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
+      <AnchorPane layoutX="10.0" layoutY="410.0" prefHeight="290.0" prefWidth="950.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 0;">
          <children>
-            <Text layoutX="151.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gestión de CP">
-               <font>
-                  <Font name="Verdana" size="23.0" />
-               </font>
-            </Text>
-            <TextField fx:id="id" layoutX="135.0" layoutY="82.0" onAction="#idOnAction" onKeyTyped="#idOnKeyTyped" prefHeight="25.0" prefWidth="107.0" promptText="cp:" />
-            <Button layoutX="249.0" layoutY="79.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="32.0" prefWidth="80.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Buscar" textAlignment="CENTER" wrapText="true">
+            <TextField fx:id="id" layoutX="5.0" layoutY="5.0" onAction="#idOnAction" onKeyTyped="#idOnKeyTyped" prefHeight="30.0" prefWidth="200.0" promptText="consultar cp:" />
+            <Button layoutX="215.0" layoutY="5.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="30.0" prefWidth="80.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Buscar" textAlignment="CENTER" wrapText="true">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -36,24 +33,34 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <TableView layoutX="5.0" layoutY="40.0" prefHeight="245.0" prefWidth="940.0">
+              <columns>
+                <TableColumn minWidth="60.0" prefWidth="60.0" resizable="false" text="Id" />
+                  <TableColumn minWidth="100.0" prefWidth="100.0" resizable="false" text="Dni" />
+                <TableColumn minWidth="240.0" prefWidth="220.0" resizable="false" text="Nombre" />
+                  <TableColumn minWidth="220.0" prefWidth="220.0" resizable="false" text="Apellido" />
+                  <TableColumn minWidth="220.0" prefWidth="220.0" resizable="false" text="Email" />
+                  <TableColumn minWidth="100.0" prefWidth="100.0" resizable="false" text="Teléfono" />
+              </columns>
+            </TableView>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="300.0" fitWidth="190.0" layoutX="94.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">
+      <ImageView fitHeight="300.0" fitWidth="180.0" layoutX="62.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" rotate="-26.6" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">
          <image>
             <Image url="@../images/vitnik2.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="300.0" fitWidth="190.0" layoutX="175.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true" rotate="9.9" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">
+      <ImageView fitHeight="300.0" fitWidth="180.0" layoutX="214.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true" rotate="9.9" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">
          <image>
             <Image url="@../images/vitnik3.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="catButton" fitHeight="300.0" fitWidth="190.0" layoutX="133.0" layoutY="268.0" onMouseEntered="#catButtonOnMouseEntered" onMouseExited="#catButtonOnMouseExited" onMousePressed="#catButtonOnMousePressed" pickOnBounds="true" preserveRatio="true" rotate="-7.6" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">
+      <ImageView fx:id="catButton" fitHeight="300.0" fitWidth="190.0" layoutX="134.0" layoutY="146.0" onMouseEntered="#catButtonOnMouseEntered" onMouseExited="#catButtonOnMouseExited" onMousePressed="#catButtonOnMousePressed" pickOnBounds="true" preserveRatio="true" rotate="-7.6" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">
          <image>
             <Image url="@../images/vinik1.jpg" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="463.0" layoutY="220.0" prefHeight="158.0" prefWidth="464.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
+      <AnchorPane layoutX="510.0" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
          <children>
             <Text layoutX="119.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Consultar campaña">
                <font>
@@ -77,7 +84,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="463.0" layoutY="401.0" prefHeight="158.0" prefWidth="464.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
+      <AnchorPane layoutX="510.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
          <children>
             <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#newCampButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nueva Campaña" textAlignment="CENTER" wrapText="true">
                <graphic>

@@ -6,7 +6,7 @@ import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.enums.PayStatus;
 
-public class PagosRowTable
+public class PaymentsRowTable
 {    
     private Timestamp fecha;
     private int codPago;
@@ -17,7 +17,7 @@ public class PagosRowTable
     private PayStatus estado;
     private Bank banco;
 
-    public PagosRowTable(int codPago, String id, float monto, PayItem item, 
+    public PaymentsRowTable(int codPago, String id, float monto, PayItem item, 
         PayType tipo, PayStatus estado, Bank banco, Timestamp fecha)
     {
         this.fecha = fecha;

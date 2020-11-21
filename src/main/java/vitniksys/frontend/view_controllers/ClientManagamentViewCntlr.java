@@ -4,6 +4,7 @@ import java.net.URL;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
+import javafx.scene.control.CheckBox;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ChoiceBox;
@@ -12,7 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.model.enums.PayItem;
+import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.enums.PayStatus;
+import vitniksys.backend.util.PaymentsRowTable;
+import vitniksys.backend.util.RepurchasesRowTable;
 
 public class ClientManagamentViewCntlr extends TableViewCntlr
 {
@@ -41,40 +45,40 @@ public class ClientManagamentViewCntlr extends TableViewCntlr
 
     @FXML private Accordion otherTables;
 
-    @FXML private TableView<?> orders;
-    @FXML private TableView<?> payments;
-    @FXML private TableView<?> repurchases;
+    @FXML private TableView<OrdersRowTable> orders;
+    @FXML private TableView<PaymentsRowTable> payments;
+    @FXML private TableView<RepurchasesRowTable> repurchases;
 
     //orders columns
-    @FXML private TableColumn<?, ?> deliveryNumber;
-    @FXML private TableColumn<?, ?> quantity;
-    @FXML private TableColumn<?, ?> price;
-    @FXML private TableColumn<?, ?> commission;
-    @FXML private TableColumn<?, ?> name;
-    @FXML private TableColumn<?, ?> orderType;
-    @FXML private TableColumn<?, ?> articleId;
-    @FXML private TableColumn<?, ?> withdrawalDate;
-    @FXML private TableColumn<?, ?> isCommissionable;
+    @FXML private TableColumn<OrdersRowTable, String> deliveryNumber;
+    @FXML private TableColumn<OrdersRowTable, String> quantity;
+    @FXML private TableColumn<OrdersRowTable, String> price;
+    @FXML private TableColumn<OrdersRowTable, String> commission;
+    @FXML private TableColumn<OrdersRowTable, String> name;
+    @FXML private TableColumn<OrdersRowTable, String> orderType;
+    @FXML private TableColumn<OrdersRowTable, String> articleId;
+    @FXML private TableColumn<OrdersRowTable, String> withdrawalDate;
+    @FXML private TableColumn<OrdersRowTable, CheckBox> isCommissionable;
 
     //payments columns
-    @FXML private TableColumn<?, ?> code;
-    @FXML private TableColumn<?, ?> paymentDescriptor;
-    @FXML private TableColumn<?, ?> paymentRegistrationTime;
-    @FXML private TableColumn<?, ?> paymentAmount;
-    @FXML private TableColumn<?, ?> paymentItem;
-    @FXML private TableColumn<?, ?> paymentType;
-    @FXML private TableColumn<?, ?> bank;
-    @FXML private TableColumn<?, ?> paymentStatus;
+    @FXML private TableColumn<PaymentsRowTable, String> code;
+    @FXML private TableColumn<PaymentsRowTable, String> paymentDescriptor;
+    @FXML private TableColumn<PaymentsRowTable, String> paymentRegistrationTime;
+    @FXML private TableColumn<PaymentsRowTable, String> paymentAmount;
+    @FXML private TableColumn<PaymentsRowTable, String> paymentItem;
+    @FXML private TableColumn<PaymentsRowTable, String> paymentType;
+    @FXML private TableColumn<PaymentsRowTable, String> bank;
+    @FXML private TableColumn<PaymentsRowTable, String> paymentStatus;
 
     //repurchases columns
-    @FXML private TableColumn<?, ?> devolutionCode;
-    @FXML private TableColumn<?, ?> deliveryNumberRep;
-    @FXML private TableColumn<?, ?> articleIdRep;
-    @FXML private TableColumn<?, ?> priceRep;
-    @FXML private TableColumn<?, ?> repurchasePrice;
-    @FXML private TableColumn<?, ?> nameRep;
-    @FXML private TableColumn<?, ?> typeRep;
-    @FXML private TableColumn<?, ?> repurchaseRegistrationTime;
+    @FXML private TableColumn<RepurchasesRowTable, String> devolutionCode;
+    @FXML private TableColumn<RepurchasesRowTable, String> deliveryNumberRep;
+    @FXML private TableColumn<RepurchasesRowTable, String> articleIdRep;
+    @FXML private TableColumn<RepurchasesRowTable, String> priceRep;
+    @FXML private TableColumn<RepurchasesRowTable, String> repurchasePrice;
+    @FXML private TableColumn<RepurchasesRowTable, String> nameRep;
+    @FXML private TableColumn<RepurchasesRowTable, String> typeRep;
+    @FXML private TableColumn<RepurchasesRowTable, String> repurchaseRegistrationTime;
 
     @FXML
     private void backButtonPressed()

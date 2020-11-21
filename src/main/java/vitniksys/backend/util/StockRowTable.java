@@ -2,14 +2,14 @@ package vitniksys.backend.util;
 
 import vitniksys.backend.model.enums.Reason;
 
-public class StockDevsRowTable
+public class StockRowTable
 {
     private int codEjemplar;
     private String nombre;
     private float precio;
     private Reason motivo;
 
-    public StockDevsRowTable(int codEjemplar, float precio, String nombre, Reason motivo)
+    public StockRowTable(int codEjemplar, float precio, String nombre, Reason motivo)
     {
         this.codEjemplar = codEjemplar;
         this.nombre = nombre;

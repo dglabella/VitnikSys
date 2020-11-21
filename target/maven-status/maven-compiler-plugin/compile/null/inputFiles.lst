@@ -11,15 +11,17 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\fronte
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\PayItem.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\OrderOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\CustomAlert.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\StockDevsRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\CatalogueDeliver.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\SubordinatedClient.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\PaymentsRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IArticleOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\PreferentialClient.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\ClientList.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DevolucionesRowTable.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\StockRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IPreferentialClientOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\CampaignOperator.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\RepurchasesRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Catalogue.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\ArticleType.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\OrderObtainer.java
@@ -41,7 +43,6 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\fronte
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\PayStatus.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\SubordinatedClientOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\ViewCntlr.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\PagosRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\services\CampaignService.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\InfoQueriedCampsViewCntlr.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Balance.java
@@ -49,6 +50,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\CatalogueOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Observation.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\BaseClientOperator.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\OrdersRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Order.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\ICatalogueOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\LeaderOperator.java
@@ -60,9 +62,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\fronte
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DetailFileInterpreter.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\App.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DetailFileRow.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\RecomprasRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\Reason.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\ClientManagamentViewCntlr.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\views_subscriber\ServiceSubscriber.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\PayType.java
-C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\PedidosRowTable.java

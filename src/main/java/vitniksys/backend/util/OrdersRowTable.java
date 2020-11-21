@@ -3,7 +3,7 @@ package vitniksys.backend.util;
 import java.sql.Timestamp;
 import vitniksys.backend.model.enums.ArticleType;
 
-public class PedidosRowTable
+public class OrdersRowTable
 {
     private int codigoEjemplar;
     private int nroEnvio;
@@ -15,7 +15,7 @@ public class PedidosRowTable
     private Timestamp fechaRetiro;
     private boolean comisiona;
 
-    public PedidosRowTable(int nroEnvio, int codigoEjemplar, float precio, float precioCom, 
+    public OrdersRowTable(int nroEnvio, int codigoEjemplar, float precio, float precioCom, 
         String nombre, ArticleType tipo, String letra, Timestamp fechaRetiro, boolean comisiona)
     {
         this.nroEnvio = nroEnvio;
