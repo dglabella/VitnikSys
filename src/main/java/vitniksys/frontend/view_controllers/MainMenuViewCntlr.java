@@ -41,7 +41,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     {
         if(event.getClickCount() == 2)
         {
-            System.out.println("Seleccion");
+            this.createStage("Gestion de Cliente", "clientManagament", new CampaignService()).getStage().show();
         }
     }
 
