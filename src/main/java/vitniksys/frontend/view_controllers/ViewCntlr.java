@@ -42,6 +42,24 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
         return this.stage;
     }
 
+    // ==================================== FXML methods ====================================
+    @FXML
+    private void backButtonPressed()
+    {
+        this.stage.close();
+    }
+
+    // =================================== private methods ==================================
+
+
+    // ================================= protected methods ==================================
+    /**
+     * This method is supposed to be used when some code needs
+     * to be separated from the initialize (javafx.fxml.Initializable)
+     * that execute automatically.
+     */
+    protected abstract void manualInitialize();
+
     protected ViewCntlr createStage(String title, String sceneName, Service service)
     {
         String fileName = sceneName;
@@ -70,24 +88,6 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
 
         return viewCtrller;
     }
-
-    // ==================================== FXML methods ====================================
-    @FXML
-    private void backButtonPressed()
-    {
-        this.stage.close();
-    }
-
-    // =================================== private methods ==================================
-
-
-    // ================================= protected methods ==================================
-    /**
-     * This method is supposed to be used when some code needs
-     * to be separated from the initialize (javafx.fxml.Initializable)
-     * that execute automatically.
-     */
-    protected abstract void manualInitialize();
 
     protected ExpressionChecker getExpressionChecker()
     {

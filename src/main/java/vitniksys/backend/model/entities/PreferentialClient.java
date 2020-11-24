@@ -9,7 +9,7 @@ import vitniksys.backend.model.persistence.PreferentialClientOperator;
 public abstract class PreferentialClient
 {
     //Entity properties
-    private int id;
+    private Integer id;
     private Long dni;
     private String name;
     private String lastName;
@@ -33,12 +33,12 @@ public abstract class PreferentialClient
     //registrate all new orders from this cp
     private List<Order> incomingOrders;
 
-    public PreferentialClient(int id)
+    public PreferentialClient(Integer id)
     {
         this.id = id;
     }
 
-    public PreferentialClient(int id, String name, String lastName)
+    public PreferentialClient(Integer id, String name, String lastName)
     {
         this.id = id;
         this.name = name;
@@ -50,7 +50,7 @@ public abstract class PreferentialClient
      * 
      * @return return the BD table key (column name: id_cp).
      */
-    public int getId()
+    public Integer getId()
     {
         return this.id;
     }
@@ -59,7 +59,7 @@ public abstract class PreferentialClient
      * 
      * @param id set the BD table key (column name: id).
      */
-    public void setId(int id)
+    public void setId(Integer id)
     {
         this.id = id;
     }

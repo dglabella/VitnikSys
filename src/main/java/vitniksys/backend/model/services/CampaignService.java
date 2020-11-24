@@ -133,7 +133,7 @@ public class CampaignService extends Service
                     else if(camps != null)
                     {
                         retCode = 1;
-                        ((CampaignServiceSubscriber)getServiceSubscriber()).showQueriedCamp(camps);
+                        ((CampaignServiceSubscriber)getServiceSubscriber()).showQueriedCamps(camps);
                     }
                     else
                     {

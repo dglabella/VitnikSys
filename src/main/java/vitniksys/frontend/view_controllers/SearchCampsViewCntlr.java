@@ -138,7 +138,7 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
     }
 
     @Override
-    public void showQueriedCamp(List<Campaign> camps) throws Exception
+    public void showQueriedCamps(List<Campaign> camps) throws Exception
     {
         this.loadData(this.RESULT_TABLE_NUMBER, camps);
     }

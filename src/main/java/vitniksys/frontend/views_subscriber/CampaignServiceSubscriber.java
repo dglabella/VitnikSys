@@ -7,5 +7,5 @@ public interface CampaignServiceSubscriber extends ServiceSubscriber
 {
     void showQueriedCamp(Campaign camp) throws Exception;
 
-    void showQueriedCamp(List<Campaign> camps) throws Exception;
+    void showQueriedCamps(List<Campaign> camps) throws Exception;
 }

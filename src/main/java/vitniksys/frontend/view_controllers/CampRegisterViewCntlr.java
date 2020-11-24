@@ -204,7 +204,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     }
 
     @Override
-    public void showQueriedCamp(List<Campaign> camps) throws Exception
+    public void showQueriedCamps(List<Campaign> camps) throws Exception
     {
         //Do nothing
     }

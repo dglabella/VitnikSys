@@ -1,11 +1,13 @@
 vitniksys\backend\util\OrdersRowTable.class
 vitniksys\backend\model\entities\Leader.class
+vitniksys\frontend\view_controllers\MainMenuViewCntlr$1.class
 vitniksys\backend\model\entities\Catalogue.class
 vitniksys\backend\model\enums\Bank.class
 vitniksys\frontend\view_controllers\InfoQueriedCampsViewCntlr.class
 vitniksys\backend\model\entities\Order.class
 vitniksys\backend\model\entities\CatalogueDeliver.class
 vitniksys\backend\model\persistence\BalanceOperator.class
+vitniksys\backend\model\services\ClientService$2.class
 vitniksys\backend\util\RepurchasesRowTable.class
 vitniksys\backend\model\entities\Payment.class
 vitniksys\backend\model\entities\Campaign.class
@@ -16,6 +18,7 @@ vitniksys\backend\model\enums\Reason$1.class
 vitniksys\backend\model\interfaces\IBalanceOperator.class
 vitniksys\frontend\views_subscriber\CampaignServiceSubscriber.class
 vitniksys\backend\model\enums\PayType$1.class
+vitniksys\frontend\views_subscriber\PreferentialClientServiceSubscriber.class
 vitniksys\backend\util\ClientList.class
 vitniksys\backend\model\persistence\CatalogueOperator.class
 vitniksys\frontend\view_controllers\TableViewCntlr.class
