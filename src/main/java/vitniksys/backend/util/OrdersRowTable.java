@@ -1,122 +1,121 @@
 package vitniksys.backend.util;
 
 import java.sql.Timestamp;
+import javafx.scene.control.CheckBox;
 import vitniksys.backend.model.enums.ArticleType;
 
 public class OrdersRowTable
 {
-    private int codigoEjemplar;
-    private int nroEnvio;
-    private float precio;
-    private float precioCom;
-    private String nombre;
-    private ArticleType tipo;
-    private String letra;
-    private Timestamp fechaRetiro;
-    private boolean comisiona;
+    private Integer code;
+    private Integer deliveryNumber;
+    private Integer quantity;
+    private Float cost;
+    private Float commission;
+    private String name;
+    private ArticleType type;
+    private String articleId; // Table id = letra
+    private Timestamp withdrawalDate;
+    private boolean commissionable;//private CheckBox commissionable;
 
-    public OrdersRowTable(int nroEnvio, int codigoEjemplar, float precio, float precioCom, 
-        String nombre, ArticleType tipo, String letra, Timestamp fechaRetiro, boolean comisiona)
+
+    // Getters && Setters
+    public Integer getCode()
     {
-        this.nroEnvio = nroEnvio;
-        this.codigoEjemplar = codigoEjemplar;
-        this.precio = precio;
-        this.precioCom = precioCom;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.letra = letra;
-        this.fechaRetiro = fechaRetiro;
-        this.comisiona = comisiona;
+        return this.code;
     }
 
-    //Getters && Setters
-    public int getCodigoEjemplar()
+    public void setCode(Integer code)
     {
-        return this.codigoEjemplar;
+        this.code = code;
     }
 
-    public void setCodigoEjemplar(int codigoEjemplar)
+    public Integer getDeliveryNumber()
     {
-        this.codigoEjemplar = codigoEjemplar;
+        return this.deliveryNumber;
     }
 
-    public int getNroEnvio()
+    public void setDeliveryNumber(Integer deliveryNumber)
     {
-        return this.nroEnvio;
+        this.deliveryNumber = deliveryNumber;
     }
 
-    public void setNroEnvio(int nroEnvio)
+    public Integer getQuantity()
     {
-        this.nroEnvio = nroEnvio;
+        return this.quantity;
     }
 
-    public float getPrecio()
+    public void setQuantity(Integer quantity)
     {
-        return this.precio;
+        this.quantity = quantity;
     }
 
-    public void setPrecio(float precio)
+    public Float getCost()
     {
-        this.precio = precio;
+        return this.cost;
     }
 
-    public float getPrecioCom()
+    public void setCost(Float cost)
     {
-        return this.precioCom;
+        this.cost = cost;
     }
 
-    public void setPrecioCom(float precioCom)
+    public Float getCommission()
     {
-        this.precioCom = precioCom;
+        return this.commission;
     }
 
-    public String getNombre()
+    public void setCommission(Float commission)
     {
-        return this.nombre;
+        this.commission = commission;
     }
 
-    public void setNombre(String nombre)
+    public String getName()
     {
-        this.nombre = nombre;
+        return this.name;
     }
 
-    public ArticleType getTipo()
+    public void setName(String name)
     {
-        return this.tipo;
+        this.name = name;
     }
 
-    public void setTipo(ArticleType tipo)
+    public ArticleType getType()
     {
-        this.tipo = tipo;
+        return this.type;
     }
 
-    public String getLetra()
+    public void setType(ArticleType type)
     {
-        return this.letra;
+        this.type = type;
     }
 
-    public void setLetra(String letra)
+    public String getArticleId()
     {
-        this.letra = letra;
+        return this.articleId;
     }
 
-    public Timestamp getFechaRetiro()
+    public void setArticleId(String articleId)
     {
-        return this.fechaRetiro;
+        this.articleId = articleId;
     }
 
-    public void setFechaRetiro(Timestamp fechaRetiro)
+    public Timestamp getWithdrawalDate()
     {
-        this.fechaRetiro = fechaRetiro;
+        return this.withdrawalDate;
     }
 
-    public boolean isComisiona()
+    public void setWithdrawalDate(Timestamp withdrawalDate)
     {
-        return this.comisiona;
+        this.withdrawalDate = withdrawalDate;
     }
 
-    public void setComisiona(boolean comisiona)
+    public boolean isCommissionable()
     {
-        this.comisiona = comisiona;
+        return this.commissionable;
+    }
+
+    public void setCommissionable(boolean commissionable)
+    {
+        this.commissionable = commissionable;
     }
 }

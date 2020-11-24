@@ -25,7 +25,7 @@
          <children>
             <AnchorPane prefHeight="60.0" prefWidth="1300.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
                <children>
-                  <Label fx:id="name" layoutX="70.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#nombreCpOnMouseClicked" onMouseEntered="#nombreCpOnMouseEntered" onMouseExited="#nombreCpOnMouseExited" prefHeight="30.0" prefWidth="280.0" text="nombre" textFill="WHITE">
+                  <Label fx:id="prefClientName" layoutX="70.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#nombreCpOnMouseClicked" onMouseEntered="#nombreCpOnMouseEntered" onMouseExited="#nombreCpOnMouseExited" prefHeight="30.0" prefWidth="280.0" text="nombre" textFill="WHITE">
                      <font>
                         <Font name="Britannic Bold" size="22.0" />
                      </font>
@@ -50,7 +50,7 @@
                         <Font name="Britannic Bold" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="prefClient" layoutX="470.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0" text="----" textFill="WHITE">
+                  <Label fx:id="prefClientId" layoutX="470.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0" text="----" textFill="WHITE">
                      <font>
                         <Font name="Britannic Bold" size="26.0" />
                      </font>
@@ -167,7 +167,7 @@
                         <TableColumn fx:id="quantity" minWidth="100.0" prefWidth="100.0" text="Unidades" />
                         <TableColumn fx:id="price" minWidth="100.0" prefWidth="100.0" text="Precio" />
                         <TableColumn fx:id="commission" minWidth="100.0" prefWidth="100.0" text="Precio comisión" />
-                        <TableColumn fx:id="name" minWidth="400.0" prefWidth="400.0" text="Nombre" />
+                        <TableColumn fx:id="articleName" minWidth="400.0" prefWidth="400.0" text="Nombre" />
                         <TableColumn fx:id="orderType" minWidth="180.0" prefWidth="180.0" text="Tipo" />
                         <TableColumn fx:id="articleId" minWidth="100.0" prefWidth="100.0" text="Letra" />
                         <TableColumn fx:id="withdrawalDate" minWidth="170.0" prefWidth="170.0" text="Fecha retiro" />
@@ -179,7 +179,7 @@
                   </TableView>
                   <Accordion fx:id="otherTables" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1300.0" GridPane.rowIndex="2">
                      <panes>
-                        <TitledPane fx:id="payments" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1250.0" text="Pagos $$$$$$$$$$$$$$$$$" textFill="#27a800">
+                        <TitledPane fx:id="paymentsPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1250.0" text="Pagos $$$$$$$$$$$$$$$$$" textFill="#27a800">
                            <content>
                               <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="1300.0">
                                  <children>
@@ -231,7 +231,7 @@
                               </AnchorPane>
                            </content>
                         </TitledPane>
-                        <TitledPane fx:id="repurchases" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1300.0" text="Recompras $$$$$$$$$$$$$$$$$" textFill="#0004ff">
+                        <TitledPane fx:id="repurchasesPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1300.0" text="Recompras $$$$$$$$$$$$$$$$$" textFill="#0004ff">
                            <content>
                               <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="1300.0">
                                  <children>

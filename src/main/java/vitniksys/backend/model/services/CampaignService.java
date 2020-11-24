@@ -13,6 +13,7 @@ import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
+import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CatalogueOperator;
@@ -28,6 +29,17 @@ public class CampaignService extends Service
 
 
     // ================================= private methods =================================
+    private boolean allFieldsAreOk(Integer campNumb, Integer prefClientId)
+    {
+        boolean ret = false;
+
+        if(campNumb != null && prefClientId != null)
+        {
+            ret = true;
+        }
+        return ret;
+    }
+
     private boolean allFieldsAreOk(Integer campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail)
     {
         boolean ret = false;
@@ -293,6 +305,36 @@ public class CampaignService extends Service
         {
             Connector.getConnector().endTransaction();
             Connector.getConnector().closeConnection();
+        }
+    }
+
+    public void searchOrders(Integer campNumb, Integer prefClientId)
+    {
+        //If all fields are OK...
+        if(allFieldsAreOk(campNumb, prefClientId))
+        {
+            CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+
+            Task<Integer> task = new Task<>()
+            {
+                @Override
+                protected Integer call() throws Exception
+                {
+                    //returnCode is intended for future implementations
+                    int returnCode = 0;
+
+                    OrderOperator.getOperator().findAll();
+
+                    return returnCode;
+                }
+            };
+
+            Platform.runLater(task);
+        }
+        else
+        {
+            //Conflict with some fields.
+            this.getServiceSubscriber().showError("Los campos deben completarse correctamente.");
         }
     }
 }

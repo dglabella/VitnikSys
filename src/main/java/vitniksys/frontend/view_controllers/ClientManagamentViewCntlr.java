@@ -10,16 +10,26 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
+import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
+import vitniksys.backend.model.entities.PreferentialClient;
 
 public class ClientManagamentViewCntlr extends TableViewCntlr
 {
+    private Campaign actualCampaign;
+    private PreferentialClient prefClient;
+
+    // ================================= FXML variables =================================
+    @FXML private TitledPane paymentsPane;
+    @FXML private TitledPane repurchasesPane;
+
     @FXML private ChoiceBox<String> camp;
     @FXML private ChoiceBox<PayItem> payType;
     @FXML private ChoiceBox<PayItem> payItem;
@@ -28,9 +38,10 @@ public class ClientManagamentViewCntlr extends TableViewCntlr
 
     @FXML private Label leader;
     @FXML private Label balance;
-    @FXML private Label prefClient;
+    @FXML private Label prefClientId;
     @FXML private Label campBalance;
     @FXML private Label inCirculation;
+    @FXML private Label prefClientName;
     @FXML private Label catalogueQuantity;
     @FXML private Label totalInCampaignOrders;
 
@@ -54,7 +65,7 @@ public class ClientManagamentViewCntlr extends TableViewCntlr
     @FXML private TableColumn<OrdersRowTable, String> quantity;
     @FXML private TableColumn<OrdersRowTable, String> price;
     @FXML private TableColumn<OrdersRowTable, String> commission;
-    @FXML private TableColumn<OrdersRowTable, String> name;
+    @FXML private TableColumn<OrdersRowTable, String> articleName;
     @FXML private TableColumn<OrdersRowTable, String> orderType;
     @FXML private TableColumn<OrdersRowTable, String> articleId;
     @FXML private TableColumn<OrdersRowTable, String> withdrawalDate;
@@ -80,12 +91,8 @@ public class ClientManagamentViewCntlr extends TableViewCntlr
     @FXML private TableColumn<RepurchasesRowTable, String> typeRep;
     @FXML private TableColumn<RepurchasesRowTable, String> repurchaseRegistrationTime;
 
-    @FXML
-    private void backButtonPressed()
-    {
 
-    }
-
+    // ================================= FXML methods ===================================
     @FXML
     private void devolutionButtonPressed()
     {
@@ -206,21 +213,21 @@ public class ClientManagamentViewCntlr extends TableViewCntlr
 
     }
 
+    // ================================= private methods ===================================
+
+    // ================================= protected methods ===================================
     @Override
     protected void manualInitialize()
     {
-        // TODO Auto-generated method stub
+
     }
 
-    @Override
-    public void customInitialize(URL location, ResourceBundle resources) throws Exception
-    {
-        // TODO Auto-generated method stub
-    }
-
+    // ================================= public methods ===================================
     @Override
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        // TODO Auto-generated method stub
+
     }
+
+    // ================================= service subscriber methods ===================================
 }

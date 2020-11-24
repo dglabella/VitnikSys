@@ -113,6 +113,12 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
+	public List<Order> findAll(Integer campNumb, Integer prefClientId) throws Exception
+	{
+		return null;
+	}
+
+	@Override
 	public Order find(int id)
 	{
 		// TODO Auto-generated method stub
