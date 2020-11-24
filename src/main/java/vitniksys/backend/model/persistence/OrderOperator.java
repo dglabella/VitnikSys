@@ -1,8 +1,11 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 
@@ -108,14 +111,37 @@ public class OrderOperator implements IOrderOperator
 	@Override
 	public List<Order> findAll() throws Exception
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Order> findAll(Integer campNumb, Integer prefClientId) throws Exception
 	{
-		return null;
+        List<Order> ret = new ArrayList<>();
+        /*
+        String sqlStmnt = "SELECT * FROM `pedidos` WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
+		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        statement.setBoolean(3, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        Order order;
+        while (resultSet.next())
+        {
+            order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(7), resultSet.getBoolean(10));
+			order.setDeliveryNumber(resultSet.getInt(2));
+			order.setArticle(ArticleOperator.getOperator().find(resultSet.getString(5)));
+            order.setRegistrationTime(resultSet.getTimestamp(5));
+            order.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
+            ret.add(order);
+        }
+
+        statement.close();
+        
+        if(ret.size() == 0)
+            ret = null;
+		*/
+        return ret;
 	}
 
 	@Override

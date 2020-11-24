@@ -30,6 +30,7 @@ vitniksys\backend\model\entities\Devolution.class
 vitniksys\backend\model\entities\ReturnedArticle.class
 vitniksys\backend\model\persistence\OrderOperator.class
 vitniksys\backend\model\enums\PayItem$1.class
+vitniksys\backend\model\services\CampaignService$4.class
 vitniksys\backend\util\DetailFileRow.class
 vitniksys\backend\model\persistence\SubordinatedClientOperator.class
 vitniksys\backend\model\entities\Article.class
@@ -48,6 +49,7 @@ vitniksys\frontend\view_controllers\CampRegisterViewCntlr.class
 vitniksys\frontend\view_controllers\ClientRegisterViewCntlr.class
 vitniksys\frontend\view_controllers\SearchCampsViewCntlr$1.class
 vitniksys\backend\model\interfaces\ICampaignOperator.class
+vitniksys\backend\model\services\CampaignService$3.class
 vitniksys\backend\model\entities\Commission.class
 vitniksys\backend\model\entities\Balance.class
 vitniksys\backend\model\enums\PayItem.class

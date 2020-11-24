@@ -93,7 +93,7 @@ public class CampaignService extends Service
             cpOperator = prefClient.operator();
             returnCode += cpOperator.registerOrders(prefClient);
         }
-
+        
         return returnCode;
     }
 
@@ -282,29 +282,45 @@ public class CampaignService extends Service
 
     public void registerOrders(File detail) throws Exception
     {
-        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-        try
+        if(detail != null)
         {
-            Connector.getConnector().startTransaction();
+            CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+            Task<Void> task = new Task<>()
+            {
+                @Override
+                protected Void call() throws Exception
+                {
+                    try
+                    {
+                        Connector.getConnector().startTransaction();
 
-            this.registerIncomingOrders(detail);
+                        registerIncomingOrders(detail);
 
-            Connector.getConnector().commit();
+                        Connector.getConnector().commit();
 
-            this.getServiceSubscriber().closeProcessIsWorking(customAlert);
-            this.getServiceSubscriber().showSucces("Las ordenes se agregaron exitosamente!");
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showSucces("Las órdenes se agregaron exitosamente!");
+                    }
+                    catch (Exception exception)
+                    {
+                        Connector.getConnector().rollBack();
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showError("Error al intentar registrar los pedidos.", null, exception);
+                        throw exception;
+                    }
+                    finally
+                    {
+                        Connector.getConnector().endTransaction();
+                        Connector.getConnector().closeConnection();
+                    }
+                    return null;
+                }
+            };
+            Platform.runLater(task);
         }
-        catch (Exception exception)
+        else
         {
-            Connector.getConnector().rollBack();
-            this.getServiceSubscriber().closeProcessIsWorking(customAlert);
-            this.getServiceSubscriber().showError("Error al intentar registrar los pedidos.", null, exception);
-            throw exception;
-        }
-        finally
-        {
-            Connector.getConnector().endTransaction();
-            Connector.getConnector().closeConnection();
+            this.getServiceSubscriber().showError("No hay un archivo de detalle cargado.");
         }
     }
 

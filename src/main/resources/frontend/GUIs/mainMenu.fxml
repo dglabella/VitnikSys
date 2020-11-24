@@ -62,33 +62,26 @@
       </ImageView>
       <AnchorPane layoutX="510.0" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
          <children>
-            <Text layoutX="119.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Consultar campaña">
-               <font>
-                  <Font name="Verdana" size="23.0" />
-               </font>
-            </Text>
-            <Button layoutX="120.0" layoutY="60.0" mnemonicParsing="false" onAction="#searchCampButtonPressed" prefHeight="75.0" prefWidth="210.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Buscar" textAlignment="CENTER" wrapText="true">
-               <graphic>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_search_64px_1.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#searchCampButtonPressed" prefHeight="158.0" prefWidth="232.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Consultar Campaña" textAlignment="CENTER" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Verdana" size="18.0" />
                </font>
             </Button>
+            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="79.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8_search_64px_1.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="510.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
          <children>
             <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#newCampButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nueva Campaña" textAlignment="CENTER" wrapText="true">
                <graphic>
-                  <ImageView fitHeight="74.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/icons8_plus_magazine_dark100px.png" />
                      </image>
@@ -118,5 +111,10 @@
             </Button>
          </children>
       </AnchorPane>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Consultar campaña" wrappingWidth="142.8798828125">
+         <font>
+            <Font name="Verdana" size="23.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

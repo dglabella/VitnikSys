@@ -160,6 +160,20 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="450.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="410.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;" />
+      <AnchorPane layoutX="450.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="410.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+         <children>
+            <JFXButton fx:id="addOrders" buttonType="RAISED" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addOrdersButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="Agregar Pedidos" />
+            <Label fx:id="fileSelected" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="410.0" visible="false" />
+            <Label fx:id="filePath" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="410.0" visible="false" />
+            <JFXButton fx:id="register" buttonType="RAISED" layoutX="120.0" layoutY="515.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#loadOrdersButtonPressed" prefHeight="50.0" prefWidth="154.0" style="-fx-background-radius: 60;" text="Cargar pedidos">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_checked_60px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children></AnchorPane>
    </children>
 </AnchorPane>

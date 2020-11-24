@@ -102,7 +102,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
             System.out.println(printList.next().toString());
         }
         */
-
+        
         statement.close();
 
         if(ret.size() == 0)
