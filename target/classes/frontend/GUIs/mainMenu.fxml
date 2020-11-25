@@ -9,7 +9,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="710.0" prefWidth="970.0" style="-fx-background-color: #E00413;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.view_controllers.MainMenuViewCntlr">
    <children>
@@ -21,14 +20,7 @@
       <AnchorPane layoutX="10.0" layoutY="410.0" prefHeight="290.0" prefWidth="950.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 5;">
          <children>
             <TextField fx:id="searchField" layoutX="5.0" layoutY="5.0" onAction="#idOnAction" onKeyTyped="#idOnKeyTyped" prefHeight="30.0" prefWidth="200.0" promptText="consultar cp:" />
-            <Button layoutX="215.0" layoutY="5.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="30.0" prefWidth="80.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Buscar" textAlignment="CENTER" wrapText="true">
-               <graphic>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_search_64px_1.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button layoutX="215.0" layoutY="5.0" mnemonicParsing="false" onAction="#searchButtonPressed" prefHeight="32.0" prefWidth="131.0" style="-fx-border-color: gray;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Abrir Gestion" textAlignment="CENTER" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -55,31 +47,48 @@
             <Image url="@../images/vitnik3.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="catButton" fitHeight="300.0" fitWidth="190.0" layoutX="134.0" layoutY="146.0" onMouseEntered="#catButtonOnMouseEntered" onMouseExited="#catButtonOnMouseExited" onMousePressed="#catButtonOnMousePressed" pickOnBounds="true" preserveRatio="true" rotate="-7.6" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">
+      <ImageView fx:id="catButton" fitHeight="207.0" fitWidth="190.0" layoutX="138.0" layoutY="174.0" onMouseEntered="#catButtonOnMouseEntered" onMouseExited="#catButtonOnMouseExited" onMousePressed="#catButtonOnMousePressed" pickOnBounds="true" preserveRatio="true" rotate="-7.6" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">
          <image>
             <Image url="@../images/vinik1.jpg" />
          </image>
       </ImageView>
       <AnchorPane layoutX="510.0" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
          <children>
-            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#searchCampButtonPressed" prefHeight="158.0" prefWidth="232.0" styleClass="boton" stylesheets="@../styles/newfile.css" text="Consultar Campaña" textAlignment="CENTER" wrapText="true">
+            <Button contentDisplay="TOP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchCampButtonPressed" prefHeight="160.0" prefWidth="225.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Consultar Campaña" textAlignment="CENTER" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <font>
                   <Font name="Verdana" size="18.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8_search_64px_1%20-%20copia.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <ImageView fitHeight="75.0" fitWidth="75.0" layoutX="79.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/icons8_search_64px_1.png" />
-               </image>
-            </ImageView>
+            <Button contentDisplay="TOP" layoutX="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchCampButtonPressed" prefHeight="160.0" prefWidth="225.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Cargar Detalle" textAlignment="CENTER" wrapText="true">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Verdana" size="18.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/csv-file.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="510.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 16;">
          <children>
-            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#newCampButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nueva Campaña" textAlignment="CENTER" wrapText="true">
+            <Button contentDisplay="TOP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#newCampButtonPressed" prefHeight="160.0" prefWidth="225.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nueva Campaña" textAlignment="CENTER" wrapText="true">
                <graphic>
                   <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -94,7 +103,7 @@
                   <Font name="Verdana" size="18.0" />
                </font>
             </Button>
-            <Button contentDisplay="TOP" layoutX="232.0" mnemonicParsing="false" onAction="#newCpButtonPressed" prefHeight="158.0" prefWidth="232.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nuevo CP" textAlignment="CENTER" wrapText="true">
+            <Button contentDisplay="TOP" layoutX="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#newCpButtonPressed" prefHeight="160.0" prefWidth="225.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Nuevo CP" textAlignment="CENTER" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -111,10 +120,5 @@
             </Button>
          </children>
       </AnchorPane>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Consultar campaña" wrappingWidth="142.8798828125">
-         <font>
-            <Font name="Verdana" size="23.0" />
-         </font>
-      </Text>
    </children>
 </AnchorPane>

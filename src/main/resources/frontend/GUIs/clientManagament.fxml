@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -159,6 +160,7 @@
                               <Font name="Britannic Bold" size="17.0" />
                            </font>
                         </Label>
+                        <Button layoutX="1205.0" layoutY="19.0" mnemonicParsing="false" style="-fx-border-color: red; -fx-background-color: pink; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 40, 0, 0, 0);" text="Button" />
                      </children>
                   </AnchorPane>
                   <TableView fx:id="orders" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;" GridPane.rowIndex="1">
