@@ -66,7 +66,7 @@ public class InfoQueriedCampsViewCntlr extends ViewCntlr
     {
         try
         {
-            ((CampaignService)this.getService()).registerOrders(detail);   
+            ((CampaignService)this.getService(0)).registerOrders(detail);   
         }
         catch (Exception exception)
         {

@@ -2,9 +2,11 @@ package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
 import vitniksys.App;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -17,7 +19,7 @@ import vitniksys.frontend.views_subscriber.ServiceSubscriber;
 public abstract class ViewCntlr implements Initializable, ServiceSubscriber
 {
     private Stage stage;
-    private Service service;
+    private List<Service> services;
     private ViewCntlr prevViewCntlr;
     private ExpressionChecker expressionChecker;
 
@@ -60,7 +62,7 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
      */
     protected abstract void manualInitialize();
 
-    protected ViewCntlr createStage(String title, String sceneName, Service service)
+    protected ViewCntlr createStage(String title, String sceneName, Service ... services)
     {
         String fileName = sceneName;
         FXMLLoader fxmlLoader = null;
@@ -82,9 +84,12 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
         viewCtrller.getStage().setTitle(title);
         viewCtrller.setPrevViewCntlr(this);
         
-        viewCtrller.setService(service);
-        service.setServiceSubscriber(viewCtrller);
-        service.setExpressionChecker(this.expressionChecker);
+        for(Service service: services)
+        {
+            viewCtrller.addService(service);
+            service.setServiceSubscriber(viewCtrller);
+            service.setExpressionChecker(this.expressionChecker);
+        }
 
         return viewCtrller;
     }
@@ -111,6 +116,7 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
     {
         try 
         {
+            this.services = new ArrayList<>();
             this.expressionChecker = ExpressionChecker.getExpressionChecker();
             this.customInitialize(url, rb);    
         }
@@ -122,16 +128,18 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
 
     // ================================= service subscriber methods =================================
     @Override
-    public Service getService()
+    public Service getService(int location)
     {
-        return this.service;
+        return this.services.get(location);
     }
 
     @Override
-    public void setService(Service service)
+    public int addService(Service service)
     {
-        this.service = service;
+        this.services.add(service);
+        return this.services.size()-1;
     }
+
     @Override
     public CustomAlert showProcessIsWorking(String message)
     {

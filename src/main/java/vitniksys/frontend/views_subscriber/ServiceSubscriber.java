@@ -5,10 +5,9 @@ import vitniksys.backend.model.services.Service;
 
 public interface ServiceSubscriber
 {
+    Service getService(int location);
 
-    Service getService();
-
-    void setService(Service service);
+    int addService(Service service);
     /**
      * Called everytime that a use case is initiated.
      * IMPORTANT: DO NOT USE THREAD BLOCKING INSTRUCTIONS HERE.

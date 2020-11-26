@@ -3,6 +3,8 @@ package vitniksys.backend.util;
 import javafx.stage.Stage;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
@@ -95,14 +97,15 @@ public class CustomAlert extends Alert
         }
     }
 
-    public CustomAlert customShow()
+    public Optional<ButtonType> customShow()
     {
         build();
+        Optional<ButtonType> ret = null;
         ((Stage)this.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
 
         if(this.getAlertType() != AlertType.NONE)
         {
-            this.showAndWait();
+            ret = this.showAndWait();
         }
         else
         {
@@ -113,7 +116,7 @@ public class CustomAlert extends Alert
             */
             this.show();
         }
-        return this;
+        return ret;
     }
 
     public void customClose()

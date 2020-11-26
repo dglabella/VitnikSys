@@ -69,7 +69,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button contentDisplay="TOP" layoutX="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchCampButtonPressed" prefHeight="160.0" prefWidth="225.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Cargar Detalle" textAlignment="CENTER" wrapText="true">
+            <Button contentDisplay="TOP" layoutX="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addDetailFileButtonPressed" prefHeight="160.0" prefWidth="225.0" style="-fx-background-radius: 16;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Cargar Detalle" textAlignment="CENTER" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

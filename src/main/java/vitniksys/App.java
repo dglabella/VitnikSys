@@ -10,7 +10,8 @@ import javafx.application.Application;
 import vitniksys.backend.model.services.Service;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.frontend.view_controllers.ViewCntlr;
-import vitniksys.backend.model.services.ClientService;
+import vitniksys.backend.model.services.CampaignService;
+import vitniksys.backend.model.services.PreferentialClientService;
 //import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.frontend.view_controllers.MainMenuViewCntlr;
 
@@ -23,6 +24,7 @@ public class App extends Application
     public void start(final Stage stage) throws IOException
     {
         //new DetailFileInterpreter(new FileChooser().showOpenDialog(null)).insertClientFromDetailFile();
+
         String fileName = "mainMenu";
 
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(GUIs_LOCATION + fileName + FILE_EXTENSION));
@@ -32,11 +34,15 @@ public class App extends Application
         
         ViewCntlr viewCtrller = fxmlLoader.getController();
 
-        Service service = new ClientService();
+        Service prefClientService= new PreferentialClientService();
+        viewCtrller.addService(prefClientService);
+        prefClientService.setServiceSubscriber(viewCtrller);
+        prefClientService.setExpressionChecker(ExpressionChecker.getExpressionChecker());
 
-        viewCtrller.setService(service);
-        service.setServiceSubscriber(viewCtrller);
-        service.setExpressionChecker(ExpressionChecker.getExpressionChecker());
+        Service campaignService = new CampaignService();
+        viewCtrller.addService(campaignService);
+        campaignService.setServiceSubscriber(viewCtrller);
+        campaignService.setExpressionChecker(ExpressionChecker.getExpressionChecker());
 
         stage.show();
         ((MainMenuViewCntlr)viewCtrller).init();

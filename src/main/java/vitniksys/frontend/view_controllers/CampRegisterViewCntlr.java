@@ -92,7 +92,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     {
         try
         {
-            ((CampaignService)this.getService()).registerCamp(this.campNumber.getValue(), this.campAlias.getText(), 
+            ((CampaignService)this.getService(0)).registerCamp(this.campNumber.getValue(), this.campAlias.getText(),
                 this.campMonth.getValue() != null? this.campMonth.getValue().getValue() : null, 
                 this.campYear.getValue(), this.catalogueCode.getText(), this.detail);
         }
@@ -156,7 +156,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
         try
         {
             // to load the last camp number into the camp number spinner
-            ((CampaignService) this.getService()).searchLastCamp();
+            ((CampaignService) this.getService(0)).searchLastCamp();
         }
         catch(Exception exception)
         {
