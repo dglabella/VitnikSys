@@ -3,14 +3,14 @@ package vitniksys.backend.model.entities;
 public class Balance
 {
     //Entity properties
-    private Float balance;
-    private Float totalInOrdersCom;
-    private Float totalInOrdersNonCom;
-    private Float totalInCatalogues;
-    private Float totalInRepurchases;
-    private Float totalInPayments;
-    private Float totalInDevolutions;
-    private Float totalInCommission;
+    private float balance;
+    private float totalInOrdersCom;
+    private float totalInOrdersNonCom;
+    private float totalInCatalogues;
+    private float totalInRepurchases;
+    private float totalInPayments;
+    private float totalInDevolutions;
+    private float totalInCommission;
 
     //Domain Associations
     private PreferentialClient client;
@@ -48,7 +48,7 @@ public class Balance
     }
 
     public Float getTotalInOrdersCom()
-    {
+    {   
         return this.totalInOrdersCom;
     }
 

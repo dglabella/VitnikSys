@@ -165,13 +165,17 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
         }
         
         // setting the camp number spinner
-        this.campNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, lastCamp.getNumber()+1));
+        this.campNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, this.lastCamp != null? this.lastCamp.getNumber()+1 : 1));
 
-        this.campMonth.setValue(Month.of((this.lastCamp.getMonth()%12)+1));
+        this.campMonth.setValue(Month.of((this.lastCamp != null? this.lastCamp.getMonth()%12 : 0)+1));
 
-        if(this.lastCamp.getMonth() == 12)
+        if(this.lastCamp != null && this.lastCamp.getMonth() == 12)
         {
             this.campYear.setValue(this.lastCamp.getYear()+1);
+        }
+        else
+        {
+            this.campYear.setValue(CampRegisterViewCntlr.YEAR_MIN);
         }
     }
 
@@ -196,7 +200,6 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     }
 
     // ================================= campaign service subscriber methods =================================
-
     @Override
     public void showQueriedCamp(Campaign campaign) throws Exception
     {

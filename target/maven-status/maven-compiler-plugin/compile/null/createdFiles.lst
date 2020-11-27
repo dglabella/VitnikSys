@@ -7,7 +7,6 @@ vitniksys\frontend\view_controllers\InfoQueriedCampsViewCntlr.class
 vitniksys\backend\model\entities\Order.class
 vitniksys\backend\model\entities\CatalogueDeliver.class
 vitniksys\backend\model\persistence\BalanceOperator.class
-vitniksys\backend\model\services\ClientService$2.class
 vitniksys\backend\util\RepurchasesRowTable.class
 vitniksys\backend\model\entities\Payment.class
 vitniksys\backend\model\entities\Campaign.class
@@ -16,6 +15,7 @@ vitniksys\backend\model\interfaces\IArticleOperator.class
 vitniksys\backend\model\enums\Reason.class
 vitniksys\backend\model\enums\Reason$1.class
 vitniksys\backend\model\interfaces\IBalanceOperator.class
+vitniksys\backend\model\services\PreferentialClientService$1.class
 vitniksys\frontend\views_subscriber\CampaignServiceSubscriber.class
 vitniksys\backend\model\enums\PayType$1.class
 vitniksys\frontend\views_subscriber\PreferentialClientServiceSubscriber.class
@@ -43,6 +43,7 @@ vitniksys\backend\model\enums\Bank$1.class
 vitniksys\backend\util\ExpressionChecker.class
 vitniksys\backend\model\entities\Observation.class
 vitniksys\backend\model\enums\PayType.class
+vitniksys\backend\model\services\PreferentialClientService.class
 vitniksys\backend\model\interfaces\IPreferentialClientOperator.class
 vitniksys\backend\model\entities\BaseClient.class
 vitniksys\frontend\view_controllers\CampRegisterViewCntlr.class
@@ -53,12 +54,12 @@ vitniksys\backend\model\services\CampaignService$3.class
 vitniksys\backend\model\entities\Commission.class
 vitniksys\backend\model\entities\Balance.class
 vitniksys\backend\model\enums\PayItem.class
-vitniksys\backend\model\services\ClientService.class
 vitniksys\backend\util\StockRowTable.class
 vitniksys\backend\util\AutoCompletionTool.class
 vitniksys\backend\model\persistence\LeaderOperator.class
 vitniksys\backend\model\persistence\PreferentialClientOperator.class
 vitniksys\backend\model\enums\ArticleType$1.class
+vitniksys\backend\model\services\PreferentialClientService$2.class
 vitniksys\backend\model\entities\SubordinatedClient.class
 vitniksys\backend\model\interfaces\IOrderOperator.class
 vitniksys\backend\model\entities\PreferentialClient.class
@@ -66,7 +67,6 @@ vitniksys\backend\model\enums\PayStatus.class
 vitniksys\backend\model\persistence\ArticleOperator.class
 vitniksys\backend\model\persistence\CampaignOperator.class
 vitniksys\backend\model\persistence\BaseClientOperator.class
-vitniksys\backend\model\services\ClientService$1.class
 vitniksys\frontend\view_controllers\ProcessingViewCntlr.class
 vitniksys\frontend\view_controllers\ViewCntlr.class
 vitniksys\backend\model\services\CampaignService$1.class

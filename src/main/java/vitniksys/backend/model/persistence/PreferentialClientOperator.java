@@ -150,6 +150,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         balance.setCamp(prefClient.getIncomingOrders().get(0).getCampaign());
         incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
 
+        Order aux = null;
         while(incomingOrdersIterator.hasNext())
             balance.setTotalInOrdersCom(balance.getTotalInOrdersCom()+incomingOrdersIterator.next().getCost());
         

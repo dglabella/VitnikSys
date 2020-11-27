@@ -76,8 +76,8 @@ public class OrderOperator implements IOrderOperator
 	public int insertMany(List<Order> list) throws Exception
 	{
 		int returnCode = 0;
-        String sqlStmnt = "INSERT INTO `pedidos`(`id_cp`, `nro_camp`, `letra`, `cant`, `monto`) VALUES "+
-		"(?, ?, ?, ?, ?);";
+        String sqlStmnt = "INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`) VALUES "+
+		"(?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         Order order;
@@ -87,11 +87,12 @@ public class OrderOperator implements IOrderOperator
         {
 			order = listIterator.next();
 			
-            statement.setInt(1, order.getClient().getId());
-			statement.setInt(2, order.getCampaign().getNumber());
-			statement.setString(3, order.getArticle().getId());
-			statement.setInt(4, order.getQuantity());
-			statement.setFloat(5, order.getCost());
+			statement.setInt(1, order.getDeliveryNumber());
+            statement.setInt(2, order.getClient().getId());
+			statement.setInt(3, order.getCampaign().getNumber());
+			statement.setString(4, order.getArticle().getId());
+			statement.setInt(5, order.getQuantity());
+			statement.setFloat(6, order.getCost());
 
             returnCode += statement.executeUpdate();
         }

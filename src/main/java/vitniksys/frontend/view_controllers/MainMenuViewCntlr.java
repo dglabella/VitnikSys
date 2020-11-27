@@ -12,18 +12,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
+import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Campaign;
+import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.services.CatalogueService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.services.PreferentialClientService;
-import vitniksys.backend.util.CustomAlert;
-import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
@@ -135,18 +135,21 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
                     {
                         if (response == ButtonType.OK)
                         {
-                            System.out.println("AAAAAAA");
-                        }
-                        else
-                        {
-                            System.out.println("BBBBBBB");
+                            try
+                            {
+                                ((CampaignService)this.getService(1)).registerOrders(detail);
+                            }
+                            catch(Exception exception)
+                            {
+                                exception.printStackTrace();
+                            }
                         }
                     });
             }
             else
             {
-                CustomAlert customAlert = new CustomAlert(AlertType.ERROR, "ERROR", "El archivo no tiene extension csv."+
-                    "\nSelecciones nuevamente o el archivo será descartado.").
+                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo no tiene extension csv."+
+                    "\nSelecciones nuevamente o el archivo será descartado.").customShow();
             }
         }
     }

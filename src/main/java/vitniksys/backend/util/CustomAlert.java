@@ -1,10 +1,9 @@
 package vitniksys.backend.util;
 
+import java.util.Optional;
 import javafx.stage.Stage;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Optional;
-
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;

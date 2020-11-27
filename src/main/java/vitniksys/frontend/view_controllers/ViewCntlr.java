@@ -143,7 +143,9 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
     @Override
     public CustomAlert showProcessIsWorking(String message)
     {
-        return new CustomAlert(AlertType.NONE, "PROCESANDO", message).customShow();
+        CustomAlert customAlert = new CustomAlert(AlertType.NONE, "PROCESANDO", message);
+        customAlert.customShow();
+        return customAlert; 
     }
 
     @Override
@@ -156,7 +158,6 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
     public void showSucces(String message)
     {
         new CustomAlert(AlertType.INFORMATION, "EXITO", message).customShow();
-        this.getStage().close();
     }
 
     @Override

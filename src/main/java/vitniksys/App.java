@@ -11,9 +11,9 @@ import vitniksys.backend.model.services.Service;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.frontend.view_controllers.ViewCntlr;
 import vitniksys.backend.model.services.CampaignService;
-import vitniksys.backend.model.services.PreferentialClientService;
 //import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.frontend.view_controllers.MainMenuViewCntlr;
+import vitniksys.backend.model.services.PreferentialClientService;
 
 public class App extends Application
 {
