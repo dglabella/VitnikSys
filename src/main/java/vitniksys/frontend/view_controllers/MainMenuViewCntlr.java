@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
@@ -46,11 +47,30 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
 
     // ================================== FXML methods ==================================
     @FXML
+    private void openManagementButtonPressed()
+    {
+        PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
+        ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new CampaignService(), new PreferentialClientService());
+        viewCntlr.getStage().show();
+
+        try
+        {
+            ((PreferentialClientServiceSubscriber)viewCntlr).showQueriedPrefClient(selectedPrefClient);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+
+        viewCntlr.manualInitialize();
+    }
+
+    @FXML
     private void selectPrefClient(MouseEvent event)
     {
         if(event.getClickCount() == 2)
         {
-            this.createStage("Gestion de Cliente", "clientManagament", new CampaignService()).getStage().show();
+            this.openManagementButtonPressed();
         }
     }
 
@@ -173,6 +193,8 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @Override
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
+        this.prefClients.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
         List<TableColumn> columns = new ArrayList<>();
         columns.add(this.id);
         columns.add(this.dni);
@@ -240,13 +262,11 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     public void showQueriedCamp(Campaign camp) throws Exception
     {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void showQueriedCamps(List<Campaign> camps) throws Exception
     {
         // TODO Auto-generated method stub
-
     }
 }

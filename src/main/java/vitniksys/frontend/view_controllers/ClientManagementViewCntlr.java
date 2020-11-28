@@ -1,6 +1,7 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
+import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
@@ -17,11 +18,16 @@ import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
+import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
+import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
+import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
-public class ClientManagamentViewCntlr extends TableViewCntlr
+public class ClientManagementViewCntlr extends TableViewCntlr implements CampaignServiceSubscriber, PreferentialClientServiceSubscriber
 {
     private Campaign actualCampaign;
     private PreferentialClient prefClient;
@@ -219,7 +225,19 @@ public class ClientManagamentViewCntlr extends TableViewCntlr
     @Override
     protected void manualInitialize()
     {
+        try
+        {
+            ((CampaignService)this.getService(0)).searchLastCamp();
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+    }
 
+    protected void loadPreferentialClient(PreferentialClient prefClient)
+    {
+        this.prefClient = prefClient;
     }
 
     // ================================= public methods ===================================
@@ -230,4 +248,34 @@ public class ClientManagamentViewCntlr extends TableViewCntlr
     }
 
     // ================================= service subscriber methods ===================================
+    @Override
+    public void showQueriedCamp(Campaign camp) throws Exception
+    {
+        this.actualCampaign = camp;
+    }
+
+    @Override
+    public void showQueriedCamps(List<Campaign> camps) throws Exception
+    {
+
+    }
+
+    @Override
+    public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
+    {
+        this.prefClient = prefClient;
+        this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
+        this.prefClientId.setText(prefClient.getId().toString());
+        
+        if(prefClient instanceof SubordinatedClient)
+        {
+            this.leader.setText(((SubordinatedClient)prefClient).getLeader().getId().toString());
+        }
+    }
+
+    @Override
+    public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
+    {
+
+    }
 }

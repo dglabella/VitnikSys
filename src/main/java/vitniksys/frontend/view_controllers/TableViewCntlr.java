@@ -50,7 +50,6 @@ public abstract class TableViewCntlr extends ViewCntlr
     {
         for (int i = 0; i < this.tables.size(); i++)
         {
-            this.tables.get(i).getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
             this.tableDataLists.add(FXCollections.observableArrayList());
             this.tables.get(i).setItems(this.tableDataLists.get(i));
         }

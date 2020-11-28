@@ -23,7 +23,6 @@ vitniksys\backend\util\ClientList.class
 vitniksys\backend\model\persistence\CatalogueOperator.class
 vitniksys\frontend\view_controllers\TableViewCntlr.class
 vitniksys\backend\model\persistence\Connector.class
-vitniksys\frontend\view_controllers\ClientManagamentViewCntlr.class
 vitniksys\backend\model\services\Service.class
 vitniksys\frontend\view_controllers\SearchCampsViewCntlr.class
 vitniksys\backend\model\entities\Devolution.class
@@ -35,6 +34,7 @@ vitniksys\backend\util\DetailFileRow.class
 vitniksys\backend\model\persistence\SubordinatedClientOperator.class
 vitniksys\backend\model\entities\Article.class
 vitniksys\backend\model\interfaces\ICatalogueOperator.class
+vitniksys\frontend\view_controllers\ClientManagementViewCntlr.class
 vitniksys\App.class
 vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\backend\model\enums\ArticleType.class
