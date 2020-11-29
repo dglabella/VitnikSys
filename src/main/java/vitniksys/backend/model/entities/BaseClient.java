@@ -13,7 +13,6 @@ public class BaseClient extends PreferentialClient
     private List<CatalogueDeliver> catalogueDeliveries;
 
     //Others
-
     public BaseClient(int id)
     {
         super(id);

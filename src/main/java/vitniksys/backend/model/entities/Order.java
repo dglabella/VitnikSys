@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 
 public class Order
 {
+    //fk id
+    private Integer campNumber;
+
     //Entity properties
     private Integer code;
     private Integer deliveryNumber;
@@ -37,6 +40,16 @@ public class Order
     }
 
     //Getters && Setters
+    public Integer getCampNumber()
+    {
+        return this.campNumber;
+    }
+
+    public void setCampNumber(Integer campNumber)
+    {
+        this.campNumber = campNumber;
+    }
+    
     /**
      * 
      * @return return the BD table key (column name: cod).

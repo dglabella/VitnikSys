@@ -49,20 +49,23 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @FXML
     private void openManagementButtonPressed()
     {
-        PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
-        ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new CampaignService(), new PreferentialClientService());
-        viewCntlr.getStage().show();
-
-        try
+        if(this.prefClients.getSelectionModel().getSelectedIndex() > -1)
         {
-            ((PreferentialClientServiceSubscriber)viewCntlr).showQueriedPrefClient(selectedPrefClient);
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-        }
+            PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
+            ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new CampaignService(), new PreferentialClientService());
+            viewCntlr.getStage().show();
 
-        viewCntlr.manualInitialize();
+            try
+            {
+                ((PreferentialClientServiceSubscriber)viewCntlr).showQueriedPrefClient(selectedPrefClient);
+            }
+            catch (Exception exception)
+            {
+                exception.printStackTrace();
+            }
+
+            viewCntlr.manualInitialize();
+        }
     }
 
     @FXML
@@ -157,7 +160,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
                         {
                             try
                             {
-                                ((CampaignService)this.getService(1)).registerOrders(detail);
+                                ((CampaignService)this.getService(1)).registerOrders(detail);   
                             }
                             catch(Exception exception)
                             {
