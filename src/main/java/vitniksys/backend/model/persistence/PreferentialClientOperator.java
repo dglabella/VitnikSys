@@ -2,7 +2,9 @@ package vitniksys.backend.model.persistence;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.time.Instant;
 import java.util.Iterator;
 import java.sql.ResultSet;
@@ -111,6 +113,41 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         return ret;
     }
 
+    private List<List<Order>> organizeOrdersByCamps(List<Order> orders)
+    {
+        List<List<Order>> ret = new ArrayList<>();
+        HashMap<Integer,List<Order>> hashMap = new HashMap<>();
+        Iterator<Order> orderIterator = orders.iterator();
+        
+        Order order;
+        List<Order> ordersBySomeCamp;
+        while(orderIterator.hasNext())
+        {
+            order = orderIterator.next();
+            ordersBySomeCamp = hashMap.get(order.getCampNumber());
+
+            if(ordersBySomeCamp == null)
+            {
+                hashMap.put(order.getCampNumber(), new ArrayList<Order>());
+                hashMap.get(order.getCampNumber()).add(order);
+            }
+            else
+            {
+                ordersBySomeCamp.add(order);
+            }
+        }
+        
+        Set<Integer> keySet = hashMap.keySet();
+        Iterator<Integer> keySetsIterator = keySet.iterator();
+
+        while(keySetsIterator.hasNext())
+        {
+            ret.add(hashMap.get(keySetsIterator.next()));
+        }
+
+        return ret;
+    }
+
     @Override
     public PreferentialClient find(int id) throws Exception
     {
@@ -136,18 +173,47 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         while(incomingOrdersIterator.hasNext())
             articles.add(incomingOrdersIterator.next().getArticle());
 
-
+        
         List<Order> orders =  new ArrayList<>();
         incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
 
         while(incomingOrdersIterator.hasNext())
             orders.add(incomingOrdersIterator.next());
 
+
+        ArticleOperator articleOperator = ArticleOperator.getOperator();
+        OrderOperator orderOperator = OrderOperator.getOperator();
+        BalanceOperator balanceOperator = BalanceOperator.getOperator();
         
+        returnCode += articleOperator.insertMany(articles);
+        returnCode += orderOperator.insertMany(orders);
+
+        //Group orders by campaign number
+        List<List<Order>> ordersByCamp = organizeOrdersByCamps(orders);
+
+        Iterator<List<Order>> ordersByCampIterator = ordersByCamp.iterator();
+        Iterator<Order> ordersIterator;
+
         Balance balance = new Balance();
-        balance.setClient(prefClient);
+        balance.setPrefClientId(prefClient.getId());
+        while(ordersByCampIterator.hasNext())
+        {
+            //re-using variable
+            orders = ordersByCampIterator.next();
+            //Any camp is ok, since all orders from this sublist are from the same campaign
+            balance.setCampNumber(orders.get(0).getCampNumber());
+
+            ordersIterator = orders.iterator();
+            while(ordersIterator.hasNext())
+                balance.setTotalInOrdersCom(balance.getTotalInOrdersCom()+ordersIterator.next().getCost());
+            
+            returnCode += balanceOperator.update(balance);
+        }
+
+        /*
         //Any camp is ok, since all incoming orders are from the same campaign
         balance.setCamp(prefClient.getIncomingOrders().get(0).getCampaign());
+
         incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
 
         while(incomingOrdersIterator.hasNext())
@@ -160,6 +226,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         returnCode += articleOperator.insertMany(articles);
         returnCode += orderOperator.insertMany(orders);
         returnCode += balanceOperator.update(balance);
+        */
 
         return returnCode;
     }

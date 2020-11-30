@@ -1,11 +1,10 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 
@@ -60,9 +59,9 @@ public class OrderOperator implements IOrderOperator
 		"(?, ?, ?, ?, ?);";
 		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 		
-		statement.setInt(1, order.getClient().getId());
-		statement.setInt(2, order.getCampaign().getNumber());
-        statement.setString(3, order.getArticle().getId());
+		statement.setInt(1, order.getPrefClientId() );
+		statement.setInt(2, order.getCampNumber());
+        statement.setString(3, order.getArticleId());
 		statement.setInt(4, order.getQuantity());
 		statement.setFloat(5, order.getCost());
 
@@ -88,9 +87,9 @@ public class OrderOperator implements IOrderOperator
 			order = listIterator.next();
 			
 			statement.setInt(1, order.getDeliveryNumber());
-            statement.setInt(2, order.getClient().getId());
-			statement.setInt(3, order.getCampaign().getNumber());
-			statement.setString(4, order.getArticle().getId());
+            statement.setInt(2, order.getPrefClientId() );
+			statement.setInt(3, order.getCampNumber());
+			statement.setString(4, order.getArticleId());
 			statement.setInt(5, order.getQuantity());
 			statement.setFloat(6, order.getCost());
 

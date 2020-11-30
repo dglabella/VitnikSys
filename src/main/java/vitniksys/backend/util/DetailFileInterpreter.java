@@ -147,6 +147,9 @@ public class DetailFileInterpreter implements OrderObtainer
             order.setArticle(article);
             order.setCampaign(new Campaign(row.getCampNumb()));
             order.setClient(client);
+            order.setArticleId(article.getId());
+            order.setCampNumber(row.getCampNumb());
+            order.setPrefClientId(client.getId());
             client.getIncomingOrders().add(order);
         }
 

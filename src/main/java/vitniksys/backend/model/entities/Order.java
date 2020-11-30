@@ -5,7 +5,9 @@ import java.sql.Timestamp;
 public class Order
 {
     //fk id
+    private Integer prefClientId;
     private Integer campNumber;
+    private String articleId;
 
     //Entity properties
     private Integer code;
@@ -40,6 +42,16 @@ public class Order
     }
 
     //Getters && Setters
+    public Integer getPrefClientId()
+    {
+        return this.prefClientId;
+    }
+
+    public void setPrefClientId(Integer prefClientId)
+    {
+        this.prefClientId = prefClientId;
+    }
+    
     public Integer getCampNumber()
     {
         return this.campNumber;
@@ -48,6 +60,16 @@ public class Order
     public void setCampNumber(Integer campNumber)
     {
         this.campNumber = campNumber;
+    }
+
+    public String getArticleId()
+    {
+        return this.articleId;
+    }
+
+    public void setArticleId(String articleId)
+    {
+        this.articleId = articleId;
     }
     
     /**

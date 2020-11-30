@@ -160,7 +160,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
                         {
                             try
                             {
-                                ((CampaignService)this.getService(1)).registerOrders(detail);   
+                                ((CampaignService)this.getService(1)).registerOrders(detail);
                             }
                             catch(Exception exception)
                             {

@@ -57,8 +57,8 @@ public class BalanceOperator implements IBalanceOperator
         String sqlStmnt = "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?)";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
-        statement.setInt(1, balance.getClient().getId());
-        statement.setInt(2, balance.getCampaign().getNumber());
+        statement.setInt(1, balance.getPrefClientId());
+        statement.setInt(2, balance.getCampNumber());
 
         returnCode += statement.executeUpdate();
         statement.close();
@@ -79,8 +79,8 @@ public class BalanceOperator implements IBalanceOperator
         {
             balance = listIterator.next();
 
-            statement.setInt(1, balance.getClient().getId());
-            statement.setInt(2, balance.getCampaign().getNumber());
+            statement.setInt(1, balance.getPrefClientId());
+            statement.setInt(2, balance.getCampNumber());
 
             returnCode += statement.executeUpdate();
         }
@@ -108,8 +108,8 @@ public class BalanceOperator implements IBalanceOperator
         statement.setFloat(5, balance.getTotalInPayments());
         statement.setFloat(6, balance.getTotalInDevolutions());
         statement.setFloat(7, balance.getTotalInCommission()) ;
-        statement.setFloat(8, balance.getClient().getId());
-        statement.setFloat(9, balance.getCampaign().getNumber());
+        statement.setInt(8, balance.getPrefClientId());
+        statement.setInt(9, balance.getCampNumber());
         statement.setBoolean(10, this.activeRow);
 
         returnCode += statement.executeUpdate();

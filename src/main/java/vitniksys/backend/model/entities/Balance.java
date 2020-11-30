@@ -3,8 +3,8 @@ package vitniksys.backend.model.entities;
 public class Balance
 {
     //fk id
-    //private Integer prefClientId;
-    //private Integer campNumber;
+    private Integer prefClientId;
+    private Integer campNumber;
 
     //Entity properties
     private float balance;
@@ -41,7 +41,7 @@ public class Balance
     }
 
     //Getters && Setters
-    /*
+    
     public Integer getPrefClientId()
     {
         return this.prefClientId;
@@ -61,7 +61,6 @@ public class Balance
     {
         this.campNumber = campNumber;
     }
-    */
 
     public Float getBalance()
     {
