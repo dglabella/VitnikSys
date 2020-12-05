@@ -2,6 +2,8 @@ package vitniksys.backend.model.services;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 import java.time.Month;
 import java.util.Iterator;
 import javafx.concurrent.Task;
@@ -168,6 +170,8 @@ public class CampaignService extends Service
         };
         
         Platform.runLater(task);
+        //ExecutorService executorService = Executors.newFixedThreadPool(1);
+        //executorService.execute(task);
     }
 
     /**
@@ -197,7 +201,7 @@ public class CampaignService extends Service
         finally
         {
             Connector.getConnector().closeConnection();
-        } 
+        }
     }
 
     public void registerCamp(Integer campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception

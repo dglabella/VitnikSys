@@ -70,9 +70,9 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
         {
             ((CampaignService)this.getService(0)).searchCamps(null, null, null, null, null);
         }
-        catch (Exception e)
+        catch (Exception exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
         }
     }
     

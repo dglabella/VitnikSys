@@ -5,13 +5,19 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.WindowEvent;
+import javafx.event.EventHandler;
 //import javafx.stage.FileChooser;
+import javafx.application.Platform;
 import javafx.application.Application;
-import vitniksys.backend.model.services.Service;
+import javafx.scene.control.ButtonType;
+import vitniksys.backend.util.CustomAlert;
+import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.model.services.Service;
 import vitniksys.frontend.view_controllers.ViewCntlr;
-import vitniksys.backend.model.services.CampaignService;
 //import vitniksys.backend.util.DetailFileInterpreter;
+import vitniksys.backend.model.services.CampaignService;
 import vitniksys.frontend.view_controllers.MainMenuViewCntlr;
 import vitniksys.backend.model.services.PreferentialClientService;
 
@@ -34,7 +40,26 @@ public class App extends Application
         
         ViewCntlr viewCtrller = fxmlLoader.getController();
 
-        Service prefClientService= new PreferentialClientService();
+        stage.resizableProperty().set(false);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+        {
+            @Override
+            public void handle(WindowEvent event)
+            {
+                event.consume();
+                new CustomAlert(AlertType.CONFIRMATION, "EXIT", "Desea cerrar el Sistema?")
+                .customShow().ifPresent(response ->
+                {
+                    if(response == ButtonType.OK)
+                    {
+                        Platform.exit();
+                        System.exit(0);
+                    }
+                });
+            }
+        });
+
+        Service prefClientService = new PreferentialClientService();
         viewCtrller.addService(prefClientService);
         prefClientService.setServiceSubscriber(viewCtrller);
         prefClientService.setExpressionChecker(ExpressionChecker.getExpressionChecker());

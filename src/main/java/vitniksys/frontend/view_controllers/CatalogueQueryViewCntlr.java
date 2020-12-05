@@ -31,14 +31,6 @@ public class CatalogueQueryViewCntlr extends ViewCntlr
     }
 
     // ================================= public methods =================================
-    @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
-        expressionChecker =  ExpressionChecker.getExpressionChecker();
-        textField_stockInicial.setDisable(true);
-        textField_stock.setDisable(true);
-    }
-
     @FXML private void plusButtonPressed()
     {
 
@@ -57,7 +49,8 @@ public class CatalogueQueryViewCntlr extends ViewCntlr
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        // TODO Auto-generated method stub
-
+        expressionChecker =  ExpressionChecker.getExpressionChecker();
+        textField_stockInicial.setDisable(true);
+        textField_stock.setDisable(true);
     }
 }
