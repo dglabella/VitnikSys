@@ -2,8 +2,6 @@ package vitniksys.backend.model.services;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
 import java.time.Month;
 import java.util.Iterator;
 import javafx.concurrent.Task;

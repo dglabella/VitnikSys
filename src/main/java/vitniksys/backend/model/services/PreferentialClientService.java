@@ -18,6 +18,7 @@ import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class PreferentialClientService extends Service
 {
+
     //Getters && Setters
 
     // ================================= private methods =================================
@@ -145,6 +146,7 @@ public class PreferentialClientService extends Service
                 return returnCode;
             }
         };
-        Platform.runLater(task);  
+        //Platform.runLater(task);
+        this.getExecutorService().execute(task);
     }
 }

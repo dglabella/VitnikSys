@@ -117,8 +117,9 @@ public class OrderOperator implements IOrderOperator
 	@Override
 	public List<Order> findAll(Integer campNumb, Integer prefClientId) throws Exception
 	{
-        List<Order> ret = new ArrayList<>();
-        /*
+		List<Order> ret = new ArrayList<>();
+		/*
+        
         String sqlStmnt = "SELECT * FROM `pedidos` WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(3, this.activeRow);
@@ -139,8 +140,9 @@ public class OrderOperator implements IOrderOperator
         statement.close();
         
         if(ret.size() == 0)
-            ret = null;
+			ret = null;
 		*/
+		
         return ret;
 	}
 
