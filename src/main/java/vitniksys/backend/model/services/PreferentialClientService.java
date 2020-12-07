@@ -113,12 +113,12 @@ public class PreferentialClientService extends Service
 
     public void searchPreferentialClient(Integer id)
     {
-        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Recuperando datos del Cliente Preferencial...");
         Task<Integer> task = new Task<>()
         {
             @Override
             protected Integer call() throws Exception
             {
+                CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del Cliente Preferencial...");
                 //returnCode is intended for future implementations
                 int returnCode = 0;
                 List<PreferentialClient> prefClients = null;

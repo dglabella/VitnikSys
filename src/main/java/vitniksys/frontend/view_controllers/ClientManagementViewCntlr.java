@@ -226,7 +226,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         try
         {
-            ((CampaignService)this.getService(0)).searchLastCamp();
+            ((CampaignService)this.getService(1)).searchLastCamp();
         }
         catch (Exception exception)
         {

@@ -47,7 +47,7 @@ public class App extends Application
             public void handle(WindowEvent event)
             {
                 event.consume();
-                new CustomAlert(AlertType.CONFIRMATION, "EXIT", "Desea cerrar el Sistema?")
+                new CustomAlert(AlertType.CONFIRMATION, "CERRAR", "Desea cerrar el Sistema?")
                 .customShow().ifPresent(response ->
                 {
                     if(response == ButtonType.OK)
