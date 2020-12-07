@@ -57,6 +57,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
 
             try
             {
+                this.getService(0)
                 ((PreferentialClientServiceSubscriber)viewCntlr).showQueriedPrefClient(selectedPrefClient);
             }
             catch (Exception exception)

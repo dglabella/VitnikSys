@@ -26,7 +26,7 @@ import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
-public class ClientManagementViewCntlr extends TableViewCntlr implements CampaignServiceSubscriber, PreferentialClientServiceSubscriber
+public class ClientManagementViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber, CampaignServiceSubscriber 
 {
     private Campaign actualCampaign;
     private PreferentialClient prefClient;

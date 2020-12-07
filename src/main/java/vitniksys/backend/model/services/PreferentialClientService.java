@@ -111,6 +111,45 @@ public class PreferentialClientService extends Service
         }
     }
 
+    public void searchPreferentialClient(Integer id)
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Recuperando datos del Cliente Preferencial...");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+                List<PreferentialClient> prefClients = null;
+                try
+                {
+                    prefClients = PreferentialClientOperator.findAllPrefClients(true);
+                }
+                catch(Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+                finally
+                {
+                    //getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    if(prefClients != null)
+                    {
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClients(prefClients);
+                    }
+                    else
+                    {
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún cliente preferencial.");
+                    }
+                }
+
+                return returnCode;
+            }
+        };
+        //Platform.runLater(task);
+        this.getExecutorService().execute(task);
+    }
+
     public void searchPreferentialClients()
     {
         //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
