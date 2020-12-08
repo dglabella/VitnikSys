@@ -9,11 +9,13 @@ import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.persistence.Connector;
+import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
+import vitniksys.backend.model.persistence.SubordinatedClientOperator;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class PreferentialClientService extends Service
@@ -111,20 +113,18 @@ public class PreferentialClientService extends Service
         }
     }
 
-    public void searchPreferentialClient(Integer id)
+    public void searchLeader(Integer id)
     {
-        Task<Integer> task = new Task<>()
+        CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del Lider "+id);
+        Task<Void> task = new Task<>()
         {
             @Override
-            protected Integer call() throws Exception
+            protected Void call() throws Exception
             {
-                CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del Cliente Preferencial...");
-                //returnCode is intended for future implementations
-                int returnCode = 0;
-                List<PreferentialClient> prefClients = null;
+                Leader leader = null;
                 try
                 {
-                    prefClients = PreferentialClientOperator.findAllPrefClients(true);
+                    leader = LeaderOperator.getOperator().find(id);
                 }
                 catch(Exception exception)
                 {
@@ -132,22 +132,96 @@ public class PreferentialClientService extends Service
                 }
                 finally
                 {
-                    //getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    if(prefClients != null)
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    if(leader != null)
                     {
-                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClients(prefClients);
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(leader);
                     }
                     else
                     {
-                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún cliente preferencial.");
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún líder.");
                     }
                 }
 
-                return returnCode;
+                return null;
             }
         };
-        //Platform.runLater(task);
-        this.getExecutorService().execute(task);
+        Platform.runLater(task);
+        //this.getExecutorService().execute(task);
+    }
+
+    public void searchSubordinatedClient(Integer id)
+    {
+        CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del cliente preferencial "+id);
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected Void call() throws Exception
+            {
+                SubordinatedClient subordinatedClient = null;
+                try
+                {
+                    subordinatedClient = SubordinatedClientOperator.getOperator().find(id);
+                }
+                catch(Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+                finally
+                {
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    if(leader != null)
+                    {
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(leader);
+                    }
+                    else
+                    {
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún líder.");
+                    }
+                }
+
+                return null;
+            }
+        };
+        Platform.runLater(task);
+        //this.getExecutorService().execute(task);
+    }
+
+    public void searchBaseClient(Integer id)
+    {
+        CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del Lider "+id);
+        Task<Void> task = new Task<>()
+        {
+            @Override
+            protected Void call() throws Exception
+            {
+                Leader leader = null;
+                try
+                {
+                    leader = LeaderOperator.getOperator().find(id);
+                }
+                catch(Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+                finally
+                {
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    if(leader != null)
+                    {
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(leader);
+                    }
+                    else
+                    {
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún líder.");
+                    }
+                }
+
+                return null;
+            }
+        };
+        Platform.runLater(task);
+        //this.getExecutorService().execute(task);
     }
 
     public void searchPreferentialClients()

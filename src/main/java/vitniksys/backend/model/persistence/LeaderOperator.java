@@ -43,6 +43,12 @@ public class LeaderOperator extends BaseClientOperator
     }
 
     @Override
+    public Leader find(Integer id) throws Exception
+    {
+        return (Leader)super.find(id);
+    }
+
+    @Override
     public List<PreferentialClient> findAll() throws Exception
     {
         List<PreferentialClient> ret  = new ArrayList<>();

@@ -19,6 +19,7 @@ import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -54,25 +55,28 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         {
             PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
             ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new PreferentialClientService(), new CampaignService());
+            viewCntlr.getStage().show();
+
             try
             {
-                ((PreferentialClientService)viewCntlr.getService(0)).searchPreferentialClient(selectedPrefClient.getId());
+                if(selectedPrefClient instanceof Leader)
+                {
+                    ((PreferentialClientService)viewCntlr.getService(0)).searchLeader(selectedPrefClient.getId());
+                }
+                else if(selectedPrefClient instanceof BaseClient)
+                {
+                    ((PreferentialClientService)viewCntlr.getService(0)).searchBaseClient(selectedPrefClient.getId());
+                }
+                else
+                {
+                    ((PreferentialClientService)viewCntlr.getService(0)).searchSubordinatedClient(selectedPrefClient.getId());
+                }
             }
             catch (Exception exception)
             {
                 exception.printStackTrace();
             }
-
-            if (selectedPrefClient instanceof Leader)
-            {
-                System.out.println("Is Leader");
-            }
-            else
-            {
-                System.out.println("Is not Leader");
-            }
-
-            viewCntlr.getStage().show();
+            
             viewCntlr.manualInitialize();
         }
     }
