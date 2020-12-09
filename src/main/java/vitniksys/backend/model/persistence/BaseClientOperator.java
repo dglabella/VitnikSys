@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 
@@ -80,13 +81,12 @@ public class BaseClientOperator extends PreferentialClientOperator
     }
 
     @Override
-    public PreferentialClient find(Integer id) throws Exception
+    public BaseClient find(Integer id) throws Exception
     {
-        PreferentialClient ret = null;
-        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_cp` = ? AND `active_row` = ?;";
+        BaseClient ret = null;
+        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_cp` = ? AND `id_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
-        statement.setBoolean(2, this.activeRow);
 
         if(id != null)
         {
@@ -94,32 +94,18 @@ public class BaseClientOperator extends PreferentialClientOperator
         }
         else
         {
-            throw new Exception("Preferential Client id is null");
+            throw new Exception("Base client id is null");
         }
+        //Base client has to have a NULL leader id.
+        statement.setNull(2, Types.INTEGER);
+        statement.setBoolean(3, this.activeRow);
 
         ResultSet resultSet = statement.executeQuery();
 
         if(resultSet.next())
         {
-            //if it is leader
-            if(resultSet.getBoolean(10))
-            {
-                ret = new Leader(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-            }
-            else
-            {
-                int leaderId = resultSet.getInt(9);
-                if(!resultSet.wasNull())
-                {
-                    ret = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-                    ((SubordinatedClient)ret).setLeader( new Leader(leaderId));
-                }
-                else
-                {
-                    ret = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-                }
-            }
-
+            ret = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            
             ret.setDni(resultSet.getLong(2));
             ret.setLocation(resultSet.getString(5));
             Date date = resultSet.getDate(6);
@@ -130,6 +116,12 @@ public class BaseClientOperator extends PreferentialClientOperator
             ret.setEmail(resultSet.getString(7));
             ret.setPhoneNumber(resultSet.getLong(8));
         }
+
+        ret.setOrders(OrderOperator.getOperator().findAll(ret.getId()));
+        ret.setDevolutions(DevolutionOperator.getOperator().findAll(ret.getId()));
+        ret.setRepurchases(RepurchasesOperator.getOperator().findAll(ret.getId()));
+        ret.setPayments(PaymentOperator.getOperator().findAll(ret.getId()));
+        ret.setBalances(BalanceOperator.getOperator().findAll(ret.getId()));
         
         statement.close();
             

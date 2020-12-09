@@ -146,6 +146,11 @@ public class OrderOperator implements IOrderOperator
         return ret;
 	}
 
+	public List<Order> findAll(Integer id)
+	{
+		return null;
+	}
+
 	@Override
 	public Order find(int id)
 	{
