@@ -11,7 +11,7 @@ public class ArticleOperator implements IArticleOperator
 {
     private static ArticleOperator operartor;
 
-    private Boolean activeRow;
+    private boolean activeRow;
 
     protected ArticleOperator()
     {
@@ -26,12 +26,12 @@ public class ArticleOperator implements IArticleOperator
         return ArticleOperator.operartor;
     }
 
-    public Boolean getActiveRow()
+    public boolean getActiveRow()
     {
         return this.activeRow;
     }
 
-    public ArticleOperator setActiveRow(Boolean activeRow)
+    public ArticleOperator setActiveRow(boolean activeRow)
     {
         this.activeRow = activeRow;
         return ArticleOperator.operartor;

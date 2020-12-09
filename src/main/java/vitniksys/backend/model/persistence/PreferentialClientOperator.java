@@ -23,7 +23,7 @@ import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
 
 public abstract class PreferentialClientOperator implements IPreferentialClientOperator
 {
-    protected Boolean activeRow;
+    protected boolean activeRow;
     
     /**
      * Get the flag state with which the DAO operator performs a CRUD operation.
@@ -32,7 +32,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
      * 
      * @return The state of the entity.
      */
-    public Boolean isActiveRow()
+    public boolean isActiveRow()
     {
         return this.activeRow;
     }

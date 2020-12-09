@@ -36,7 +36,7 @@ public class LeaderOperator extends BaseClientOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public LeaderOperator setActiveRow(Boolean activeRow)
+    public LeaderOperator setActiveRow(boolean activeRow)
     {
         this.activeRow = activeRow;
         return LeaderOperator.operator;

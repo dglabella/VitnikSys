@@ -13,7 +13,7 @@ public class CatalogueOperator implements ICatalogueOperator
 
     private static CatalogueOperator operator;
 
-    private Boolean activeRow;
+    private boolean activeRow;
 
     private CatalogueOperator()
     {
@@ -35,7 +35,7 @@ public class CatalogueOperator implements ICatalogueOperator
      * 
      * @return The state of the entity.
      */
-    public Boolean isActiveRow()
+    public boolean isActiveRow()
     {
         return this.activeRow;
     }
@@ -47,7 +47,7 @@ public class CatalogueOperator implements ICatalogueOperator
      * 
      * @param activeRow the value for the operation.
      */
-    public CatalogueOperator setActiveRow(Boolean activeRow)
+    public CatalogueOperator setActiveRow(boolean activeRow)
     {
         this.activeRow = activeRow;
         return CatalogueOperator.operator;

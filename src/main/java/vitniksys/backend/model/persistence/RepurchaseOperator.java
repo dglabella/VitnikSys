@@ -1,25 +1,33 @@
 package vitniksys.backend.model.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
-import vitniksys.backend.model.entities.Devolution;
-import vitniksys.backend.model.interfaces.IDevolutionOperator;
+import java.util.ArrayList;
+import vitniksys.backend.model.entities.Repurchase;
+import vitniksys.backend.model.interfaces.IRepurchaseOperator;
 
-public class DevolutionOperator implements IDevolutionOperator
+public class RepurchaseOperator implements IRepurchaseOperator
 {
-    private static DevolutionOperator operator;
-    private boolean activeRow;
+    private static RepurchaseOperator operator;
+	private boolean activeRow;
 
-    private DevolutionOperator()
-    {
-        this.activeRow = true;
-    }
+	private RepurchaseOperator()
+	{
+		this.activeRow = true;
+	}
 
-    /**
+	public static RepurchaseOperator getOperator()
+	{
+		if (RepurchaseOperator.operator == null)
+        RepurchaseOperator.operator = new RepurchaseOperator();
+
+		return RepurchaseOperator.operator;
+	}
+
+	/**
      * Get the flag state with which the DAO operator performs a CRUD operation.
      * Ignore this if it not exist an implementation for active or inactive rows in
-     * your Data Base. Default value: true.
-     * 
+     * your Data Base.
+     * Default value: true.
      * @return The state of the entity.
      */
     public boolean isActiveRow()
@@ -30,64 +38,48 @@ public class DevolutionOperator implements IDevolutionOperator
     /**
      * Change the flag state with which the DAO operator performs a CRUD operation.
      * Ignore this if it not exist an implementation for active or inactive rows in
-     * your Data Base. Default value: true.
-     * 
+     * your Data Base.
+     * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public DevolutionOperator setActiveRow(boolean activeRow)
+    public RepurchaseOperator setActiveRow(boolean activeRow)
     {
-        this.activeRow = activeRow;
-
-        return DevolutionOperator.operator;
-    }
-
-    public static DevolutionOperator getOperator()
-    {
-        if (DevolutionOperator.operator == null)
-            DevolutionOperator.operator = new DevolutionOperator();
-
-        return DevolutionOperator.operator;
+		this.activeRow = activeRow;
+		return RepurchaseOperator.operator;
     }
 
     @Override
-    public int insert(Devolution entity) throws Exception
+    public int insert(Repurchase entity) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int insertMany(List<Devolution> list) throws Exception
+    public int insertMany(List<Repurchase> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int update(Devolution entity) throws Exception
+    public int update(Repurchase entity) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public List<Devolution> findAll() throws Exception
+    public List<Repurchase> findAll() throws Exception
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Devolution find(int id) throws Exception
+    public List<Repurchase> findAll(Integer prefClientId, Integer campNumb) throws Exception
     {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Devolution> findAll(Integer prefClientId, Integer campNumb) throws Exception
-    {
-        List<Devolution> ret = new ArrayList<>();
+        List<Repurchase> ret = new ArrayList<>();
 
         if(prefClientId != null && campNumb != null)
         {
@@ -110,6 +102,13 @@ public class DevolutionOperator implements IDevolutionOperator
             ret = null;
         
         return ret;
+    }
+
+    @Override
+    public Repurchase find(int id) throws Exception
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override

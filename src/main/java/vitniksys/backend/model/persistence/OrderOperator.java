@@ -11,7 +11,7 @@ import vitniksys.backend.model.interfaces.IOrderOperator;
 public class OrderOperator implements IOrderOperator
 {
 	private static OrderOperator operator;
-	private Boolean activeRow;
+	private boolean activeRow;
 
 	private OrderOperator()
 	{
@@ -33,7 +33,7 @@ public class OrderOperator implements IOrderOperator
      * Default value: true.
      * @return The state of the entity.
      */
-    public Boolean isActiveRow()
+    public boolean isActiveRow()
     {
         return this.activeRow;
     }
@@ -45,7 +45,7 @@ public class OrderOperator implements IOrderOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public OrderOperator setActiveRow(Boolean activeRow)
+    public OrderOperator setActiveRow(boolean activeRow)
     {
 		this.activeRow = activeRow;
 		return OrderOperator.operator;
@@ -115,9 +115,29 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
-	public List<Order> findAll(Integer campNumb, Integer prefClientId) throws Exception
+	public List<Order> findAll(Integer prefClientId, Integer campNumb) throws Exception
 	{
 		List<Order> ret = new ArrayList<>();
+
+        if(prefClientId != null && campNumb != null)
+        {
+            // Select devs with camp numb x and pref client id y
+        }
+        else if(prefClientId != null && campNumb == null)
+        {
+            // Select devs with pref client id y
+        }
+        else if(prefClientId == null && campNumb != null)
+        {
+            // Select devs with camp numb x
+        }
+        else
+        {
+            throw new Exception("Both campaign number and preferential client id are null");
+        }
+
+        
+        
 		/*
         
         String sqlStmnt = "SELECT * FROM `pedidos` WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
@@ -138,17 +158,13 @@ public class OrderOperator implements IOrderOperator
         }
 
         statement.close();
-        
-        if(ret.size() == 0)
-			ret = null;
 		*/
 		
-        return ret;
-	}
 
-	public List<Order> findAll(Integer id)
-	{
-		return null;
+		if(ret.size() == 0)
+            ret = null;
+		
+        return ret;
 	}
 
 	@Override

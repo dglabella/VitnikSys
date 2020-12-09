@@ -35,7 +35,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public SubordinatedClientOperator setActiveRow(Boolean activeRow)
+    public SubordinatedClientOperator setActiveRow(boolean activeRow)
     {
         this.activeRow = activeRow;
         return SubordinatedClientOperator.operator;

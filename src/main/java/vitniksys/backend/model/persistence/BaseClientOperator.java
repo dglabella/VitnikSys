@@ -36,7 +36,7 @@ public class BaseClientOperator extends PreferentialClientOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public BaseClientOperator setActiveRow(Boolean activeRow)
+    public BaseClientOperator setActiveRow(boolean activeRow)
     {
         this.activeRow = activeRow;
         return BaseClientOperator.operator;
@@ -115,14 +115,17 @@ public class BaseClientOperator extends PreferentialClientOperator
             }
             ret.setEmail(resultSet.getString(7));
             ret.setPhoneNumber(resultSet.getLong(8));
+
+            ret.setOrders(OrderOperator.getOperator().findAll(ret.getId(), null));
+            ret.setDevolutions(DevolutionOperator.getOperator().findAll(ret.getId(), null));
+            ret.setRepurchases(RepurchaseOperator.getOperator().findAll(ret.getId(), null));
+            ret.setPayments(PaymentOperator.getOperator().findAll(ret.getId(), null));
+            ret.setBalances(BalanceOperator.getOperator().findAll(ret.getId(), null));
+
+            ret.setObservations(ObservationOperator.getOperator().findAll(ret.getId(), null));
+            //ret.setCatalogueDeliveries()
         }
 
-        ret.setOrders(OrderOperator.getOperator().findAll(ret.getId()));
-        ret.setDevolutions(DevolutionOperator.getOperator().findAll(ret.getId()));
-        ret.setRepurchases(RepurchasesOperator.getOperator().findAll(ret.getId()));
-        ret.setPayments(PaymentOperator.getOperator().findAll(ret.getId()));
-        ret.setBalances(BalanceOperator.getOperator().findAll(ret.getId()));
-        
         statement.close();
             
         return ret;      

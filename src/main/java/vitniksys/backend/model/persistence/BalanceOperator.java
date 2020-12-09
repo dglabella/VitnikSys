@@ -1,7 +1,8 @@
 package vitniksys.backend.model.persistence;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.interfaces.IBalanceOperator;
@@ -10,7 +11,7 @@ public class BalanceOperator implements IBalanceOperator
 {
     private static BalanceOperator operator;
     
-    private Boolean activeRow;
+    private boolean activeRow;
 
     private BalanceOperator()
     {
@@ -32,7 +33,7 @@ public class BalanceOperator implements IBalanceOperator
      * Default value: true.
      * @return The state of the entity.
      */
-    public Boolean isActiveRow()
+    public boolean isActiveRow()
     {
         return this.activeRow;
     }
@@ -44,7 +45,7 @@ public class BalanceOperator implements IBalanceOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public BalanceOperator setActiveRow(Boolean activeRow)
+    public BalanceOperator setActiveRow(boolean activeRow)
     {
         this.activeRow = activeRow;
         return BalanceOperator.operator;
@@ -122,6 +123,34 @@ public class BalanceOperator implements IBalanceOperator
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public List<Balance> findAll(Integer prefClientId, Integer campNumb) throws Exception
+    {
+        List<Balance> ret = new ArrayList<>();
+
+        if(prefClientId != null && campNumb != null)
+        {
+            // Select devs with camp numb x and pref client id y
+        }
+        else if(prefClientId != null && campNumb == null)
+        {
+            // Select devs with pref client id y
+        }
+        else if(prefClientId == null && campNumb != null)
+        {
+            // Select devs with camp numb x
+        }
+        else
+        {
+            throw new Exception("Both campaign number and preferential client id are null");
+        }
+
+		if(ret.size() == 0)
+            ret = null;
+		
+        return ret;
     }
 
     @Override

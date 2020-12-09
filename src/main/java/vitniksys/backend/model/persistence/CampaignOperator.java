@@ -13,7 +13,7 @@ public class CampaignOperator implements ICampaignOperator
 {
     private static CampaignOperator operator;
 
-    private Boolean activeRow;
+    private boolean activeRow;
 
     private CampaignOperator()
     {
@@ -35,7 +35,7 @@ public class CampaignOperator implements ICampaignOperator
      * Default value: true.
      * @return The state of the entity.
      */
-    public Boolean isActiveRow()
+    public boolean isActiveRow()
     {
         return this.activeRow;
     }
@@ -47,7 +47,7 @@ public class CampaignOperator implements ICampaignOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public CampaignOperator setActiveRow(Boolean activeRow)
+    public CampaignOperator setActiveRow(boolean activeRow)
     {
         this.activeRow = activeRow;
         return CampaignOperator.operator;
