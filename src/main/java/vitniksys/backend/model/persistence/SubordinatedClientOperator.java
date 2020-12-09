@@ -80,6 +80,63 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
     }
 
     @Override
+    public SubordinatedClient find(Integer id) throws Exception
+    {
+        SubordinatedClient ret = null;
+        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_cp` = ? AND `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        statement.setBoolean(2, this.activeRow);
+
+        if(id != null)
+        {
+            statement.setInt(1, id);
+        }
+        else
+        {
+            throw new Exception("Preferential Client id is null");
+        }
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if(resultSet.next())
+        {
+            //if it is leader
+            if(resultSet.getBoolean(10))
+            {
+                ret = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            }
+            else
+            {
+                int leaderId = resultSet.getInt(9);
+                if(!resultSet.wasNull())
+                {
+                    ret = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+                    ((SubordinatedClient)ret).setLeader( new Leader(leaderId));
+                }
+                else
+                {
+                    ret = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+                }
+            }
+
+            ret.setDni(resultSet.getLong(2));
+            ret.setLocation(resultSet.getString(5));
+            Date date = resultSet.getDate(6);
+            if(!resultSet.wasNull())
+            {
+                ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+            ret.setEmail(resultSet.getString(7));
+            ret.setPhoneNumber(resultSet.getLong(8));
+        }
+        
+        statement.close();
+            
+        return ret;      
+    }
+
+    @Override
     public int insert(PreferentialClient cp) throws Exception
     {
         int returnCode;

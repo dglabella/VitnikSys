@@ -170,9 +170,9 @@ public class PreferentialClientService extends Service
                 finally
                 {
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    if(leader != null)
+                    if(subordinatedClient != null)
                     {
-                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(leader);
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(subordinatedClient);
                     }
                     else
                     {
@@ -195,10 +195,10 @@ public class PreferentialClientService extends Service
             @Override
             protected Void call() throws Exception
             {
-                Leader leader = null;
+                BaseClient baseClient = null;
                 try
                 {
-                    leader = LeaderOperator.getOperator().find(id);
+                    baseClient = LeaderOperator.getOperator().find(id);
                 }
                 catch(Exception exception)
                 {
@@ -207,9 +207,9 @@ public class PreferentialClientService extends Service
                 finally
                 {
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    if(leader != null)
+                    if(baseClient != null)
                     {
-                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(leader);
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(baseClient);
                     }
                     else
                     {
