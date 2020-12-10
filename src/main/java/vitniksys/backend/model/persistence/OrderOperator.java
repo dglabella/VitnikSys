@@ -5,7 +5,11 @@ import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+
+import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 
 public class OrderOperator implements IOrderOperator
@@ -118,14 +122,23 @@ public class OrderOperator implements IOrderOperator
 	public List<Order> findAll(Integer prefClientId, Integer campNumb) throws Exception
 	{
 		List<Order> ret = new ArrayList<>();
+		String sqlStmnt = null;
 
         if(prefClientId != null && campNumb != null)
         {
-            // Select devs with camp numb x and pref client id y
+            sqlStmnt = 
+			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
+			"FROM `pedidos` "+
+			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
+			
         }
         else if(prefClientId != null && campNumb == null)
         {
-            // Select devs with pref client id y
+			sqlStmnt = 
+			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
+			"FROM `pedidos` "+
+			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
+			
         }
         else if(prefClientId == null && campNumb != null)
         {
@@ -134,33 +147,36 @@ public class OrderOperator implements IOrderOperator
         else
         {
             throw new Exception("Both campaign number and preferential client id are null");
-        }
-
-        
-        
-		/*
-        
-        String sqlStmnt = "SELECT * FROM `pedidos` WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
-		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
-        statement.setBoolean(3, this.activeRow);
-
-        ResultSet resultSet = statement.executeQuery();
-
-        Order order;
-        while (resultSet.next())
-        {
-            order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(7), resultSet.getBoolean(10));
-			order.setDeliveryNumber(resultSet.getInt(2));
-			order.setArticle(ArticleOperator.getOperator().find(resultSet.getString(5)));
-            order.setRegistrationTime(resultSet.getTimestamp(5));
-            order.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
-            ret.add(order);
-        }
-
-        statement.close();
-		*/
+		}
 		
+		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+		statement.setInt(1, prefClientId);
+		statement.setInt(2, campNumb);
+		statement.setBoolean(3, this.activeRow);
+		statement.setBoolean(4, ArticleOperator.getOperator().getActiveRow());
 
+		ResultSet resultSet = statement.executeQuery();
+
+		Order order;
+		while (resultSet.next())
+		{
+			order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(7), resultSet.getBoolean(9));
+			order.setDeliveryNumber(resultSet.getInt(2));
+			order.setWithdrawalDate(resultSet.getTimestamp(8));
+			
+			//fk ids
+			order.setPrefClientId(resultSet.getInt(3));
+			order.setCampNumber(resultSet.getInt(4));
+			order.setArticleId(resultSet.getString(5));
+
+			//Associations
+			order.setArticle(new Article(resultSet.getString(5), resultSet.getString(10), ArticleType.IntToEnum(resultSet.getInt(11)), resultSet.getFloat(12)));
+			
+			ret.add(order);
+		}
+
+		statement.close();
+		
 		if(ret.size() == 0)
             ret = null;
 		
