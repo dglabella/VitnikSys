@@ -5,13 +5,16 @@ import vitniksys.backend.model.enums.ArticleType;
 
 public class ReturnedArticle extends Article
 {
+    //fk id
+    private String articleId;
+
     //Entity properties
     private int unitCode; //Table id = ejemplar
     private Reason reason;
     private boolean repurchased;
 
     //Domain Associations
-    
+    private Article article;
 
     //Others
     private boolean active;
@@ -26,6 +29,16 @@ public class ReturnedArticle extends Article
     }
     
     //Getters && Setters
+    public String getArticleId()
+    {
+        return this.articleId;
+    }
+
+    public void setArticleId(String articleId)
+    {
+        this.articleId = articleId;
+    }
+
     /**
      * 
      * @return return the BD table key (column name: ejemplar).

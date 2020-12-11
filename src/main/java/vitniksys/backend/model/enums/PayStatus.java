@@ -4,7 +4,7 @@ public enum PayStatus
 {
     RECIBIDO,ENVIADO,ENVIO_PENDIENTE,COBRADO,COBRO_PENDIENTE,NA;
     
-    public static PayStatus ConvertirIntAEnum(int val)
+    public static PayStatus toEnum(int val)
     {
         PayStatus ret = null;
         
@@ -30,7 +30,7 @@ public enum PayStatus
         return ret;
     }
     
-    public static int ConvertirEnumAInt(PayStatus estado)
+    public static int toInt(PayStatus estado)
     {
         int ret = 0;
         if(estado!=null){

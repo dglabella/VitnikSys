@@ -1,11 +1,15 @@
 package vitniksys.backend.model.entities;
 
 import java.sql.Timestamp;
-
 import vitniksys.backend.model.enums.Reason;
 
 public class Devolution
 {
+    //fk id
+    private Integer prefClientId;
+    private Integer campNumber;
+    private String articleId;
+
     //Entity properties
     private int code;
     private int quantity;
@@ -31,6 +35,36 @@ public class Devolution
     }
 
     //Getters && Setters
+    public Integer getPrefClientId()
+    {
+        return this.prefClientId;
+    }
+
+    public void setPrefClientId(Integer prefClientId)
+    {
+        this.prefClientId = prefClientId;
+    }
+
+    public Integer getCampNumber()
+    {
+        return this.campNumber;
+    }
+
+    public void setCampNumber(Integer campNumber)
+    {
+        this.campNumber = campNumber;
+    }
+
+    public String getArticleId()
+    {
+        return this.articleId;
+    }
+
+    public void setArticleId(String articleId)
+    {
+        this.articleId = articleId;
+    }
+
     /**
      * 
      * @return return the BD table key (column name: cod).
@@ -114,7 +148,7 @@ public class Devolution
         return this.article;
     }
 
-    public void setArticulo(Article article)
+    public void setArticle(Article article)
     {
         this.article = article;
     }

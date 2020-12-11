@@ -26,7 +26,7 @@ public class ArticleOperator implements IArticleOperator
         return ArticleOperator.operartor;
     }
 
-    public boolean getActiveRow()
+    public boolean isActiveRow()
     {
         return this.activeRow;
     }
@@ -47,10 +47,10 @@ public class ArticleOperator implements IArticleOperator
 
         statement.setString(1, article.getId());
         statement.setString(2, article.getName());
-        statement.setInt(3, ArticleType.EnumToInt(article.getType()));
+        statement.setInt(3, ArticleType.toInt(article.getType()));
         statement.setFloat(4, article.getUnitPrice());
         statement.setString(5, article.getName());
-        statement.setInt(6, ArticleType.EnumToInt(article.getType()));
+        statement.setInt(6, ArticleType.toInt(article.getType()));
         statement.setFloat(7, article.getUnitPrice());
 
         returnCode = statement.executeUpdate();
@@ -76,10 +76,10 @@ public class ArticleOperator implements IArticleOperator
 
             statement.setString(1, article.getId());
             statement.setString(2, article.getName());
-            statement.setInt(3, ArticleType.EnumToInt(article.getType()));
+            statement.setInt(3, ArticleType.toInt(article.getType()));
             statement.setFloat(4, article.getUnitPrice());
             statement.setString(5, article.getName());
-            statement.setInt(6, ArticleType.EnumToInt(article.getType()));
+            statement.setInt(6, ArticleType.toInt(article.getType()));
             statement.setFloat(7, article.getUnitPrice());
 
             returnCode += statement.executeUpdate();

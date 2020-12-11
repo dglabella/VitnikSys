@@ -4,7 +4,7 @@ public enum ArticleType
 {
     PEDIDO, FREEPREMIUM, CALZADO, PROMO, OPORTUNIDAD, NA;
     
-    public static ArticleType IntToEnum(int val)
+    public static ArticleType toEnum(int val)
     {
         ArticleType ret = null; 
         switch (val)
@@ -30,7 +30,7 @@ public enum ArticleType
         return ret;
     }
     
-    public static int EnumToInt(ArticleType articleType)
+    public static int toInt(ArticleType articleType)
     {
         int ret = 0;
         if(articleType!=null)

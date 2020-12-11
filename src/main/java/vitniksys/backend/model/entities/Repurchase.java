@@ -4,101 +4,137 @@ import java.sql.Timestamp;
 
 public class Repurchase
 {
-   //Entity properties
-   private int code;
-   private float cost;
-   private Timestamp registrationTime;
+    //fk id
+    private Integer prefClientId;
+    private Integer campNumber;
+    private Integer returnedArticleId;
 
-   //Domain Associations
-   private PreferentialClient preferentialClient;
-   private Campaign campaign;
-   private ReturnedArticle returnedArticle;
+    //Entity properties
+    private int code;
+    private float cost;
+    private Timestamp registrationTime;
 
-   //Others
-   private boolean active;
+    //Domain Associations
+    private PreferentialClient preferentialClient;
+    private Campaign campaign;
+    private ReturnedArticle returnedArticle;
+
+    //Others
+    private boolean active;
    
-   public Repurchase(int code, float cost)
-   {
-       this.code = code;
-       this.cost = cost;
-   }
+    public Repurchase(int code, float cost, Timestamp registrationTime)
+    {
+        this.code = code;
+        this.cost = cost;
+        this.registrationTime = registrationTime;
+    }
 
-   //Getters && Setters
-   /**
+    //Getters && Setters
+    public Integer getPrefClientId()
+    {
+        return this.prefClientId;
+    }
+
+    public void setPrefClientId(Integer prefClientId)
+    {
+        this.prefClientId = prefClientId;
+    }
+    
+    public Integer getCampNumber()
+    {
+        return this.campNumber;
+    }
+
+    public void setCampNumber(Integer campNumber)
+    {
+        this.campNumber = campNumber;
+    }
+
+    public Integer getReturnedArticleId()
+    {
+        return this.returnedArticleId;
+    }
+
+    public void setReturnedArticleId(Integer returnedArticleId)
+    {
+        this.returnedArticleId = returnedArticleId;
+    }
+
+    /**
     * 
     * @return return the BD table key (column name: cod).
     */
-   public int getCode()
-   {
-       return this.code;
-   }
+    public int getCode()
+    {
+        return this.code;
+    }
 
-   /**
+    /**
     * 
     * @param code set the BD table key (column name: cod).
     */
-   public void setCode(int code)
-   {
-       this.code = code;
-   }
+    public void setCode(int code)
+    {
+        this.code = code;
+    }
 
-   public float getCost()
-   {
-       return this.cost;
-   }
+    public float getCost()
+    {
+        return this.cost;
+    }
 
-   public void setCost(float cost)
-   {
-       this.cost = cost;
-   }
+    public void setCost(float cost)
+    {
+        this.cost = cost;
+    }
 
-   public Timestamp getRegistrationTime()
-   {
-       return this.registrationTime;
-   }
+    public Timestamp getRegistrationTime()
+    {
+        return this.registrationTime;
+    }
 
-   public void setRegistrationTime(Timestamp registrationTime)
-   {
-       this.registrationTime = registrationTime;
-   }
+    public void setRegistrationTime(Timestamp registrationTime)
+    {
+        this.registrationTime = registrationTime;
+    }
 
-   public PreferentialClient getPreferentialClient()
-   {
-       return this.preferentialClient;
-   }
-   
-   public void setPreferentialClient(PreferentialClient preferentialClient)
-   {
-       this.preferentialClient = preferentialClient;
-   }
-   
-   public Campaign getCampaign()
-   {
-       return this.campaign;
-   }
+    public PreferentialClient getPreferentialClient()
+    {
+        return this.preferentialClient;
+    }
+    
+    public void setPreferentialClient(PreferentialClient preferentialClient)
+    {
+        this.preferentialClient = preferentialClient;
+    }
+    
+    public Campaign getCampaign()
+    {
+        return this.campaign;
+    }
 
-   public void setCampaign(Campaign campaign)
-   {
-       this.campaign = campaign;
-   }
+    public void setCampaign(Campaign campaign)
+    {
+        this.campaign = campaign;
+    }
 
-   public ReturnedArticle getReturnedArticle()
-   {
-       return this.returnedArticle;
-   }
-   
-   public void setReturnedArticle(ReturnedArticle returnedArticle)
-   {
-       this.returnedArticle = returnedArticle;
-   }
+    public ReturnedArticle getReturnedArticle()
+    {
+        return this.returnedArticle;
+    }
+    
+    public void setReturnedArticle(ReturnedArticle returnedArticle)
+    {
+        this.returnedArticle = returnedArticle;
+    }
 
-   public boolean isActive()
-   {
-       return this.active;
-   }
-   
-   public void setActive(boolean active)
-   {
-       this.active = active;
-   }
+    public boolean isActive()
+    {
+        return this.active;
+    }
+    
+    public void setActive(boolean active)
+    {
+        this.active = active;
+    }
 }
