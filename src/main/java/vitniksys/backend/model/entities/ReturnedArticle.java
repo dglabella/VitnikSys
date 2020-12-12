@@ -13,9 +13,6 @@ public class ReturnedArticle extends Article
     private Reason reason;
     private boolean repurchased;
 
-    //Domain Associations
-    private Article article;
-
     //Others
     private boolean active;
 

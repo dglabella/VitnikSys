@@ -139,7 +139,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
             repurchase.setReturnedArticleId(resultSet.getInt(4));
 
             //Associations
-            repurchase.setReturnedArticle(new ReturnedArticle(resultSet.getInt(4), , type, unitPrice, unitCode, reason, repurchased));
+            repurchase.setReturnedArticle(new ReturnedArticle(resultSet.getInt(4), resultSet.getString(10), type, unitPrice, unitCode, reason, repurchased));
 			
 			ret.add(repurchase);
 		}
