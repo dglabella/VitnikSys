@@ -1,9 +1,8 @@
 package vitniksys.backend.model.entities;
 
 import vitniksys.backend.model.enums.Reason;
-import vitniksys.backend.model.enums.ArticleType;
 
-public class ReturnedArticle extends Article
+public class ReturnedArticle
 {
     //fk id
     private String articleId;
@@ -13,13 +12,14 @@ public class ReturnedArticle extends Article
     private Reason reason;
     private boolean repurchased;
 
+    //Domain Associations
+    private Article article;
+
     //Others
     private boolean active;
 
-    public ReturnedArticle(String id, String name, ArticleType type, float unitPrice, 
-        int unitCode, Reason reason, boolean repurchased)
+    public ReturnedArticle(int unitCode, Reason reason, boolean repurchased)
     {
-        super(id, name, type, unitPrice);
         this.unitCode = unitCode;
         this.reason = reason;
         this.repurchased = repurchased;
@@ -82,5 +82,15 @@ public class ReturnedArticle extends Article
     public void setActive(boolean active)
     {
         this.active = active;
+    }
+
+    public Article getArticle()
+    {
+        return this.article;
+    }
+
+    public void setArticle(Article article)
+    {
+        this.article = article;
     }
 }

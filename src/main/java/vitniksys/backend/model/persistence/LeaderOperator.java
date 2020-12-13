@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
-
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.PreferentialClient;
 

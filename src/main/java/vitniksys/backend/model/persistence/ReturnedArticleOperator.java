@@ -1,7 +1,8 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
-
+import java.sql.PreparedStatement;
+import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
 

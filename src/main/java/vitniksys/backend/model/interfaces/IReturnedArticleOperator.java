@@ -1,6 +1,7 @@
 package vitniksys.backend.model.interfaces;
 
 import java.util.List;
+
 import vitniksys.backend.model.entities.ReturnedArticle;
 
 public interface IReturnedArticleOperator extends CrudOperator<ReturnedArticle>
@@ -9,5 +10,5 @@ public interface IReturnedArticleOperator extends CrudOperator<ReturnedArticle>
 
     ReturnedArticle find(int id) throws Exception;
 
-    int delete(int id) throws Exception;
+    int delete(int id) throws Exception;    
 }

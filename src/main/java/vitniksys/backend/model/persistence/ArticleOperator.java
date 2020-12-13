@@ -10,7 +10,6 @@ import vitniksys.backend.model.interfaces.IArticleOperator;
 public class ArticleOperator implements IArticleOperator
 {
     private static ArticleOperator operartor;
-
     private boolean activeRow;
 
     protected ArticleOperator()
