@@ -41,10 +41,12 @@ public class LeaderOperator extends BaseClientOperator
         return LeaderOperator.operator;
     }
 
+    /*
     @Override
     public PreferentialClient find(Integer id) throws Exception
     {
         PreferentialClient ret = null;
+        
         String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_cp` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -94,9 +96,10 @@ public class LeaderOperator extends BaseClientOperator
         }
         
         statement.close();
-            
+        
         return ret;      
     }
+    */
 
     @Override
     public List<PreferentialClient> findAll() throws Exception

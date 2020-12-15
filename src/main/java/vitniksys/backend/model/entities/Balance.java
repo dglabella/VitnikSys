@@ -41,7 +41,6 @@ public class Balance
     }
 
     //Getters && Setters
-    
     public Integer getPrefClientId()
     {
         return this.prefClientId;

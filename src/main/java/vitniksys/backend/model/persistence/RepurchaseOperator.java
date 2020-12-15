@@ -4,8 +4,12 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+
+import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.ReturnedArticle;
+import vitniksys.backend.model.enums.ArticleType;
+import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.interfaces.IRepurchaseOperator;
 
 public class RepurchaseOperator implements IRepurchaseOperator
@@ -128,18 +132,24 @@ public class RepurchaseOperator implements IRepurchaseOperator
 
 		ResultSet resultSet = statement.executeQuery();
 
-		Repurchase repurchase;
+        Article article;
+        Repurchase repurchase;
+        ReturnedArticle returnedArticle;
 		while (resultSet.next())
 		{
+            article = new Article(resultSet.getString(7), resultSet.getString(10), ArticleType.toEnum(resultSet.getInt(11)), resultSet.getFloat(12));
+            returnedArticle = new ReturnedArticle(resultSet.getInt(4), Reason.toEnum(resultSet.getInt(8)), resultSet.getBoolean(9));
             repurchase = new Repurchase(resultSet.getInt(1), resultSet.getFloat(5), resultSet.getTimestamp(6));
-			
-			//fk ids
+
+            //fk ids
+            returnedArticle.setArticleId(article.getId());
+            
             repurchase.setPrefClientId(resultSet.getInt(2));
             repurchase.setCampNumber(resultSet.getInt(3));
             repurchase.setReturnedArticleId(resultSet.getInt(4));
 
             //Associations
-            repurchase.setReturnedArticle(new ReturnedArticle(resultSet.getInt(4), resultSet.getString(10), type, unitPrice, unitCode, reason, repurchased));
+            repurchase.setReturnedArticle(returnedArticle);
 			
 			ret.add(repurchase);
 		}

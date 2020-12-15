@@ -2,6 +2,7 @@ package vitniksys.backend.model.persistence;
 
 import java.util.List;
 import java.util.Iterator;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Balance;
@@ -129,14 +130,31 @@ public class BalanceOperator implements IBalanceOperator
     public List<Balance> findAll(Integer prefClientId, Integer campNumb) throws Exception
     {
         List<Balance> ret = new ArrayList<>();
+        String sqlStmnt = null;
+        PreparedStatement statement = null;
 
         if(prefClientId != null && campNumb != null)
         {
-            // Select devs with camp numb x and pref client id y
+            sqlStmnt = 
+            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision`"+
+            "FROM `saldos`"+
+            "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = 1;";
+
+            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement.setInt(1, prefClientId);
+            statement.setInt(2, campNumb);
+            statement.setBoolean(3, this.activeRow);
         }
         else if(prefClientId != null && campNumb == null)
         {
-            // Select devs with pref client id y
+			sqlStmnt = 
+            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision`"+
+            "FROM `saldos`"+
+            "WHERE `id_cp` = ? AND `active_row` = 1;";
+
+            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement.setInt(1, prefClientId);
+            statement.setBoolean(2, this.activeRow);
         }
         else if(prefClientId == null && campNumb != null)
         {
@@ -145,8 +163,28 @@ public class BalanceOperator implements IBalanceOperator
         else
         {
             throw new Exception("Both campaign number and preferential client id are null");
-        }
+		}
 
+		ResultSet resultSet = statement.executeQuery();
+
+        Balance balance;
+		while (resultSet.next())
+		{
+            balance = new Balance(resultSet.getFloat(4), resultSet.getFloat(5), resultSet.getFloat(6), resultSet.getFloat(7), resultSet.getFloat(8), resultSet.getFloat(9), resultSet.getFloat(10));
+            balance.setBalance(resultSet.getFloat(3));
+
+            //fk ids
+            balance.setPrefClientId(resultSet.getInt(1));
+            balance.setCampNumber(resultSet.getInt(2));
+
+            //Associations
+            
+
+			ret.add(balance);
+		}
+
+		statement.close();
+		
 		if(ret.size() == 0)
             ret = null;
 		

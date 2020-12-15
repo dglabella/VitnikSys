@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Campaign;
+import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
 
 public class CampaignOperator implements ICampaignOperator
@@ -57,8 +58,11 @@ public class CampaignOperator implements ICampaignOperator
     public int insert(Campaign camp) throws Exception
     {
         int returnCode;
-        String sqlStmnt = "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year`, `cod_cat`) VALUES"+
-        "(?, ?, ?, ?, ?);";
+
+        String sqlStmnt =
+        "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year`, `cod_cat`)"+
+        "VALUES (?, ?, ?, ?, ?);";
+
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, camp.getNumber());
@@ -101,19 +105,48 @@ public class CampaignOperator implements ICampaignOperator
     {
         List<Campaign> ret = new ArrayList<>();
         
-        String sqlStmnt = "SELECT * FROM `camps` WHERE `active_row` = ?;";
+        String sqlStmnt =
+        "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, camps.`fecha_registro`, `stock_inicial`, `stock`, `precio`, `link`, catalogos.`fecha_registro`"+
+        "FROM `camps`"+
+        "LEFT JOIN `catalogos` ON camps.cod_cat = catalogos.cod"+
+        "WHERE camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL);";
+
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);
+        statement.setBoolean(1, CatalogueOperator.getOperator().isActiveRow());
 
         ResultSet resultSet = statement.executeQuery();
 
         Campaign camp;
+        Catalogue catalogue;
+        Integer codCat;
         while (resultSet.next())
         {
-            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
-            camp.setAlias(resultSet.getString(2));
-            camp.setRegistrationTime(resultSet.getTimestamp(5));
-            camp.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
+            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            camp.setAlias(resultSet.getString(3));
+            camp.setRegistrationTime(resultSet.getTimestamp(6));
+
+            codCat = resultSet.getInt(2);
+            if(resultSet.wasNull())
+            {
+                System.out.println("CAMP " + resultSet.getInt(1) + " NO TIENE CATALOGOOOOOOOOOOO");
+            }
+            else
+            {
+                System.out.println("CAMP " + resultSet.getInt(1));
+            }
+
+            catalogue = new Catalogue(resultSet.getInt(2), resultSet.getInt(7), resultSet.getFloat(9));
+            catalogue.setActualStock(resultSet.getInt(8));
+            catalogue.setLink(resultSet.getString(10));
+            catalogue.setRegistrationTime(resultSet.getTimestamp(11));
+
+            //fk ids
+            camp.setCatalogueCode(resultSet.getInt(2));
+
+            //Associations
+            camp.setCatalogue(catalogue);
+
             ret.add(camp);
         }
 

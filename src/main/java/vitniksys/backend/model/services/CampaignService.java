@@ -24,10 +24,7 @@ public class CampaignService extends Service
 {
     public static final int MAX_LENGTH_CAMP_ALIAS = 60;
     
-    
     //Getters && Setters
-
-
     // ================================= private methods =================================
     private boolean allFieldsAreOk(Integer campNumb, Integer prefClientId)
     {
@@ -49,6 +46,7 @@ public class CampaignService extends Service
         {
             ret = true;
         }
+
         return ret;
     }
 
@@ -102,7 +100,7 @@ public class CampaignService extends Service
     // ================================= public methods =================================
     public void searchCamps(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
     {
-        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         
         Task<Void> task = new Task<>()
         {
@@ -136,7 +134,7 @@ public class CampaignService extends Service
 
                 try
                 {
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    //getServiceSubscriber().closeProcessIsWorking(customAlert);
                     if(camp != null)
                     {
                         retCode = 1;
@@ -155,7 +153,7 @@ public class CampaignService extends Service
                 catch (Exception exception)
                 {
                     retCode = 0;
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    //getServiceSubscriber().closeProcessIsWorking(customAlert);
                     getServiceSubscriber().showError("Error al buscar la campaña especificada.", null, exception);
                     throw exception;
                 }

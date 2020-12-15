@@ -47,7 +47,10 @@ public class BaseClientOperator extends PreferentialClientOperator
     {
         List<PreferentialClient> ret  = new ArrayList<>();
 
-        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
+        String sqlStmnt = 
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`"+
+        "FROM `clientes_preferenciales`"+
+        "WHERE `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, false);
@@ -57,17 +60,17 @@ public class BaseClientOperator extends PreferentialClientOperator
         BaseClient baseClient;
         while(resultSet.next())
         {
-            baseClient = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            baseClient = new BaseClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
             
-            baseClient.setDni(resultSet.getLong(2));
-            baseClient.setLocation(resultSet.getString(5));
-            Date date = resultSet.getDate(6);
+            baseClient.setDni(resultSet.getLong(3));
+            baseClient.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
             {
                 baseClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            baseClient.setEmail(resultSet.getString(7));
-            baseClient.setPhoneNumber(resultSet.getLong(8));
+            baseClient.setEmail(resultSet.getString(8));
+            baseClient.setPhoneNumber(resultSet.getLong(9));
 
             ret.add(baseClient);
         }
@@ -79,12 +82,15 @@ public class BaseClientOperator extends PreferentialClientOperator
 
         return ret;
     }
-
+    
     @Override
     public BaseClient find(Integer id) throws Exception
     {
         BaseClient ret = null;
-        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_cp` = ? AND `id_lider` = ? AND `active_row` = ?;";
+        String sqlStmnt =
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`"+
+        "FROM `clientes_preferenciales`"+
+        "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
@@ -96,25 +102,25 @@ public class BaseClientOperator extends PreferentialClientOperator
         {
             throw new Exception("Base client id is null");
         }
-        //Base client has to have a NULL leader id.
-        statement.setNull(2, Types.INTEGER);
+
+        statement.setBoolean(2, false);
         statement.setBoolean(3, this.activeRow);
 
         ResultSet resultSet = statement.executeQuery();
 
         if(resultSet.next())
         {
-            ret = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            ret = new BaseClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
             
-            ret.setDni(resultSet.getLong(2));
-            ret.setLocation(resultSet.getString(5));
-            Date date = resultSet.getDate(6);
+            ret.setDni(resultSet.getLong(3));
+            ret.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
             {
                 ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            ret.setEmail(resultSet.getString(7));
-            ret.setPhoneNumber(resultSet.getLong(8));
+            ret.setEmail(resultSet.getString(8));
+            ret.setPhoneNumber(resultSet.getLong(9));
 
             ret.setOrders(OrderOperator.getOperator().findAll(ret.getId(), null));
             ret.setDevolutions(DevolutionOperator.getOperator().findAll(ret.getId(), null));
@@ -135,8 +141,9 @@ public class BaseClientOperator extends PreferentialClientOperator
     public int insert(PreferentialClient cp) throws Exception
     {
         int returnCode;
-        String sqlStmnt = "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, "+
-            "`email`, `tel`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        String sqlStmnt =
+        "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`)"+
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setInt(1, cp.getId());

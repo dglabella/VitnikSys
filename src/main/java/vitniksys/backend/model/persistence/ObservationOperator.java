@@ -1,7 +1,9 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.interfaces.IObservationOperator;
 
@@ -80,14 +82,28 @@ public class ObservationOperator implements IObservationOperator
     public List<Observation> findAll(Integer prefClientId, Integer campNumb) throws Exception
     {
         List<Observation> ret = new ArrayList<>();
+        /*
+        String sqlStmnt = null;
+        PreparedStatement statement = null;
 
         if(prefClientId != null && campNumb != null)
         {
-            // Select devs with camp numb x and pref client id y
+            sqlStmnt = 
+            "";
+
+            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement.setInt(1, prefClientId);
+            statement.setInt(2, campNumb);
+            statement.setBoolean(3, this.activeRow);
         }
         else if(prefClientId != null && campNumb == null)
         {
-            // Select devs with pref client id y
+			sqlStmnt = 
+            "";
+
+            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement.setInt(1, prefClientId);
+            statement.setBoolean(2, this.activeRow);
         }
         else if(prefClientId == null && campNumb != null)
         {
@@ -96,10 +112,32 @@ public class ObservationOperator implements IObservationOperator
         else
         {
             throw new Exception("Both campaign number and preferential client id are null");
-        }
+		}
 
+		ResultSet resultSet = statement.executeQuery();
+
+        Observation observation;
+		while (resultSet.next())
+		{
+            observation = new Balance(resultSet.getFloat(4), resultSet.getFloat(5), resultSet.getFloat(6), resultSet.getFloat(7), resultSet.getFloat(8), resultSet.getFloat(9), resultSet.getFloat(10));
+            observation.setBalance(resultSet.getFloat(3));
+
+            //fk ids
+            observation.setPrefClientId(resultSet.getInt(1));
+            observation.setCampNumber(resultSet.getInt(2));
+
+            //Associations
+            
+
+			ret.add(observation);
+        }
+        
+		statement.close();
+		
 		if(ret.size() == 0)
             ret = null;
+
+        */
 		
         return ret;
     }

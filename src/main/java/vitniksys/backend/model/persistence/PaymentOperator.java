@@ -1,6 +1,9 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.interfaces.IPaymentOperator;
 
@@ -78,8 +81,65 @@ public class PaymentOperator implements IPaymentOperator
     @Override
     public List<Payment> findAll(Integer prefClientId, Integer campNumb) throws Exception
     {
-        // TODO Auto-generated method stub
-        return null;
+        List<Payment> ret = new ArrayList<>();
+        String sqlStmnt = null;
+        PreparedStatement statement = null;
+
+        if(prefClientId != null && campNumb != null)
+        {
+            sqlStmnt = 
+            "SELECT `cod`, `id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`, `fecha_registro`"+
+            "FROM `pagos`"+
+            "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
+
+            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement.setInt(1, prefClientId);
+            statement.setInt(2, campNumb);
+            statement.setBoolean(3, this.activeRow);
+        }
+        else if(prefClientId != null && campNumb == null)
+        {
+			sqlStmnt = 
+            "SELECT `cod`, `id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`, `fecha_registro`"+
+            "FROM `pagos`"+
+            "WHERE `id_cp` = ? AND `active_row` = ?;";
+
+            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement.setInt(1, prefClientId);
+            statement.setBoolean(2, this.activeRow);
+        }
+        else if(prefClientId == null && campNumb != null)
+        {
+            // Select devs with camp numb x
+        }
+        else
+        {
+            throw new Exception("Both campaign number and preferential client id are null");
+		}
+
+		ResultSet resultSet = statement.executeQuery();
+
+        Payment payment;
+		while (resultSet.next())
+		{
+            payment = new Payment(resultSet.getInt(1), resultSet.getString(4), resultSet.getFloat(4), resultSet.getTimestamp(10));
+
+            //fk ids            
+            payment.setPrefClientId(resultSet.getInt(2));
+            payment.setCampNumber(resultSet.getInt(3));
+
+            //Associations
+            
+			
+			ret.add(payment);
+		}
+
+		statement.close();
+		
+		if(ret.size() == 0)
+            ret = null;
+		
+        return ret;
     }
 
     @Override

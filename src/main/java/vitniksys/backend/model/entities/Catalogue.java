@@ -1,15 +1,17 @@
 package vitniksys.backend.model.entities;
 
 import java.util.List;
+import java.sql.Timestamp;
 
 public class Catalogue
 {
     //Entity properties
     private Integer code;
-    private int initialStock;
-    private int actualStock;
-    private float price;
+    private Integer initialStock;
+    private Integer actualStock;
+    private Float price;
     private String link;
+    private Timestamp registrationTime;
 
     //Domain Associations
     private Campaign[] campaigns;
@@ -18,7 +20,7 @@ public class Catalogue
     //Others
     private boolean active;
 
-    public Catalogue(Integer code, int initialStock, float price)
+    public Catalogue(Integer code, Integer initialStock, Float price)
     {
         this.code = code;
         this.initialStock = initialStock;
@@ -44,7 +46,7 @@ public class Catalogue
         this.code = code;
     }
 
-    public int getInitialStock()
+    public Integer getInitialStock()
     {
         return this.initialStock;
     }
@@ -54,7 +56,7 @@ public class Catalogue
         this.initialStock = initialStock;
     }
 
-    public float getPrice()
+    public Float getPrice()
     {
         return this.price;
     }
@@ -84,19 +86,33 @@ public class Catalogue
         this.actualStock = actualStock;
     }
 
-    public Campaign[] getCampaigns() {
+    public Timestamp getRegistrationTime()
+    {
+        return this.registrationTime;
+    }
+
+    public void setRegistrationTime(Timestamp registrationTime)
+    {
+        this.registrationTime = registrationTime;
+    }
+
+    public Campaign[] getCampaigns()
+    {
         return this.campaigns;
     }
 
-    public void setCampaigns(Campaign[] campaigns) {
+    public void setCampaigns(Campaign[] campaigns)
+    {
         this.campaigns = campaigns;
     }
 
-    public List<CatalogueDeliver> getCatalogueDeliveries() {
+    public List<CatalogueDeliver> getCatalogueDeliveries()
+    {
         return this.CatalogueDeliveries;
     }
 
-    public void setCatalogueDeliveries(List<CatalogueDeliver> CatalogueDeliveries) {
+    public void setCatalogueDeliveries(List<CatalogueDeliver> CatalogueDeliveries)
+    {
         this.CatalogueDeliveries = CatalogueDeliveries;
     }
 

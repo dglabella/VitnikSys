@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 public class Campaign
 {
+    //fk id
+    private Integer catalogueCode;
+
     //Entity properties
     private Integer number;
     private String alias;
@@ -42,6 +45,16 @@ public class Campaign
     }
 
     //Getters && Setters
+    public Integer getCatalogueCode()
+    {
+        return this.catalogueCode;
+    }
+
+    public void setCatalogueCode(Integer catalogueCode)
+    {
+        this.catalogueCode = catalogueCode;
+    }
+
     /**
      * 
      * @return return the BD table key (column name: nro_camp).
@@ -136,11 +149,6 @@ public class Campaign
     public void setCatalogue(Catalogue catalogue)
     {
         this.catalogue = catalogue;
-    }
-
-    public Integer getCatalogueCode()
-    {
-        return this.catalogue != null? this.catalogue.getCode():null;
     }
 
     public List<Payment> getPayments()

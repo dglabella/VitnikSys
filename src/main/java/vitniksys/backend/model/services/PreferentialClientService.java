@@ -115,6 +115,7 @@ public class PreferentialClientService extends Service
 
     public void searchLeader(Integer id)
     {
+        /*
         CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del Lider "+id);
         Task<Void> task = new Task<>()
         {
@@ -148,6 +149,7 @@ public class PreferentialClientService extends Service
         };
         Platform.runLater(task);
         //this.getExecutorService().execute(task);
+        */
     }
 
     public void searchSubordinatedClient(Integer id)

@@ -83,6 +83,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
     public SubordinatedClient find(Integer id) throws Exception
     {
         SubordinatedClient ret = null;
+        /*
         String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_cp` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -132,8 +133,8 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         }
         
         statement.close();
-            
-        return ret;      
+        */
+        return ret;
     }
 
     @Override
