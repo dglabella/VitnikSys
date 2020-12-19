@@ -106,7 +106,10 @@ public class LeaderOperator extends BaseClientOperator
     {
         List<PreferentialClient> ret  = new ArrayList<>();
 
-        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `es_lider` = ? AND `active_row` = ?;";
+        String sqlStmnt =
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`, `es_lider`, `fecha_registro`, `fecha_baja` "+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `es_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, true);
@@ -143,8 +146,9 @@ public class LeaderOperator extends BaseClientOperator
     public int insert(PreferentialClient cp) throws Exception
     {
         int returnCode;
-        String sqlStmnt = "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, "+
-            "`email`, `tel`, `es_lider`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sqlStmnt =
+        "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`, `es_lider`) "+
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setInt(1, cp.getId());

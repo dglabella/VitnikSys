@@ -40,7 +40,8 @@ public class ArticleOperator implements IArticleOperator
     public int insert(Article article) throws Exception
     {
         int returnCode = 0;
-        String sqlStmnt = "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) VALUES "+
+        String sqlStmnt =
+        "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) VALUES "+
         "(?, ?, ?, ?) ON DUPLICATE KEY UPDATE `nombre` = ?,`tipo` = ?,`precio_unitario` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
@@ -62,7 +63,8 @@ public class ArticleOperator implements IArticleOperator
     public int insertMany(List<Article> list) throws Exception
     {
         int returnCode = 0;
-        String sqlStmnt = "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) VALUES "+
+        String sqlStmnt =
+        "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) VALUES "+
         "(?, ?, ?, ?) ON DUPLICATE KEY UPDATE `nombre` = ?,`tipo` = ?,`precio_unitario` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 

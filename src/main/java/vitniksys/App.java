@@ -39,7 +39,7 @@ public class App extends Application
         stage.setTitle("Menu principal");
         
         ViewCntlr viewCtrller = fxmlLoader.getController();
-
+        
         stage.resizableProperty().set(false);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>()
         {

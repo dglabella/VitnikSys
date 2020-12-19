@@ -1,8 +1,8 @@
 package vitniksys.backend.model.persistence;
 
+import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.interfaces.ICatalogueOperator;
@@ -71,7 +71,10 @@ public class CatalogueOperator implements ICatalogueOperator
     public Catalogue find(int code) throws Exception 
     {
         Catalogue ret = null;
-        String sqlStmnt = "SELECT * FROM `catalogos` WHERE `cod` = ? AND `active_row` = ?;";
+        String sqlStmnt =
+        "SELECT `cod`, `stock_inicial`, `stock`, `precio`, `link`, `fecha_registro` "+
+        "FROM `catalogos` "+
+        "WHERE `cod` = ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setInt(1, code);
         statement.setBoolean(2, this.activeRow);

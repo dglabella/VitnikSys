@@ -4,10 +4,9 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
-
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.interfaces.IDevolutionOperator;
 
@@ -100,9 +99,10 @@ public class DevolutionOperator implements IDevolutionOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, devoluciones.`letra`, `cant`, `monto`, `motivo`, `fecha_registro`, `nombre`, `tipo`, `precio_unitario`"+
-            "FROM `devoluciones`"+
-            "INNER JOIN `articulos` ON devoluciones.letra = articulos.letra WHERE `id_cp` = ? AND `nro_camp` = ? AND devoluciones.active_row = ? AND articulos.active_row = ?;";
+			"SELECT `cod`, `id_cp`, `nro_camp`, devoluciones.`letra`, `cant`, `monto`, `motivo`, `fecha_registro`, `nombre`, `tipo`, `precio_unitario` "+
+            "FROM `devoluciones` "+
+            "INNER JOIN `articulos` ON devoluciones.letra = articulos.letra "+
+            "WHERE `id_cp` = ? AND `nro_camp` = ? AND devoluciones.active_row = ? AND articulos.active_row = ?;";
             statement = Connector.getConnector().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setInt(2, campNumb);
@@ -112,10 +112,11 @@ public class DevolutionOperator implements IDevolutionOperator
         }
         else if(prefClientId != null && campNumb == null)
         {
-			sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, devoluciones.`letra`, `cant`, `monto`, `motivo`, `fecha_registro`, `nombre`, `tipo`, `precio_unitario`"+
-            "FROM `devoluciones`"+
-            "INNER JOIN `articulos` ON devoluciones.letra = articulos.letra WHERE `id_cp` = ? AND devoluciones.active_row = ? AND articulos.active_row = ?;";
+			sqlStmnt =
+			"SELECT `cod`, `id_cp`, `nro_camp`, devoluciones.`letra`, `cant`, `monto`, `motivo`, `fecha_registro`, `nombre`, `tipo`, `precio_unitario` "+
+            "FROM `devoluciones` "+
+            "INNER JOIN `articulos` ON devoluciones.letra = articulos.letra "+
+            "WHERE `id_cp` = ? AND devoluciones.active_row = ? AND articulos.active_row = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);

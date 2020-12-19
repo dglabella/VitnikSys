@@ -48,8 +48,8 @@ public class BaseClientOperator extends PreferentialClientOperator
         List<PreferentialClient> ret  = new ArrayList<>();
 
         String sqlStmnt = 
-        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`"+
-        "FROM `clientes_preferenciales`"+
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
+        "FROM `clientes_preferenciales` "+
         "WHERE `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -88,8 +88,8 @@ public class BaseClientOperator extends PreferentialClientOperator
     {
         BaseClient ret = null;
         String sqlStmnt =
-        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`"+
-        "FROM `clientes_preferenciales`"+
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
+        "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -142,7 +142,7 @@ public class BaseClientOperator extends PreferentialClientOperator
     {
         int returnCode;
         String sqlStmnt =
-        "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`)"+
+        "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`) "+
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);

@@ -60,7 +60,7 @@ public class CampaignOperator implements ICampaignOperator
         int returnCode;
 
         String sqlStmnt =
-        "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year`, `cod_cat`)"+
+        "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year`, `cod_cat`) "+
         "VALUES (?, ?, ?, ?, ?);";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -106,20 +106,21 @@ public class CampaignOperator implements ICampaignOperator
         List<Campaign> ret = new ArrayList<>();
         
         String sqlStmnt =
-        "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, camps.`fecha_registro`, `stock_inicial`, `stock`, `precio`, `link`, catalogos.`fecha_registro`"+
-        "FROM `camps`"+
-        "LEFT JOIN `catalogos` ON camps.cod_cat = catalogos.cod"+
+        "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, camps.`fecha_registro`, `stock_inicial`, `stock`, `precio`, `link`, catalogos.`fecha_registro` "+
+        "FROM `camps` "+
+        "LEFT JOIN `catalogos` ON camps.cod_cat = catalogos.cod "+
         "WHERE camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL);";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);
-        statement.setBoolean(1, CatalogueOperator.getOperator().isActiveRow());
+        statement.setBoolean(2, CatalogueOperator.getOperator().isActiveRow());
 
         ResultSet resultSet = statement.executeQuery();
 
         Campaign camp;
         Catalogue catalogue;
         Integer codCat;
+
         while (resultSet.next())
         {
             camp = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
@@ -127,25 +128,19 @@ public class CampaignOperator implements ICampaignOperator
             camp.setRegistrationTime(resultSet.getTimestamp(6));
 
             codCat = resultSet.getInt(2);
-            if(resultSet.wasNull())
+            if(!resultSet.wasNull())
             {
-                System.out.println("CAMP " + resultSet.getInt(1) + " NO TIENE CATALOGOOOOOOOOOOO");
+                catalogue = new Catalogue(resultSet.getInt(2), resultSet.getInt(7), resultSet.getFloat(9));
+                catalogue.setActualStock(resultSet.getInt(8));
+                catalogue.setLink(resultSet.getString(10));
+                catalogue.setRegistrationTime(resultSet.getTimestamp(11));
+
+                //fk ids
+                camp.setCatalogueCode(resultSet.getInt(2));
+
+                //Associations
+                camp.setCatalogue(catalogue);
             }
-            else
-            {
-                System.out.println("CAMP " + resultSet.getInt(1));
-            }
-
-            catalogue = new Catalogue(resultSet.getInt(2), resultSet.getInt(7), resultSet.getFloat(9));
-            catalogue.setActualStock(resultSet.getInt(8));
-            catalogue.setLink(resultSet.getString(10));
-            catalogue.setRegistrationTime(resultSet.getTimestamp(11));
-
-            //fk ids
-            camp.setCatalogueCode(resultSet.getInt(2));
-
-            //Associations
-            camp.setCatalogue(catalogue);
 
             ret.add(camp);
         }
@@ -163,7 +158,10 @@ public class CampaignOperator implements ICampaignOperator
     {
         Campaign ret = null;
         
-        String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = ? AND `active_row` = ?;";
+        String sqlStmnt =
+        "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, `fecha_registro` "+
+        "FROM `camps` "+
+        "WHERE `nro_camp` = ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setInt(1, id);
         statement.setBoolean(2, this.activeRow);
@@ -172,10 +170,15 @@ public class CampaignOperator implements ICampaignOperator
 
         if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
-            ret.setAlias(resultSet.getString(2));
-            ret.setRegistrationTime(resultSet.getTimestamp(5));
-            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            ret.setAlias(resultSet.getString(3));
+            ret.setRegistrationTime(resultSet.getTimestamp(6));
+
+            //fk ids
+            ret.setCatalogueCode(resultSet.getInt(2));
+
+            //Associations
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(2)));
         }
 
         statement.close();
@@ -187,21 +190,44 @@ public class CampaignOperator implements ICampaignOperator
     public List<Campaign> findAll(String alias) throws Exception
     {
         List<Campaign> ret = new ArrayList<>();
-        
-        String sqlStmnt = "SELECT * FROM `camps` WHERE `alias` LIKE '%"+(alias != null && !alias.isBlank()?alias:"")+"%' AND `active_row` = ?;";
+
+        String sqlStmnt =
+        "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, camps.`fecha_registro`, `stock_inicial`, `stock`, `precio`, `link`, catalogos.`fecha_registro` "+
+        "FROM `camps` "+
+        "LEFT JOIN `catalogos` ON camps.cod_cat = catalogos.cod "+
+        "WHERE `alias` LIKE '%"+(alias != null && !alias.isBlank()?alias:"")+"%' AND camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL);";
+
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
-        
         statement.setBoolean(1, this.activeRow);
+        statement.setBoolean(2, CatalogueOperator.getOperator().isActiveRow());
 
         ResultSet resultSet = statement.executeQuery();
 
         Campaign camp;
+        Catalogue catalogue;
+        Integer codCat;
+
         while (resultSet.next())
         {
-            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
-            camp.setAlias(resultSet.getString(2));
-            camp.setRegistrationTime(resultSet.getTimestamp(5));
-            camp.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
+            camp = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            camp.setAlias(resultSet.getString(3));
+            camp.setRegistrationTime(resultSet.getTimestamp(6));
+
+            codCat = resultSet.getInt(2);
+            if(!resultSet.wasNull())
+            {
+                catalogue = new Catalogue(resultSet.getInt(2), resultSet.getInt(7), resultSet.getFloat(9));
+                catalogue.setActualStock(resultSet.getInt(8));
+                catalogue.setLink(resultSet.getString(10));
+                catalogue.setRegistrationTime(resultSet.getTimestamp(11));
+
+                //fk ids
+                camp.setCatalogueCode(resultSet.getInt(2));
+
+                //Associations
+                camp.setCatalogue(catalogue);
+            }
+
             ret.add(camp);
         }
 
@@ -218,7 +244,10 @@ public class CampaignOperator implements ICampaignOperator
     {
         Campaign ret = null;
         
-        String sqlStmnt = "SELECT * FROM `camps` WHERE `mes` = ? AND `year` = ? AND `active_row` = ?;";
+        String sqlStmnt =
+        "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, `fecha_registro` "+
+        "FROM `camps` "+
+        "WHERE `mes` = ? AND `year` = ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         
         statement.setInt(1, month);
@@ -229,10 +258,15 @@ public class CampaignOperator implements ICampaignOperator
 
         if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
-            ret.setAlias(resultSet.getString(2));
-            ret.setRegistrationTime(resultSet.getTimestamp(5));
-            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            ret.setAlias(resultSet.getString(3));
+            ret.setRegistrationTime(resultSet.getTimestamp(6));
+
+            //fk ids
+            ret.setCatalogueCode(resultSet.getInt(2));
+
+            //Associations
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(2)));
         }
 
         statement.close();
@@ -269,7 +303,10 @@ public class CampaignOperator implements ICampaignOperator
         
         // String sqlStmnt = "SELECT * FROM `camps` WHERE `active_row` = ? ORDER BY
         // `nro_camp` DESC;";
-        String sqlStmnt = "SELECT * FROM `camps` WHERE `nro_camp` = (SELECT MAX(`nro_camp`) FROM `camps` WHERE `active_row` = ?) AND `active_row` = ?;";
+        String sqlStmnt =
+        "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, `fecha_registro` "+
+        "FROM `camps` "+
+        "WHERE `nro_camp` = (SELECT MAX(`nro_camp`) FROM `camps` WHERE `active_row` = ?) AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);
         statement.setBoolean(2, this.activeRow);
@@ -278,11 +315,15 @@ public class CampaignOperator implements ICampaignOperator
 
         if (resultSet.next())
         {
-            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(3), resultSet.getInt(4));
-            ret.setAlias(resultSet.getString(2));
-            ret.setRegistrationTime(resultSet.getTimestamp(5));
-            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(6)));
-            ret.setActive(resultSet.getBoolean(7));
+            ret = new Campaign(resultSet.getInt(1), resultSet.getInt(4), resultSet.getInt(5));
+            ret.setAlias(resultSet.getString(3));
+            ret.setRegistrationTime(resultSet.getTimestamp(6));
+
+            //fk ids
+            ret.setCatalogueCode(resultSet.getInt(2));
+
+            //Associations
+            ret.setCatalogue(CatalogueOperator.getOperator().find(resultSet.getInt(2)));
         }
 
         statement.close();

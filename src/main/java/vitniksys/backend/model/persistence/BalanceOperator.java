@@ -56,7 +56,8 @@ public class BalanceOperator implements IBalanceOperator
     public int insert(Balance balance) throws Exception
     {
         int returnCode = 0;
-        String sqlStmnt = "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?)";
+        String sqlStmnt =
+        "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, balance.getPrefClientId());
@@ -71,7 +72,8 @@ public class BalanceOperator implements IBalanceOperator
     public int insertMany(List<Balance> list) throws Exception
     {
         int returnCode = 0;
-        String sqlStmnt = "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?)";
+        String sqlStmnt =
+        "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         Balance balance;
@@ -95,7 +97,8 @@ public class BalanceOperator implements IBalanceOperator
     public int update(Balance balance) throws Exception
     {
         int returnCode = 0;
-        String sqlStmnt = "UPDATE `saldos` SET `pedidos_comisionables`= `pedidos_comisionables`+ ?, "+
+        String sqlStmnt =
+        "UPDATE `saldos` SET `pedidos_comisionables`= `pedidos_comisionables`+ ?, "+
         "`pedidos_no_comisionables`= `pedidos_no_comisionables`+ ?, `catalogos`= `catalogos`+ ?, "+
         "`recompras`= `recompras`+ ?, `pagos`= `pagos`+ ?, `devoluciones`= `devoluciones`+ ?, "+
         "`comision`= `comision`+ ?, `balance`= -`pedidos_comisionables`-`pedidos_no_comisionables`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "+
@@ -136,8 +139,8 @@ public class BalanceOperator implements IBalanceOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision`"+
-            "FROM `saldos`"+
+            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
+            "FROM `saldos` "+
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = 1;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -148,8 +151,8 @@ public class BalanceOperator implements IBalanceOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision`"+
-            "FROM `saldos`"+
+            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
+            "FROM `saldos` "+
             "WHERE `id_cp` = ? AND `active_row` = 1;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
