@@ -107,31 +107,32 @@ public class LeaderOperator extends BaseClientOperator
         List<PreferentialClient> ret  = new ArrayList<>();
 
         String sqlStmnt =
-        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`, `es_lider`, `fecha_registro`, `fecha_baja` "+
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
         "FROM `clientes_preferenciales` "+
-        "WHERE `es_lider` = ? AND `active_row` = ?;";
+        "WHERE `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
-        statement.setBoolean(1, true);
+        statement.setBoolean(1, false);
         statement.setBoolean(2, this.activeRow);
         ResultSet resultSet = statement.executeQuery();
 
         Leader leader;
         while(resultSet.next())
         {
-            leader = new Leader(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            leader = new Leader(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
             
-            leader.setDni(resultSet.getLong(2));
-            leader.setLocation(resultSet.getString(5));
-            Date date = resultSet.getDate(6);
+            leader.setDni(resultSet.getLong(3));
+            leader.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
+            
             if(!resultSet.wasNull())
             {
                 leader.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            leader.setEmail(resultSet.getString(7));
-            leader.setPhoneNumber(resultSet.getLong(8));
+            baseClient.setEmail(resultSet.getString(8));
+            baseClient.setPhoneNumber(resultSet.getLong(9));
 
-            ret.add(leader);
+            ret.add(baseClient);
         }
 
         statement.close();
