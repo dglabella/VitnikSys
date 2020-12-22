@@ -41,16 +41,17 @@ public class LeaderOperator extends BaseClientOperator
         return LeaderOperator.operator;
     }
 
-    /*
+    
     @Override
-    public PreferentialClient find(Integer id) throws Exception
+    public Leader find(Integer id) throws Exception
     {
-        PreferentialClient ret = null;
-        
-        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_cp` = ? AND `active_row` = ?;";
+        Leader ret = null;
+        String sqlStmnt =
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
-        statement.setBoolean(2, this.activeRow);
 
         if(id != null)
         {
@@ -58,48 +59,46 @@ public class LeaderOperator extends BaseClientOperator
         }
         else
         {
-            throw new Exception("Preferential Client id is null");
+            throw new Exception("Leader id is null");
         }
+
+        statement.setBoolean(2, true);
+        statement.setBoolean(3, this.activeRow);
 
         ResultSet resultSet = statement.executeQuery();
 
         if(resultSet.next())
         {
-            //if it is leader
-            if(resultSet.getBoolean(10))
-            {
-                ret = new Leader(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-            }
-            else
-            {
-                int leaderId = resultSet.getInt(9);
-                if(!resultSet.wasNull())
-                {
-                    ret = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-                    ((SubordinatedClient)ret).setLeader( new Leader(leaderId));
-                }
-                else
-                {
-                    ret = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-                }
-            }
-
-            ret.setDni(resultSet.getLong(2));
-            ret.setLocation(resultSet.getString(5));
-            Date date = resultSet.getDate(6);
+            ret = new Leader(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
+            
+            ret.setDni(resultSet.getLong(3));
+            ret.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
             {
                 ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            ret.setEmail(resultSet.getString(7));
-            ret.setPhoneNumber(resultSet.getLong(8));
+
+            ret.setEmail(resultSet.getString(8));
+            ret.setPhoneNumber(resultSet.getLong(9));
+
+            ret.setOrders(OrderOperator.getOperator().findAll(ret.getId(), null));
+            ret.setDevolutions(DevolutionOperator.getOperator().findAll(ret.getId(), null));
+            ret.setRepurchases(RepurchaseOperator.getOperator().findAll(ret.getId(), null));
+            ret.setPayments(PaymentOperator.getOperator().findAll(ret.getId(), null));
+            ret.setBalances(BalanceOperator.getOperator().findAll(ret.getId(), null));
+
+            ret.setObservations(ObservationOperator.getOperator().findAll(ret.getId(), null));
+            ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), null));
+
+            ret.setCommissions(CommisionOperator.getOperator().findAll(ret.getId(), null));
+            ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll()  sadkjasjkd);
         }
-        
+
         statement.close();
-        
-        return ret;      
+            
+        return ret;     
     }
-    */
 
     @Override
     public List<PreferentialClient> findAll() throws Exception
@@ -112,7 +111,7 @@ public class LeaderOperator extends BaseClientOperator
         "WHERE `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
-        statement.setBoolean(1, false);
+        statement.setBoolean(1, true);
         statement.setBoolean(2, this.activeRow);
         ResultSet resultSet = statement.executeQuery();
 
@@ -129,10 +128,10 @@ public class LeaderOperator extends BaseClientOperator
             {
                 leader.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            baseClient.setEmail(resultSet.getString(8));
-            baseClient.setPhoneNumber(resultSet.getLong(9));
+            leader.setEmail(resultSet.getString(8));
+            leader.setPhoneNumber(resultSet.getLong(9));
 
-            ret.add(baseClient);
+            ret.add(leader);
         }
 
         statement.close();

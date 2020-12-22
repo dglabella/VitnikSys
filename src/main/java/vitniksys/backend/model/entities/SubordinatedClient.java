@@ -5,6 +5,9 @@ import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
 public class SubordinatedClient extends PreferentialClient
 {
+    //fk id
+    private Integer leaderId;
+
     //Entity properties
     
 
@@ -12,6 +15,7 @@ public class SubordinatedClient extends PreferentialClient
     private Leader leader;
 
     //Others
+    
 
     public SubordinatedClient(int id)
     {
@@ -21,6 +25,17 @@ public class SubordinatedClient extends PreferentialClient
     public SubordinatedClient(int id, String name, String lastName)
     {
         super(id, name, lastName);
+    }
+
+    //Getters && Setters
+    public Integer getLeaderId()
+    {
+        return this.leaderId;
+    }
+
+    public void setLeaderId(Integer leaderId)
+    {
+        this.leaderId = leaderId;
     }
 
     public Leader getLeader()

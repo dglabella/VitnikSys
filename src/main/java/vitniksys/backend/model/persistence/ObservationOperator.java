@@ -82,14 +82,16 @@ public class ObservationOperator implements IObservationOperator
     public List<Observation> findAll(Integer prefClientId, Integer campNumb) throws Exception
     {
         List<Observation> ret = new ArrayList<>();
-        /*
+        
         String sqlStmnt = null;
         PreparedStatement statement = null;
 
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-            "";
+            "SELECT `id_cp`, `nro_camp`, `observacion` "+
+            "FROM `observaciones` "+
+            "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
@@ -99,7 +101,9 @@ public class ObservationOperator implements IObservationOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-            "";
+            "SELECT `id_cp`, `nro_camp`, `observacion` "+
+            "FROM `observaciones` "+
+            "WHERE `id_cp` = ? AND `active_row` = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
@@ -119,8 +123,7 @@ public class ObservationOperator implements IObservationOperator
         Observation observation;
 		while (resultSet.next())
 		{
-            observation = new Balance(resultSet.getFloat(4), resultSet.getFloat(5), resultSet.getFloat(6), resultSet.getFloat(7), resultSet.getFloat(8), resultSet.getFloat(9), resultSet.getFloat(10));
-            observation.setBalance(resultSet.getFloat(3));
+            observation = new Observation(resultSet.getString(3));
 
             //fk ids
             observation.setPrefClientId(resultSet.getInt(1));
@@ -136,8 +139,6 @@ public class ObservationOperator implements IObservationOperator
 		
 		if(ret.size() == 0)
             ret = null;
-
-        */
 		
         return ret;
     }

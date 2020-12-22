@@ -79,6 +79,63 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         return ret;
     }
 
+    public List<SubordinatedClient> findAll(Integer leaderId) throws Exception
+    {
+        List<SubordinatedClient> ret = new ArrayList<>();
+		String sqlStmnt = null;
+		PreparedStatement statement = null;
+
+        if(leaderId != null)
+        {
+            sqlStmnt =
+            "SELECT `id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
+            "FROM `clientes_preferenciales` "+
+            "WHERE `id_lider` = ? AND `active_row` = ?;";
+
+			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement.setInt(1, leaderId);
+			statement.setBoolean(2, this.activeRow);
+        }
+        else
+        {
+            throw new Exception("Leader id is null");
+		}
+
+		ResultSet resultSet = statement.executeQuery();
+
+		SubordinatedClient subordinatedClient;
+		while (resultSet.next())
+		{
+            subordinatedClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            subordinatedClient.setDni(resultSet.getLong(2));
+            subordinatedClient.setLocation(resultSet.getString(5));
+
+            Date date = resultSet.getDate(6);
+            if(!resultSet.wasNull())
+            {
+                subordinatedClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+            
+            subordinatedClient.setEmail(resultSet.getString(7));
+            subordinatedClient.setPhoneNumber(resultSet.getLong(8));
+            
+			//fk ids
+			subordinatedClient.setLeaderId(leaderId);
+
+			//Associations
+            
+            
+			ret.add(subordinatedClient);
+		}
+
+		statement.close();
+		
+		if(ret.size() == 0)
+            ret = null;
+		
+        return ret;
+    }
+
     @Override
     public SubordinatedClient find(Integer id) throws Exception
     {

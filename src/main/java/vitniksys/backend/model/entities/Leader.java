@@ -1,7 +1,6 @@
 package vitniksys.backend.model.entities;
 
 import java.util.List;
-import java.util.ArrayList;
 import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
@@ -11,8 +10,8 @@ public class Leader extends BaseClient
     
 
     //Domain Associations
-    private Commission commission;
-    private  List<SubordinatedClient> subordinates;
+    private List<Commission> commissions;
+    private List<SubordinatedClient> subordinates;
 
     //Others
     
@@ -27,25 +26,23 @@ public class Leader extends BaseClient
         super(id, name, lastName);
     }
 
-    public Commission getCommission()
+    //Getters && setters
+    public List<Commission> getCommissions() 
     {
-        return this.commission;
+        return this.commissions;
     }
 
-    public void setCommission(Commission commission)
+    public void setCommissions(List<Commission> commissions)
     {
-        this.commission = commission;
+        this.commissions = commissions;
     }
 
-    public List<SubordinatedClient> getSubordinados()
+    public List<SubordinatedClient> getSubordinates()
     {
-        if(this.subordinates == null)
-            this.subordinates = new ArrayList<>();
-            
         return this.subordinates;
     }
 
-    public void setSubordinados(List<SubordinatedClient> subordinates)
+    public void setSubordinates(List<SubordinatedClient> subordinates)
     {
         this.subordinates = subordinates;
     }

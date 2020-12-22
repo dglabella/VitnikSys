@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.entities.CatalogueDeliver;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 public class BaseClientOperator extends PreferentialClientOperator
@@ -129,7 +130,7 @@ public class BaseClientOperator extends PreferentialClientOperator
             ret.setBalances(BalanceOperator.getOperator().findAll(ret.getId(), null));
 
             ret.setObservations(ObservationOperator.getOperator().findAll(ret.getId(), null));
-            //ret.setCatalogueDeliveries()
+            ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), null));
         }
 
         statement.close();

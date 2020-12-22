@@ -4,6 +4,10 @@ import java.sql.Timestamp;
 
 public class CatalogueDeliver
 {
+    //fk id
+    private Integer baseClientId;
+    private Integer catalogueId;
+
     //Entity properties
     private int code;
     private int quantity;
@@ -25,6 +29,26 @@ public class CatalogueDeliver
     }
 
     //Getters && Setters
+    public Integer getBaseClientId()
+    {
+        return this.baseClientId;
+    }
+
+    public void setBaseClientId(Integer baseClientId)
+    {
+        this.baseClientId = baseClientId;
+    }
+
+    public Integer getCatalogueId()
+    {
+        return this.catalogueId;
+    }
+
+    public void setCatalogueId(Integer catalogueId)
+    {
+        this.catalogueId = catalogueId;
+    }
+
     /**
      * 
      * @return return the BD table key (column name: nro_entrega).

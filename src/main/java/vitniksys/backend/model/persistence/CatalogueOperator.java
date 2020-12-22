@@ -5,12 +5,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Catalogue;
+import vitniksys.backend.model.entities.CatalogueDeliver;
 import vitniksys.backend.model.interfaces.ICatalogueOperator;
 
 //This class intanciates the DAO Object for Catalogo
 public class CatalogueOperator implements ICatalogueOperator
 {
-
     private static CatalogueOperator operator;
 
     private boolean activeRow;
@@ -113,5 +113,69 @@ public class CatalogueOperator implements ICatalogueOperator
         int errorCode = 0;
 
         return errorCode;
+    }
+
+    @Override
+    public List<CatalogueDeliver> findCatalogueDeliveries(Integer baseClientId, Integer catalogueId) throws Exception
+    {
+        List<CatalogueDeliver> ret = new ArrayList<>();
+		String sqlStmnt = null;
+		PreparedStatement statement = null;
+
+        if(baseClientId != null && catalogueId != null)
+        {
+            sqlStmnt =
+			"SELECT `nro_entrega`, `id_cp`, `cod_cat`, `cant`, `precio`, `fecha_registro` "+
+            "FROM `entregas_catalogos` "+
+            "WHERE `id_cp` = ? AND `cod_cat` = ? AND `active_row` = ?;";
+
+			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement.setInt(1, baseClientId);
+			statement.setInt(2, catalogueId);
+			statement.setBoolean(3, this.activeRow);
+        }
+        else if(baseClientId != null && catalogueId == null)
+        {
+			sqlStmnt =
+			"SELECT `nro_entrega`, `id_cp`, `cod_cat`, `cant`, `precio`, `fecha_registro` "+
+            "FROM `entregas_catalogos` "+
+            "WHERE `id_cp` = ? AND `active_row` = ?;";
+
+			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement.setInt(1, baseClientId);
+			statement.setBoolean(2, this.activeRow);
+        }
+        else if(baseClientId == null && catalogueId != null)
+        {
+            // Select devs with camp numb x
+        }
+        else
+        {
+            throw new Exception("Both campaign number and preferential client id are null");
+		}
+
+		ResultSet resultSet = statement.executeQuery();
+
+		CatalogueDeliver catalogueDeliver;
+		while (resultSet.next())
+		{
+			catalogueDeliver = new CatalogueDeliver(resultSet.getInt(1), resultSet.getInt(4), resultSet.getFloat(5));
+			catalogueDeliver.setRegistrationTime(resultSet.getTimestamp(6));
+			
+			//fk ids
+			catalogueDeliver.setBaseClientId(baseClientId);
+			catalogueDeliver.setCatalogueId(catalogueId);
+            
+			//Associations
+			
+			ret.add(catalogueDeliver);
+		}
+
+		statement.close();
+		
+		if(ret.size() == 0)
+            ret = null;
+		
+        return ret;
     }
 }
