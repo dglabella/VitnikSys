@@ -92,7 +92,7 @@ public class LeaderOperator extends BaseClientOperator
             ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), null));
 
             ret.setCommissions(CommisionOperator.getOperator().findAll(ret.getId(), null));
-            ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll()  sadkjasjkd);
+            ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll(id));
         }
 
         statement.close();

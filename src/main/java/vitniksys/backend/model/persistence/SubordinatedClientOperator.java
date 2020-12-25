@@ -46,27 +46,31 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
     {
         List<PreferentialClient> ret  = new ArrayList<>();
 
-        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `es_lider` = ? AND `active_row` = ?;";
-
+        String sqlStmnt =
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`"+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `id_lider` IS NOT NULL AND `active_row` = ?;";
+        
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
-        statement.setBoolean(1, true);
-        statement.setBoolean(2, this.activeRow);
+
+        statement.setBoolean(1, this.activeRow);
+
         ResultSet resultSet = statement.executeQuery();
 
         SubordinatedClient subClient;
         while(resultSet.next())
         {
-            subClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+            subClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
             
-            subClient.setDni(resultSet.getLong(2));
-            subClient.setLocation(resultSet.getString(5));
-            Date date = resultSet.getDate(6);
+            subClient.setDni(resultSet.getLong(3));
+            subClient.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
             {
                 subClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            subClient.setEmail(resultSet.getString(7));
-            subClient.setPhoneNumber(resultSet.getLong(8));
+            subClient.setEmail(resultSet.getString(8));
+            subClient.setPhoneNumber(resultSet.getLong(9));
 
             ret.add(subClient);
         }
@@ -103,29 +107,30 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
 
 		ResultSet resultSet = statement.executeQuery();
 
-		SubordinatedClient subordinatedClient;
+		SubordinatedClient subClient;
 		while (resultSet.next())
 		{
-            subordinatedClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-            subordinatedClient.setDni(resultSet.getLong(2));
-            subordinatedClient.setLocation(resultSet.getString(5));
-
-            Date date = resultSet.getDate(6);
+            subClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
+            
+            subClient.setDni(resultSet.getLong(3));
+            subClient.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
             {
-                subordinatedClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+                subClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            
-            subordinatedClient.setEmail(resultSet.getString(7));
-            subordinatedClient.setPhoneNumber(resultSet.getLong(8));
+            subClient.setEmail(resultSet.getString(8));
+            subClient.setPhoneNumber(resultSet.getLong(9));
+
+            ret.add(subClient);
             
 			//fk ids
-			subordinatedClient.setLeaderId(leaderId);
+			subClient.setLeaderId(leaderId);
 
 			//Associations
             
             
-			ret.add(subordinatedClient);
+			ret.add(subClient);
 		}
 
 		statement.close();
@@ -140,10 +145,15 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
     public SubordinatedClient find(Integer id) throws Exception
     {
         SubordinatedClient ret = null;
-        /*
-        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `id_cp` = ? AND `active_row` = ?;";
+        
+        String sqlStmnt =
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`"+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `id_cp` = ? AND `id_lider` IS NOT NULL AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, id);
         statement.setBoolean(2, this.activeRow);
 
         if(id != null)
@@ -156,41 +166,35 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         }
 
         ResultSet resultSet = statement.executeQuery();
-
+        
+        SubordinatedClient subClient;
         if(resultSet.next())
         {
-            //if it is leader
-            if(resultSet.getBoolean(10))
-            {
-                ret = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-            }
-            else
-            {
-                int leaderId = resultSet.getInt(9);
-                if(!resultSet.wasNull())
-                {
-                    ret = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-                    ((SubordinatedClient)ret).setLeader( new Leader(leaderId));
-                }
-                else
-                {
-                    ret = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
-                }
-            }
-
-            ret.setDni(resultSet.getLong(2));
-            ret.setLocation(resultSet.getString(5));
-            Date date = resultSet.getDate(6);
+            subClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
+            
+            subClient.setDni(resultSet.getLong(3));
+            subClient.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
             {
-                ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+                subClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            ret.setEmail(resultSet.getString(7));
-            ret.setPhoneNumber(resultSet.getLong(8));
+            subClient.setEmail(resultSet.getString(8));
+            subClient.setPhoneNumber(resultSet.getLong(9));
+
+            ret.add(subClient);
+            
+			//fk ids
+			subClient.setLeaderId(leaderId);
+
+			//Associations
+            
+            
+			ret.add(subClient);
         }
         
         statement.close();
-        */
+        
         return ret;
     }
 
