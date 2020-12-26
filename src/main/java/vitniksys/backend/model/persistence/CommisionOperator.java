@@ -83,32 +83,30 @@ public class CommisionOperator implements ICommisionOperator
     {
         List<Commission> ret = new ArrayList<>();
 		String sqlStmnt = null;
-		PreparedStatement statement = null;
+        PreparedStatement statement = null;
 
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt =
-			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
-			"FROM `pedidos` "+
-			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
+			"SELECT `id_cp`, `nro_camp`, `cant_actual`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
+            "FROM `comisiones` "+
+            "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
 			statement = Connector.getConnector().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
 			statement.setInt(2, campNumb);
 			statement.setBoolean(3, this.activeRow);
-			statement.setBoolean(4, ArticleOperator.getOperator().isActiveRow());	
         }
         else if(prefClientId != null && campNumb == null)
         {
-			sqlStmnt =
-			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
-			"FROM `pedidos` "+
-			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
+            sqlStmnt =
+            "SELECT `id_cp`, `nro_camp`, `cant_actual`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
+            "FROM `comisiones` "+
+            "WHERE `id_cp` = ? AND `active_row` = ?;";
 
 			statement = Connector.getConnector().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
 			statement.setBoolean(2, this.activeRow);
-			statement.setBoolean(3, ArticleOperator.getOperator().isActiveRow());
         }
         else if(prefClientId == null && campNumb != null)
         {
@@ -121,22 +119,20 @@ public class CommisionOperator implements ICommisionOperator
 
 		ResultSet resultSet = statement.executeQuery();
 
-		Order order;
+		Commission commission;
 		while (resultSet.next())
 		{
-			order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(7), resultSet.getBoolean(9));
-			order.setDeliveryNumber(resultSet.getInt(2));
-			order.setWithdrawalDate(resultSet.getTimestamp(8));
+			commission = new Commission(
+                resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7), 
+                resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11));
 			
 			//fk ids
-			order.setPrefClientId(resultSet.getInt(3));
-			order.setCampNumber(resultSet.getInt(4));
-			order.setArticleId(resultSet.getString(5));
+			commission.setLeaderId(resultSet.getInt(1));
+			commission.setCampNumber(resultSet.getInt(2));
 
 			//Associations
-			order.setArticle(new Article(resultSet.getString(5), resultSet.getString(10), ArticleType.toEnum(resultSet.getInt(11)), resultSet.getFloat(12)));
 			
-			ret.add(order);
+			ret.add(commission);
 		}
 
 		statement.close();

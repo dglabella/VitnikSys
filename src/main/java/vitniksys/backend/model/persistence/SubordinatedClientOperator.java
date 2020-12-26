@@ -167,30 +167,25 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
 
         ResultSet resultSet = statement.executeQuery();
         
-        SubordinatedClient subClient;
         if(resultSet.next())
         {
-            subClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
+            ret = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
             
-            subClient.setDni(resultSet.getLong(3));
-            subClient.setLocation(resultSet.getString(6));
+            ret.setDni(resultSet.getLong(3));
+            ret.setLocation(resultSet.getString(6));
             Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
             {
-                subClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+                ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            subClient.setEmail(resultSet.getString(8));
-            subClient.setPhoneNumber(resultSet.getLong(9));
-
-            ret.add(subClient);
+            ret.setEmail(resultSet.getString(8));
+            ret.setPhoneNumber(resultSet.getLong(9));
             
 			//fk ids
-			subClient.setLeaderId(leaderId);
+			ret.setLeaderId(resultSet.getInt(2));
 
-			//Associations
+            //Associations
             
-            
-			ret.add(subClient);
         }
         
         statement.close();
