@@ -53,7 +53,11 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
     public static List<PreferentialClient> findAllPrefClients(Boolean activeRow) throws Exception
     {
         ClientList ret = new ClientList();
-        String sqlStmnt = "SELECT * FROM `clientes_preferenciales` WHERE `active_row` = ? ORDER BY `es_lider` DESC;";
+        String sqlStmnt =
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`, `es_lider`"+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `active_row` = ? "+
+        "ORDER BY `es_lider` DESC;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, activeRow);
@@ -67,31 +71,31 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
             //if it is leader
             if(resultSet.getBoolean(10))
             {
-                prefClient = new Leader(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+                prefClient = new Leader(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
             }
             else
             {
-                int leaderId = resultSet.getInt(9);
+                int leaderId = resultSet.getInt(2);
                 if(!resultSet.wasNull())
                 {
-                    prefClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+                    prefClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
                     ((SubordinatedClient)prefClient).setLeader((Leader)ret.get(ret.locate(leaderId)));
                 }
                 else
                 {
-                    prefClient = new BaseClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
+                    prefClient = new BaseClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
                 }
             }
 
-            prefClient.setDni(resultSet.getLong(2));
-            prefClient.setLocation(resultSet.getString(5));
-            Date date = resultSet.getDate(6);
+            prefClient.setDni(resultSet.getLong(3));
+            prefClient.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
             {
                 prefClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            prefClient.setEmail(resultSet.getString(7));
-            prefClient.setPhoneNumber(resultSet.getLong(8));
+            prefClient.setEmail(resultSet.getString(8));
+            prefClient.setPhoneNumber(resultSet.getLong(9));
 
             ret.add(prefClient);
         }

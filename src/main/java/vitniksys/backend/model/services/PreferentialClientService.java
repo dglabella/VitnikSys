@@ -81,11 +81,20 @@ public class PreferentialClientService extends Service
                         returnCode += prefClient.operator().insert(prefClient);
 
                         Balance balance = new Balance();
+
+                        //balance associations
                         balance.setClient(prefClient);
                         balance.setCamp(CampaignOperator.getOperator().findLast());
+                        //balance fk id
+                        balance.setPrefClientId(prefClient.getId());
+                        balance.setCampNumber(balance.getCampaign().getNumber());
+
                         returnCode += BalanceOperator.getOperator().insert(balance);
 
                         Connector.getConnector().commit();
+
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showSucces("El Cliente se ha registrado exitosamente!");
                     }
                     catch (Exception exception)
                     {
@@ -97,8 +106,6 @@ public class PreferentialClientService extends Service
                     {
                         Connector.getConnector().endTransaction();
                         Connector.getConnector().closeConnection();
-                        getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showSucces("El Cliente se ha registrado exitosamente!");
                     }
                     return returnCode;
                 }

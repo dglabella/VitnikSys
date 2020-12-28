@@ -59,9 +59,11 @@ vitniksys\backend\model\interfaces\IRepurchaseOperator.class
 vitniksys\backend\model\entities\Commission.class
 vitniksys\backend\model\entities\Balance.class
 vitniksys\backend\model\enums\PayItem.class
+vitniksys\backend\model\persistence\CommisionOperator.class
 vitniksys\backend\util\StockRowTable.class
 vitniksys\backend\util\AutoCompletionTool.class
 vitniksys\App$1.class
+vitniksys\backend\model\interfaces\ICommisionOperator.class
 vitniksys\backend\model\persistence\LeaderOperator.class
 vitniksys\backend\model\persistence\PreferentialClientOperator.class
 vitniksys\backend\model\enums\ArticleType$1.class
