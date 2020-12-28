@@ -4,12 +4,11 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
-
+import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.ReturnedArticle;
-import vitniksys.backend.model.enums.ArticleType;
-import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.interfaces.IRepurchaseOperator;
 
 public class RepurchaseOperator implements IRepurchaseOperator

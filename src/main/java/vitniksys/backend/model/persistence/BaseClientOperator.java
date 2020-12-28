@@ -135,7 +135,7 @@ public class BaseClientOperator extends PreferentialClientOperator
 
         statement.close();
             
-        return ret;      
+        return ret;
     }
 
     @Override
