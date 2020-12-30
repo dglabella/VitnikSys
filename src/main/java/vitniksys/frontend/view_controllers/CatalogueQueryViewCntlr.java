@@ -3,23 +3,24 @@ package vitniksys.frontend.view_controllers;
 import java.net.URL;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
-import javafx.scene.control.Button;
+import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.TextField;
 import vitniksys.backend.util.ExpressionChecker;
 
 public class CatalogueQueryViewCntlr extends ViewCntlr
 {
     private ExpressionChecker expressionChecker;
+    private final String BUTTON_TEXT_REGISTER = "Registrar";
+    private final String BUTTON_TEXT_UPDATE = "Actualizar";
 
     // ================================= FXML variables =================================
-    @FXML private TextField textField_link;
-    @FXML private TextField textField_stock;
-    @FXML private TextField textField_codCat;
-    @FXML private TextField textField_precio;
-    @FXML private TextField textField_stockInicial;
+    @FXML private JFXButton update;
 
-    @FXML private Button button_plusButton;
-
+    @FXML private TextField stock;
+    @FXML private TextField price;
+    @FXML private TextField link;
+    @FXML private TextField catalogueCode;
+    @FXML private TextField initialStock;
     // ================================= FXML methods ===================================
 
 
@@ -33,24 +34,32 @@ public class CatalogueQueryViewCntlr extends ViewCntlr
     // ================================= public methods =================================
     @FXML private void plusButtonPressed()
     {
+        this.initialStock.setDisable(false);
+        this.initialStock.clear();
+        this.stock.setDisable(false);
+        this.stock.clear();
+        this.catalogueCode.clear();
+        this.price.clear();
+        this.link.clear();
 
+        this.update.setText(BUTTON_TEXT_REGISTER);
     }
 
-    @FXML private void consultarButtonPressed()
+    @FXML private void searchButtonPressed()
     {
 
     }
 
-    @FXML private void actualizarButtonPressed()
+    @FXML private void updateButtonPressed()
     {
-
+        
     }
 
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
         expressionChecker =  ExpressionChecker.getExpressionChecker();
-        textField_stockInicial.setDisable(true);
-        textField_stock.setDisable(true);
+        this.initialStock.setDisable(true);
+        this.stock.setDisable(true);
     }
 }

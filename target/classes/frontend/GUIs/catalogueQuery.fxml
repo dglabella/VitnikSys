@@ -39,7 +39,7 @@
       </AnchorPane>
       <AnchorPane layoutX="25.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="400.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <JFXButton buttonType="RAISED" layoutX="140.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#consultarButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Consultar">
+            <JFXButton buttonType="RAISED" layoutX="140.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#searchButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Consultar">
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -53,7 +53,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton fx:id="button_plusButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="280.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="280.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -62,7 +62,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <TextField fx:id="textField_codCat" layoutX="145.0" layoutY="10.0" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
+            <TextField fx:id="catalogueCode" layoutX="145.0" layoutY="10.0" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="25.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="400.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
@@ -82,7 +82,7 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <JFXButton fx:id="button_actualizar" buttonType="RAISED" layoutX="140.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#actualizarButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Actualizar">
+            <JFXButton fx:id="update" buttonType="RAISED" layoutX="140.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#updateButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Actualizar">
                <graphic>
                   <ImageView fitHeight="68.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -91,15 +91,15 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <TextField fx:id="textField_stockInicial" layoutX="220.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: 150" />
-            <TextField fx:id="textField_stock" layoutX="220.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="cantidad" />
-            <TextField fx:id="textField_precio" layoutX="220.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: 200.85" />
+            <TextField fx:id="initialStock" layoutX="220.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: 150" />
+            <TextField fx:id="stock" layoutX="220.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="cantidad" />
+            <TextField fx:id="price" layoutX="220.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: 200.85" />
             <Label alignment="CENTER_RIGHT" layoutX="14.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Link:" textFill="#434343">
                <font>
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
-            <TextField fx:id="textField_link" layoutX="220.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: http://www.ejemplo.com/catalogo" />
+            <TextField fx:id="link" layoutX="220.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" promptText="ej: http://www.ejemplo.com/catalogo" />
          </children>
       </AnchorPane>
    </children>

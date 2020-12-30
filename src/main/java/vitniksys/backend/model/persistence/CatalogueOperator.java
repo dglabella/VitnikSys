@@ -53,11 +53,26 @@ public class CatalogueOperator implements ICatalogueOperator
         return CatalogueOperator.operator;
     }
 
-    public int insert(Catalogue catalogue)
+    @Override
+    public int insert(Catalogue catalogue) throws Exception
     {
-        int errorCode = 0;
+        int returnCode = 0;
 
-        return errorCode;
+        String sqlStmnt =
+        "INSERT INTO `catalogos`(`cod`, `stock_inicial`, `stock`, `precio`, `link`) "+
+        "VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `precio` = ?,`link` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, catalogue.getCode());
+        statement.setInt(2, catalogue.getInitialStock());
+        statement.setInt(3, catalogue.getActualStock());
+        statement.setFloat(4, catalogue.getPrice());
+        statement.setString(5, catalogue.getLink());
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+  
+        return returnCode;
     }
 
     @Override
@@ -95,8 +110,33 @@ public class CatalogueOperator implements ICatalogueOperator
     @Override
     public ArrayList<Catalogue> findAll() throws Exception
     {
-        ArrayList<Catalogue> catalogos = new ArrayList<>();
-        return catalogos;
+        ArrayList<Catalogue> ret = new ArrayList<>();
+
+        String sqlStmnt =
+        "SELECT `cod`, `stock_inicial`, `stock`, `precio`, `link`, `fecha_registro` "+
+        "FROM `catalogos` "+ 
+        "WHERE `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        statement.setBoolean(1, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        Catalogue catalogue;
+        while (resultSet.next())
+        {
+            catalogue = new Catalogue(resultSet.getInt(1), resultSet.getInt(2), resultSet.getFloat(4));
+            catalogue.setActualStock(resultSet.getInt(3));
+            catalogue.setLink(resultSet.getString(5));
+            catalogue.setRegistrationTime(resultSet.getTimestamp(6));
+        }
+
+        statement.close();
+
+        if(ret.size() == 0)
+            ret = null;
+
+        return ret;
     }
 
     @Override
