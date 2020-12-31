@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.TextField;
+import vitniksys.backend.model.services.CatalogueService;
 import vitniksys.backend.util.ExpressionChecker;
 
 public class CatalogueQueryViewCntlr extends ViewCntlr
@@ -21,17 +22,22 @@ public class CatalogueQueryViewCntlr extends ViewCntlr
     @FXML private TextField link;
     @FXML private TextField catalogueCode;
     @FXML private TextField initialStock;
+
     // ================================= FXML methods ===================================
-
-
-    // ================================= protected methods ==============================
-    @Override
-    protected void manualInitialize()
+    @FXML
+    private void codeCheck()
     {
-        
+        if(this.getExpressionChecker().onlyNumbers(this.id.getText(), false))
+        {
+            this.invalidId.setVisible(false);
+        }
+        else
+        {
+            this.invalidId.setText("Dato invalido");
+            this.invalidId.setVisible(true);
+        }
     }
 
-    // ================================= public methods =================================
     @FXML private void plusButtonPressed()
     {
         this.initialStock.setDisable(false);
@@ -52,9 +58,20 @@ public class CatalogueQueryViewCntlr extends ViewCntlr
 
     @FXML private void updateButtonPressed()
     {
+        if()
+        {
+            ((CatalogueService)this.getService(0)).registerCatalogue(code, initialStock, price, link);
+        }
+    }
+
+    // ================================= protected methods ==============================
+    @Override
+    protected void manualInitialize()
+    {
         
     }
 
+    // ================================= public methods =================================
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {

@@ -62,7 +62,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <TextField fx:id="catalogueCode" layoutX="145.0" layoutY="10.0" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
+            <TextField fx:id="catalogueCode" layoutX="145.0" layoutY="10.0" onKeyReleased="#codeCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="25.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="400.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
