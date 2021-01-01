@@ -3,10 +3,12 @@ package vitniksys.frontend.view_controllers;
 import java.net.URL;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
-import com.jfoenix.controls.JFXButton;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
-import vitniksys.backend.model.services.CatalogueService;
+import com.jfoenix.controls.JFXButton;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.model.services.CatalogueService;
 
 public class CatalogueQueryViewCntlr extends ViewCntlr
 {
@@ -15,35 +17,69 @@ public class CatalogueQueryViewCntlr extends ViewCntlr
     private final String BUTTON_TEXT_UPDATE = "Actualizar";
 
     // ================================= FXML variables =================================
-    @FXML private JFXButton update;
+    @FXML private Spinner<Integer> initialStock;
+    @FXML private Spinner<Integer> stock;
 
-    @FXML private TextField stock;
+    @FXML private TextField catalogueCode;
     @FXML private TextField price;
     @FXML private TextField link;
-    @FXML private TextField catalogueCode;
-    @FXML private TextField initialStock;
+
+    @FXML private Label invalidCode;
+    @FXML private Label invalidInitialStock;
+    @FXML private Label invalidStock;
+    @FXML private Label invalidPrice;
+    @FXML private Label invalidLink;
+
+    @FXML private JFXButton update;
 
     // ================================= FXML methods ===================================
     @FXML
     private void codeCheck()
     {
-        if(this.getExpressionChecker().onlyNumbers(this.id.getText(), false))
+        if(this.getExpressionChecker().isCatalogueCode(this.catalogueCode.getText(), false))
         {
-            this.invalidId.setVisible(false);
+            this.invalidCode.setVisible(false);
         }
         else
         {
-            this.invalidId.setText("Dato invalido");
-            this.invalidId.setVisible(true);
+            this.invalidCode.setText("Dato invalido");
+            this.invalidCode.setVisible(true);
         }
     }
 
-    @FXML private void plusButtonPressed()
+    @FXML
+    private void priceCheck()
+    {
+        if(this.getExpressionChecker().moneyValue(this.price.getText(), 2, 2, false))
+        {
+            this.invalidPrice.setVisible(false);
+        }
+        else
+        {
+            this.invalidPrice.setText("Dato invalido");
+            this.invalidPrice.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void linkCheck()
+    {
+        if(this.link.getText().length() <= CatalogueService.MAX_LENGTH_LINK)
+        {
+            this.invalidLink.setVisible(false);
+        }
+        else
+        {
+            this.invalidLink.setText("Dato invalido");
+            this.invalidLink.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void plusButtonPressed()
     {
         this.initialStock.setDisable(false);
-        this.initialStock.clear();
         this.stock.setDisable(false);
-        this.stock.clear();
         this.catalogueCode.clear();
         this.price.clear();
         this.link.clear();
@@ -51,16 +87,22 @@ public class CatalogueQueryViewCntlr extends ViewCntlr
         this.update.setText(BUTTON_TEXT_REGISTER);
     }
 
-    @FXML private void searchButtonPressed()
+    @FXML
+    private void searchButtonPressed()
     {
 
     }
 
-    @FXML private void updateButtonPressed()
+    @FXML
+    private void updateButtonPressed()
     {
-        if()
+        try
         {
-            ((CatalogueService)this.getService(0)).registerCatalogue(code, initialStock, price, link);
+            ((CatalogueService)this.getService(0)).registerCatalogue(this.catalogueCode.getText(), this.ca , price, link);    
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
         }
     }
 

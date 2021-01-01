@@ -9,11 +9,15 @@ import vitniksys.backend.model.persistence.CatalogueOperator;
 
 public class CatalogueService extends Service
 {
-    private boolean allFieldsAreOk(Integer code, Integer initialStock, Float price, String link)
+    public static final int MAX_LENGTH_LINK = 500;
+
+    private boolean allFieldsAreOk(String code, Integer initialStock, String price, String link)
     {
         boolean ret = false;
 
-        if(code != null && initialStock != null && price != null || link != null)
+        if((code != null && this.getExpressionChecker().isCatalogueCode(code, false)) &&
+            initialStock != null && (price != null && this.getExpressionChecker().moneyValue(price, 2, 2, false)) && 
+            (link != null && link.length() <= CatalogueService.MAX_LENGTH_LINK))
         {
             ret =  true;
         }
@@ -21,14 +25,14 @@ public class CatalogueService extends Service
         return ret;
     }
 
-    public void registerCatalogue(Integer code, Integer initialStock, Float price, String link) throws Exception
+    public void registerCatalogue(String code, Integer initialStock, String price, String link) throws Exception
     {
         //If all fields are OK...
         if(allFieldsAreOk(code, initialStock, price, link))
         {
             CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
 
-            Catalogue catalogue = new Catalogue(code , initialStock, price);
+            Catalogue catalogue = new Catalogue(Integer.valueOf(code), initialStock, Float.valueOf(price));
             Task<Integer> task = new Task<>()
             {
                 @Override

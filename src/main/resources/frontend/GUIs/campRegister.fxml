@@ -46,7 +46,7 @@
             <ChoiceBox fx:id="campMonth" layoutX="210.0" layoutY="180.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
             <ChoiceBox fx:id="campYear" layoutX="210.0" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: transparent; -fx-border-color: #E00413;" />
             <JFXButton fx:id="addOrders" buttonType="RAISED" layoutX="50.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addOrdersButtonPressed" prefHeight="30.0" prefWidth="125.0" style="-fx-border-color: #E00413; -fx-border-radius: 10;" text="Agregar Pedidos" />
-            <TextField fx:id="catalogueCode" layoutX="210.0" layoutY="360.0" onKeyReleased="#catalogoCodeCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
+            <TextField fx:id="catalogueCode" layoutX="210.0" layoutY="360.0" onKeyReleased="#catalogueCodeCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
             <JFXButton fx:id="plusCatalogue" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="340.0" layoutY="355.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#plusCatalogueButtonPressed" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 90; -fx-background-radius: 90;" text="Nuevo">
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">

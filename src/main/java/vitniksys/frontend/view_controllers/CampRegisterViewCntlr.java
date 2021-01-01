@@ -96,9 +96,9 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
                 this.campMonth.getValue() != null? this.campMonth.getValue().getValue() : null, 
                 this.campYear.getValue(), this.catalogueCode.getText(), this.detail);
         }
-        catch (Exception e)
+        catch (Exception exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -128,7 +128,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     }
 
     @FXML
-    private boolean catalogoCodeCheck()
+    private boolean catalogueCodeCheck()
     {
         boolean ret;
     

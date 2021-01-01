@@ -8,9 +8,7 @@ import java.time.Instant;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
-import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.BaseClient;
-import vitniksys.backend.model.entities.CatalogueDeliver;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 public class BaseClientOperator extends PreferentialClientOperator
