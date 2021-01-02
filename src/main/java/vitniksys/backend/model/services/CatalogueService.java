@@ -12,14 +12,17 @@ import vitniksys.frontend.views_subscriber.CatalogueServiceSubscriber;
 public class CatalogueService extends Service
 {
     public static final int MAX_LENGTH_LINK = 500;
+    public static final int MAX_LENGTH_LEFT_DIGITS = 10;
+    public static final int MAX_LENGTH_RIGHT_DIGITS = 2;
 
     private boolean allFieldsAreOk(String code, Integer initialStock, String price, String link)
     {
         boolean ret = false;
 
         if((code != null && this.getExpressionChecker().isCatalogueCode(code, false)) &&
-            initialStock != null && (price != null && this.getExpressionChecker().moneyValue(price, 2, 2, false)) && 
-            (link != null && link.length() <= CatalogueService.MAX_LENGTH_LINK))
+            initialStock != null && (price != null && 
+            this.getExpressionChecker().moneyValue(price, CatalogueService.MAX_LENGTH_LEFT_DIGITS, CatalogueService.MAX_LENGTH_RIGHT_DIGITS, false)) && 
+            (link == null || link.length() <= CatalogueService.MAX_LENGTH_LINK))
         {
             ret =  true;
         }
@@ -27,7 +30,7 @@ public class CatalogueService extends Service
         return ret;
     }
 
-    public void registerCatalogue(String code, Integer initialStock, String price, String link) throws Exception
+    public void registerCatalogue(String code, Integer initialStock, Integer actualStock, String price, String link) throws Exception
     {
         //If all fields are OK...
         if(allFieldsAreOk(code, initialStock, price, link))
@@ -35,6 +38,8 @@ public class CatalogueService extends Service
             CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
 
             Catalogue catalogue = new Catalogue(Integer.valueOf(code), initialStock, Float.valueOf(price));
+            catalogue.setActualStock(actualStock);
+            catalogue.setLink(link);
             Task<Integer> task = new Task<>()
             {
                 @Override
@@ -51,6 +56,9 @@ public class CatalogueService extends Service
                         Connector.getConnector().commit();
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
                         getServiceSubscriber().showSucces("El catálogo se ha registrado exitosamente!");
+
+                        //Calling this method will update the auto-completiont tool
+                        searchCatalogues();
                     }
                     catch (Exception exception)
                     {
@@ -81,7 +89,6 @@ public class CatalogueService extends Service
     public void searchCatalogues()
     {
         //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-        List<Catalogue> catalogues = null;
         Task<Integer> task = new Task<>()
         {
             @Override
@@ -89,6 +96,7 @@ public class CatalogueService extends Service
             {
                 //returnCode is intended for future implementations
                 int returnCode = 0;
+                List<Catalogue> catalogues = null;
                 try
                 {
                     catalogues = CatalogueOperator.getOperator().findAll();

@@ -2,6 +2,7 @@ package vitniksys.backend.model.persistence;
 
 import java.util.List;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Catalogue;
@@ -67,7 +68,18 @@ public class CatalogueOperator implements ICatalogueOperator
         statement.setInt(2, catalogue.getInitialStock());
         statement.setInt(3, catalogue.getActualStock());
         statement.setFloat(4, catalogue.getPrice());
-        statement.setString(5, catalogue.getLink());
+
+        if(catalogue.getLink() != null && !catalogue.getLink().isBlank())
+            statement.setString(5, catalogue.getLink());
+        else
+            statement.setNull(5, Types.VARCHAR);
+
+        statement.setFloat(6, catalogue.getPrice());
+
+        if(catalogue.getLink() != null && !catalogue.getLink().isBlank())
+            statement.setString(7, catalogue.getLink());
+        else
+            statement.setNull(7, Types.VARCHAR);
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -129,6 +141,8 @@ public class CatalogueOperator implements ICatalogueOperator
             catalogue.setActualStock(resultSet.getInt(3));
             catalogue.setLink(resultSet.getString(5));
             catalogue.setRegistrationTime(resultSet.getTimestamp(6));
+
+            ret.add(catalogue);
         }
 
         statement.close();

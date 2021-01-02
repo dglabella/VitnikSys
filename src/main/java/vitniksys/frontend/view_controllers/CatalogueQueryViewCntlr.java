@@ -8,8 +8,10 @@ import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
 import com.jfoenix.controls.JFXButton;
+import javafx.scene.control.TextField;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.services.CatalogueService;
@@ -21,7 +23,6 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     private final String BUTTON_TEXT_UPDATE = "Actualizar";
 
     private AutoCompletionTool autoCompletionTool;
-    private List<String> suggestions;
 
     // ================================= FXML variables =================================
     @FXML private Spinner<Integer> initialStock;
@@ -57,7 +58,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @FXML
     private void priceCheck()
     {
-        if(this.getExpressionChecker().moneyValue(this.price.getText(), 2, 2, false))
+        if(this.getExpressionChecker().moneyValue(this.price.getText(), CatalogueService.MAX_LENGTH_LEFT_DIGITS, CatalogueService.MAX_LENGTH_RIGHT_DIGITS, false))
         {
             this.invalidPrice.setVisible(false);
         }
@@ -83,11 +84,44 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     }
 
     @FXML
+    private void updateStockSpinnerOnMouseClicked()
+    {
+        this.stock.getValueFactory().setValue(this.initialStock.getValue());
+    }
+
+    @FXML
+    private void updateStockSpinnerOnKeyReleased()
+    {
+        this.stock.getValueFactory().setValue(this.initialStock.getValue());
+    }
+
+    @FXML
+    private void updateStockSpinnerOnScroll(ScrollEvent scrollEvent)
+    {
+        if(scrollEvent.getDeltaY() < 0)
+        {
+            this.initialStock.getValueFactory().increment(1);
+            this.stock.getValueFactory().setValue(this.initialStock.getValue());
+        }
+        else if(scrollEvent.getDeltaY() > 0)
+        {
+            this.initialStock.getValueFactory().decrement(1);
+            this.stock.getValueFactory().setValue(this.initialStock.getValue());
+        }
+    }
+
+    @FXML
     private void plusButtonPressed()
     {
         this.initialStock.setDisable(false);
+        this.initialStock.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 9999, 200));
+
         this.stock.setDisable(false);
+        this.stock.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 9999, 200));
+
         this.catalogueCode.clear();
+        this.invalidCode.setVisible(false);
+        this.autoCompletionTool.getSuggestionsList().setVisible(false);
         this.price.clear();
         this.link.clear();
 
@@ -106,7 +140,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
         try
         {
             ((CatalogueService)this.getService(0)).registerCatalogue(this.catalogueCode.getText(), this.initialStock.getValue(), 
-                this.price.getText(), this.link.getText());    
+                this.stock.getValue(), this.price.getText(), this.link.getText());    
         }
         catch (Exception exception)
         {
@@ -118,15 +152,15 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @Override
     protected void manualInitialize()
     {
-        //((CatalogueService)this.getService(0)).searchCatalogues();
+        ((CatalogueService)this.getService(0)).searchCatalogues();
     }
 
     // ================================= public methods =================================
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        this.suggestions = new ArrayList<>();
-        ((CatalogueService)this.getService(0)).searchCatalogues();
+        this.autoCompletionTool = new AutoCompletionTool(this.catalogueCode, new ArrayList<String>(), 135);
+        
         this.initialStock.setDisable(true);
         this.stock.setDisable(true);
     }
@@ -141,10 +175,10 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
 	@Override
     public void showQueriedCatalogues(List<Catalogue> catalogues) throws Exception
     {
+        this.autoCompletionTool.getSuggestions().clear();
+
         Iterator<Catalogue> catalogueIterator = catalogues.iterator();
         while(catalogueIterator.hasNext())
-            this.suggestions.add(""+catalogueIterator.next().getCode());
-
-        this.autoCompletionTool = new AutoCompletionTool(this.catalogueCode, this.suggestions);
+            this.autoCompletionTool.getSuggestions().add(""+catalogueIterator.next().getCode());
 	}
 }

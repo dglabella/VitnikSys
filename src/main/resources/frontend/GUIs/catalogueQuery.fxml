@@ -63,7 +63,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <TextField fx:id="catalogueCode" layoutX="145.0" layoutY="10.0" onKeyReleased="#codeCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
+            <TextField fx:id="catalogueCode" layoutX="145.0" layoutY="10.0" onInputMethodTextChanged="#codeCheck" onKeyReleased="#codeCheck" prefHeight="30.0" prefWidth="125.0" promptText="ej: 32020" />
             <Label fx:id="invalidCode" layoutX="145.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
                <font>
                   <Font name="Verdana" size="15.0" />
@@ -114,7 +114,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <Spinner fx:id="initialStock" layoutX="220.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" />
+            <Spinner fx:id="initialStock" layoutX="220.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#updateStockSpinnerOnKeyReleased" onMouseClicked="#updateStockSpinnerOnMouseClicked" onScroll="#updateStockSpinnerOnScroll" prefHeight="30.0" prefWidth="130.0" />
             <Spinner fx:id="stock" layoutX="220.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" />
          </children>
       </AnchorPane>
