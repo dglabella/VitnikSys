@@ -75,4 +75,44 @@ public class CatalogueService extends Service
             this.getServiceSubscriber().showError("Los campos deben completarse correctamente.");
         }
     }
+
+    public void searchCatalogues()
+    {
+        //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+                try
+                {
+                    Connector.getConnector().startTransaction();
+
+                    CatalogueOperator.getOperator().findAll();
+
+                    Connector.getConnector().commit();
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("El catálogo se ha registrado exitosamente!");
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack();
+                    returnCode = 0;
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al intentar registrar el catálogo", null, exception);
+                    throw exception;
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+
+        Platform.runLater(task);
+    }
 }

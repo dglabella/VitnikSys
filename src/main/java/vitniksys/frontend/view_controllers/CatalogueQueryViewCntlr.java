@@ -1,20 +1,27 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
+import java.util.List;
 import javafx.fxml.FXML;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import com.jfoenix.controls.JFXButton;
+import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.services.CatalogueService;
+import vitniksys.frontend.views_subscriber.CatalogueServiceSubscriber;
 
-public class CatalogueQueryViewCntlr extends ViewCntlr
+public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServiceSubscriber
 {
-    private ExpressionChecker expressionChecker;
     private final String BUTTON_TEXT_REGISTER = "Registrar";
     private final String BUTTON_TEXT_UPDATE = "Actualizar";
+
+    private AutoCompletionTool autoCompletionTool;
+    private List<String> suggestions;
 
     // ================================= FXML variables =================================
     @FXML private Spinner<Integer> initialStock;
@@ -110,15 +117,31 @@ public class CatalogueQueryViewCntlr extends ViewCntlr
     @Override
     protected void manualInitialize()
     {
-        
+        this.autoCompletionTool = new AutoCompletionTool(this.catalogueCode, this.suggestions);
     }
 
     // ================================= public methods =================================
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        expressionChecker =  ExpressionChecker.getExpressionChecker();
+        ((CatalogueService)this.getService(0)).searchCatalogues();
+
         this.initialStock.setDisable(true);
         this.stock.setDisable(true);
     }
+    
+    // ================================= service subscriber methods =================================
+    @Override
+    public void showQueriedCamp(Catalogue catalogue) throws Exception
+    {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+    public void showQueriedCamps(List<Catalogue> catalogues) throws Exception
+    {
+		// TODO Auto-generated method stub
+		
+	}
 }
