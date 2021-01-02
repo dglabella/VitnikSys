@@ -1,11 +1,13 @@
 package vitniksys.backend.model.services;
 
+import java.util.List;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.CatalogueOperator;
+import vitniksys.frontend.views_subscriber.CatalogueServiceSubscriber;
 
 public class CatalogueService extends Service
 {
@@ -79,6 +81,7 @@ public class CatalogueService extends Service
     public void searchCatalogues()
     {
         //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        List<Catalogue> catalogues = null;
         Task<Integer> task = new Task<>()
         {
             @Override
@@ -88,20 +91,25 @@ public class CatalogueService extends Service
                 int returnCode = 0;
                 try
                 {
-                    Connector.getConnector().startTransaction();
+                    catalogues = CatalogueOperator.getOperator().findAll();
 
-                    CatalogueOperator.getOperator().findAll();
-
-                    Connector.getConnector().commit();
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showSucces("El catálogo se ha registrado exitosamente!");
+                    if(catalogues != null)
+                    {
+                        ((CatalogueServiceSubscriber)getServiceSubscriber()).showQueriedCatalogues(catalogues);
+                    }
+                    else
+                    {
+                        getServiceSubscriber().showNoResult("No hay catálogos registrados.");
+                    }
+                    //getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    //getServiceSubscriber().showSucces("El catálogo se ha registrado exitosamente!");
                 }
                 catch (Exception exception)
                 {
                     Connector.getConnector().rollBack();
                     returnCode = 0;
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showError("Error al intentar registrar el catálogo", null, exception);
+                    //getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    //getServiceSubscriber().showError("Error al intentar registrar el catálogo", null, exception);
                     throw exception;
                 }
                 finally
@@ -114,5 +122,7 @@ public class CatalogueService extends Service
         };
 
         Platform.runLater(task);
+        //ExecutorService executorService = Executors.newFixedThreadPool(1);
+        //executorService.execute(task);
     }
 }

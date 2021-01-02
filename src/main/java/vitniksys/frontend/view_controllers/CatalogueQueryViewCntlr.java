@@ -4,13 +4,13 @@ import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import com.jfoenix.controls.JFXButton;
 import vitniksys.backend.util.AutoCompletionTool;
-import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.services.CatalogueService;
 import vitniksys.frontend.views_subscriber.CatalogueServiceSubscriber;
@@ -105,7 +105,8 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     {
         try
         {
-            ((CatalogueService)this.getService(0)).registerCatalogue(this.catalogueCode.getText(), this.ca , price, link);    
+            ((CatalogueService)this.getService(0)).registerCatalogue(this.catalogueCode.getText(), this.initialStock.getValue(), 
+                this.price.getText(), this.link.getText());    
         }
         catch (Exception exception)
         {
@@ -117,31 +118,33 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @Override
     protected void manualInitialize()
     {
-        this.autoCompletionTool = new AutoCompletionTool(this.catalogueCode, this.suggestions);
+        //((CatalogueService)this.getService(0)).searchCatalogues();
     }
 
     // ================================= public methods =================================
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
+        this.suggestions = new ArrayList<>();
         ((CatalogueService)this.getService(0)).searchCatalogues();
-
         this.initialStock.setDisable(true);
         this.stock.setDisable(true);
     }
     
     // ================================= service subscriber methods =================================
     @Override
-    public void showQueriedCamp(Catalogue catalogue) throws Exception
+    public void showQueriedCatalogue(Catalogue catalogue) throws Exception
     {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-    public void showQueriedCamps(List<Catalogue> catalogues) throws Exception
+    public void showQueriedCatalogues(List<Catalogue> catalogues) throws Exception
     {
-		// TODO Auto-generated method stub
-		
+        Iterator<Catalogue> catalogueIterator = catalogues.iterator();
+        while(catalogueIterator.hasNext())
+            this.suggestions.add(""+catalogueIterator.next().getCode());
+
+        this.autoCompletionTool = new AutoCompletionTool(this.catalogueCode, this.suggestions);
 	}
 }

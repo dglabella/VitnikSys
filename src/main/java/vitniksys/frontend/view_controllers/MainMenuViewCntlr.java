@@ -125,7 +125,9 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @FXML
     private void catButtonOnMousePressed() throws Exception
     {
-        this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueService()).getStage().show();
+        ViewCntlr viewCntlr = this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueService());
+        viewCntlr.getStage().show();
+        viewCntlr.manualInitialize();
     }
 
     @FXML

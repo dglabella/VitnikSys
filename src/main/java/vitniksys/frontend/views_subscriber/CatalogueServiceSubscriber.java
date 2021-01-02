@@ -5,7 +5,7 @@ import vitniksys.backend.model.entities.Catalogue;
 
 public interface CatalogueServiceSubscriber extends ServiceSubscriber
 {
-    void showQueriedCamp(Catalogue catalogue) throws Exception;
+    void showQueriedCatalogue(Catalogue catalogue) throws Exception;
 
-    void showQueriedCamps(List<Catalogue> catalogues) throws Exception;
+    void showQueriedCatalogues(List<Catalogue> catalogues) throws Exception;
 }
