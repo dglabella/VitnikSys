@@ -26,6 +26,7 @@ vitniksys\backend\util\ClientList.class
 vitniksys\backend\model\interfaces\IReturnedArticleOperator.class
 vitniksys\backend\model\persistence\CatalogueOperator.class
 vitniksys\frontend\view_controllers\TableViewCntlr.class
+vitniksys\backend\model\services\CatalogueService$3.class
 vitniksys\backend\model\persistence\Connector.class
 vitniksys\backend\model\services\Service.class
 vitniksys\frontend\view_controllers\SearchCampsViewCntlr.class

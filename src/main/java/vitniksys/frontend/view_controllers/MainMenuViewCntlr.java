@@ -199,7 +199,14 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @Override
     protected void manualInitialize()
     {
-        ((PreferentialClientService)this.getService(0)).searchPreferentialClients();
+        try 
+        {
+            ((PreferentialClientService)this.getService(0)).searchPreferentialClients();   
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
     }
 
     // ================================= public methods ==================================

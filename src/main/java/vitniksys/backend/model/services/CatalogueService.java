@@ -15,6 +15,18 @@ public class CatalogueService extends Service
     public static final int MAX_LENGTH_LEFT_DIGITS = 10;
     public static final int MAX_LENGTH_RIGHT_DIGITS = 2;
 
+    private boolean allFieldsAreOk(String code) 
+    {
+        boolean ret = false;
+
+        if( code != null && this.getExpressionChecker().isCatalogueCode(code, false) )
+        {
+            ret =  true;
+        }
+
+        return ret;
+    }
+
     private boolean allFieldsAreOk(String code, Integer initialStock, String price, String link)
     {
         boolean ret = false;
@@ -55,7 +67,7 @@ public class CatalogueService extends Service
 
                         Connector.getConnector().commit();
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showSucces("El catálogo se ha registrado exitosamente!");
+                        getServiceSubscriber().showSucces("El catálogo se ha registrado/actualizado exitosamente!");
 
                         //Calling this method will update the auto-completiont tool
                         searchCatalogues();
@@ -86,6 +98,60 @@ public class CatalogueService extends Service
         }
     }
 
+    public void searchCatalogue(String code)
+    {
+        if(allFieldsAreOk(code))
+        {
+            CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+
+            Task<Integer> task = new Task<>()
+            {
+                @Override
+                protected Integer call() throws Exception
+                {
+                    //returnCode is intended for future implementations
+                    int returnCode = 0;
+                    Catalogue catalogue = null;
+                    try
+                    {
+                        catalogue = CatalogueOperator.getOperator().find(Integer.parseInt(code));
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+
+                        if(catalogue != null)
+                        {
+                            ((CatalogueServiceSubscriber)getServiceSubscriber()).showQueriedCatalogue(catalogue);
+                        }
+                        else
+                        {
+                            getServiceSubscriber().showNoResult("No hay catálogos registrados.");
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        returnCode = 0;
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showError("Error al buscar el catálogo", null, exception);
+                        throw exception;
+                    }
+                    finally
+                    {
+                        Connector.getConnector().closeConnection();
+                    }
+                    return returnCode;
+                }
+            };
+
+            Platform.runLater(task);
+        }
+        else
+        {
+            //Conflict with some fields.
+            this.getServiceSubscriber().showError("Los campos deben completarse correctamente.");
+        }
+
+        
+	}
+
     public void searchCatalogues()
     {
         //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
@@ -114,7 +180,6 @@ public class CatalogueService extends Service
                 }
                 catch (Exception exception)
                 {
-                    Connector.getConnector().rollBack();
                     returnCode = 0;
                     //getServiceSubscriber().closeProcessIsWorking(customAlert);
                     //getServiceSubscriber().showError("Error al intentar registrar el catálogo", null, exception);
@@ -122,7 +187,6 @@ public class CatalogueService extends Service
                 }
                 finally
                 {
-                    Connector.getConnector().endTransaction();
                     Connector.getConnector().closeConnection();
                 }
                 return returnCode;

@@ -233,7 +233,7 @@ public class PreferentialClientService extends Service
         //this.getExecutorService().execute(task);
     }
 
-    public void searchPreferentialClients()
+    public void searchPreferentialClients() throws Exception
     {
         //CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()

@@ -131,7 +131,14 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @FXML
     private void searchButtonPressed()
     {
-
+        try
+        {
+            ((CatalogueService)this.getService(0)).searchCatalogue(this.catalogueCode.getText());     
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
     }
 
     @FXML
@@ -169,7 +176,17 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @Override
     public void showQueriedCatalogue(Catalogue catalogue) throws Exception
     {
+        if(this.initialStock.getValueFactory() == null)
+            this.initialStock.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 9999));
 
+        this.initialStock.getValueFactory().setValue(catalogue.getInitialStock());
+
+        if(this.stock.getValueFactory() == null)
+            this.stock.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 9999));
+
+        this.stock.getValueFactory().setValue(catalogue.getActualStock());
+        this.price.setText(""+catalogue.getPrice());
+        this.link.setText(catalogue.getLink());
 	}
 
 	@Override
