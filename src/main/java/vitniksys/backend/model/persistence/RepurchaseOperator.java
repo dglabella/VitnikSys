@@ -92,10 +92,10 @@ public class RepurchaseOperator implements IRepurchaseOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario`"+
-            "FROM `recompras`"+
-            "INNER JOIN `articulos_devueltos` ON recompras.ejemplar = articulos_devueltos.ejemplar"+
-            "INNER JOIN `articulos` ON articulos_devueltos.letra = articulos.letra"+
+			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
+            "FROM `recompras` "+
+            "INNER JOIN `articulos_devueltos` ON recompras.ejemplar = articulos_devueltos.ejemplar "+
+            "INNER JOIN `articulos` ON articulos_devueltos.letra = articulos.letra "+
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND recompras.active_row = ? AND articulos_devueltos.active_row = ? AND articulos.active_row = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -108,10 +108,10 @@ public class RepurchaseOperator implements IRepurchaseOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario`"+
-            "FROM `recompras`"+
-            "INNER JOIN `articulos_devueltos` ON recompras.ejemplar = articulos_devueltos.ejemplar"+
-            "INNER JOIN `articulos` ON articulos_devueltos.letra = articulos.letra"+
+			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
+            "FROM `recompras` "+
+            "INNER JOIN `articulos_devueltos` ON recompras.ejemplar = articulos_devueltos.ejemplar "+
+            "INNER JOIN `articulos` ON articulos_devueltos.letra = articulos.letra "+
             "WHERE `id_cp` = ? AND recompras.active_row = ? AND articulos_devueltos.active_row = ? AND articulos.active_row = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);

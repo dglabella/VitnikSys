@@ -110,17 +110,17 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
 		SubordinatedClient subClient;
 		while (resultSet.next())
 		{
-            subClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
+            subClient = new SubordinatedClient(resultSet.getInt(1), resultSet.getString(3), resultSet.getString(4));
             
-            subClient.setDni(resultSet.getLong(3));
-            subClient.setLocation(resultSet.getString(6));
-            Date date = resultSet.getDate(7);
+            subClient.setDni(resultSet.getLong(2));
+            subClient.setLocation(resultSet.getString(5));
+            Date date = resultSet.getDate(6);
             if(!resultSet.wasNull())
             {
                 subClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
-            subClient.setEmail(resultSet.getString(8));
-            subClient.setPhoneNumber(resultSet.getLong(9));
+            subClient.setEmail(resultSet.getString(7));
+            subClient.setPhoneNumber(resultSet.getLong(8));
 
             ret.add(subClient);
             

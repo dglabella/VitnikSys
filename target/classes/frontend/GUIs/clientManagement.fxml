@@ -27,7 +27,7 @@
                <children>
                   <Label fx:id="prefClientName" layoutX="70.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#nombreCpOnMouseClicked" onMouseEntered="#nombreCpOnMouseEntered" onMouseExited="#nombreCpOnMouseExited" prefHeight="30.0" prefWidth="280.0" text="nombre" textFill="WHITE">
                      <font>
-                        <Font name="Britannic Bold" size="22.0" />
+                        <Font name="Britannic Bold" size="16.0" />
                      </font>
                   </Label>
                   <Label layoutX="975.0" layoutY="15.0" prefHeight="30.0" prefWidth="120.0" text="Campaña" textFill="WHITE">
@@ -244,7 +244,7 @@
                                           <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="55.0" percentHeight="0.0" prefHeight="55.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <TableView fx:id="repurchases" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="1300.0">
+                                          <TableView fx:id="repurchases" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#repur" prefHeight="360.0" prefWidth="1300.0">
                                              <columns>
                                                 <TableColumn fx:id="devolutionCode" minWidth="100.0" prefWidth="110.0" text="Código Dev" />
                                                 <TableColumn fx:id="deliveryNumberRep" minWidth="100.0" prefWidth="110.0" text="Nro Envío" />

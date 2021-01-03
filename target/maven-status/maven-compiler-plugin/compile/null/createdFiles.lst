@@ -85,6 +85,7 @@ vitniksys\frontend\view_controllers\ViewCntlr.class
 vitniksys\backend\model\services\CampaignService$1.class
 vitniksys\backend\util\OrderObtainer.class
 vitniksys\backend\model\services\CampaignService.class
+vitniksys\backend\model\services\PreferentialClientService$5.class
 vitniksys\backend\model\interfaces\CrudOperator.class
 vitniksys\backend\model\persistence\ReturnedArticleOperator.class
 vitniksys\backend\util\PaymentsRowTable.class

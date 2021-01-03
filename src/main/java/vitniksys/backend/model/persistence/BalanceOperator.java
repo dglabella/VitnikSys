@@ -141,7 +141,7 @@ public class BalanceOperator implements IBalanceOperator
             sqlStmnt = 
             "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
             "FROM `saldos` "+
-            "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = 1;";
+            "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
@@ -153,7 +153,7 @@ public class BalanceOperator implements IBalanceOperator
 			sqlStmnt = 
             "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
             "FROM `saldos` "+
-            "WHERE `id_cp` = ? AND `active_row` = 1;";
+            "WHERE `id_cp` = ? AND `active_row` = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);

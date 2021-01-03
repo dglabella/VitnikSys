@@ -14,6 +14,7 @@ import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
+import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
@@ -121,8 +122,7 @@ public class PreferentialClientService extends Service
     }
 
     public void searchLeader(Integer id)
-    {
-        /*
+    {   
         CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del Lider "+id);
         Task<Void> task = new Task<>()
         {
@@ -133,13 +133,7 @@ public class PreferentialClientService extends Service
                 try
                 {
                     leader = LeaderOperator.getOperator().find(id);
-                }
-                catch(Exception exception)
-                {
-                    exception.printStackTrace();
-                }
-                finally
-                {
+
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     if(leader != null)
                     {
@@ -150,13 +144,22 @@ public class PreferentialClientService extends Service
                         ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún líder.");
                     }
                 }
+                catch(Exception exception)
+                {
+                    exception.printStackTrace();
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al intentar recuperar el lider "+id, null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().closeConnection();
+                }
 
                 return null;
             }
         };
         Platform.runLater(task);
-        //this.getExecutorService().execute(task);
-        */
+        //this.getExecutorService().execute(task);    
     }
 
     public void searchSubordinatedClient(Integer id)
@@ -171,13 +174,7 @@ public class PreferentialClientService extends Service
                 try
                 {
                     subordinatedClient = SubordinatedClientOperator.getOperator().find(id);
-                }
-                catch(Exception exception)
-                {
-                    exception.printStackTrace();
-                }
-                finally
-                {
+
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     if(subordinatedClient != null)
                     {
@@ -185,8 +182,16 @@ public class PreferentialClientService extends Service
                     }
                     else
                     {
-                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún líder.");
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún cliente preferencial con líder.");
                     }
+                }
+                catch(Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+                finally
+                {
+                    Connector.getConnector().closeConnection();
                 }
 
                 return null;
@@ -207,14 +212,8 @@ public class PreferentialClientService extends Service
                 BaseClient baseClient = null;
                 try
                 {
-                    baseClient = LeaderOperator.getOperator().find(id);
-                }
-                catch(Exception exception)
-                {
-                    exception.printStackTrace();
-                }
-                finally
-                {
+                    baseClient = BaseClientOperator.getOperator().find(id);
+
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     if(baseClient != null)
                     {
@@ -222,8 +221,16 @@ public class PreferentialClientService extends Service
                     }
                     else
                     {
-                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún líder.");
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún cliente preferencial base.");
                     }
+                }
+                catch(Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+                finally
+                {
+                    Connector.getConnector().closeConnection();   
                 }
 
                 return null;
@@ -268,7 +275,7 @@ public class PreferentialClientService extends Service
                 return returnCode;
             }
         };
-        //Platform.runLater(task);
-        this.getExecutorService().execute(task);
+        Platform.runLater(task);
+        //this.getExecutorService().execute(task);
     }
 }
