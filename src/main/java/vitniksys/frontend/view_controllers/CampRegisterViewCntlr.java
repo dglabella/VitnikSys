@@ -5,6 +5,8 @@ import java.io.File;
 import java.util.List;
 import java.time.Month;
 import javafx.fxml.FXML;
+import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -17,13 +19,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.SpinnerValueFactory;
+import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
+import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.services.CatalogueService;
 import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
+import vitniksys.frontend.views_subscriber.CatalogueServiceSubscriber;
 
-public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceSubscriber
+public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceSubscriber, CatalogueServiceSubscriber
 {
     // Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private static final int YEAR_MIN = 2020;
@@ -52,6 +57,8 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     @FXML private Button register;
     @FXML private Button addOrders;
     @FXML private Button plusCatalogue;
+
+    private AutoCompletionTool autoCompletionTool;
 
     // ================================= FXML methods =================================
     @FXML
@@ -105,7 +112,9 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     @FXML
     private void plusCatalogueButtonPressed()
     {
-        this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueService()).getStage().show();
+        ViewCntlr viewCntlr = this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueService());
+        viewCntlr.getStage().show();
+        viewCntlr.manualInitialize();
     }
 
     @FXML
@@ -157,6 +166,8 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
         {
             // to load the last camp number into the camp number spinner
             ((CampaignService) this.getService(0)).searchLastCamp();
+            ((CatalogueService) this.getService(1)).searchCatalogues();
+            
         }
         catch(Exception exception)
         {
@@ -197,6 +208,8 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
             years.add(i);
 
         this.campYear.setItems(years);
+
+        this.autoCompletionTool = new AutoCompletionTool(this.catalogueCode, new ArrayList<>(), 135);
     }
 
     // ================================= campaign service subscriber methods =================================
@@ -210,5 +223,19 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     public void showQueriedCamps(List<Campaign> camps) throws Exception
     {
         //Do nothing
+    }
+    
+    @Override
+    public void showQueriedCatalogue(Catalogue catalogue) throws Exception
+    {
+
+    }
+
+    @Override
+    public void showQueriedCatalogues(List<Catalogue> catalogues) throws Exception
+    {
+        Iterator<Catalogue> cataloguesIterator = catalogues.iterator();
+        while(cataloguesIterator.hasNext())
+            this.autoCompletionTool.getSuggestions().addAll(""+cataloguesIterator.next().getCode());
     }
 }

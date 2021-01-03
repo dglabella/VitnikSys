@@ -153,7 +153,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @FXML
     private void newCampButtonPressed()
     {
-        ViewCntlr viewCntlr = this.createStage("Crear campaña", "campRegister", new CampaignService());
+        ViewCntlr viewCntlr = this.createStage("Crear campaña", "campRegister", new CampaignService(), new CatalogueService());
         viewCntlr.getStage().show();
         viewCntlr.manualInitialize();
     }
