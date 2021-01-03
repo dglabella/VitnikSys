@@ -18,11 +18,14 @@ import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
+import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
+import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.services.PreferentialClientService;
 import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
@@ -227,6 +230,19 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         try
         {
             ((CampaignService)this.getService(1)).searchLastCamp();
+
+            if(this.prefClient instanceof Leader)
+            {
+                ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
+            }
+            else if(this.prefClient instanceof BaseClient)
+            {
+                ((PreferentialClientService)this.getService(0)).searchBaseClient(this.prefClient.getId());
+            }
+            else
+            {
+                ((PreferentialClientService)this.getService(0)).searchSubordinatedClient(this.prefClient.getId());
+            }
         }
         catch (Exception exception)
         {
@@ -256,7 +272,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showQueriedCamps(List<Campaign> camps) throws Exception
     {
-
+        //do nothing
     }
 
     @Override

@@ -198,7 +198,7 @@ public class PreferentialClientService extends Service
 
     public void searchBaseClient(Integer id)
     {
-        CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del Lider "+id);
+        CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del cliente preferencial base "+id);
         Task<Void> task = new Task<>()
         {
             @Override

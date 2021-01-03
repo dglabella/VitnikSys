@@ -20,17 +20,15 @@ import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.BaseClient;
-import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.services.CatalogueService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.services.PreferentialClientService;
-import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
-public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber, CampaignServiceSubscriber
+public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber
 {
     private int PREF_CLIENTS_TABLE_NUMBER;
 
@@ -54,29 +52,12 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         if(this.prefClients.getSelectionModel().getSelectedIndex() > -1)
         {
             PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
+
             ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new PreferentialClientService(), new CampaignService());
             viewCntlr.getStage().show();
 
-            try
-            {
-                if(selectedPrefClient instanceof Leader)
-                {
-                    ((PreferentialClientService)viewCntlr.getService(0)).searchLeader(selectedPrefClient.getId());
-                }
-                else if(selectedPrefClient instanceof BaseClient)
-                {
-                    ((PreferentialClientService)viewCntlr.getService(0)).searchBaseClient(selectedPrefClient.getId());
-                }
-                else
-                {
-                    ((PreferentialClientService)viewCntlr.getService(0)).searchSubordinatedClient(selectedPrefClient.getId());
-                }
-            }
-            catch (Exception exception)
-            {
-                exception.printStackTrace();
-            }
-            
+            ((ClientManagementViewCntlr)viewCntlr).loadPreferentialClient(selectedPrefClient);
+
             viewCntlr.manualInitialize();
         }
     }
@@ -272,26 +253,14 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         });
     }
 
-    // ================================= preferential client service subscriber methods =================================
+    // ================================= service subscriber methods =================================
     public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
     {
-
+        
     }
 
     public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
     {
         this.loadData(this.PREF_CLIENTS_TABLE_NUMBER, prefClients);
-    }
-
-    @Override
-    public void showQueriedCamp(Campaign camp) throws Exception
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void showQueriedCamps(List<Campaign> camps) throws Exception
-    {
-        // TODO Auto-generated method stub
     }
 }
