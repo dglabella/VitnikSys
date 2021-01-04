@@ -278,4 +278,9 @@ public class PreferentialClientService extends Service
         Platform.runLater(task);
         //this.getExecutorService().execute(task);
     }
+
+    public Float calculateBalance()
+    {
+        return null;
+    }
 }

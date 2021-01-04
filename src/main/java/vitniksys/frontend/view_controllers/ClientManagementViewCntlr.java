@@ -281,10 +281,14 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClient = prefClient;
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
+
+        this.prefClient.getBalances().
+
+        this.campBalance.setText(""+this.prefClient.getBalances() );
         
         if(prefClient instanceof SubordinatedClient)
         {
-            this.leader.setText(((SubordinatedClient)prefClient).getLeader().getId().toString());
+            this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
         }
     }
 

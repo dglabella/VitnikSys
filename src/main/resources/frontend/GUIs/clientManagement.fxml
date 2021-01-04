@@ -4,7 +4,9 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -176,6 +178,16 @@
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                              <MenuItem mnemonicParsing="false" text="Retirar" />
+                            <MenuItem mnemonicParsing="false" text="Retirar todo" />
+                              <MenuItem mnemonicParsing="false" text="Devolver" />
+                              <MenuItem mnemonicParsing="false" text="No comisiona" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
                   </TableView>
                   <Accordion fx:id="otherTables" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="1300.0" GridPane.rowIndex="2">
                      <panes>
@@ -206,6 +218,14 @@
                                              <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                              </columnResizePolicy>
+                                             <contextMenu>
+                                                <ContextMenu>
+                                                   <items>
+                                                      <MenuItem mnemonicParsing="false" text="Pagar" />
+                                                      <MenuItem mnemonicParsing="false" text="Corrección" />
+                                                   </items>
+                                                </ContextMenu>
+                                             </contextMenu>
                                           </TableView>
                                           <HBox alignment="CENTER" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="1300.0" spacing="20.0" GridPane.rowIndex="1">
                                              <children>
@@ -244,7 +264,7 @@
                                           <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="55.0" percentHeight="0.0" prefHeight="55.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <TableView fx:id="repurchases" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#repur" prefHeight="360.0" prefWidth="1300.0">
+                                          <TableView fx:id="repurchases" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="1300.0">
                                              <columns>
                                                 <TableColumn fx:id="devolutionCode" minWidth="100.0" prefWidth="110.0" text="Código Dev" />
                                                 <TableColumn fx:id="deliveryNumberRep" minWidth="100.0" prefWidth="110.0" text="Nro Envío" />
@@ -255,6 +275,14 @@
                                                 <TableColumn fx:id="typeRep" minWidth="200.0" prefWidth="200.0" text="Tipo" />
                                                 <TableColumn fx:id="repurchaseRegistrationTime" minWidth="100.0" prefWidth="120.0" text="Fecha Recompra" />
                                              </columns>
+                                             <contextMenu>
+                                                <ContextMenu>
+                                                   <items>
+                                                      <MenuItem mnemonicParsing="false" text="Devolver" />
+                                                      <MenuItem mnemonicParsing="false" text="Ver stock" />
+                                                   </items>
+                                                </ContextMenu>
+                                             </contextMenu>
                                           </TableView>
                                           <HBox alignment="CENTER" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="1300.0" spacing="200.0" GridPane.rowIndex="1">
                                              <children>
