@@ -5,7 +5,7 @@ import vitniksys.backend.model.entities.PreferentialClient;
 
 public class ClientList extends ArrayList<PreferentialClient>
 {
-    public ClientList ()
+    public ClientList()
     {
         super();
     }

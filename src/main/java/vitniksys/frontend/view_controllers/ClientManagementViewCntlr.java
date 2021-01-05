@@ -1,6 +1,8 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
@@ -282,7 +284,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
 
-        this.prefClient.getBalances().
+        //this.prefClient.getBalances().
+
+        ArrayList<Integer> al = new ArrayList<>();
 
         this.campBalance.setText(""+this.prefClient.getBalances() );
         
@@ -295,6 +299,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
     {
-
+        
     }
 }
