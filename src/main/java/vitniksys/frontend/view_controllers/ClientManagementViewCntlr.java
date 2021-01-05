@@ -224,6 +224,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
 
     // ================================= private methods ===================================
+    private void showTotalsForActualCamp()
+    {
+        this.campBalance.setText(this.prefClient.getBalances().ind);
+    }
 
     // ================================= protected methods ===================================
     @Override
@@ -284,16 +288,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
 
-        //this.prefClient.getBalances().
-
-        ArrayList<Integer> al = new ArrayList<>();
-
-        this.campBalance.setText(""+this.prefClient.getBalances() );
-        
         if(prefClient instanceof SubordinatedClient)
         {
             this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
         }
+
+        showTotalsForActualCamp();
     }
 
     @Override
