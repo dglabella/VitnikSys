@@ -1,8 +1,6 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
@@ -21,6 +19,7 @@ import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
 import vitniksys.backend.model.entities.BaseClient;
@@ -226,7 +225,16 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     // ================================= private methods ===================================
     private void showTotalsForActualCamp()
     {
-        this.campBalance.setText(this.prefClient.getBalances().ind);
+        System.out.println("Location: "+ this.prefClient.getBalances().locate(this.prefClient.getId(), this.actualCampaign.getNumber()));
+
+        Balance balance = this.prefClient.getBalances().get(this.prefClient.getBalances().locate(this.prefClient.getId(), this.actualCampaign.getNumber()));
+        this.campBalance.setText(""+balance.getBalance());
+        this.totalInCampaignOrders.setText(""+ (balance.getTotalInOrdersCom()+balance.getTotalInOrdersNonCom()));
+        this.paymentsPane.setText(""+ balance.getTotalInPayments());
+        this.repurchasesPane.setText(""+ balance.getTotalInRepurchases());
+
+        //calculateBalance method does not query the database
+        this.balance.setText(""+ ((PreferentialClientService)this.getService(0)).calculateBalance(this.prefClient.getBalances()));
     }
 
     // ================================= protected methods ===================================
@@ -292,13 +300,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         {
             this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
         }
-
         showTotalsForActualCamp();
     }
 
     @Override
     public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
     {
-        
+
     }
 }

@@ -1,5 +1,6 @@
 package vitniksys.backend.model.services;
 
+import java.util.Iterator;
 import java.util.List;
 import java.time.LocalDate;
 import javafx.concurrent.Task;
@@ -279,8 +280,13 @@ public class PreferentialClientService extends Service
         //this.getExecutorService().execute(task);
     }
 
-    public Float calculateBalance()
+    public Float calculateBalance(List<Balance> balances)
     {
-        return null;
+        Float ret = 0f;
+        Iterator<Balance> balancesIterator =  balances.iterator();
+        while(balancesIterator.hasNext())
+            ret += balancesIterator.next().getBalance();
+            
+        return ret;
     }
 }

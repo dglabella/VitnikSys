@@ -189,5 +189,22 @@ public class Balance
     public void setActive(boolean active)
     {
         this.active = active;
-    }    
+    }
+
+    @Override
+    public String toString()
+    {
+        return "{" +
+            " prefClientId='" + getPrefClientId() + "'" +
+            ", campNumber='" + getCampNumber() + "'" +
+            ", balance='" + getBalance() + "'" +
+            ", totalInOrdersCom='" + getTotalInOrdersCom() + "'" +
+            ", totalInOrdersNonCom='" + getTotalInOrdersNonCom() + "'" +
+            ", totalInCatalogues='" + getTotalInCatalogues() + "'" +
+            ", totalInRepurchases='" + getTotalInRepurchases() + "'" +
+            ", totalInPayments='" + getTotalInPayments() + "'" +
+            ", totalInDevolutions='" + getTotalInDevolutions() + "'" +
+            ", totalInCommission='" + getTotalInCommission() + "'" +
+            "}";
+    }
 }

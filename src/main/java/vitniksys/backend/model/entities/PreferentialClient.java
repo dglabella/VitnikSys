@@ -4,6 +4,7 @@ import java.util.List;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.time.LocalDate;
+import vitniksys.backend.util.BalanceList;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
 public abstract class PreferentialClient
@@ -24,7 +25,7 @@ public abstract class PreferentialClient
     private List<Devolution> devolutions;
     private List<Repurchase> repurchases;
     private List<Payment> payments;
-    private List<Balance> balances;
+    private BalanceList balances;
 
     //Others
     private boolean active;
@@ -206,11 +207,12 @@ public abstract class PreferentialClient
         this.payments = payments;
     }
 
-    public List<Balance> getBalances() {
+    public BalanceList getBalances()
+    {
         return this.balances;
     }
 
-    public void setBalances(List<Balance> balances)
+    public void setBalances(BalanceList balances)
     {
         this.balances = balances;
     }

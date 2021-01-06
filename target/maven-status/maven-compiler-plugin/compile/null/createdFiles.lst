@@ -13,6 +13,7 @@ vitniksys\backend\util\RepurchasesRowTable.class
 vitniksys\backend\model\entities\Payment.class
 vitniksys\backend\model\entities\Campaign.class
 vitniksys\backend\model\services\CatalogueService$2.class
+vitniksys\backend\util\BalanceList.class
 vitniksys\frontend\view_controllers\CatalogueQueryViewCntlr.class
 vitniksys\backend\model\interfaces\IArticleOperator.class
 vitniksys\backend\model\enums\Reason.class
