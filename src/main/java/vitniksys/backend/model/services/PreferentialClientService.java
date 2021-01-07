@@ -1,7 +1,7 @@
 package vitniksys.backend.model.services;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Iterator;
 import java.time.LocalDate;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
