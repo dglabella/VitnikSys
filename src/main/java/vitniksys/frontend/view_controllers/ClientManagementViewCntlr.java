@@ -1,8 +1,6 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
@@ -227,19 +225,11 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     // ================================= private methods ===================================
     private void showTotalsForActualCamp()
     {
-        System.out.println("prefClient "+this.prefClient.getId()+" - camp "+this.actualCampaign.getNumber()+"\n");
-        System.out.println(this.prefClient.getBalances().toString());
-        System.out.println("Location: "+ this.prefClient.getBalances().locate(this.prefClient.getId(), this.actualCampaign.getNumber()));
-        System.out.println("Shuffling...");
-        this.prefClient.getBalances().shuffle();
-        System.out.println(this.prefClient.getBalances().toString());
-        System.out.println("Location: "+ this.prefClient.getBalances().locate(this.prefClient.getId(), this.actualCampaign.getNumber()));
-
         Balance balance = this.prefClient.getBalances().get(this.prefClient.getBalances().locate(this.prefClient.getId(), this.actualCampaign.getNumber()));
         this.campBalance.setText(""+balance.getBalance());
         this.totalInCampaignOrders.setText(""+ (balance.getTotalInOrdersCom()+balance.getTotalInOrdersNonCom()));
-        this.paymentsPane.setText(""+ balance.getTotalInPayments());
-        this.repurchasesPane.setText(""+ balance.getTotalInRepurchases());
+        this.paymentsPane.setText("Pagos: "+ balance.getTotalInPayments());
+        this.repurchasesPane.setText("Recompras: "+ balance.getTotalInRepurchases());
 
         //calculateBalance method does not query the database
         this.balance.setText(""+ ((PreferentialClientService)this.getService(0)).calculateBalance(this.prefClient.getBalances()));

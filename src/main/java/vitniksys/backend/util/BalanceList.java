@@ -72,13 +72,11 @@ public class BalanceList extends ArrayList<Balance>
     {
         int i = 0;
         Integer ret = null;
-        boolean endLoop =  false;
         try
         {
             if(prefClientId != null && campNumb != null)
-            {
-                
-                while(i < this.size() && (!this.get(i).getPrefClientId().equals(prefClientId) | !this.get(i).getCampNumber().equals(campNumb)) )
+            {   
+                while(i < this.size() && (!this.get(i).getPrefClientId().equals(prefClientId) || !this.get(i).getCampNumber().equals(campNumb)))
                     i++;
             }
             else if(prefClientId != null && campNumb == null)
@@ -122,7 +120,7 @@ public class BalanceList extends ArrayList<Balance>
 
     public void shuffle()
     {
-        Random rand = new Random();
+        Random rand = new Random(System.currentTimeMillis());
         for(int i = 0; i < this.size(); i++)
             this.add(this.remove(rand.nextInt(this.size())));
 	}
