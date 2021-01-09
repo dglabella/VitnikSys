@@ -8,8 +8,14 @@ import java.time.Instant;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.entities.Balance;
+import vitniksys.backend.model.entities.Devolution;
+import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.entities.Repurchase;
 
 public class SubordinatedClientOperator extends PreferentialClientOperator
 {
@@ -121,14 +127,16 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
             }
             subClient.setEmail(resultSet.getString(7));
             subClient.setPhoneNumber(resultSet.getLong(8));
-
-            ret.add(subClient);
             
 			//fk ids
 			subClient.setLeaderId(leaderId);
 
-			//Associations
-            
+            //Associations
+            subClient.setOrders(new VitnikSearchableList<Order>(OrderOperator.getOperator().findAll(subClient.getId(), null)));
+            subClient.setDevolutions(new VitnikSearchableList<Devolution>(DevolutionOperator.getOperator().findAll(subClient.getId(), null)));
+            subClient.setRepurchases(new VitnikSearchableList<Repurchase>(RepurchaseOperator.getOperator().findAll(subClient.getId(), null)));
+            subClient.setPayments(new VitnikSearchableList<Payment>(PaymentOperator.getOperator().findAll(subClient.getId(), null)));
+            subClient.setBalances(new VitnikSearchableList<Balance>(BalanceOperator.getOperator().findAll(subClient.getId(), null)));
             
 			ret.add(subClient);
 		}
@@ -185,7 +193,11 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
 			ret.setLeaderId(resultSet.getInt(2));
 
             //Associations
-            
+            ret.setOrders(new VitnikSearchableList<Order>(OrderOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setDevolutions(new VitnikSearchableList<Devolution>(DevolutionOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setRepurchases(new VitnikSearchableList<Repurchase>(RepurchaseOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setPayments(new VitnikSearchableList<Payment>(PaymentOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setBalances(new VitnikSearchableList<Balance>(BalanceOperator.getOperator().findAll(ret.getId(), null)));
         }
         
         statement.close();

@@ -1,7 +1,6 @@
 package vitniksys.backend.util;
 
 import java.sql.Timestamp;
-import javafx.scene.control.CheckBox;
 import vitniksys.backend.model.enums.ArticleType;
 
 public class OrdersRowTable
@@ -17,6 +16,20 @@ public class OrdersRowTable
     private Timestamp withdrawalDate;
     private boolean commissionable;//private CheckBox commissionable;
 
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commission, 
+        String name, ArticleType type, String articleId, Timestamp withdrawalDate, boolean commissionable)
+    {
+        this.code = code; 
+        this.deliveryNumber = deliveryNumber;
+        this.quantity = quantity;
+        this.cost = cost;
+        this.commission = commission;
+        this.name = name;
+        this.type = type;
+        this.articleId = articleId;
+        this.withdrawalDate = withdrawalDate;
+        this.commissionable = commissionable;
+    }
 
     // Getters && Setters
     public Integer getCode()

@@ -1,6 +1,8 @@
 package vitniksys.backend.model.entities;
 
 import java.util.List;
+import java.util.Iterator;
+import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
@@ -9,7 +11,7 @@ public class BaseClient extends PreferentialClient
     //Entity properties
 
     //Domain Associations
-    private List<Observation> observations;
+    private VitnikSearchableList<Observation> observations;
     private List<CatalogueDeliver> catalogueDeliveries;
 
     //Others
@@ -24,12 +26,12 @@ public class BaseClient extends PreferentialClient
     }
 
     //Getters && Setters
-    public List<Observation> getObservations()
+    public VitnikSearchableList<Observation> getObservations()
     {
         return this.observations;
     }
 
-    public void setObservations(List<Observation> observations)
+    public void setObservations(VitnikSearchableList<Observation> observations)
     {
         this.observations = observations;
     }
@@ -49,6 +51,19 @@ public class BaseClient extends PreferentialClient
     {
         return super.toString() + " - BASE CLIENT";
     }
+
+    @Override
+    public Float calculateBalance()
+    {
+        Float ret = 0f;
+        Iterator<Balance> it = this.getBalances().iterator();
+        
+        while(it.hasNext())
+            ret += it.next().getBalance();
+
+        return ret;
+    }
+
     @Override
     public PreferentialClientOperator operator()
     {

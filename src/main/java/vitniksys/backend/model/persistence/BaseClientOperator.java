@@ -8,7 +8,14 @@ import java.time.Instant;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.entities.Payment;
+import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.entities.Devolution;
+import vitniksys.backend.util.VitnikSearchableList;
+import vitniksys.backend.model.entities.Repurchase;
+import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 public class BaseClientOperator extends PreferentialClientOperator
@@ -121,13 +128,13 @@ public class BaseClientOperator extends PreferentialClientOperator
             ret.setEmail(resultSet.getString(8));
             ret.setPhoneNumber(resultSet.getLong(9));
 
-            ret.setOrders(OrderOperator.getOperator().findAll(ret.getId(), null));
-            ret.setDevolutions(DevolutionOperator.getOperator().findAll(ret.getId(), null));
-            ret.setRepurchases(RepurchaseOperator.getOperator().findAll(ret.getId(), null));
-            ret.setPayments(PaymentOperator.getOperator().findAll(ret.getId(), null));
-            ret.setBalances(BalanceOperator.getOperator().findAll(ret.getId(), null));
+            ret.setOrders(new VitnikSearchableList<Order>(OrderOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setDevolutions(new VitnikSearchableList<Devolution>(DevolutionOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setRepurchases(new VitnikSearchableList<Repurchase>(RepurchaseOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setPayments(new VitnikSearchableList<Payment>(PaymentOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setBalances(new VitnikSearchableList<Balance>(BalanceOperator.getOperator().findAll(ret.getId(), null)));
 
-            ret.setObservations(ObservationOperator.getOperator().findAll(ret.getId(), null));
+            ret.setObservations(new VitnikSearchableList<Observation>(ObservationOperator.getOperator().findAll(ret.getId(), null)));
             ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), null));
         }
 

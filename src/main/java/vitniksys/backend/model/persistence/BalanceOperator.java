@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.interfaces.IBalanceOperator;
-import vitniksys.backend.util.BalanceList;
 
 public class BalanceOperator implements IBalanceOperator
 {
@@ -124,16 +123,16 @@ public class BalanceOperator implements IBalanceOperator
     }
     
     @Override
-    public BalanceList findAll() throws Exception
+    public List<Balance> findAll() throws Exception
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public BalanceList findAll(Integer prefClientId, Integer campNumb) throws Exception
+    public List<Balance> findAll(Integer prefClientId, Integer campNumb) throws Exception
     {
-        BalanceList ret = new BalanceList();
+        List<Balance> ret = new ArrayList<>();
         String sqlStmnt = null;
         PreparedStatement statement = null;
 

@@ -1,11 +1,7 @@
 package vitniksys.backend.model.entities;
 
-public class Commission
+public class Commission extends VitnikSearchableEntity
 {
-    //fk id
-    private Integer leaderId;
-    private Integer campNumber;
-
     //Entity properties
     private int actualQuantity;
     private int lvl1Quantity;
@@ -39,26 +35,6 @@ public class Commission
     }
 
     //Getters && Setters
-    public Integer getLeaderId()
-    {
-        return this.leaderId;
-    }
-
-    public void setLeaderId(Integer leaderId)
-    {
-        this.leaderId = leaderId;
-    }
-
-    public Integer getCampNumber()
-    {
-        return this.campNumber;
-    }
-
-    public void setCampNumber(Integer campNumber)
-    {
-        this.campNumber = campNumber;
-    }
-
     public int getActualQuantity()
     {
         return this.actualQuantity;

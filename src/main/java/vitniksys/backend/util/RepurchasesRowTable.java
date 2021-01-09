@@ -5,106 +5,106 @@ import vitniksys.backend.model.enums.ArticleType;
 
 public class RepurchasesRowTable
 {
-    private int codDev;
-    private int nroEnvio;
-    private int codEjemplar;
-    private float precio;
-    private float precioRec;
-    private String nombre;
-    private ArticleType tipo;
-    private Timestamp fechaRec;
+    private Integer devCode;
+    private Integer deliveryNumber;
+    private String articleId;
+    private Float cost;
+    private Float repurchaseCost;
+    private String name;
+    private ArticleType articleType;
+    private Timestamp registrationTime;
 
-    public RepurchasesRowTable(int codDev, int nroEnvio, int codEjemplar, float precio, 
-        float precioRec, String nombre, ArticleType tipo, Timestamp fechaRec)
+    public RepurchasesRowTable(Integer devCode, Integer deliveryNumber, String articleId, Float cost, 
+        Float repurchaseCost, String name, ArticleType articleType, Timestamp registrationTime)
     {
-        this.codDev = codDev;
-        this.nroEnvio = nroEnvio;
-        this.codEjemplar = codEjemplar;
-        this.precio = precio;
-        this.precioRec = precioRec;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.fechaRec = fechaRec;
+        this.devCode = devCode;
+        this.deliveryNumber = deliveryNumber;
+        this.articleId = articleId;
+        this.cost = cost;
+        this.repurchaseCost = repurchaseCost;
+        this.name = name;
+        this.articleType = articleType;
+        this.registrationTime = registrationTime;
     }
 
     //Getters && Setters
-    public int getCodDev()
+    public Integer getDevCode()
     {
-        return this.codDev;
+        return this.devCode;
     }
 
-    public void setCodDev(int codDev)
+    public void setDevCode(Integer devCode)
     {
-        this.codDev = codDev;
+        this.devCode = devCode;
     }
 
-    public int getNroEnvio()
+    public Integer getDeliveryNumber()
     {
-        return this.nroEnvio;
+        return this.deliveryNumber;
     }
 
-    public void setNroEnvio(int nroEnvio)
+    public void setDeliveryNumber(Integer deliveryNumber)
     {
-        this.nroEnvio = nroEnvio;
+        this.deliveryNumber = deliveryNumber;
     }
 
-    public int getCodEjemplar()
+    public String getArticleId()
     {
-        return this.codEjemplar;
+        return this.articleId;
     }
 
-    public void setCodEjemplar(int codEjemplar)
+    public void setArticleId(String articleId)
     {
-        this.codEjemplar = codEjemplar;
+        this.articleId = articleId;
     }
 
-    public float getPrecio()
+    public Float getCost()
     {
-        return this.precio;
+        return this.cost;
     }
 
-    public void setPrecio(float precio)
+    public void setCost(Float cost)
     {
-        this.precio = precio;
+        this.cost = cost;
     }
 
-    public float getPrecioRec()
+    public Float getRepurchaseCost()
     {
-        return this.precioRec;
+        return this.repurchaseCost;
     }
 
-    public void setPrecioRec(float precioRec)
+    public void setRepurchaseCost(Float repurchaseCost)
     {
-        this.precioRec = precioRec;
+        this.repurchaseCost = repurchaseCost;
     }
 
-    public String getNombre()
+    public String getName()
     {
-        return this.nombre;
+        return this.name;
     }
 
-    public void setNombre(String nombre)
+    public void setName(String name)
     {
-        this.nombre = nombre;
+        this.name = name;
     }
 
-    public ArticleType getTipo()
+    public ArticleType getArticleType()
     {
-        return this.tipo;
+        return this.articleType;
     }
 
-    public void setTipo(ArticleType tipo)
+    public void setArticleType(ArticleType articleType)
     {
-        this.tipo = tipo;
+        this.articleType = articleType;
     }
 
-    public Timestamp getFechaRec()
+    public Timestamp getRegistrationTime()
     {
-        return this.fechaRec;
+        return this.registrationTime;
     }
 
-    public void setFechaRec(Timestamp fechaRec)
+    public void setRegistrationTime(Timestamp registrationTime)
     {
-        this.fechaRec = fechaRec;
+        this.registrationTime = registrationTime;
     }
 }

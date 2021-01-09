@@ -22,8 +22,8 @@ import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class PreferentialClientService extends Service
 {
-
     //Getters && Setters
+    
 
     // ================================= private methods =================================
     private boolean allFieldsAreOk(String id, String dni, String name, String lastName, 

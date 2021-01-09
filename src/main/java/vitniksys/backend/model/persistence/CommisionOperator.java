@@ -127,7 +127,7 @@ public class CommisionOperator implements ICommisionOperator
                 resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11));
 			
 			//fk ids
-			commission.setLeaderId(resultSet.getInt(1));
+			commission.setPrefClientId(resultSet.getInt(1));
 			commission.setCampNumber(resultSet.getInt(2));
 
 			//Associations

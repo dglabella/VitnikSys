@@ -3,6 +3,8 @@ package vitniksys.frontend.view_controllers;
 import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
@@ -13,16 +15,19 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
 import vitniksys.backend.model.entities.BaseClient;
+import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
@@ -34,6 +39,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 {
     private Campaign actualCampaign;
     private PreferentialClient prefClient;
+
+    private int ORDERS_TABLE_NUMBER;
+    private int PAYMENTS_TABLE_NUMBER;
+    private int REPURCHASES_TABLE_NUMBER;
 
     // ================================= FXML variables =================================
     @FXML private TitledPane paymentsPane;
@@ -99,7 +108,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<RepurchasesRowTable, String> nameRep;
     @FXML private TableColumn<RepurchasesRowTable, String> typeRep;
     @FXML private TableColumn<RepurchasesRowTable, String> repurchaseRegistrationTime;
-
 
     // ================================= FXML methods ===================================
     @FXML
@@ -225,14 +233,22 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     // ================================= private methods ===================================
     private void showTotalsForActualCamp()
     {
-        Balance balance = this.prefClient.getBalances().get(this.prefClient.getBalances().locate(this.prefClient.getId(), this.actualCampaign.getNumber()));
+        //Balance balance = this.prefClient.getBalances().get(this.prefClient.getBalances().locate(this.prefClient.getId(), this.actualCampaign.getNumber()));
+        Balance balance = this.prefClient.getBalances().locateByCampNumb(this.actualCampaign.getNumber());
         this.campBalance.setText(""+balance.getBalance());
         this.totalInCampaignOrders.setText(""+ (balance.getTotalInOrdersCom()+balance.getTotalInOrdersNonCom()));
         this.paymentsPane.setText("Pagos: "+ balance.getTotalInPayments());
         this.repurchasesPane.setText("Recompras: "+ balance.getTotalInRepurchases());
 
-        //calculateBalance method does not query the database
-        this.balance.setText(""+ ((PreferentialClientService)this.getService(0)).calculateBalance(this.prefClient.getBalances()));
+        this.balance.setText(""+ this.prefClient.calculateBalance());
+    }
+
+    private void insertDataIntoTables()
+    {
+        
+        Iterator<Order> orders = this.prefClient.getOrders().locate(this.prefClient.getId(), this.actualCampaign.getNumber())
+        
+        //this.loadData(this.ORDERS_TABLE_NUMBER, );
     }
 
     // ================================= protected methods ===================================
@@ -271,7 +287,78 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
+        this.orders.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        List<TableColumn> columns = new ArrayList<>();
+        List<PropertyValueFactory> propertiesValues = new ArrayList<>();
+
+        columns.add(this.deliveryNumber);
+        columns.add(this.quantity);
+        columns.add(this.price);
+        columns.add(this.commission);
+        columns.add(this.articleName);
+        columns.add(this.orderType);
+        columns.add(this.articleId);
+        columns.add(this.withdrawalDate);
+        columns.add(this.isCommissionable);
+        
+        propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
+        propertiesValues.add(new PropertyValueFactory<>("quantity"));
+        propertiesValues.add(new PropertyValueFactory<>("cost"));
+        propertiesValues.add(new PropertyValueFactory<>("commission"));
+        propertiesValues.add(new PropertyValueFactory<>("name"));
+        propertiesValues.add(new PropertyValueFactory<>("type"));
+        propertiesValues.add(new PropertyValueFactory<>("articleId"));
+        propertiesValues.add(new PropertyValueFactory<>("withdrawalDate"));
+        propertiesValues.add(new PropertyValueFactory<>("commissionable"));
+
+        this.registerTable(this.orders);
+        this.ORDERS_TABLE_NUMBER = 0; //Because is the first table registered.
+
+        columns.add(this.code);
+        columns.add(this.paymentDescriptor);
+        columns.add(this.paymentAmount);
+        columns.add(this.paymentItem);
+        columns.add(this.paymentType);
+        columns.add(this.bank);
+        columns.add(this.paymentStatus);
+        columns.add(this.paymentRegistrationTime);
+
+        propertiesValues.add(new PropertyValueFactory<>("code"));
+        propertiesValues.add(new PropertyValueFactory<>("descriptor"));
+        propertiesValues.add(new PropertyValueFactory<>("amount"));
+        propertiesValues.add(new PropertyValueFactory<>("item"));
+        propertiesValues.add(new PropertyValueFactory<>("paymentMethod"));
+        propertiesValues.add(new PropertyValueFactory<>("bank"));
+        propertiesValues.add(new PropertyValueFactory<>("paymentStatus"));
+        propertiesValues.add(new PropertyValueFactory<>("registrationTime"));
+
+        this.registerTable(this.payments);
+        this.PAYMENTS_TABLE_NUMBER = 1;
+
+        columns.add(this.devolutionCode);
+        columns.add(this.deliveryNumberRep);
+        columns.add(this.articleIdRep);
+        columns.add(this.priceRep);
+        columns.add(this.repurchasePrice);
+        columns.add(this.nameRep);
+        columns.add(this.typeRep);
+        columns.add(this.repurchaseRegistrationTime);
+
+        propertiesValues.add(new PropertyValueFactory<>("devCode"));
+        propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
+        propertiesValues.add(new PropertyValueFactory<>("articleId"));
+        propertiesValues.add(new PropertyValueFactory<>("cost"));
+        propertiesValues.add(new PropertyValueFactory<>("repurchaseCost"));
+        propertiesValues.add(new PropertyValueFactory<>("name"));
+        propertiesValues.add(new PropertyValueFactory<>("articleType"));
+        propertiesValues.add(new PropertyValueFactory<>("registrationTime"));
+
+        this.registerTable(this.repurchases);
+        this.REPURCHASES_TABLE_NUMBER = 2;
+        
+        this.registerColumns(columns);
+        this.registerPropertiesValues(propertiesValues);
     }
 
     // ================================= service subscriber methods ===================================
@@ -299,6 +386,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
         }
         showTotalsForActualCamp();
+        insertDataIntoTables();
     }
 
     @Override

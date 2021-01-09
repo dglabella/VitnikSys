@@ -6,12 +6,8 @@ import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.enums.PayStatus;
 
-public class Payment
+public class Payment extends VitnikSearchableEntity
 {
-    //fk id
-    private Integer prefClientId;
-    private Integer campNumber;
-
     //Entity properties
     private int code;
     private String descriptor;
@@ -38,26 +34,6 @@ public class Payment
     }
 
     //Getters && Setters
-    public Integer getPrefClientId()
-    {
-        return this.prefClientId;
-    }
-
-    public void setPrefClientId(Integer prefClientId)
-    {
-        this.prefClientId = prefClientId;
-    }
-
-    public Integer getCampNumber()
-    {
-        return this.campNumber;
-    }
-
-    public void setCampNumber(Integer campNumber)
-    {
-        this.campNumber = campNumber;
-    }
-
     /**
      * 
      * @return return the BD table key (column name: cod).

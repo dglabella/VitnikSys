@@ -59,7 +59,6 @@ public abstract class TableViewCntlr extends ViewCntlr
 
         while (columnsIterator.hasNext())
             columnsIterator.next().setCellValueFactory(propertiesValuesIterator.next());
-        
     }
 
     // ================================= protected methods =============================

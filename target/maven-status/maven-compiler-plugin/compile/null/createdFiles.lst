@@ -93,7 +93,6 @@ vitniksys\backend\util\PaymentsRowTable.class
 vitniksys\backend\model\interfaces\IDevolutionOperator.class
 vitniksys\backend\model\services\CatalogueService.class
 vitniksys\backend\util\CustomAlert.class
-vitniksys\backend\util\DevolucionesRowTable.class
 vitniksys\backend\model\enums\PayStatus$1.class
 vitniksys\backend\model\services\CampaignService$2.class
 vitniksys\backend\model\services\CatalogueService$1.class

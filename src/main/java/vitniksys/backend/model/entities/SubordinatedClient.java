@@ -1,6 +1,9 @@
 package vitniksys.backend.model.entities;
 
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
+
+import java.util.Iterator;
+
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
 public class SubordinatedClient extends PreferentialClient
@@ -52,6 +55,19 @@ public class SubordinatedClient extends PreferentialClient
     public String toString()
     {
         return super.toString()+" SUB CLIENT -- Leader: "+this.leader.getId();
+    }
+
+    @Override
+    public Float calculateBalance()
+    {
+        Float ret = 0f;
+        Iterator<Balance> it = this.getBalances().iterator();
+        
+        while(it.hasNext())
+            ret += it.next().getBalance();
+
+        System.out.println("sub " + this.getId() + " - " + ret);
+        return ret;
     }
 
     @Override

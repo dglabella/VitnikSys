@@ -4,7 +4,7 @@ import java.util.List;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.time.LocalDate;
-import vitniksys.backend.util.BalanceList;
+import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 
 public abstract class PreferentialClient
@@ -21,11 +21,11 @@ public abstract class PreferentialClient
     private Timestamp registrationTime;
 
     //Domain Associations
-    private List<Order> orders;
-    private List<Devolution> devolutions;
-    private List<Repurchase> repurchases;
-    private List<Payment> payments;
-    private BalanceList balances;
+    private VitnikSearchableList<Order> orders;
+    private VitnikSearchableList<Devolution> devolutions;
+    private VitnikSearchableList<Repurchase> repurchases;
+    private VitnikSearchableList<Payment> payments;
+    private VitnikSearchableList<Balance> balances;
 
     //Others
     private boolean active;
@@ -95,7 +95,8 @@ public abstract class PreferentialClient
         this.lastName = lastName;
     }
 
-    public String getLocation() {
+    public String getLocation()
+    {
         return this.location;
     }
 
@@ -124,7 +125,8 @@ public abstract class PreferentialClient
         this.email = email;
     }
 
-    public Long getPhoneNumber() {
+    public Long getPhoneNumber()
+    {
         return this.phoneNumber;
     }
 
@@ -133,7 +135,8 @@ public abstract class PreferentialClient
         this.phoneNumber = phoneNumber;
     }
 
-    public Timestamp getRegistrationTime() {
+    public Timestamp getRegistrationTime()
+    {
         return this.registrationTime;
     }
 
@@ -165,54 +168,54 @@ public abstract class PreferentialClient
         this.incomingOrders = incomingOrders;
     }
     
-    public List<Order> getOrders()
+    public VitnikSearchableList<Order> getOrders()
     {
         if(this.orders == null)
-            this.orders = new ArrayList<>();
+            this.orders = new VitnikSearchableList<>();
         return this.orders;
     }
 
-    public void setOrders(List<Order> orders)
+    public void setOrders(VitnikSearchableList<Order> orders)
     {
         this.orders = orders;
     }
 
-    public List<Devolution> getDevolutions()
+    public VitnikSearchableList<Devolution> getDevolutions()
     {
         return this.devolutions;
     }
 
-    public void setDevolutions(List<Devolution> devolutions)
+    public void setDevolutions(VitnikSearchableList<Devolution> devolutions)
     {
         this.devolutions = devolutions;
     }
 
-    public List<Repurchase> getRepurchases()
+    public VitnikSearchableList<Repurchase> getRepurchases()
     {
         return this.repurchases;
     }
 
-    public void setRepurchases(List<Repurchase> repurchases)
+    public void setRepurchases(VitnikSearchableList<Repurchase> repurchases)
     {
         this.repurchases = repurchases;
     }
 
-    public List<Payment> getPayments()
+    public VitnikSearchableList<Payment> getPayments()
     {
         return this.payments;
     }
 
-    public void setPayments(List<Payment> payments)
+    public void setPayments(VitnikSearchableList<Payment> payments)
     {
         this.payments = payments;
     }
 
-    public BalanceList getBalances()
+    public VitnikSearchableList<Balance> getBalances()
     {
         return this.balances;
     }
 
-    public void setBalances(BalanceList balances)
+    public void setBalances(VitnikSearchableList<Balance> balances)
     {
         this.balances = balances;
     }
@@ -222,6 +225,14 @@ public abstract class PreferentialClient
     {
         return "Id: "+this.id+" -- Name: "+this.name+" -- LastName: "+this.lastName;
     }
+
+    /**
+     * This method calculates the balance of this preferential client.
+     * Note: If the preferential client is a leader, then the balance
+     * is the sum of the balances of his subordinates clients plus his own.
+     * @return
+     */
+    public abstract Float calculateBalance();
 
     /**
      * This method supplies an easy way to get the Data Acces Object (DAO).

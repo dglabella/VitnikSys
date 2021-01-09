@@ -7,68 +7,58 @@ import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.enums.PayStatus;
 
 public class PaymentsRowTable
-{    
-    private Timestamp fecha;
-    private int codPago;
-    private String id;
-    private float monto;
+{
+    private int code;
+    private String descriptor;
+    private float amount;
     private PayItem item;
-    private PayType tipo;
-    private PayStatus estado;
-    private Bank banco;
+    private PayType paymentMethod;
+    private Bank bank;
+    private PayStatus paymentStatus;
+    private Timestamp registrationTime;
 
-    public PaymentsRowTable(int codPago, String id, float monto, PayItem item, 
-        PayType tipo, PayStatus estado, Bank banco, Timestamp fecha)
+    public PaymentsRowTable (int code, String descriptor, float amount, PayItem item, PayType paymentMethod, 
+        Bank bank, PayStatus paymentStatus, Timestamp registrationTime)
     {
-        this.fecha = fecha;
-        this.codPago = codPago;
-        this.id = id;
-        this.monto = monto;
+        this.code = code;
+        this.descriptor = descriptor;
+        this.amount = amount;
         this.item = item;
-        this.tipo = tipo;
-        this.estado = estado;
-        this.banco = banco;
+        this.paymentMethod = paymentMethod;
+        this.bank = bank;
+        this.paymentStatus = paymentStatus;
+        this.registrationTime = registrationTime;
     }
-    
+
     //Getters && Setters
-    public Timestamp getFecha()
+    public int getCode()
     {
-        return this.fecha;
+        return this.code;
     }
 
-    public void setFecha(Timestamp fecha)
+    public void setCode(int code)
     {
-        this.fecha = fecha;
+        this.code = code;
     }
 
-    public int getCodPago()
+    public String getDescriptor()
     {
-        return this.codPago;
+        return this.descriptor;
     }
 
-    public void setCodPago(int codPago)
+    public void setDescriptor(String descriptor)
     {
-        this.codPago = codPago;
+        this.descriptor = descriptor;
     }
 
-    public String getId()
+    public float getAmount()
     {
-        return this.id;
+        return this.amount;
     }
 
-    public void setId(String id)
+    public void setAmount(float amount)
     {
-        this.id = id;
-    }
-
-    public float getMonto()
-    {
-        return this.monto;
-    }
-
-    public void setMonto(float monto)
-    {
-        this.monto = monto;
+        this.amount = amount;
     }
 
     public PayItem getItem()
@@ -81,33 +71,43 @@ public class PaymentsRowTable
         this.item = item;
     }
 
-    public PayType getTipo()
+    public PayType getPaymentMethod()
     {
-        return this.tipo;
+        return this.paymentMethod;
     }
 
-    public void setTipo(PayType tipo)
+    public void setPaymentMethod(PayType paymentMethod)
     {
-        this.tipo = tipo;
+        this.paymentMethod = paymentMethod;
     }
 
-    public PayStatus getEstado()
+    public Bank getBank()
     {
-        return this.estado;
+        return this.bank;
     }
 
-    public void setEstado(PayStatus estado)
+    public void setBank(Bank bank)
     {
-        this.estado = estado;
+        this.bank = bank;
     }
 
-    public Bank getBanco()
+    public PayStatus getPaymentStatus()
     {
-        return this.banco;
+        return this.paymentStatus;
     }
 
-    public void setBanco(Bank banco)
+    public void setPaymentStatus(PayStatus paymentStatus)
     {
-        this.banco = banco;
-    } 
+        this.paymentStatus = paymentStatus;
+    }
+
+    public Timestamp getRegistrationTime()
+    {
+        return this.registrationTime;
+    }
+
+    public void setRegistrationTime(Timestamp registrationTime)
+    {
+        this.registrationTime = registrationTime;
+    }
 }

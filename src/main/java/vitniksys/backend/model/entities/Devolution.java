@@ -3,11 +3,9 @@ package vitniksys.backend.model.entities;
 import java.sql.Timestamp;
 import vitniksys.backend.model.enums.Reason;
 
-public class Devolution
+public class Devolution extends VitnikSearchableEntity
 {
     //fk id
-    private Integer prefClientId;
-    private Integer campNumber;
     private String articleId;
 
     //Entity properties
@@ -35,26 +33,6 @@ public class Devolution
     }
 
     //Getters && Setters
-    public Integer getPrefClientId()
-    {
-        return this.prefClientId;
-    }
-
-    public void setPrefClientId(Integer prefClientId)
-    {
-        this.prefClientId = prefClientId;
-    }
-
-    public Integer getCampNumber()
-    {
-        return this.campNumber;
-    }
-
-    public void setCampNumber(Integer campNumber)
-    {
-        this.campNumber = campNumber;
-    }
-
     public String getArticleId()
     {
         return this.articleId;
