@@ -95,17 +95,20 @@ public abstract class TableViewCntlr extends ViewCntlr
 
     protected void loadData(int tableNumber, Object data)
     {
-        this.tableDataLists.get(tableNumber).add(data);
+        if(data != null)
+            this.tableDataLists.get(tableNumber).add(data);
     }
 
     protected void loadData(int tableNumber, int position, Object data)
     {
-        this.tableDataLists.get(tableNumber).add(position, data);
+        if(data != null)
+            this.tableDataLists.get(tableNumber).add(position, data);
     }
 
     protected void loadData(int tableNumber, List data)
     {
-        this.tableDataLists.get(tableNumber).addAll(data);
+        if(data != null)
+            this.tableDataLists.get(tableNumber).addAll(data);
     }
 
     protected void loadData(int tableNumber, int position, List data)

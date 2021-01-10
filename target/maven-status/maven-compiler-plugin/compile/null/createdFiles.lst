@@ -13,7 +13,6 @@ vitniksys\backend\util\RepurchasesRowTable.class
 vitniksys\backend\model\entities\Payment.class
 vitniksys\backend\model\entities\Campaign.class
 vitniksys\backend\model\services\CatalogueService$2.class
-vitniksys\backend\util\BalanceList.class
 vitniksys\frontend\view_controllers\CatalogueQueryViewCntlr.class
 vitniksys\backend\model\interfaces\IArticleOperator.class
 vitniksys\backend\model\enums\Reason.class
@@ -83,6 +82,7 @@ vitniksys\backend\model\persistence\BaseClientOperator.class
 vitniksys\backend\model\interfaces\IPaymentOperator.class
 vitniksys\frontend\view_controllers\ProcessingViewCntlr.class
 vitniksys\frontend\view_controllers\ViewCntlr.class
+vitniksys\backend\model\entities\VitnikSearchableEntity.class
 vitniksys\backend\model\services\CampaignService$1.class
 vitniksys\backend\util\OrderObtainer.class
 vitniksys\backend\model\services\CampaignService.class
@@ -100,4 +100,5 @@ vitniksys\backend\model\services\PreferentialClientService$4.class
 vitniksys\frontend\views_subscriber\ServiceSubscriber.class
 vitniksys\backend\model\interfaces\IObservationOperator.class
 vitniksys\backend\model\persistence\DevolutionOperator.class
+vitniksys\backend\util\VitnikSearchableList.class
 vitniksys\backend\model\entities\Repurchase.class

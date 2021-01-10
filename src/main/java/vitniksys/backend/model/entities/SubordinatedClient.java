@@ -62,11 +62,9 @@ public class SubordinatedClient extends PreferentialClient
     {
         Float ret = 0f;
         Iterator<Balance> it = this.getBalances().iterator();
-        
         while(it.hasNext())
             ret += it.next().getBalance();
 
-        System.out.println("sub " + this.getId() + " - " + ret);
         return ret;
     }
 

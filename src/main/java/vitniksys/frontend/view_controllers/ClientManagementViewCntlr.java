@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
@@ -22,7 +21,6 @@ import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
 import vitniksys.backend.model.entities.Leader;
-import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
@@ -233,8 +231,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     // ================================= private methods ===================================
     private void showTotalsForActualCamp()
     {
-        //Balance balance = this.prefClient.getBalances().get(this.prefClient.getBalances().locate(this.prefClient.getId(), this.actualCampaign.getNumber()));
-        Balance balance = this.prefClient.getBalances().locateByCampNumb(this.actualCampaign.getNumber());
+        Balance balance = this.prefClient.getBalances().locateWithCampNumb(this.actualCampaign.getNumber());
         this.campBalance.setText(""+balance.getBalance());
         this.totalInCampaignOrders.setText(""+ (balance.getTotalInOrdersCom()+balance.getTotalInOrdersNonCom()));
         this.paymentsPane.setText("Pagos: "+ balance.getTotalInPayments());
@@ -245,10 +242,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
     private void insertDataIntoTables()
     {
-        
-        Iterator<Order> orders = this.prefClient.getOrders().locate(this.prefClient.getId(), this.actualCampaign.getNumber())
-        
-        //this.loadData(this.ORDERS_TABLE_NUMBER, );
+        No muestra datos en tabla de ordenes
+        this.loadData(this.ORDERS_TABLE_NUMBER, this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()));
+        this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
+        this.loadData(this.REPURCHASES_TABLE_NUMBER, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
     }
 
     // ================================= protected methods ===================================

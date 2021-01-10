@@ -59,16 +59,9 @@ public class Leader extends BaseClient
     public Float calculateBalance()
     {
         Float ret = super.calculateBalance();
-
-        System.out.println("init " + ret);
-
         Iterator<SubordinatedClient> subsIterator = this.getSubordinates().iterator();
         while(subsIterator.hasNext())
-        {
             ret += subsIterator.next().calculateBalance();
-        }
-
-        System.out.println("end " + ret);
 
         return ret;
     }

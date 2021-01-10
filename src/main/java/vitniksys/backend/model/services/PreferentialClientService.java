@@ -279,14 +279,4 @@ public class PreferentialClientService extends Service
         Platform.runLater(task);
         //this.getExecutorService().execute(task);
     }
-
-    public Float calculateBalance(List<Balance> balances)
-    {
-        Float ret = 0f;
-        Iterator<Balance> balancesIterator =  balances.iterator();
-        while(balancesIterator.hasNext())
-            ret += balancesIterator.next().getBalance();
-            
-        return ret;
-    }
 }

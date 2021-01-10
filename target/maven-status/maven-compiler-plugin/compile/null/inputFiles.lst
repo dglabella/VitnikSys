@@ -23,6 +23,7 @@ C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitni
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IPreferentialClientOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\StockRowTable.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Campaign.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\VitnikSearchableList.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\views_subscriber\PreferentialClientServiceSubscriber.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IRepurchaseOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\PreferentialClientOperator.java
@@ -59,6 +60,7 @@ C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitni
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\ClientRegisterViewCntlr.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Article.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\ClientList.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\VitnikSearchableEntity.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\CustomAlert.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\ExpressionChecker.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IBalanceOperator.java
@@ -77,6 +79,5 @@ C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitni
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Order.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\ReturnedArticleOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IReturnedArticleOperator.java
-C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\BalanceList.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\CatalogueQueryViewCntlr.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\BalanceOperator.java
