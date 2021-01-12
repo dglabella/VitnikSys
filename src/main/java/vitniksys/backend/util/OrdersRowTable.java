@@ -1,6 +1,11 @@
 package vitniksys.backend.util;
 
+import java.util.List;
+import java.util.Iterator;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import javafx.scene.control.CheckBox;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.ArticleType;
 
 public class OrdersRowTable
@@ -14,7 +19,7 @@ public class OrdersRowTable
     private ArticleType type;
     private String articleId; // Table id = letra
     private Timestamp withdrawalDate;
-    private boolean commissionable;//private CheckBox commissionable;
+    private CheckBox commissionable;
 
     public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commission, 
         String name, ArticleType type, String articleId, Timestamp withdrawalDate, boolean commissionable)
@@ -28,7 +33,29 @@ public class OrdersRowTable
         this.type = type;
         this.articleId = articleId;
         this.withdrawalDate = withdrawalDate;
-        this.commissionable = commissionable;
+        this.commissionable = new CheckBox();
+        this.commissionable.setSelected(commissionable);
+    }
+
+    public static List<OrdersRowTable> generateRows(List<Order> orders, Float commisionRatio)
+    {
+        List<OrdersRowTable> ret = new ArrayList<>();
+
+        Order order = null;
+        Iterator<Order> ordersIterator = orders.iterator();
+    
+        while(ordersIterator.hasNext())
+        {
+            order = ordersIterator.next();
+            ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(),
+                order.getCost()*(commisionRatio), order.getArticle().getName(), order.getArticle().getType(), 
+                order.getArticle().getId(), order.getWithdrawalDate(), order.isCommissionable()));
+        }
+
+        if(ret.size() == 0)
+            ret = null;
+
+        return ret;
     }
 
     // Getters && Setters
@@ -122,12 +149,12 @@ public class OrdersRowTable
         this.withdrawalDate = withdrawalDate;
     }
 
-    public boolean isCommissionable()
+    public CheckBox isCommissionable()
     {
         return this.commissionable;
     }
 
-    public void setCommissionable(boolean commissionable)
+    public void setCommissionable(CheckBox commissionable)
     {
         this.commissionable = commissionable;
     }

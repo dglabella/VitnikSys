@@ -1,7 +1,6 @@
 package vitniksys.backend.model.services;
 
 import java.util.List;
-import java.util.Iterator;
 import java.time.LocalDate;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
@@ -9,12 +8,14 @@ import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
+import vitniksys.backend.model.persistence.CommisionOperator;
 import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
@@ -22,6 +23,11 @@ import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class PreferentialClientService extends Service
 {
+    /**
+     * COMMISSION_RATIO_FACTOR is supposed to be used to divide the
+     * output of the commission lvl algorithm.
+     */
+    private final float COMMISSION_RATIO_FACTOR = 100f;
     //Getters && Setters
     
 
@@ -279,4 +285,84 @@ public class PreferentialClientService extends Service
         Platform.runLater(task);
         //this.getExecutorService().execute(task);
     }
+
+    public Float calculateCommissionRatio(PreferentialClient prefClient, Integer campNumb)
+    {
+        float ret = 0f;
+
+        if(prefClient instanceof Leader)
+        {
+            Commission commission = ((Leader)prefClient).getCommissions().locateWithCampNumb(campNumb);
+            if(commission != null)
+            {
+                if(commission.getMinQuantity() <= commission.getActualQuantity() && commission.getActualQuantity() <= commission.getLvl1Quantity())
+                {
+                    ret = commission.getLvl1Factor();
+                }
+                else if(commission.getActualQuantity() <= commission.getLvl2Quantity())
+                {
+                    ret = commission.getLvl2Factor();
+                }
+                else if(commission.getActualQuantity() <= commission.getLvl3Quantity())
+                {
+                    ret = commission.getLvl3Quantity();
+                }
+                else if(commission.getActualQuantity() <= commission.getLvl4Quantity())
+                {
+                    ret = commission.getLvl4Factor();
+                }
+                else
+                {
+                    ret = 15;
+                }  
+            }
+            else
+            {
+                ((PreferentialClientServiceSubscriber)this.getServiceSubscriber()).suggestCommisionCreation();
+            }
+        }
+        
+        return ret/COMMISSION_RATIO_FACTOR;
+    }
+
+    public void createCommission(Integer prefClientId, Integer campNumb) throws Exception
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+
+                try
+                {
+                    Connector.getConnector().startTransaction();
+                    
+                    //CommisionOperator.getOperator().insert(entity);
+
+                    Connector.getConnector().commit();
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("Los niveles de comisión para el cliente preferencial " + prefClientId +
+                        " en la campaña "+ campNumb +" se han registrado exitosamente!");
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack();
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al intentar registrar los niveles de comisión.", null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+
+        Platform.runLater(task);
+	}
 }

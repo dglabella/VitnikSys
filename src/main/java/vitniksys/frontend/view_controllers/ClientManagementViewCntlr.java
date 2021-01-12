@@ -6,16 +6,18 @@ import javafx.fxml.FXML;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
-import javafx.scene.control.CheckBox;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Bank;
+import vitniksys.backend.util.CustomAlert;
+import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.enums.PayStatus;
@@ -25,6 +27,7 @@ import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
 import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.entities.PreferentialClient;
@@ -85,7 +88,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<OrdersRowTable, String> orderType;
     @FXML private TableColumn<OrdersRowTable, String> articleId;
     @FXML private TableColumn<OrdersRowTable, String> withdrawalDate;
-    @FXML private TableColumn<OrdersRowTable, CheckBox> isCommissionable;
+    @FXML private TableColumn<OrdersRowTable, String> isCommissionable;
 
     //payments columns
     @FXML private TableColumn<PaymentsRowTable, String> code;
@@ -228,6 +231,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
     }
 
+    @FXML
+    private void commissionLvlMenuItemSelected()
+    {
+
+    }
+
     // ================================= private methods ===================================
     private void showTotalsForActualCamp()
     {
@@ -242,8 +251,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
     private void insertDataIntoTables()
     {
-        No muestra datos en tabla de ordenes
-        this.loadData(this.ORDERS_TABLE_NUMBER, this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()));
+        Float com = 0f;
+
+        com = ((PreferentialClientService)this.getService(0)).calculateCommissionRatio(this.prefClient, this.actualCampaign.getNumber());
+        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()), com));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
         this.loadData(this.REPURCHASES_TABLE_NUMBER, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
     }
@@ -382,6 +393,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         {
             this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
         }
+        
         showTotalsForActualCamp();
         insertDataIntoTables();
     }
@@ -389,6 +401,25 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
     {
+        //do nothing
+    }
 
+    @Override
+    public void suggestCommisionCreation()
+    {
+        new CustomAlert(AlertType.CONFIRMATION, "Crear Comisión", "Este líder no tiene niveles de comisión asignado. Desea crear uno?")
+        .customShow().ifPresent(response ->
+        {
+            if(response == ButtonType.OK)
+            {
+                this.commissionLvlMenuItemSelected();
+            }
+        });
+    }
+
+    @Override
+    public void showObservation(List<Observation> observations)
+    {
+        // TODO Auto-generated method stub
     }
 }

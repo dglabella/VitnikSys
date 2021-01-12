@@ -172,6 +172,7 @@ public abstract class PreferentialClient
     {
         if(this.orders == null)
             this.orders = new VitnikSearchableList<>();
+
         return this.orders;
     }
 

@@ -168,7 +168,7 @@
                         <TableColumn fx:id="deliveryNumber" minWidth="100.0" prefWidth="100.0" text="Nro Envío" />
                         <TableColumn fx:id="quantity" minWidth="100.0" prefWidth="100.0" text="Unidades" />
                         <TableColumn fx:id="price" minWidth="100.0" prefWidth="100.0" text="Precio" />
-                        <TableColumn fx:id="commission" minWidth="100.0" prefWidth="100.0" text="Precio comisión" />
+                        <TableColumn fx:id="commission" minWidth="100.0" prefWidth="100.0" text="Comisión" />
                         <TableColumn fx:id="articleName" minWidth="400.0" prefWidth="400.0" text="Nombre" />
                         <TableColumn fx:id="orderType" minWidth="180.0" prefWidth="180.0" text="Tipo" />
                         <TableColumn fx:id="articleId" minWidth="100.0" prefWidth="100.0" text="Letra" />
@@ -317,4 +317,13 @@
          </children>
       </AnchorPane>
    </content>
+   <contextMenu>
+      <ContextMenu>
+        <items>
+            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+          <MenuItem mnemonicParsing="false" text="Niveles de comisión" />
+        </items>
+      </ContextMenu>
+   </contextMenu>
 </ScrollPane>

@@ -3,6 +3,9 @@ package vitniksys.backend.util;
 import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.VitnikSearchableEntity;
 
 public class VitnikSearchableList<T extends VitnikSearchableEntity> extends ArrayList<T>

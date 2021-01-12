@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.time.Instant;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
@@ -14,6 +15,7 @@ import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Repurchase;
+import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
@@ -101,6 +103,10 @@ public class LeaderOperator extends BaseClientOperator
 
             ret.setCommissions(new VitnikSearchableList<Commission>(CommisionOperator.getOperator().findAll(ret.getId(), null)));
             ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll(id));
+            
+            Iterator<SubordinatedClient> it = ret.getSubordinates().iterator();
+            while(it.hasNext())
+                ret.getOrders().addAll(it.next().getOrders());
         }
 
         statement.close();

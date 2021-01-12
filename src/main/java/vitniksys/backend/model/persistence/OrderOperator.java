@@ -129,7 +129,8 @@ public class OrderOperator implements IOrderOperator
             sqlStmnt =
 			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
 			"FROM `pedidos` "+
-			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
+			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
+			"WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
 
 			statement = Connector.getConnector().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
@@ -142,7 +143,8 @@ public class OrderOperator implements IOrderOperator
 			sqlStmnt =
 			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
 			"FROM `pedidos` "+
-			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
+			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
+			"WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
 
 			statement = Connector.getConnector().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
@@ -181,8 +183,8 @@ public class OrderOperator implements IOrderOperator
 		statement.close();
 		
 		if(ret.size() == 0)
-            ret = null;
-		
+			ret = null;
+			
         return ret;
 	}
 

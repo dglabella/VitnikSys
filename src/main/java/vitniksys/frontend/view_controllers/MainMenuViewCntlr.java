@@ -18,8 +18,7 @@ import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.model.entities.Leader;
-import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
@@ -262,5 +261,17 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
     {
         this.loadData(this.PREF_CLIENTS_TABLE_NUMBER, prefClients);
+    }
+
+    @Override
+    public void suggestCommisionCreation()
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void showObservation(List<Observation> observations)
+    {
+        // TODO Auto-generated method stub
     }
 }

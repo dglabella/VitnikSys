@@ -88,7 +88,7 @@ public class CommisionOperator implements ICommisionOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt =
-			"SELECT `id_cp`, `nro_camp`, `cant_actual`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
+			"SELECT `id_cp`, `nro_camp`, `cant_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
             "FROM `comisiones` "+
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
@@ -100,7 +100,7 @@ public class CommisionOperator implements ICommisionOperator
         else if(prefClientId != null && campNumb == null)
         {
             sqlStmnt =
-            "SELECT `id_cp`, `nro_camp`, `cant_actual`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
+            "SELECT `id_cp`, `nro_camp`, `cant_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
             "FROM `comisiones` "+
             "WHERE `id_cp` = ? AND `active_row` = ?;";
 
@@ -124,7 +124,7 @@ public class CommisionOperator implements ICommisionOperator
 		{
 			commission = new Commission(
                 resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7), 
-                resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11));
+                resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11), resultSet.getInt(12));
 			
 			//fk ids
 			commission.setPrefClientId(resultSet.getInt(1));

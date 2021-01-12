@@ -4,6 +4,7 @@ public class Commission extends VitnikSearchableEntity
 {
     //Entity properties
     private int actualQuantity;
+    private int minQuantity;
     private int lvl1Quantity;
     private int lvl2Quantity;
     private int lvl3Quantity;
@@ -20,10 +21,11 @@ public class Commission extends VitnikSearchableEntity
     //Others
     private int isActive;
 
-    public Commission(int actualQuantity, int lvl1Quantity, int lvl2Quantity, int lvl3Quantity,
+    public Commission(int actualQuantity, int minQuantity, int lvl1Quantity, int lvl2Quantity, int lvl3Quantity,
         int lvl4Quantity, int lvl1Factor, int lvl2Factor, int lvl3Factor, int lvl4Factor)
     {
         this.actualQuantity = actualQuantity;
+        this.minQuantity = minQuantity;
         this.lvl1Quantity = lvl1Quantity;
         this.lvl2Quantity = lvl2Quantity;
         this.lvl3Quantity = lvl3Quantity;
@@ -43,6 +45,16 @@ public class Commission extends VitnikSearchableEntity
     public void setActualQuantity(int actualQuantity)
     {
         this.actualQuantity = actualQuantity;
+    }
+
+    public int getMinQuantity()
+    {
+        return this.minQuantity;
+    }
+
+    public void setMinQuantity(int minQuantity)
+    {
+        this.minQuantity = minQuantity;
     }
 
     public int getLvl1Quantity()
