@@ -83,10 +83,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<OrdersRowTable, String> deliveryNumber;
     @FXML private TableColumn<OrdersRowTable, String> quantity;
     @FXML private TableColumn<OrdersRowTable, String> price;
+    @FXML private TableColumn<OrdersRowTable, String> priceCommission;
     @FXML private TableColumn<OrdersRowTable, String> commission;
     @FXML private TableColumn<OrdersRowTable, String> articleName;
     @FXML private TableColumn<OrdersRowTable, String> orderType;
     @FXML private TableColumn<OrdersRowTable, String> articleId;
+    @FXML private TableColumn<OrdersRowTable, String> unitPrice;
     @FXML private TableColumn<OrdersRowTable, String> withdrawalDate;
     @FXML private TableColumn<OrdersRowTable, String> isCommissionable;
 
@@ -303,10 +305,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.deliveryNumber);
         columns.add(this.quantity);
         columns.add(this.price);
+        columns.add(this.priceCommission);
         columns.add(this.commission);
         columns.add(this.articleName);
         columns.add(this.orderType);
         columns.add(this.articleId);
+        columns.add(this.unitPrice);
         columns.add(this.withdrawalDate);
         columns.add(this.isCommissionable);
         

@@ -14,15 +14,17 @@ public class OrdersRowTable
     private Integer deliveryNumber;
     private Integer quantity;
     private Float cost;
+    private Float commissionCost;
     private Float commission;
     private String name;
     private ArticleType type;
     private String articleId; // Table id = letra
+    private Float unitPrice;
     private Timestamp withdrawalDate;
     private CheckBox commissionable;
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commission, 
-        String name, ArticleType type, String articleId, Timestamp withdrawalDate, boolean commissionable)
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commissionCost, Float commission, 
+        String name, ArticleType type, String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable)
     {
         this.code = code; 
         this.deliveryNumber = deliveryNumber;
@@ -99,6 +101,16 @@ public class OrdersRowTable
         this.cost = cost;
     }
 
+    public Float getCommissionCost()
+    {
+        return this.commissionCost;
+    }
+
+    public void setCommissionCost(Float commissionCost)
+    {
+        this.commissionCost = commissionCost;
+    }
+
     public Float getCommission()
     {
         return this.commission;
@@ -137,6 +149,16 @@ public class OrdersRowTable
     public void setArticleId(String articleId)
     {
         this.articleId = articleId;
+    }
+
+    public Float getUnitPrice()
+    {
+        return this.unitPrice;
+    }
+
+    public void setUnitPrice(Float unitPrice)
+    {
+        this.unitPrice = unitPrice;
     }
 
     public Timestamp getWithdrawalDate()
