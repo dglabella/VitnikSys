@@ -165,13 +165,13 @@
                   </AnchorPane>
                   <TableView fx:id="orders" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;" GridPane.rowIndex="1">
                      <columns>
-                        <TableColumn fx:id="deliveryNumber" minWidth="60.0" prefWidth="60.0" resizable="false" text="Nro Envío" />
-                        <TableColumn fx:id="quantity" minWidth="40.0" prefWidth="40.0" resizable="false" text="Unid." />
+                        <TableColumn fx:id="deliveryNumber" minWidth="80.0" resizable="false" text="Nro Envío" />
+                        <TableColumn fx:id="quantity" minWidth="40.0" prefWidth="45.0" resizable="false" text="Unid." />
                         <TableColumn fx:id="price" minWidth="80.0" resizable="false" text="Precio" />
                         <TableColumn fx:id="priceCommission" minWidth="80.0" resizable="false" text="Precio Com." />
                         <TableColumn fx:id="commission" minWidth="80.0" resizable="false" text="Comisión" />
-                        <TableColumn fx:id="articleName" minWidth="400.0" prefWidth="420.0" resizable="false" text="Nombre" />
-                        <TableColumn fx:id="orderType" minWidth="100.0" prefWidth="130.0" resizable="false" text="Tipo" />
+                        <TableColumn fx:id="articleName" minWidth="400.0" prefWidth="422.0" resizable="false" text="Nombre" />
+                        <TableColumn fx:id="orderType" minWidth="100.0" prefWidth="140.0" resizable="false" text="Tipo" />
                         <TableColumn fx:id="articleId" minWidth="80.0" resizable="false" text="Letra" />
                         <TableColumn fx:id="unitPrice" minWidth="80.0" resizable="false" text="Precio Unid." />
                         <TableColumn fx:id="withdrawalDate" minWidth="170.0" prefWidth="170.0" resizable="false" text="Fecha retiro" />
