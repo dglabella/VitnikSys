@@ -98,24 +98,22 @@ public class BalanceOperator implements IBalanceOperator
     {
         int returnCode = 0;
         String sqlStmnt =
-        "UPDATE `saldos` SET `pedidos_comisionables`= `pedidos_comisionables`+ ?, "+
-        "`pedidos_no_comisionables`= `pedidos_no_comisionables`+ ?, `catalogos`= `catalogos`+ ?, "+
+        "UPDATE `saldos` SET `pedidos`= `pedidos`+ ?, `catalogos`= `catalogos`+ ?, "+
         "`recompras`= `recompras`+ ?, `pagos`= `pagos`+ ?, `devoluciones`= `devoluciones`+ ?, "+
-        "`comision`= `comision`+ ?, `balance`= -`pedidos_comisionables`-`pedidos_no_comisionables`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "+
+        "`comision`= `comision`+ ?, `balance`= -`pedidos`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "+
         "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
-        statement.setFloat(1, balance.getTotalInOrdersCom());
-        statement.setFloat(2, balance.getTotalInOrdersNonCom());
-        statement.setFloat(3, balance.getTotalInCatalogues());
-        statement.setFloat(4, balance.getTotalInRepurchases());
-        statement.setFloat(5, balance.getTotalInPayments());
-        statement.setFloat(6, balance.getTotalInDevolutions());
-        statement.setFloat(7, balance.getTotalInCommission()) ;
-        statement.setInt(8, balance.getPrefClientId());
-        statement.setInt(9, balance.getCampNumber());
-        statement.setBoolean(10, this.activeRow);
+        statement.setFloat(1, balance.getTotalInOrders());
+        statement.setFloat(2, balance.getTotalInCatalogues());
+        statement.setFloat(3, balance.getTotalInRepurchases());
+        statement.setFloat(4, balance.getTotalInPayments());
+        statement.setFloat(5, balance.getTotalInDevolutions());
+        statement.setFloat(6, balance.getTotalInCommission()) ;
+        statement.setInt(7, balance.getPrefClientId());
+        statement.setInt(8, balance.getCampNumber());
+        statement.setBoolean(9, this.activeRow);
 
         returnCode += statement.executeUpdate();
         statement.close();
@@ -139,7 +137,7 @@ public class BalanceOperator implements IBalanceOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
+            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
             "FROM `saldos` "+
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ? "+
             "ORDER BY `saldos`.`nro_camp` DESC;";
@@ -152,7 +150,7 @@ public class BalanceOperator implements IBalanceOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos_comisionables`, `pedidos_no_comisionables`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
+            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
             "FROM `saldos` "+
             "WHERE `id_cp` = ? AND `active_row` = ? "+
             "ORDER BY `saldos`.`nro_camp` DESC;";
@@ -175,7 +173,7 @@ public class BalanceOperator implements IBalanceOperator
         Balance balance;
 		while (resultSet.next())
 		{
-            balance = new Balance(resultSet.getFloat(4), resultSet.getFloat(5), resultSet.getFloat(6), resultSet.getFloat(7), resultSet.getFloat(8), resultSet.getFloat(9), resultSet.getFloat(10));
+            balance = new Balance(resultSet.getFloat(4), resultSet.getFloat(5), resultSet.getFloat(6), resultSet.getFloat(7), resultSet.getFloat(8), resultSet.getFloat(9));
             balance.setBalance(resultSet.getFloat(3));
 
             //fk ids

@@ -244,7 +244,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         Balance balance = this.prefClient.getBalances().locateWithCampNumb(this.actualCampaign.getNumber());
         this.campBalance.setText(""+balance.getBalance());
-        this.totalInCampaignOrders.setText(""+ (balance.getTotalInOrdersCom()+balance.getTotalInOrdersNonCom()));
+        this.totalInCampaignOrders.setText(""+ balance.getTotalInOrders());
         this.paymentsPane.setText("Pagos: "+ balance.getTotalInPayments());
         this.repurchasesPane.setText("Recompras: "+ balance.getTotalInRepurchases());
 

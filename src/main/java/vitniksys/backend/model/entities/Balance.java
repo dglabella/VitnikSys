@@ -4,8 +4,7 @@ public class Balance extends VitnikSearchableEntity
 {
     //Entity properties
     private float balance;
-    private float totalInOrdersCom;
-    private float totalInOrdersNonCom;
+    private float totalInOrders;
     private float totalInCatalogues;
     private float totalInRepurchases;
     private float totalInPayments;
@@ -24,11 +23,10 @@ public class Balance extends VitnikSearchableEntity
         //Default Balance
     }
 
-    public Balance(Float totalInOrdersCom, Float totalInOrdersNonCom, Float totalInCatalogues, 
-    Float totalInRepurchases, Float totalInPayments, Float totalInDevolutions, Float totalInCommission)
+    public Balance(Float totalInOrders, Float totalInCatalogues, Float totalInRepurchases, Float totalInPayments, 
+        Float totalInDevolutions, Float totalInCommission)
     {
-        this.totalInOrdersCom = totalInOrdersCom;
-        this.totalInOrdersNonCom = totalInOrdersNonCom;
+        this.totalInOrders = totalInOrders;
         this.totalInCatalogues = totalInCatalogues;
         this.totalInRepurchases = totalInRepurchases;
         this.totalInPayments = totalInPayments;
@@ -47,24 +45,14 @@ public class Balance extends VitnikSearchableEntity
         this.balance = balance;
     }
 
-    public Float getTotalInOrdersCom()
+    public Float getTotalInOrders()
     {   
-        return this.totalInOrdersCom;
+        return this.totalInOrders;
     }
 
-    public void setTotalInOrdersCom(Float totalInOrdersCom)
+    public void setTotalInOrders(Float totalInOrders)
     {
-        this.totalInOrdersCom = totalInOrdersCom;
-    }
-
-    public Float getTotalInOrdersNonCom()
-    {
-        return this.totalInOrdersNonCom;
-    }
-
-    public void setTotalInOrdersNonCom(Float totalInOrdersNonCom)
-    {
-        this.totalInOrdersNonCom = totalInOrdersNonCom;
+        this.totalInOrders = totalInOrders;
     }
 
     public Float getTotalInCatalogues()
@@ -174,8 +162,7 @@ public class Balance extends VitnikSearchableEntity
             " prefClientId='" + getPrefClientId() + "'" +
             ", campNumber='" + getCampNumber() + "'" +
             ", balance='" + getBalance() + "'" +
-            ", totalInOrdersCom='" + getTotalInOrdersCom() + "'" +
-            ", totalInOrdersNonCom='" + getTotalInOrdersNonCom() + "'" +
+            ", totalInOrders='" + getTotalInOrders() + "'" +
             ", totalInCatalogues='" + getTotalInCatalogues() + "'" +
             ", totalInRepurchases='" + getTotalInRepurchases() + "'" +
             ", totalInPayments='" + getTotalInPayments() + "'" +
