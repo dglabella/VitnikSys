@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3308
--- Generation Time: Jan 13, 2021 at 06:19 PM
--- Server version: 8.0.18
--- PHP Version: 7.3.12
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 15-01-2021 a las 00:47:51
+-- Versión del servidor: 5.7.26
+-- Versión de PHP: 7.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `vitniksanluis`
+-- Base de datos: `vitniksanluis`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `articulos`
+-- Estructura de tabla para la tabla `articulos`
 --
 
 DROP TABLE IF EXISTS `articulos`;
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `articulos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `articulos`
+-- Volcado de datos para la tabla `articulos`
 --
 
 INSERT INTO `articulos` (`letra`, `nombre`, `tipo`, `precio_unitario`, `active_row`) VALUES
@@ -599,7 +599,7 @@ INSERT INTO `articulos` (`letra`, `nombre`, `tipo`, `precio_unitario`, `active_r
 -- --------------------------------------------------------
 
 --
--- Table structure for table `articulos_devueltos`
+-- Estructura de tabla para la tabla `articulos_devueltos`
 --
 
 DROP TABLE IF EXISTS `articulos_devueltos`;
@@ -616,7 +616,7 @@ CREATE TABLE IF NOT EXISTS `articulos_devueltos` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `camps`
+-- Estructura de tabla para la tabla `camps`
 --
 
 DROP TABLE IF EXISTS `camps`;
@@ -634,7 +634,7 @@ CREATE TABLE IF NOT EXISTS `camps` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `camps`
+-- Volcado de datos para la tabla `camps`
 --
 
 INSERT INTO `camps` (`nro_camp`, `cod_cat`, `alias`, `mes`, `year`, `fecha_registro`, `active_row`) VALUES
@@ -642,7 +642,7 @@ INSERT INTO `camps` (`nro_camp`, `cod_cat`, `alias`, `mes`, `year`, `fecha_regis
 (220, 52020, 'VERANO - INTENSE CHAQUET ON DEMAND', 12, 2020, '2020-11-27 10:03:45', 1);
 
 --
--- Triggers `camps`
+-- Disparadores `camps`
 --
 DROP TRIGGER IF EXISTS `newBalancesPerCamp`;
 DELIMITER $$
@@ -653,7 +653,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `catalogos`
+-- Estructura de tabla para la tabla `catalogos`
 --
 
 DROP TABLE IF EXISTS `catalogos`;
@@ -669,7 +669,7 @@ CREATE TABLE IF NOT EXISTS `catalogos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `catalogos`
+-- Volcado de datos para la tabla `catalogos`
 --
 
 INSERT INTO `catalogos` (`cod`, `stock_inicial`, `stock`, `precio`, `link`, `fecha_registro`, `active_row`) VALUES
@@ -680,7 +680,7 @@ INSERT INTO `catalogos` (`cod`, `stock_inicial`, `stock`, `precio`, `link`, `fec
 -- --------------------------------------------------------
 
 --
--- Table structure for table `clientes_preferenciales`
+-- Estructura de tabla para la tabla `clientes_preferenciales`
 --
 
 DROP TABLE IF EXISTS `clientes_preferenciales`;
@@ -704,7 +704,7 @@ CREATE TABLE IF NOT EXISTS `clientes_preferenciales` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `clientes_preferenciales`
+-- Volcado de datos para la tabla `clientes_preferenciales`
 --
 
 INSERT INTO `clientes_preferenciales` (`id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`, `es_lider`, `fecha_registro`, `fecha_baja`, `active_row`) VALUES
@@ -824,7 +824,7 @@ INSERT INTO `clientes_preferenciales` (`id_cp`, `id_lider`, `dni`, `nombre`, `ap
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comisiones`
+-- Estructura de tabla para la tabla `comisiones`
 --
 
 DROP TABLE IF EXISTS `comisiones`;
@@ -849,7 +849,7 @@ CREATE TABLE IF NOT EXISTS `comisiones` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `devoluciones`
+-- Estructura de tabla para la tabla `devoluciones`
 --
 
 DROP TABLE IF EXISTS `devoluciones`;
@@ -872,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `devoluciones` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `entregas_catalogos`
+-- Estructura de tabla para la tabla `entregas_catalogos`
 --
 
 DROP TABLE IF EXISTS `entregas_catalogos`;
@@ -892,7 +892,7 @@ CREATE TABLE IF NOT EXISTS `entregas_catalogos` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `observaciones`
+-- Estructura de tabla para la tabla `observaciones`
 --
 
 DROP TABLE IF EXISTS `observaciones`;
@@ -908,7 +908,7 @@ CREATE TABLE IF NOT EXISTS `observaciones` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pagos`
+-- Estructura de tabla para la tabla `pagos`
 --
 
 DROP TABLE IF EXISTS `pagos`;
@@ -932,7 +932,7 @@ CREATE TABLE IF NOT EXISTS `pagos` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pedidos`
+-- Estructura de tabla para la tabla `pedidos`
 --
 
 DROP TABLE IF EXISTS `pedidos`;
@@ -955,7 +955,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=976 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pedidos`
+-- Volcado de datos para la tabla `pedidos`
 --
 
 INSERT INTO `pedidos` (`cod`, `id_cp`, `nro_camp`, `letra`, `nro_envio`, `cant`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `active_row`) VALUES
@@ -1923,7 +1923,7 @@ INSERT INTO `pedidos` (`cod`, `id_cp`, `nro_camp`, `letra`, `nro_envio`, `cant`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `recompras`
+-- Estructura de tabla para la tabla `recompras`
 --
 
 DROP TABLE IF EXISTS `recompras`;
@@ -1944,7 +1944,7 @@ CREATE TABLE IF NOT EXISTS `recompras` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `saldos`
+-- Estructura de tabla para la tabla `saldos`
 --
 
 DROP TABLE IF EXISTS `saldos`;
@@ -1964,7 +1964,7 @@ CREATE TABLE IF NOT EXISTS `saldos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `saldos`
+-- Volcado de datos para la tabla `saldos`
 --
 
 INSERT INTO `saldos` (`id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision`, `active_row`) VALUES
@@ -2194,36 +2194,36 @@ INSERT INTO `saldos` (`id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `r
 (1023, 220, '-7384.43', '7384.43', '0.00', '0.00', '0.00', '0.00', '0.00', 1);
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `articulos_devueltos`
+-- Filtros para la tabla `articulos_devueltos`
 --
 ALTER TABLE `articulos_devueltos`
   ADD CONSTRAINT `articulos_devueltos_ibfk_1` FOREIGN KEY (`letra`) REFERENCES `articulos` (`letra`);
 
 --
--- Constraints for table `camps`
+-- Filtros para la tabla `camps`
 --
 ALTER TABLE `camps`
   ADD CONSTRAINT `camps_ibfk_1` FOREIGN KEY (`cod_cat`) REFERENCES `catalogos` (`cod`);
 
 --
--- Constraints for table `clientes_preferenciales`
+-- Filtros para la tabla `clientes_preferenciales`
 --
 ALTER TABLE `clientes_preferenciales`
   ADD CONSTRAINT `clientes_preferenciales_ibfk_1` FOREIGN KEY (`id_lider`) REFERENCES `clientes_preferenciales` (`id_cp`);
 
 --
--- Constraints for table `comisiones`
+-- Filtros para la tabla `comisiones`
 --
 ALTER TABLE `comisiones`
   ADD CONSTRAINT `comisiones_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `clientes_preferenciales` (`id_cp`),
   ADD CONSTRAINT `comisiones_ibfk_2` FOREIGN KEY (`nro_camp`) REFERENCES `camps` (`nro_camp`);
 
 --
--- Constraints for table `devoluciones`
+-- Filtros para la tabla `devoluciones`
 --
 ALTER TABLE `devoluciones`
   ADD CONSTRAINT `devoluciones_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `clientes_preferenciales` (`id_cp`),
@@ -2231,28 +2231,28 @@ ALTER TABLE `devoluciones`
   ADD CONSTRAINT `devoluciones_ibfk_3` FOREIGN KEY (`letra`) REFERENCES `articulos` (`letra`);
 
 --
--- Constraints for table `entregas_catalogos`
+-- Filtros para la tabla `entregas_catalogos`
 --
 ALTER TABLE `entregas_catalogos`
   ADD CONSTRAINT `entregas_catalogos_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `clientes_preferenciales` (`id_cp`),
   ADD CONSTRAINT `entregas_catalogos_ibfk_2` FOREIGN KEY (`cod_cat`) REFERENCES `catalogos` (`cod`);
 
 --
--- Constraints for table `observaciones`
+-- Filtros para la tabla `observaciones`
 --
 ALTER TABLE `observaciones`
   ADD CONSTRAINT `observaciones_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `clientes_preferenciales` (`id_cp`),
   ADD CONSTRAINT `observaciones_ibfk_2` FOREIGN KEY (`nro_camp`) REFERENCES `camps` (`nro_camp`);
 
 --
--- Constraints for table `pagos`
+-- Filtros para la tabla `pagos`
 --
 ALTER TABLE `pagos`
   ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `clientes_preferenciales` (`id_cp`),
   ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`nro_camp`) REFERENCES `camps` (`nro_camp`);
 
 --
--- Constraints for table `pedidos`
+-- Filtros para la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `clientes_preferenciales` (`id_cp`),
@@ -2260,7 +2260,7 @@ ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`letra`) REFERENCES `articulos` (`letra`);
 
 --
--- Constraints for table `recompras`
+-- Filtros para la tabla `recompras`
 --
 ALTER TABLE `recompras`
   ADD CONSTRAINT `recompras_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `clientes_preferenciales` (`id_cp`),
@@ -2268,7 +2268,7 @@ ALTER TABLE `recompras`
   ADD CONSTRAINT `recompras_ibfk_3` FOREIGN KEY (`ejemplar`) REFERENCES `articulos_devueltos` (`ejemplar`);
 
 --
--- Constraints for table `saldos`
+-- Filtros para la tabla `saldos`
 --
 ALTER TABLE `saldos`
   ADD CONSTRAINT `saldos_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `clientes_preferenciales` (`id_cp`),
