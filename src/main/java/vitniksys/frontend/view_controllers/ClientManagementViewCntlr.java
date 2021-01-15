@@ -49,7 +49,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TitledPane paymentsPane;
     @FXML private TitledPane repurchasesPane;
 
-    @FXML private ChoiceBox<String> camp;
     @FXML private ChoiceBox<PayItem> payType;
     @FXML private ChoiceBox<PayItem> payItem;
     @FXML private ChoiceBox<Bank> payBank;
@@ -64,6 +63,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private Label catalogueQuantity;
     @FXML private Label totalInCampaignOrders;
 
+    @FXML private TextField camp;
     @FXML private TextField payAmount;
     @FXML private TextField payDescriptor;
 

@@ -37,7 +37,6 @@
                         <Font name="Britannic Bold" size="26.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="camp" layoutX="1100.0" layoutY="15.0" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: white; -fx-border-color: white;" />
                   <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="1245.0" layoutY="5.0" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
                      <graphic>
                         <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
@@ -96,6 +95,7 @@
                         <Font name="Britannic Bold" size="26.0" />
                      </font>
                   </Label>
+                  <TextField fx:id="camp" layoutX="1100.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="130.0" />
                </children>
             </AnchorPane>
             <GridPane layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1020.0" prefWidth="1300.0">
@@ -125,22 +125,6 @@
                               <Font name="Britannic Bold" size="17.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="withdraw" buttonType="RAISED" contentDisplay="CENTER" layoutX="150.0" layoutY="15.0" onAction="#withdrawButtonPressed" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: red; -fx-background-color: pink;" text="Retirar">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
-                        <JFXButton fx:id="withdrawAll" buttonType="RAISED" contentDisplay="CENTER" layoutX="280.0" layoutY="15.0" onAction="#withdrawAllButtonPressed" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: red; -fx-background-color: pink;" text="Todo">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
                         <Label fx:id="inCirculation" layoutX="1120.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" text="----">
                            <font>
                               <Font name="Britannic Bold" size="17.0" />
@@ -161,6 +145,7 @@
                               <Font name="Britannic Bold" size="17.0" />
                            </font>
                         </Label>
+                        <TextField fx:id="ordersFilter" layoutX="125.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Filtro de pedidos" />
                      </children>
                   </AnchorPane>
                   <TableView fx:id="orders" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;" GridPane.rowIndex="1">

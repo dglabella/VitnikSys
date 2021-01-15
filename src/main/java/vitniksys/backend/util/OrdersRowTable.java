@@ -49,9 +49,9 @@ public class OrdersRowTable
         while(ordersIterator.hasNext())
         {
             order = ordersIterator.next();
-            ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(),
-                order.getCost()*(commisionRatio), order.getArticle().getName(), order.getArticle().getType(), 
-                order.getArticle().getId(), order.getWithdrawalDate(), order.isCommissionable()));
+            ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), 
+                order.getCost()-(order.getCost()*(commisionRatio)), order.getCost()*(commisionRatio), order.getArticle().getName(), 
+                order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable()));
         }
 
         if(ret.size() == 0)
