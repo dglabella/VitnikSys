@@ -30,13 +30,25 @@ public class OrdersRowTable
         this.deliveryNumber = deliveryNumber;
         this.quantity = quantity;
         this.cost = cost;
+        this.commissionCost = commissionCost;
         this.commission = commission;
         this.name = name;
         this.type = type;
         this.articleId = articleId;
+        this.unitPrice = unitPrice;
         this.withdrawalDate = withdrawalDate;
         this.commissionable = new CheckBox();
         this.commissionable.setSelected(commissionable);
+
+        /*
+        this.commissionable.selectedProperty().addListener
+        (
+            (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> 
+            {
+                System.out.println("Click");
+            }
+        );
+        */
     }
 
     public static List<OrdersRowTable> generateRows(List<Order> orders, Float commisionRatio)
@@ -171,7 +183,7 @@ public class OrdersRowTable
         this.withdrawalDate = withdrawalDate;
     }
 
-    public CheckBox isCommissionable()
+    public CheckBox getCommissionable()
     {
         return this.commissionable;
     }

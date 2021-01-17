@@ -124,5 +124,11 @@ public class Catalogue
     public void setActive(boolean active)
     {
         this.active = active;
-    }   
+    }
+
+    @Override
+    public String toString()
+    {
+        return ""+this.code;
+    }
 }

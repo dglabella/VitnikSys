@@ -83,7 +83,7 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
         viewCtrller.getStage().setScene(scene);
         viewCtrller.getStage().setTitle(title);
         viewCtrller.setPrevViewCntlr(this);
-        
+
         for(Service service: services)
         {
             viewCtrller.addService(service);

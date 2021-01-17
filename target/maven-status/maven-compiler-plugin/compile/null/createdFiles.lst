@@ -55,6 +55,7 @@ vitniksys\backend\model\entities\BaseClient.class
 vitniksys\frontend\view_controllers\CampRegisterViewCntlr.class
 vitniksys\frontend\views_subscriber\CatalogueServiceSubscriber.class
 vitniksys\frontend\view_controllers\ClientRegisterViewCntlr.class
+vitniksys\frontend\view_controllers\CommissionRegisterViewCntlr.class
 vitniksys\frontend\view_controllers\SearchCampsViewCntlr$1.class
 vitniksys\backend\model\interfaces\ICampaignOperator.class
 vitniksys\backend\model\services\CampaignService$3.class

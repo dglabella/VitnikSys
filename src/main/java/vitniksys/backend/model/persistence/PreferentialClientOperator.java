@@ -202,7 +202,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
 
             ordersIterator = orders.iterator();
             while(ordersIterator.hasNext())
-                balance.setTotalInOrdersCom(balance.getTotalInOrdersCom()+ordersIterator.next().getCost());
+                balance.setTotalInOrders(balance.getTotalInOrders()+ordersIterator.next().getCost());
             
             returnCode += balanceOperator.update(balance);
         }

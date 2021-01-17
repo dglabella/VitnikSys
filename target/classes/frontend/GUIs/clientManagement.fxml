@@ -152,8 +152,8 @@
                      <columns>
                         <TableColumn fx:id="deliveryNumber" minWidth="80.0" resizable="false" text="Nro Envío" />
                         <TableColumn fx:id="quantity" minWidth="40.0" prefWidth="45.0" resizable="false" text="Unid." />
-                        <TableColumn fx:id="price" minWidth="80.0" resizable="false" text="Precio" />
-                        <TableColumn fx:id="priceCommission" minWidth="80.0" resizable="false" text="Precio Com." />
+                        <TableColumn fx:id="cost" minWidth="80.0" resizable="false" text="Precio" />
+                        <TableColumn fx:id="commissionCost" minWidth="80.0" resizable="false" text="Precio Com." />
                         <TableColumn fx:id="commission" minWidth="80.0" resizable="false" text="Comisión" />
                         <TableColumn fx:id="articleName" minWidth="400.0" prefWidth="422.0" resizable="false" text="Nombre" />
                         <TableColumn fx:id="orderType" minWidth="100.0" prefWidth="140.0" resizable="false" text="Tipo" />

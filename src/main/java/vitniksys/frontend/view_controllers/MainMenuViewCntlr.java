@@ -18,6 +18,7 @@ import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
+import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -271,6 +272,12 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
 
     @Override
     public void showObservation(List<Observation> observations)
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void showCommission(Commission commission)
     {
         // TODO Auto-generated method stub
     }

@@ -16,6 +16,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Bank;
+import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.enums.PayItem;
@@ -26,6 +27,7 @@ import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
+import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,6 +46,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     private int ORDERS_TABLE_NUMBER;
     private int PAYMENTS_TABLE_NUMBER;
     private int REPURCHASES_TABLE_NUMBER;
+
+    private AutoCompletionTool campAutoCompletionTool;
 
     // ================================= FXML variables =================================
     @FXML private TitledPane paymentsPane;
@@ -82,8 +86,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     //orders columns
     @FXML private TableColumn<OrdersRowTable, String> deliveryNumber;
     @FXML private TableColumn<OrdersRowTable, String> quantity;
-    @FXML private TableColumn<OrdersRowTable, String> price;
-    @FXML private TableColumn<OrdersRowTable, String> priceCommission;
+    @FXML private TableColumn<OrdersRowTable, String> cost;
+    @FXML private TableColumn<OrdersRowTable, String> commissionCost;
     @FXML private TableColumn<OrdersRowTable, String> commission;
     @FXML private TableColumn<OrdersRowTable, String> articleName;
     @FXML private TableColumn<OrdersRowTable, String> orderType;
@@ -236,7 +240,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void commissionLvlMenuItemSelected()
     {
-
+        this.createStage("Comisión", "commissionRegister", new PreferentialClientService()).getStage().show();
     }
 
     // ================================= private methods ===================================
@@ -304,8 +308,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         columns.add(this.deliveryNumber);
         columns.add(this.quantity);
-        columns.add(this.price);
-        columns.add(this.priceCommission);
+        columns.add(this.cost);
+        columns.add(this.commissionCost);
         columns.add(this.commission);
         columns.add(this.articleName);
         columns.add(this.orderType);
@@ -317,10 +321,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
         propertiesValues.add(new PropertyValueFactory<>("quantity"));
         propertiesValues.add(new PropertyValueFactory<>("cost"));
+        propertiesValues.add(new PropertyValueFactory<>("commissionCost"));
         propertiesValues.add(new PropertyValueFactory<>("commission"));
         propertiesValues.add(new PropertyValueFactory<>("name"));
         propertiesValues.add(new PropertyValueFactory<>("type"));
         propertiesValues.add(new PropertyValueFactory<>("articleId"));
+        propertiesValues.add(new PropertyValueFactory<>("unitPrice"));
         propertiesValues.add(new PropertyValueFactory<>("withdrawalDate"));
         propertiesValues.add(new PropertyValueFactory<>("commissionable"));
 
@@ -371,6 +377,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
+        
+        this.campAutoCompletionTool = new AutoCompletionTool(this.camp, new ArrayList<>());
+        ((CampaignService)this.getService(1)).searchCamps(null, null, null, null, null);
     }
 
     // ================================= service subscriber methods ===================================
@@ -383,7 +392,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showQueriedCamps(List<Campaign> camps) throws Exception
     {
-        //do nothing
+        this.campAutoCompletionTool.getSuggestions().addAll(""+camps);
     }
 
     @Override
@@ -423,6 +432,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
     @Override
     public void showObservation(List<Observation> observations)
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void showCommission(Commission commission)
     {
         // TODO Auto-generated method stub
     }
