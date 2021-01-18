@@ -109,7 +109,8 @@ public class CampaignOperator implements ICampaignOperator
         "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, camps.`fecha_registro`, `stock_inicial`, `stock`, `precio`, `link`, catalogos.`fecha_registro` "+
         "FROM `camps` "+
         "LEFT JOIN `catalogos` ON camps.cod_cat = catalogos.cod "+
-        "WHERE camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL);";
+        "WHERE camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL) "+
+        "ORDER BY `nro_camp` DESC;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);
@@ -195,7 +196,8 @@ public class CampaignOperator implements ICampaignOperator
         "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, camps.`fecha_registro`, `stock_inicial`, `stock`, `precio`, `link`, catalogos.`fecha_registro` "+
         "FROM `camps` "+
         "LEFT JOIN `catalogos` ON camps.cod_cat = catalogos.cod "+
-        "WHERE `alias` LIKE '%"+(alias != null && !alias.isBlank()?alias:"")+"%' AND camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL);";
+        "WHERE `alias` LIKE '%"+(alias != null && !alias.isBlank()?alias:"")+"%' AND camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL) "+
+        "ORDER BY `nro_camp` DESC;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);

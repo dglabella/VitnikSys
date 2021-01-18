@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import com.jfoenix.controls.JFXButton;
@@ -16,7 +17,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Bank;
-import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.enums.PayItem;
@@ -25,6 +25,7 @@ import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Balance;
+import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
 import vitniksys.backend.model.entities.Commission;
@@ -271,7 +272,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         try
         {
-            ((CampaignService)this.getService(1)).searchLastCamp();
+            //((CampaignService)this.getService(1)).searchLastCamp();
+            ((CampaignService)this.getService(1)).searchCamps(null, null, null, null, null);
 
             if(this.prefClient instanceof Leader)
             {
@@ -379,7 +381,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.registerPropertiesValues(propertiesValues);
         
         this.campAutoCompletionTool = new AutoCompletionTool(this.camp, new ArrayList<>());
-        ((CampaignService)this.getService(1)).searchCamps(null, null, null, null, null);
     }
 
     // ================================= service subscriber methods ===================================
@@ -392,7 +393,14 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showQueriedCamps(List<Campaign> camps) throws Exception
     {
-        this.campAutoCompletionTool.getSuggestions().addAll(""+camps);
+        List<String> campsAsString = new ArrayList<>();
+        Iterator<Campaign> campsAsStringIterator = camps.iterator();
+        while(campsAsStringIterator.hasNext())
+            campsAsString.add(campsAsStringIterator.next().toString());
+
+        //In the first position is supposed to be the last camp
+        this.actualCampaign = camps.get(0);
+        this.campAutoCompletionTool.setSuggestions(campsAsString);
     }
 
     @Override

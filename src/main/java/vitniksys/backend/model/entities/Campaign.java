@@ -200,4 +200,10 @@ public class Campaign
     {
         this.balances = balances;
     }
+
+    @Override
+    public String toString()
+    {
+        return ""+this.getMonth()+"--"+this.getYear()+"--"+(this.alias!=null?this.alias:"S/N")+"--"+this.number;
+    }
 }

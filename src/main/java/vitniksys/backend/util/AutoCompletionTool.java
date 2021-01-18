@@ -1,6 +1,7 @@
 package vitniksys.backend.util;
 
 import java.util.List;
+import java.util.Iterator;
 import javafx.scene.layout.Pane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.ListView;
@@ -84,9 +85,19 @@ public class AutoCompletionTool
         return this.suggestions;
     }
 
-    public void setSuggestions(ObservableList<String> suggestions)
+    public void addSuggestions(List<String> suggestions)
     {
-        this.suggestions = suggestions;
+        Iterator<String> it = suggestions.iterator();
+        while(it.hasNext())
+            this.suggestions.add(it.next());
+    }
+
+    public void setSuggestions(List<String> suggestions)
+    {
+        Iterator<String> it = suggestions.iterator();
+        this.suggestions.clear();
+        while(it.hasNext())
+            this.suggestions.add(it.next());
     }
 
     public ListView<String> getSuggestionsList()
