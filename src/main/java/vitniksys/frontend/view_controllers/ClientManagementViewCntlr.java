@@ -2,10 +2,15 @@ package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
 import java.util.List;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
+
 import javafx.scene.control.Label;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.Accordion;
@@ -69,6 +74,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private Label totalInCampaignOrders;
 
     @FXML private TextField camp;
+    @FXML private TextField ordersFilter;
     @FXML private TextField payAmount;
     @FXML private TextField payDescriptor;
 
@@ -260,8 +266,14 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         Float com = 0f;
 
+        ChangeListener<? super Boolean> changeListener = 
+        (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> 
+        {
+            System.out.println("Click");
+        };
+
         com = ((PreferentialClientService)this.getService(0)).calculateCommissionRatio(this.prefClient, this.actualCampaign.getNumber());
-        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()), com));
+        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()), com, changeListener));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
         this.loadData(this.REPURCHASES_TABLE_NUMBER, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
     }
@@ -381,6 +393,30 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.registerPropertiesValues(propertiesValues);
         
         this.campAutoCompletionTool = new AutoCompletionTool(this.camp, new ArrayList<>());
+
+        this.ordersFilter.textProperty().addListener((obs, oldValue, newValue) -> 
+        {
+            this.filterTable(this.ORDERS_TABLE_NUMBER, new Predicate<OrdersRowTable>()
+            {
+                @Override
+                public boolean test(OrdersRowTable orderRow)
+                {
+                    boolean ret;
+                    if (newValue.isBlank() || (""+orderRow.getDeliveryNumber()).contains(newValue) || (""+orderRow.getCost()).contains(newValue) || 
+                        orderRow.getName().contains(newValue.toUpperCase()) || (""+orderRow.getType()).contains(newValue.toUpperCase()) || 
+                        (""+orderRow.getArticleId()).contains(newValue.toUpperCase()) || (""+orderRow.getUnitPrice()).contains(newValue) ||
+                        (""+orderRow.getWithdrawalDate()).contains(newValue) )
+                    {
+                        ret = true;
+                    }
+                    else
+                    {
+                        ret = false;
+                    }
+                    return ret;
+                }
+            });
+        });
     }
 
     // ================================= service subscriber methods ===================================

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javafx.scene.control.CheckBox;
+import javafx.beans.value.ChangeListener;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.ArticleType;
 
@@ -39,7 +40,28 @@ public class OrdersRowTable
         this.withdrawalDate = withdrawalDate;
         this.commissionable = new CheckBox();
         this.commissionable.setSelected(commissionable);
+    }
 
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commissionCost, 
+        Float commission, String name, ArticleType type, String articleId, Float unitPrice, Timestamp withdrawalDate, 
+        boolean commissionable, ChangeListener<? super Boolean> changeListener)
+    {
+        this.code = code; 
+        this.deliveryNumber = deliveryNumber;
+        this.quantity = quantity;
+        this.cost = cost;
+        this.commissionCost = commissionCost;
+        this.commission = commission;
+        this.name = name;
+        this.type = type;
+        this.articleId = articleId;
+        this.unitPrice = unitPrice;
+        this.withdrawalDate = withdrawalDate;
+        this.commissionable = new CheckBox();
+        this.commissionable.setSelected(commissionable);
+
+        this.commissionable.selectedProperty().addListener(changeListener);
+        
         /*
         this.commissionable.selectedProperty().addListener
         (
@@ -64,6 +86,28 @@ public class OrdersRowTable
             ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), 
                 order.getCost()-(order.getCost()*(commisionRatio)), order.getCost()*(commisionRatio), order.getArticle().getName(), 
                 order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable()));
+        }
+
+        if(ret.size() == 0)
+            ret = null;
+
+        return ret;
+    }
+
+    public static List<OrdersRowTable> generateRows(List<Order> orders, Float commisionRatio, ChangeListener<? super Boolean> changeListener)
+    {
+        List<OrdersRowTable> ret = new ArrayList<>();
+
+        Order order = null;
+        Iterator<Order> ordersIterator = orders.iterator();
+    
+        while(ordersIterator.hasNext())
+        {
+            order = ordersIterator.next();
+            ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), 
+                order.getCost()-(order.getCost()*(commisionRatio)), order.getCost()*(commisionRatio), order.getArticle().getName(), 
+                order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
+                order.isCommissionable(), changeListener));
         }
 
         if(ret.size() == 0)
