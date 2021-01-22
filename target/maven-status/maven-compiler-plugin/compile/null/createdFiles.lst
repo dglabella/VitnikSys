@@ -42,6 +42,7 @@ vitniksys\backend\model\entities\Article.class
 vitniksys\backend\model\interfaces\ICatalogueOperator.class
 vitniksys\frontend\view_controllers\ClientManagementViewCntlr.class
 vitniksys\App.class
+vitniksys\backend\model\services\PreferentialClientService$7.class
 vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\backend\model\enums\ArticleType.class
 vitniksys\frontend\view_controllers\MainMenuViewCntlr.class

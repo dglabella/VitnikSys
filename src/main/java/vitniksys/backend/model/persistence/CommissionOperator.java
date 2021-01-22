@@ -5,24 +5,24 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Commission;
-import vitniksys.backend.model.interfaces.ICommisionOperator;
+import vitniksys.backend.model.interfaces.ICommissionOperator;
 
-public class CommisionOperator implements ICommisionOperator
+public class CommissionOperator implements ICommissionOperator
 {
-    private static CommisionOperator operator;
+    private static CommissionOperator operator;
 	private boolean activeRow;
 
-	private CommisionOperator()
+	private CommissionOperator()
 	{
 		this.activeRow = true;
 	}
 
-	public static CommisionOperator getOperator()
+	public static CommissionOperator getOperator()
 	{
-		if (CommisionOperator.operator == null)
-            CommisionOperator.operator = new CommisionOperator();
+		if (CommissionOperator.operator == null)
+            CommissionOperator.operator = new CommissionOperator();
 
-		return CommisionOperator.operator;
+		return CommissionOperator.operator;
 	}
 
 	/**
@@ -44,10 +44,10 @@ public class CommisionOperator implements ICommisionOperator
      * Default value: true.
      * @param activeRow the value for the operation.
      */
-    public CommisionOperator setActiveRow(boolean activeRow)
+    public CommissionOperator setActiveRow(boolean activeRow)
     {
 		this.activeRow = activeRow;
-		return CommisionOperator.operator;
+		return CommissionOperator.operator;
     }
 
     @Override

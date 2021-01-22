@@ -24,8 +24,10 @@ public class OrdersRowTable
     private Timestamp withdrawalDate;
     private CheckBox commissionable;
 
+    private Order order;
+
     public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commissionCost, Float commission, 
-        String name, ArticleType type, String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable)
+        String name, ArticleType type, String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, Order order)
     {
         this.code = code; 
         this.deliveryNumber = deliveryNumber;
@@ -40,11 +42,13 @@ public class OrdersRowTable
         this.withdrawalDate = withdrawalDate;
         this.commissionable = new CheckBox();
         this.commissionable.setSelected(commissionable);
+        
+        this.order = order;
     }
 
     public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commissionCost, 
         Float commission, String name, ArticleType type, String articleId, Float unitPrice, Timestamp withdrawalDate, 
-        boolean commissionable, ChangeListener<? super Boolean> changeListener)
+        boolean commissionable, ChangeListener<? super Boolean> changeListener, Order order)
     {
         this.code = code; 
         this.deliveryNumber = deliveryNumber;
@@ -59,8 +63,9 @@ public class OrdersRowTable
         this.withdrawalDate = withdrawalDate;
         this.commissionable = new CheckBox();
         this.commissionable.setSelected(commissionable);
-
         this.commissionable.selectedProperty().addListener(changeListener);
+
+        this.order = order;
         
         /*
         this.commissionable.selectedProperty().addListener
@@ -85,7 +90,8 @@ public class OrdersRowTable
             order = ordersIterator.next();
             ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), 
                 order.getCost()-(order.getCost()*(commisionRatio)), order.getCost()*(commisionRatio), order.getArticle().getName(), 
-                order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable()));
+                order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
+                order.isCommissionable(), order));
         }
 
         if(ret.size() == 0)
@@ -107,7 +113,7 @@ public class OrdersRowTable
             ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), 
                 order.getCost()-(order.getCost()*(commisionRatio)), order.getCost()*(commisionRatio), order.getArticle().getName(), 
                 order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
-                order.isCommissionable(), changeListener));
+                order.isCommissionable(), changeListener, order));
         }
 
         if(ret.size() == 0)
@@ -235,5 +241,15 @@ public class OrdersRowTable
     public void setCommissionable(CheckBox commissionable)
     {
         this.commissionable = commissionable;
+    }
+
+    public Order getOrder()
+    {
+        return this.order;
+    }
+
+    public void setOrder(Order order)
+    {
+        this.order = order;
     }
 }

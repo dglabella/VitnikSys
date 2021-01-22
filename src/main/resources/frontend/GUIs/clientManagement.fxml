@@ -98,7 +98,7 @@
                               <MenuItem mnemonicParsing="false" text="Retirar" />
                             <MenuItem mnemonicParsing="false" text="Retirar todo" />
                               <MenuItem mnemonicParsing="false" text="Devolver" />
-                              <MenuItem mnemonicParsing="false" text="No comisiona" />
+                              <MenuItem mnemonicParsing="false" onAction="#updateCommissionablesOrders" text="Actualizar comisionables" />
                           </items>
                         </ContextMenu>
                      </contextMenu>

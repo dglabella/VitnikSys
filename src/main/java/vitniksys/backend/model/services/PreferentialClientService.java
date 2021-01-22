@@ -15,7 +15,6 @@ import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
-import vitniksys.backend.model.persistence.CommisionOperator;
 import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
@@ -324,45 +323,4 @@ public class PreferentialClientService extends Service
         
         return ret/COMMISSION_RATIO_FACTOR;
     }
-
-    public void createCommission(Integer prefClientId, Integer campNumb) throws Exception
-    {
-        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-        Task<Integer> task = new Task<>()
-        {
-            @Override
-            protected Integer call() throws Exception
-            {
-                //returnCode is intended for future implementations
-                int returnCode = 0;
-
-                try
-                {
-                    Connector.getConnector().startTransaction();
-                    
-                    //CommisionOperator.getOperator().insert(entity);
-
-                    Connector.getConnector().commit();
-
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showSucces("Los niveles de comisión para el cliente preferencial " + prefClientId +
-                        " en la campaña "+ campNumb +" se han registrado exitosamente!");
-                }
-                catch (Exception exception)
-                {
-                    Connector.getConnector().rollBack();
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showError("Error al intentar registrar los niveles de comisión.", null, exception);
-                }
-                finally
-                {
-                    Connector.getConnector().endTransaction();
-                    Connector.getConnector().closeConnection();
-                }
-                return returnCode;
-            }
-        };
-
-        Platform.runLater(task);
-	}
 }

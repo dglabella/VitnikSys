@@ -3,7 +3,7 @@ package vitniksys.backend.model.interfaces;
 import java.util.List;
 import vitniksys.backend.model.entities.Commission;
 
-public interface ICommisionOperator extends CrudOperator<Commission>
+public interface ICommissionOperator extends CrudOperator<Commission>
 {
     List<Commission> findAll(Integer prefClientId, Integer campNumb) throws Exception;
 

@@ -2,16 +2,12 @@ package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
 import java.util.List;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
-
 import javafx.scene.control.Label;
+import java.util.function.Predicate;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ChoiceBox;
@@ -20,12 +16,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.util.CustomAlert;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.util.OrdersRowTable;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
 import vitniksys.backend.model.entities.Leader;
@@ -250,6 +249,23 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.createStage("Comisión", "commissionRegister", new PreferentialClientService()).getStage().show();
     }
 
+    @FXML
+    private void updateCommissionablesOrders()
+    {
+        List<Order> ordersToUpdate = new ArrayList<>();
+
+        OrdersRowTable orderRowTable = null;
+        Iterator<OrdersRowTable> it = this.orders.getItems().iterator();
+        while(it.hasNext())
+        {
+            orderRowTable = it.next();
+            orderRowTable.getOrder().setCommissionable(orderRowTable.getCommissionable().isSelected());
+            ordersToUpdate.add(orderRowTable.getOrder());
+        }
+
+        ((PreferentialClientService)this.getService(0)).updateCommissionRatio(prefClient, campNumb);
+    }
+
     // ================================= private methods ===================================
     private void showTotalsForActualCamp()
     {
@@ -266,14 +282,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         Float com = 0f;
 
-        ChangeListener<? super Boolean> changeListener = 
-        (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> 
-        {
-            System.out.println("Click");
-        };
-
         com = ((PreferentialClientService)this.getService(0)).calculateCommissionRatio(this.prefClient, this.actualCampaign.getNumber());
-        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()), com, changeListener));
+        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()), com));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
         this.loadData(this.REPURCHASES_TABLE_NUMBER, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
     }

@@ -101,7 +101,7 @@ public class LeaderOperator extends BaseClientOperator
             ret.setObservations(new VitnikSearchableList<Observation>(ObservationOperator.getOperator().findAll(ret.getId(), null)));
             ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), null));
 
-            ret.setCommissions(new VitnikSearchableList<Commission>(CommisionOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setCommissions(new VitnikSearchableList<Commission>(CommissionOperator.getOperator().findAll(ret.getId(), null)));
             ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll(id));
             
             Iterator<SubordinatedClient> it = ret.getSubordinates().iterator();
