@@ -32,6 +32,7 @@ import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
+import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Observation;
@@ -47,6 +48,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 {
     private Campaign actualCampaign;
     private PreferentialClient prefClient;
+    private Commission actualCommission;
 
     private int ORDERS_TABLE_NUMBER;
     private int PAYMENTS_TABLE_NUMBER;
@@ -71,6 +73,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private Label prefClientName;
     @FXML private Label catalogueQuantity;
     @FXML private Label totalInCampaignOrders;
+    @FXML private Label comLvl;
 
     @FXML private TextField camp;
     @FXML private TextField ordersFilter;
@@ -252,18 +255,16 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void updateCommissionablesOrders()
     {
-        List<Order> ordersToUpdate = new ArrayList<>();
-
-        OrdersRowTable orderRowTable = null;
-        Iterator<OrdersRowTable> it = this.orders.getItems().iterator();
-        while(it.hasNext())
+        if(this.actualCommission != null)
         {
-            orderRowTable = it.next();
-            orderRowTable.getOrder().setCommissionable(orderRowTable.getCommissionable().isSelected());
-            ordersToUpdate.add(orderRowTable.getOrder());
-        }
+            List<Order> ordersToUpdate = new ArrayList<>();
+            Iterator<OrdersRowTable> it = this.orders.getItems().iterator();
+            while(it.hasNext())
+                ordersToUpdate.add(it.next().getOrder());
 
-        ((PreferentialClientService)this.getService(0)).updateCommissionRatio(prefClient, campNumb);
+            ((PreferentialClientService)this.getService(0)).updateCommissionableOrders(ordersToUpdate);
+            ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
+        }
     }
 
     // ================================= private methods ===================================
@@ -455,6 +456,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClient = prefClient;
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
+
+        if(prefClient instanceof Leader)
+        {
+            this.actualCommission = ((Leader)prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
+            ((PreferentialClientService)this.getService(0)).calculateCommissionRatio(prefClient, this.actualCampaign.getNumber());
+        }
 
         if(prefClient instanceof SubordinatedClient)
         {

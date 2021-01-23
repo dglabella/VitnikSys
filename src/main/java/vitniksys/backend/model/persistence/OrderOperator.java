@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Article;
-import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 
@@ -186,6 +185,35 @@ public class OrderOperator implements IOrderOperator
 			ret = null;
 			
         return ret;
+	}
+
+	@Override
+	public int updateAll(List<Order> orders) throws Exception
+	{
+		int returnCode = 0;
+		String sqlStmnt = 
+		"UPDATE `pedidos` "+
+		"SET `comisionable`= ? "+
+		"WHERE `cod` = ? AND `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        Order order;
+		Iterator<Order> listIterator = orders.iterator();
+		
+        while(listIterator.hasNext())
+        {
+			order = listIterator.next();
+			
+			statement.setBoolean(1, order.isCommissionable());
+            statement.setInt(2, order.getCode());
+			statement.setBoolean(3, this.activeRow);
+
+            returnCode += statement.executeUpdate();
+        }
+
+        statement.close();
+
+        return returnCode;
 	}
 
 	@Override

@@ -6,11 +6,13 @@ import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.LeaderOperator;
+import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
@@ -323,4 +325,41 @@ public class PreferentialClientService extends Service
         
         return ret/COMMISSION_RATIO_FACTOR;
     }
+
+    public void updateCommissionableOrders(List<Order> orders)
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Actualizando pedidos comisionables.");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+                try
+                {
+                    Connector.getConnector().startTransaction();
+
+                    OrderOperator.getOperator().updateAll(orders);
+
+                    Connector.getConnector().commit();
+                    
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("Pedidos actualizados!");
+                }
+                catch(Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+                finally
+                {
+                    Connector.getConnector().closeConnection();
+                }
+
+                return returnCode;
+            }
+        };
+        Platform.runLater(task);
+        //this.getExecutorService().execute(task);   
+	}
 }

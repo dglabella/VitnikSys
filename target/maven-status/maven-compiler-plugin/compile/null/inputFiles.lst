@@ -13,12 +13,12 @@ C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitni
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Repurchase.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IArticleOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\CampRegisterViewCntlr.java
-C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\ICommisionOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\AutoCompletionTool.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Observation.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\ArticleOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\OrderOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\CatalogueOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\CommissionOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\SearchCampsViewCntlr.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IPreferentialClientOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\StockRowTable.java
@@ -37,6 +37,7 @@ C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitni
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\ClientManagementViewCntlr.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\MainMenuViewCntlr.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\util\DetailFileRow.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\ICommissionOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\BaseClientOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\views_subscriber\ServiceSubscriber.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\ProcessingViewCntlr.java
@@ -68,8 +69,8 @@ C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitni
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\ReturnedArticle.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\PayStatus.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Commission.java
-C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\CommisionOperator.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IDevolutionOperator.java
+C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\backend\model\services\CommissionService.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\views_subscriber\CatalogueServiceSubscriber.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\ViewCntlr.java
 C:\Users\dglab\OneDrive\Documentos\vscode proyects\VitnikSys\src\main\java\vitniksys\App.java

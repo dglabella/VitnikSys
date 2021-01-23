@@ -73,6 +73,16 @@
                            </font>
                         </Label>
                         <TextField fx:id="ordersFilter" layoutX="125.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Filtro de pedidos" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="290.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="Nivel:" textAlignment="CENTER">
+                           <font>
+                              <Font name="Britannic Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="comLvl" alignment="CENTER" contentDisplay="CENTER" layoutX="290.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="\%N/A" textAlignment="CENTER">
+                           <font>
+                              <Font name="Britannic Bold" size="17.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                   <TableView fx:id="orders" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;" GridPane.rowIndex="1">

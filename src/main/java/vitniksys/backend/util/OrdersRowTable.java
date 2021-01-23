@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javafx.scene.control.CheckBox;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.ArticleType;
 
@@ -42,6 +43,14 @@ public class OrdersRowTable
         this.withdrawalDate = withdrawalDate;
         this.commissionable = new CheckBox();
         this.commissionable.setSelected(commissionable);
+
+        this.commissionable.selectedProperty().addListener
+        (
+            (ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) -> 
+            {
+                this.order.setCommissionable(newValue);
+            }
+        );
         
         this.order = order;
     }
@@ -50,7 +59,7 @@ public class OrdersRowTable
         Float commission, String name, ArticleType type, String articleId, Float unitPrice, Timestamp withdrawalDate, 
         boolean commissionable, ChangeListener<? super Boolean> changeListener, Order order)
     {
-        this.code = code; 
+        this.code = code;
         this.deliveryNumber = deliveryNumber;
         this.quantity = quantity;
         this.cost = cost;
@@ -66,16 +75,6 @@ public class OrdersRowTable
         this.commissionable.selectedProperty().addListener(changeListener);
 
         this.order = order;
-        
-        /*
-        this.commissionable.selectedProperty().addListener
-        (
-            (ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> 
-            {
-                System.out.println("Click");
-            }
-        );
-        */
     }
 
     public static List<OrdersRowTable> generateRows(List<Order> orders, Float commisionRatio)
