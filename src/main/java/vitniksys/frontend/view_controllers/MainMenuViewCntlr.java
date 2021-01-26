@@ -18,12 +18,12 @@ import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.services.CatalogueService;
+import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.services.PreferentialClientService;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
@@ -53,7 +53,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         {
             PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
 
-            ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new PreferentialClientService(), new CampaignService());
+            ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new PreferentialClientService(), new CampaignService(), new CommissionService());
             viewCntlr.getStage().show();
 
             ((ClientManagementViewCntlr)viewCntlr).loadPreferentialClient(selectedPrefClient);
@@ -265,19 +265,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     }
 
     @Override
-    public void suggestCommisionCreation()
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public void showObservation(List<Observation> observations)
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void showCommission(Commission commission)
     {
         // TODO Auto-generated method stub
     }

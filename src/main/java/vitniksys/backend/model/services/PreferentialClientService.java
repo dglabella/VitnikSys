@@ -6,13 +6,10 @@ import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Leader;
-import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.BaseClient;
-import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.LeaderOperator;
-import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
@@ -24,11 +21,6 @@ import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class PreferentialClientService extends Service
 {
-    /**
-     * COMMISSION_RATIO_FACTOR is supposed to be used to divide the
-     * output of the commission lvl algorithm.
-     */
-    private final float COMMISSION_RATIO_FACTOR = 100f;
     //Getters && Setters
     
 
@@ -286,80 +278,4 @@ public class PreferentialClientService extends Service
         Platform.runLater(task);
         //this.getExecutorService().execute(task);
     }
-
-    public Float calculateCommissionRatio(PreferentialClient prefClient, Integer campNumb)
-    {
-        float ret = 0f;
-
-        if(prefClient instanceof Leader)
-        {
-            Commission commission = ((Leader)prefClient).getCommissions().locateWithCampNumb(campNumb);
-            if(commission != null)
-            {
-                if(commission.getMinQuantity() <= commission.getActualQuantity() && commission.getActualQuantity() <= commission.getLvl1Quantity())
-                {
-                    ret = commission.getLvl1Factor();
-                }
-                else if(commission.getActualQuantity() <= commission.getLvl2Quantity())
-                {
-                    ret = commission.getLvl2Factor();
-                }
-                else if(commission.getActualQuantity() <= commission.getLvl3Quantity())
-                {
-                    ret = commission.getLvl3Quantity();
-                }
-                else if(commission.getActualQuantity() <= commission.getLvl4Quantity())
-                {
-                    ret = commission.getLvl4Factor();
-                }
-                else
-                {
-                    ret = 15;
-                }  
-            }
-            else
-            {
-                ((PreferentialClientServiceSubscriber)this.getServiceSubscriber()).suggestCommisionCreation();
-            }
-        }
-        
-        return ret/COMMISSION_RATIO_FACTOR;
-    }
-
-    public void updateCommissionableOrders(List<Order> orders)
-    {
-        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Actualizando pedidos comisionables.");
-        Task<Integer> task = new Task<>()
-        {
-            @Override
-            protected Integer call() throws Exception
-            {
-                //returnCode is intended for future implementations
-                int returnCode = 0;
-                try
-                {
-                    Connector.getConnector().startTransaction();
-
-                    OrderOperator.getOperator().updateAll(orders);
-
-                    Connector.getConnector().commit();
-                    
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showSucces("Pedidos actualizados!");
-                }
-                catch(Exception exception)
-                {
-                    exception.printStackTrace();
-                }
-                finally
-                {
-                    Connector.getConnector().closeConnection();
-                }
-
-                return returnCode;
-            }
-        };
-        Platform.runLater(task);
-        //this.getExecutorService().execute(task);   
-	}
 }

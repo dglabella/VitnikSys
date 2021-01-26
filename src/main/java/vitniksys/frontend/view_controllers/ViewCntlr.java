@@ -175,6 +175,6 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
     @Override
     public void showNoResult(String message)
     {
-        
+        new CustomAlert(AlertType.WARNING, "SIN RESULTADOS", message).customShow();   
     }
 }

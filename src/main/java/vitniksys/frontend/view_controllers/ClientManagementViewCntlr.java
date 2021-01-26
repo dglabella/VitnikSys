@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import java.util.function.Predicate;
+import javafx.scene.control.Tooltip;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ChoiceBox;
@@ -16,11 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.util.CustomAlert;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.util.OrdersRowTable;
@@ -32,19 +31,20 @@ import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
-import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
+import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.services.PreferentialClientService;
 import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
+import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
-public class ClientManagementViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber, CampaignServiceSubscriber 
+public class ClientManagementViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber, CampaignServiceSubscriber, CommissionServiceSubscriber
 {
     private Campaign actualCampaign;
     private PreferentialClient prefClient;
@@ -74,6 +74,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private Label catalogueQuantity;
     @FXML private Label totalInCampaignOrders;
     @FXML private Label comLvl;
+
+    @FXML private Tooltip ordersQuantity;
+    @FXML private Tooltip commissionableOrdersQuantity;
 
     @FXML private TextField camp;
     @FXML private TextField ordersFilter;
@@ -247,9 +250,27 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
 
     @FXML
+    private void observationsMenuItemSelected()
+    {
+
+    }
+
+    @FXML
+    private void cataloguesDeliveryMenuItemSelected()
+    {
+
+    }
+
+    @FXML
     private void commissionLvlMenuItemSelected()
     {
-        this.createStage("Comisión", "commissionRegister", new PreferentialClientService()).getStage().show();
+        ViewCntlr viewCntlr = this.createStage("Comisión", "commissionRegister", new CommissionService());
+
+        //load prefClientId and campNumber because sometimes actualCommission can be null
+        viewCntlr.getStage().show();
+        ((CommissionRegisterViewCntlr)viewCntlr).loadPrefClient(this.prefClient);
+        ((CommissionRegisterViewCntlr)viewCntlr).loadCamp(this.actualCampaign);
+        viewCntlr.manualInitialize();
     }
 
     @FXML
@@ -262,7 +283,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             while(it.hasNext())
                 ordersToUpdate.add(it.next().getOrder());
 
-            ((PreferentialClientService)this.getService(0)).updateCommissionableOrders(ordersToUpdate);
+            ((CommissionService)this.getService(2)).updateCommissionableOrders(ordersToUpdate);
             ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
         }
     }
@@ -283,7 +304,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         Float com = 0f;
 
-        com = ((PreferentialClientService)this.getService(0)).calculateCommissionRatio(this.prefClient, this.actualCampaign.getNumber());
         this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()), com));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
         this.loadData(this.REPURCHASES_TABLE_NUMBER, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
@@ -456,11 +476,21 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClient = prefClient;
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
+        this.ordersQuantity.setText("Artículos: "+ this.prefClient.getArticlesQuantity(this.actualCampaign.getNumber()));
+        this.commissionableOrdersQuantity.setText("Comisionables: "+this.prefClient.getCommissionablesQuantity(this.actualCampaign.getNumber()));
 
         if(prefClient instanceof Leader)
         {
-            this.actualCommission = ((Leader)prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
-            ((PreferentialClientService)this.getService(0)).calculateCommissionRatio(prefClient, this.actualCampaign.getNumber());
+            this.actualCommission = ((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
+
+            if(this.actualCommission != null)
+            {
+                this.comLvl.setText("% "+this.actualCommission.getActualRate());
+            }
+            else
+            {
+                this.suggestCommisionCreation();
+            }
         }
 
         if(prefClient instanceof SubordinatedClient)
@@ -479,6 +509,18 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
 
     @Override
+    public void showObservation(List<Observation> observations)
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void showCommission(Commission commission)
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
     public void suggestCommisionCreation()
     {
         new CustomAlert(AlertType.CONFIRMATION, "Crear Comisión", "Este líder no tiene niveles de comisión asignado. Desea crear uno?")
@@ -489,17 +531,5 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 this.commissionLvlMenuItemSelected();
             }
         });
-    }
-
-    @Override
-    public void showObservation(List<Observation> observations)
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void showCommission(Commission commission)
-    {
-        // TODO Auto-generated method stub
     }
 }

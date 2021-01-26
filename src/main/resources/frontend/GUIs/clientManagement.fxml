@@ -12,6 +12,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -47,10 +48,13 @@
                               <Font name="Britannic Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Label layoutX="10.0" layoutY="15.0" prefHeight="30.0" prefWidth="60.0" text="Pedidos">
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="15.0" prefHeight="30.0" prefWidth="60.0" text="Pedidos">
                            <font>
                               <Font name="Britannic Bold" size="17.0" />
                            </font>
+                           <tooltip>
+                              <Tooltip fx:id="ordersQuantity" contentDisplay="CENTER" text="Artículos: ?" textAlignment="CENTER" />
+                           </tooltip>
                         </Label>
                         <Label fx:id="inCirculation" layoutX="1120.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="170.0" text="----">
                            <font>
@@ -78,10 +82,13 @@
                               <Font name="Britannic Bold" size="17.0" />
                            </font>
                         </Label>
-                        <Label fx:id="comLvl" alignment="CENTER" contentDisplay="CENTER" layoutX="290.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="\%N/A" textAlignment="CENTER">
+                        <Label fx:id="comLvl" alignment="CENTER" contentDisplay="CENTER" layoutX="290.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="\% N/A" textAlignment="CENTER">
                            <font>
                               <Font name="Britannic Bold" size="17.0" />
                            </font>
+                           <tooltip>
+                              <Tooltip fx:id="commissionableOrdersQuantity" contentDisplay="CENTER" text="Comisionables: " textAlignment="CENTER" />
+                           </tooltip>
                         </Label>
                      </children>
                   </AnchorPane>
@@ -317,9 +324,9 @@
    <contextMenu>
       <ContextMenu>
         <items>
-            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-          <MenuItem mnemonicParsing="false" text="Niveles de comisión" />
+            <MenuItem mnemonicParsing="false" onAction="#observationsMenuItemSelected" text="Observaciones" />
+            <MenuItem mnemonicParsing="false" onAction="#cataloguesDeliveryMenuItemSelected" text="Entregar catálogos" />
+          <MenuItem mnemonicParsing="false" onAction="#commissionLvlMenuItemSelected" text="Niveles de comisión" />
         </items>
       </ContextMenu>
    </contextMenu>
