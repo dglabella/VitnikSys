@@ -222,58 +222,6 @@ public abstract class PreferentialClient
         this.balances = balances;
     }
 
-    public int getArticlesQuantity()
-    {
-        int ret = 0;
-        Iterator<Order> it = this.orders.iterator();
-        while(it.hasNext())
-        {
-            ret += it.next().getQuantity();
-        }
-
-        return ret;
-    }
-
-    public int getArticlesQuantity(Integer campNumber)
-    {
-        int ret = 0;
-        
-        Iterator<Order> it = this.orders.locateAllWithCampNumb(campNumber).iterator();
-        while(it.hasNext())
-        {
-            ret += it.next().getQuantity();
-        }
-
-        return ret;
-    }
-
-    public int getCommissionablesQuantity()
-    {
-        int ret = 0;
-        Iterator<Order> it = this.orders.iterator();
-        Order order = null;
-        while(it.hasNext())
-        {
-            order = it.next();
-            ret += (order.isCommissionable() ? order.getQuantity() : 0);
-        }
-        return ret;
-    }
-
-    public int getCommissionablesQuantity(Integer campNumber)
-    {
-        int ret = 0;
-        
-        Iterator<Order> it = this.orders.locateAllWithCampNumb(campNumber).iterator();
-        Order order = null;
-        while(it.hasNext())
-        {
-            order = it.next();
-            ret += (order.isCommissionable() ? order.getQuantity() : 0);
-        }
-        return ret;
-    }
-
     @Override
     public String toString()
     {

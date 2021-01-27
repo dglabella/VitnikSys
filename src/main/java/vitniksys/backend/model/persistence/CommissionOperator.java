@@ -76,10 +76,36 @@ public class CommissionOperator implements ICommissionOperator
     }
 
     @Override
-    public int update(Commission entity) throws Exception
+    public int update(Commission commission) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int returnCode = 0;
+        String sqlStmnt =
+        "UPDATE `comisiones` "+
+        "SET `cant_actual`= ?, `nivel_actual`= ?, `cant_min`= ?, `cant_1`= ?, `cant_2`= ?, `cant_3`= ?, `cant_4`= ?, `nivel_1`= ?, `nivel_2`= ?, `nivel_3`= ?, `nivel_4`= ? "+
+        "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, commission.getActualQuantity());
+        statement.setInt(2, commission.getActualRate());
+        statement.setInt(3, commission.getMinQuantity());
+        statement.setInt(4, commission.getLvl1Quantity());
+        statement.setInt(5, commission.getLvl2Quantity());
+        statement.setInt(6, commission.getLvl3Quantity());
+        statement.setInt(7, commission.getLvl4Quantity());
+        statement.setInt(8, commission.getLvl1Factor());
+        statement.setInt(9, commission.getLvl2Factor());
+        statement.setInt(10, commission.getLvl3Factor());
+        statement.setInt(11, commission.getLvl4Factor());
+
+        statement.setInt(12, commission.getPrefClientId());
+        statement.setInt(13, commission.getCampNumber());
+        statement.setBoolean(14, this.activeRow);
+
+        returnCode += statement.executeUpdate();
+        statement.close();
+
+        return returnCode;
     }
 
     @Override

@@ -15,7 +15,6 @@ import vitniksys.backend.model.entities.Order;
 import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Commission;
-import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
@@ -24,6 +23,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
 {
     private PreferentialClient prefClient;
     private Campaign camp;
+    private List<Order> orders;
     private Commission commission;
 
     @FXML private Label idCpNameLastName;
@@ -52,7 +52,10 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     {
         try
         {
-            //((CommissionService)this.getService(0)).
+            ((CommissionService)this.getService(0)).modifyCommission(new Commission
+            (
+                actualQuantity, actualRate, minQuantity, lvl1Quantity, lvl2Quantity, lvl3Quantity, lvl4Quantity, lvl1Factor, lvl2Factor, lvl3Factor, lvl4Factor
+            ));
         }
         catch (Exception exception)
         {
@@ -99,14 +102,13 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     @Override
     protected void manualInitialize()
     {
-        this.commission = ((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.camp.getNumber());
         this.idCpNameLastName.setText(this.prefClient.getId()+" - "+this.prefClient.getName()+" "+this.prefClient.getLastName());
 
         if(this.commission == null)
         {
             try
             {
-                ((CommissionService)this.getService(0)).createDefaultCommission(this.prefClient, this.camp.getNumber());
+                ((CommissionService)this.getService(0)).createDefaultCommission(this.orders);
             }
             catch (Exception exception)
             {
@@ -128,6 +130,16 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     {
         this.camp = camp;
     }
+
+    public void loadCommission(Commission commission)
+    {
+        this.commission = commission;
+	}
+    
+    public void loadOrders(List<Order> orders)
+    {
+        this.orders = orders;
+	}
 
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception

@@ -42,7 +42,8 @@ public class OrdersRowTable
         this.unitPrice = unitPrice;
         this.withdrawalDate = withdrawalDate;
         this.commissionable = new CheckBox();
-        this.commissionable.setSelected(commissionable);
+        this.commissionable.setSelected(commissionable);        
+        this.order = order;
 
         this.commissionable.selectedProperty().addListener
         (
@@ -51,8 +52,6 @@ public class OrdersRowTable
                 this.order.setCommissionable(newValue);
             }
         );
-        
-        this.order = order;
     }
 
     public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commissionCost, 

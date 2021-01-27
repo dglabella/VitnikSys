@@ -49,6 +49,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     private Campaign actualCampaign;
     private PreferentialClient prefClient;
     private Commission actualCommission;
+    private List<Order> actualOrders;
 
     private int ORDERS_TABLE_NUMBER;
     private int PAYMENTS_TABLE_NUMBER;
@@ -270,22 +271,21 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         viewCntlr.getStage().show();
         ((CommissionRegisterViewCntlr)viewCntlr).loadPrefClient(this.prefClient);
         ((CommissionRegisterViewCntlr)viewCntlr).loadCamp(this.actualCampaign);
+        ((CommissionRegisterViewCntlr)viewCntlr).loadOrders(this.actualOrders);
+        ((CommissionRegisterViewCntlr)viewCntlr).loadCommission(this.actualCommission);
         viewCntlr.manualInitialize();
     }
 
     @FXML
     private void updateCommissionablesOrders()
     {
-        if(this.actualCommission != null)
-        {
-            List<Order> ordersToUpdate = new ArrayList<>();
-            Iterator<OrdersRowTable> it = this.orders.getItems().iterator();
-            while(it.hasNext())
-                ordersToUpdate.add(it.next().getOrder());
+        List<Order> ordersToUpdate = new ArrayList<>();
+        Iterator<OrdersRowTable> it = this.orders.getItems().iterator();
+        while(it.hasNext())
+            ordersToUpdate.add(it.next().getOrder());
 
-            ((CommissionService)this.getService(2)).updateCommissionableOrders(ordersToUpdate);
-            ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
-        }
+        ((CommissionService)this.getService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate);
+        ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
     }
 
     // ================================= private methods ===================================
@@ -304,7 +304,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         Float com = 0f;
 
-        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber()), com));
+        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.actualOrders, com));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
         this.loadData(this.REPURCHASES_TABLE_NUMBER, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
     }
@@ -473,11 +473,14 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
     {
+        this.clearTables();
+
         this.prefClient = prefClient;
+        this.actualOrders = this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber());
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
-        this.ordersQuantity.setText("Artículos: "+ this.prefClient.getArticlesQuantity(this.actualCampaign.getNumber()));
-        this.commissionableOrdersQuantity.setText("Comisionables: "+this.prefClient.getCommissionablesQuantity(this.actualCampaign.getNumber()));
+        this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
+        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders) );
 
         if(prefClient instanceof Leader)
         {
