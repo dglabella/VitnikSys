@@ -56,9 +56,8 @@ public abstract class Service
     }
     */
 
-    
-    
     // =================================== public methods ===================================
+    
 
     /*
     public void executeTask(Task<Void> task)

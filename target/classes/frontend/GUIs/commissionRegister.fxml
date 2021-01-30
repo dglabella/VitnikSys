@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -52,7 +51,6 @@
                </graphic>
             </JFXButton>
             <Slider fx:id="lvl1RateSlider" layoutX="210.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl1RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
-            <TextField fx:id="lvl1RateField" editable="false" layoutX="370.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="50.0" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cantidad Actual" textAlignment="CENTER">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -75,7 +73,6 @@
                </font>
             </Label>
             <Slider fx:id="lvl2RateSlider" layoutX="210.0" layoutY="288.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl2RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
-            <TextField fx:id="lvl2RateField" editable="false" layoutX="370.0" layoutY="288.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="50.0" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="248.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 2" textAlignment="CENTER">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -88,7 +85,6 @@
             </Label>
             <Spinner fx:id="lvl2Quantity" layoutX="250.0" layoutY="248.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
             <Slider fx:id="lvl3RateSlider" layoutX="210.0" layoutY="388.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl3RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
-            <TextField fx:id="lvl3RateField" editable="false" layoutX="370.0" layoutY="388.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="50.0" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="348.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 3" textAlignment="CENTER">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -101,7 +97,6 @@
             </Label>
             <Spinner fx:id="lvl3Quantity" layoutX="250.0" layoutY="348.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
             <Slider fx:id="lvl4RateSlider" layoutX="210.0" layoutY="488.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl4RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
-            <TextField fx:id="lvl4RateField" editable="false" layoutX="370.0" layoutY="488.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="50.0" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="448.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 4" textAlignment="CENTER">
                <font>
                   <Font name="Verdana" size="17.0" />
@@ -129,6 +124,10 @@
                   <Font name="Verdana" size="17.0" />
                </font>
             </Label>
+            <Spinner fx:id="lvl1RateSpinner" layoutX="370.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Spinner fx:id="lvl2RateSpinner" layoutX="370.0" layoutY="288.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Spinner fx:id="lvl3RateSpinner" layoutX="370.0" layoutY="388.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Spinner fx:id="lvl4RateSpinner" layoutX="370.0" layoutY="488.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
          </children>
       </AnchorPane>
    </children>

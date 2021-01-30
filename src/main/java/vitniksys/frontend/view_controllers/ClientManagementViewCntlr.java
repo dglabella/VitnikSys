@@ -302,7 +302,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
     private void insertDataIntoTables()
     {
-        Float com = 0f;
+        int com = this.actualCommission.getActualRate();
 
         this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.actualOrders, com));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));

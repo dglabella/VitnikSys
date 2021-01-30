@@ -9,6 +9,7 @@ vitniksys\backend\model\entities\Order.class
 vitniksys\backend\model\entities\CatalogueDeliver.class
 vitniksys\backend\model\persistence\RepurchaseOperator.class
 vitniksys\backend\model\persistence\BalanceOperator.class
+vitniksys\backend\model\services\CommissionService$3.class
 vitniksys\backend\util\RepurchasesRowTable.class
 vitniksys\backend\model\entities\Payment.class
 vitniksys\backend\model\entities\Campaign.class

@@ -9,6 +9,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.ArticleType;
+import vitniksys.backend.model.services.CommissionService;
 
 public class OrdersRowTable
 {
@@ -76,7 +77,7 @@ public class OrdersRowTable
         this.order = order;
     }
 
-    public static List<OrdersRowTable> generateRows(List<Order> orders, Float commisionRatio)
+    public static List<OrdersRowTable> generateRows(List<Order> orders, int commisionRatio)
     {
         List<OrdersRowTable> ret = new ArrayList<>();
 
@@ -87,7 +88,8 @@ public class OrdersRowTable
         {
             order = ordersIterator.next();
             ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), 
-                order.getCost()-(order.getCost()*(commisionRatio)), order.getCost()*(commisionRatio), order.getArticle().getName(), 
+                order.getCost()-(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR)), 
+                order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR), order.getArticle().getName(), 
                 order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
                 order.isCommissionable(), order));
         }

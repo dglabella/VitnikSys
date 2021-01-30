@@ -21,9 +21,11 @@ public class CommissionService extends Service
      * COMMISSION_RATIO_FACTOR is supposed to be used to divide the
      * output of the commission lvl algorithm.
      */
-    private final float COMMISSION_RATIO_FACTOR = 100f;
+    public static final float COMMISSION_RATIO_FACTOR = 100f;
+    public static final int MAX_COMMISSION_RATE = 50;
 
     // Getters && Setters
+
 
     public static int calculateArticlesQuantity(List<Order> orders)
     {
@@ -78,7 +80,7 @@ public class CommissionService extends Service
             }
             else
             {
-                commissionFactor = 20;
+                commissionFactor = CommissionService.MAX_COMMISSION_RATE;
             }
 
             commission.setActualQuantity(actualQuantity);
@@ -124,7 +126,7 @@ public class CommissionService extends Service
                         getServiceSubscriber().showSucces
                         (
                             "Se han creado para el cliente preferencial " + orders.get(0).getPrefClientId() +
-                            "\nen la campaña "+ orders.get(0).getCampNumber() +"los niveles de comisión por defecto. "+
+                            "\nen la campaña "+ orders.get(0).getCampNumber() +" los niveles de comisión por defecto. "+
                             "\nPueden modificarse y actualizarse a preferencia."
                         );
                     }
@@ -151,7 +153,7 @@ public class CommissionService extends Service
         }
     }
 
-    public void modifyCommission(Commission commission) throws Exception
+    public void modifyCommission(Commission commission, List<Order> orders) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Modificando comisión.");
         Task<Integer> task = new Task<>()
@@ -164,7 +166,7 @@ public class CommissionService extends Service
                 {
                     Connector.getConnector().startTransaction();
                     
-                    CommissionOperator.getOperator().update(commission);
+                    updateCommission(commission, orders);
 
                     Connector.getConnector().commit();
 
@@ -181,12 +183,12 @@ public class CommissionService extends Service
                 {
                     Connector.getConnector().endTransaction();
                     Connector.getConnector().closeConnection();
-                    searchCommission(prefClientId, campNumber);
+                    searchCommission(commission.getPrefClientId(), commission.getCampNumber());
                 }
                 return returnCode;
             }
         };
-        Platform.runLater(task);        
+        Platform.runLater(task);
     }
     
     public void searchCommission(Integer prefClientId, Integer campNumber) throws Exception

@@ -9,7 +9,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseEvent;
 import com.jfoenix.controls.JFXButton;
-import javafx.scene.control.TextField;
 import javafx.beans.value.ObservableValue;
 import vitniksys.backend.model.entities.Order;
 import javafx.scene.control.SpinnerValueFactory;
@@ -32,30 +31,45 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     @FXML private Label actualQuantity;
     @FXML private Label actualRate;
 
-    @FXML private JFXButton update;
-    @FXML private Slider lvl1RateSlider;
-    @FXML private TextField lvl1RateField;
-    @FXML private Spinner<Integer> lvl1Quantity;
-    @FXML private Slider lvl2RateSlider;
-    @FXML private TextField lvl2RateField;
-    @FXML private Spinner<Integer> lvl2Quantity;
-    @FXML private Slider lvl3RateSlider;
-    @FXML private TextField lvl3RateField;
-    @FXML private Spinner<Integer> lvl3Quantity;
-    @FXML private Slider lvl4RateSlider;
-    @FXML private TextField lvl4RateField;
-    @FXML private Spinner<Integer> lvl4Quantity;
     @FXML private Spinner<Integer> minQuantity;
+
+    @FXML private Slider lvl1RateSlider;
+    @FXML private Spinner<Integer> lvl1RateSpinner;
+    @FXML private Spinner<Integer> lvl1Quantity;
+
+    @FXML private Slider lvl2RateSlider;
+    @FXML private Spinner<Integer> lvl2RateSpinner;
+    @FXML private Spinner<Integer> lvl2Quantity;
+
+    @FXML private Slider lvl3RateSlider;
+    @FXML private Spinner<Integer> lvl3RateSpinner;
+    @FXML private Spinner<Integer> lvl3Quantity;
+
+    @FXML private Slider lvl4RateSlider;
+    @FXML private Spinner<Integer> lvl4RateSpinner;
+    @FXML private Spinner<Integer> lvl4Quantity;
+
+    @FXML private JFXButton update;
 
     @FXML
     private void updateButtonPressed()
     {
         try
         {
-            ((CommissionService)this.getService(0)).modifyCommission(new Commission
+            Commission commission = new Commission
             (
-                actualQuantity, actualRate, minQuantity, lvl1Quantity, lvl2Quantity, lvl3Quantity, lvl4Quantity, lvl1Factor, lvl2Factor, lvl3Factor, lvl4Factor
-            ));
+                this.commission.getActualQuantity(), this.commission.getActualRate(), this.minQuantity.getValue(), 
+                this.lvl1Quantity.getValue(), this.lvl2Quantity.getValue(), this.lvl3Quantity.getValue(), this.lvl4Quantity.getValue(), 
+                this.lvl1RateSpinner.getValue(), this.lvl2RateSpinner.getValue(), this.lvl3RateSpinner.getValue(), this.lvl4RateSpinner.getValue()
+            );
+
+            commission.setPrefClientId(this.prefClient.getId());
+            commission.setCampNumber(this.camp.getNumber());
+
+            ((CommissionService)this.getService(0)).modifyCommission(commission, this.orders);
+            
+            //Reinit management
+            this.getPrevViewCntlr().manualInitialize();
         }
         catch (Exception exception)
         {
@@ -145,48 +159,86 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
         this.minQuantity.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
+
         this.lvl1Quantity.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
         this.lvl2Quantity.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
         this.lvl3Quantity.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
         this.lvl4Quantity.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
 
-        this.lvl1RateSlider.setMax(50);
+        this.lvl1RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, CommissionService.MAX_COMMISSION_RATE));
+        this.lvl2RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, CommissionService.MAX_COMMISSION_RATE));
+        this.lvl3RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, CommissionService.MAX_COMMISSION_RATE));
+        this.lvl4RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, CommissionService.MAX_COMMISSION_RATE));
+
+        this.lvl1RateSlider.setMax(CommissionService.MAX_COMMISSION_RATE);
         this.lvl1RateSlider.setBlockIncrement(1);
         this.lvl1RateSlider.valueProperty().addListener
         (
             (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
             {
-                this.lvl1RateField.setText(""+newValue.intValue());   
+                this.lvl1RateSpinner.getValueFactory().setValue(newValue.intValue());
             }
         );
 
-        this.lvl2RateSlider.setMax(50);
+        this.lvl1RateSpinner.valueProperty().addListener
+        (
+            (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
+            {
+                this.lvl1RateSlider.setValue(newValue.intValue());
+            }
+        );
+
+        this.lvl2RateSlider.setMax(CommissionService.MAX_COMMISSION_RATE);
         this.lvl2RateSlider.setBlockIncrement(1);
         this.lvl2RateSlider.valueProperty().addListener
         (
             (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
             {
-                this.lvl2RateField.setText(""+newValue.intValue());   
+                this.lvl2RateSpinner.getValueFactory().setValue(newValue.intValue());
             }
         );
 
-        this.lvl3RateSlider.setMax(50);
+        this.lvl2RateSpinner.valueProperty().addListener
+        (
+            (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
+            {
+                this.lvl2RateSlider.setValue(newValue.intValue());
+            }
+        );
+
+        this.lvl3RateSlider.setMax(CommissionService.MAX_COMMISSION_RATE);
         this.lvl3RateSlider.setBlockIncrement(1);
         this.lvl3RateSlider.valueProperty().addListener
         (
             (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
             {
-                this.lvl3RateField.setText(""+newValue.intValue());   
+                this.lvl3RateSpinner.getValueFactory().setValue(newValue.intValue());
             }
         );
 
-        this.lvl4RateSlider.setMax(50);
+        this.lvl3RateSpinner.valueProperty().addListener
+        (
+            (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
+            {
+                this.lvl3RateSlider.setValue(newValue.intValue());
+            }
+        );
+
+        this.lvl4RateSlider.setMax(CommissionService.MAX_COMMISSION_RATE);
         this.lvl4RateSlider.setBlockIncrement(1);
         this.lvl4RateSlider.valueProperty().addListener
         (
             (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
             {
-                this.lvl4RateField.setText(""+newValue.intValue());   
+                this.lvl4RateSpinner.getValueFactory().setValue(newValue.intValue());
+            }
+        );
+
+        this.lvl4RateSpinner.valueProperty().addListener
+        (
+            (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
+            {
+                this.lvl4RateSlider.setValue(newValue.intValue());
             }
         );
     }
@@ -201,9 +253,13 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     @Override
     public void showCommission(Commission commission)
     {
+        this.commission = commission;
+
         this.actualQuantity.setText(""+commission.getActualQuantity());
         this.actualRate.setText(""+commission.getActualRate());
+
         this.minQuantity.getValueFactory().setValue(commission.getMinQuantity());
+
         this.lvl1Quantity.getValueFactory().setValue(commission.getLvl1Quantity());
         this.lvl2Quantity.getValueFactory().setValue(commission.getLvl2Quantity());
         this.lvl3Quantity.getValueFactory().setValue(commission.getLvl3Quantity());
@@ -214,9 +270,9 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         this.lvl3RateSlider.setValue(commission.getLvl3Factor());
         this.lvl4RateSlider.setValue(commission.getLvl4Factor());
 
-        this.lvl1RateField.setText(""+commission.getLvl1Factor());
-        this.lvl2RateField.setText(""+commission.getLvl2Factor());
-        this.lvl3RateField.setText(""+commission.getLvl3Factor());
-        this.lvl4RateField.setText(""+commission.getLvl4Factor());
+        this.lvl1RateSpinner.getValueFactory().setValue(commission.getLvl1Factor());
+        this.lvl2RateSpinner.getValueFactory().setValue(commission.getLvl2Factor());
+        this.lvl3RateSpinner.getValueFactory().setValue(commission.getLvl3Factor());
+        this.lvl4RateSpinner.getValueFactory().setValue(commission.getLvl4Factor());
     }
 }
