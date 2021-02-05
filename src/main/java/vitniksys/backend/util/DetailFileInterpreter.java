@@ -76,7 +76,7 @@ public class DetailFileInterpreter implements OrderObtainer
                 ret.add(new Leader(row.getLeaderId()));
             }  
         }
-
+        
         /*
         System.out.println("================ Associated Leaders ================");
         Iterator<PreferentialClient> printList = ret.iterator();

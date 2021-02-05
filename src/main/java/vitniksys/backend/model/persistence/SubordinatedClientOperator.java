@@ -8,14 +8,14 @@ import java.time.Instant;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
-import vitniksys.backend.util.VitnikSearchableList;
-import vitniksys.backend.model.entities.SubordinatedClient;
-import vitniksys.backend.model.entities.Balance;
-import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Payment;
-import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.entities.Balance;
+import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.entities.Repurchase;
+import vitniksys.backend.model.entities.Devolution;
+import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.entities.PreferentialClient;
 
 public class SubordinatedClientOperator extends PreferentialClientOperator
 {

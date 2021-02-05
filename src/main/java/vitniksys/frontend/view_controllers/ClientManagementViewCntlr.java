@@ -273,6 +273,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         ((CommissionRegisterViewCntlr)viewCntlr).loadCamp(this.actualCampaign);
         ((CommissionRegisterViewCntlr)viewCntlr).loadOrders(this.actualOrders);
         ((CommissionRegisterViewCntlr)viewCntlr).loadCommission(this.actualCommission);
+        
         viewCntlr.manualInitialize();
     }
 
@@ -302,7 +303,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
     private void insertDataIntoTables()
     {
-        int com = this.actualCommission.getActualRate();
+        int com = this.actualCommission != null ? this.actualCommission.getActualRate() : 0;
 
         this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.actualOrders, com));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));

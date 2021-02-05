@@ -11,6 +11,7 @@ import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.persistence.LeaderOperator;
+import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
@@ -54,6 +55,21 @@ public class CommissionService extends Service
         return ret;
     }
 
+    public static float calculateTotalInCommission(int commissionFactor, List<Order> orders)
+    {
+        float ret = 0f;
+        float comFactor = commissionFactor/CommissionService.COMMISSION_RATIO_FACTOR;
+        Iterator<Order> it = orders.iterator();
+        Order order = null;
+        while(it.hasNext())
+        {
+            order = it.next();
+            ret += (order.isCommissionable() ? order.getCost()*comFactor : 0f);
+        }
+
+        return ret;
+    }
+
     // ================================== private methods ==================================
     private void updateCommission(Commission commission, List<Order> orders) throws Exception
     {
@@ -87,6 +103,10 @@ public class CommissionService extends Service
             commission.setActualRate(commissionFactor);
 
             CommissionOperator.getOperator().update(commission);
+
+            Float totalInCommission = CommissionService.calculateTotalInCommission(commissionFactor, orders);
+
+            BalanceOperator.getOperator().correctCommission(commission.getPrefClientId(), commission.getCampNumber(), totalInCommission);
         }
         else
         {
@@ -168,6 +188,7 @@ public class CommissionService extends Service
                     
                     updateCommission(commission, orders);
 
+
                     Connector.getConnector().commit();
 
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
@@ -215,8 +236,8 @@ public class CommissionService extends Service
         {
             Connector.getConnector().closeConnection();
         }
-	}
-
+    }
+    
     public void updateCommissionableOrders(Commission commission, List<Order> orders)
     {
         if(commission != null)

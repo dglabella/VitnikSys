@@ -17,8 +17,8 @@ public class OrdersRowTable
     private Integer deliveryNumber;
     private Integer quantity;
     private Float cost;
-    private Float commissionCost;
-    private Float commission;
+    private float commissionCost;
+    private float commission;
     private String name;
     private ArticleType type;
     private String articleId; // Table id = letra
@@ -28,15 +28,13 @@ public class OrdersRowTable
 
     private Order order;
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commissionCost, Float commission, 
-        String name, ArticleType type, String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, Order order)
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, String name, ArticleType type, 
+        String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, Order order)
     {
-        this.code = code; 
+        this.code = code;
         this.deliveryNumber = deliveryNumber;
         this.quantity = quantity;
         this.cost = cost;
-        this.commissionCost = commissionCost;
-        this.commission = commission;
         this.name = name;
         this.type = type;
         this.articleId = articleId;
@@ -55,16 +53,13 @@ public class OrdersRowTable
         );
     }
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, Float commissionCost, 
-        Float commission, String name, ArticleType type, String articleId, Float unitPrice, Timestamp withdrawalDate, 
-        boolean commissionable, ChangeListener<? super Boolean> changeListener, Order order)
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, String name, ArticleType type, 
+        String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, ChangeListener<? super Boolean> changeListener, Order order)
     {
         this.code = code;
         this.deliveryNumber = deliveryNumber;
         this.quantity = quantity;
         this.cost = cost;
-        this.commissionCost = commissionCost;
-        this.commission = commission;
         this.name = name;
         this.type = type;
         this.articleId = articleId;
@@ -82,16 +77,22 @@ public class OrdersRowTable
         List<OrdersRowTable> ret = new ArrayList<>();
 
         Order order = null;
+        OrdersRowTable ordersRowTable = null;
         Iterator<Order> ordersIterator = orders.iterator();
     
         while(ordersIterator.hasNext())
         {
             order = ordersIterator.next();
-            ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), 
-                order.getCost()-(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR)), 
-                order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR), order.getArticle().getName(), 
-                order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
-                order.isCommissionable(), order));
+            ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), order.getArticle().getName(), 
+                order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order);
+            
+            if(order.isCommissionable())
+            {
+                ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR)));
+                ordersRowTable.setCommission(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR));
+            }
+
+            ret.add(ordersRowTable);
         }
 
         if(ret.size() == 0)
@@ -105,15 +106,23 @@ public class OrdersRowTable
         List<OrdersRowTable> ret = new ArrayList<>();
 
         Order order = null;
+        OrdersRowTable ordersRowTable = null;
         Iterator<Order> ordersIterator = orders.iterator();
     
         while(ordersIterator.hasNext())
         {
             order = ordersIterator.next();
-            ret.add(new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), 
-                order.getCost()-(order.getCost()*(commisionRatio)), order.getCost()*(commisionRatio), order.getArticle().getName(), 
+            ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), order.getArticle().getName(), 
                 order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
-                order.isCommissionable(), changeListener, order));
+                order.isCommissionable(), changeListener, order);
+
+            if(order.isCommissionable())
+            {
+                ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR)));
+                ordersRowTable.setCommission(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR));
+            }
+
+            ret.add(ordersRowTable);
         }
 
         if(ret.size() == 0)
@@ -163,22 +172,22 @@ public class OrdersRowTable
         this.cost = cost;
     }
 
-    public Float getCommissionCost()
+    public float getCommissionCost()
     {
         return this.commissionCost;
     }
 
-    public void setCommissionCost(Float commissionCost)
+    public void setCommissionCost(float commissionCost)
     {
         this.commissionCost = commissionCost;
     }
 
-    public Float getCommission()
+    public float getCommission()
     {
         return this.commission;
     }
 
-    public void setCommission(Float commission)
+    public void setCommission(float commission)
     {
         this.commission = commission;
     }

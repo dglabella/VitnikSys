@@ -97,7 +97,7 @@ public class BalanceOperator implements IBalanceOperator
     public int update(Balance balance) throws Exception
     {
         int returnCode = 0;
-        String sqlStmnt =
+        String sqlStmnt = 
         "UPDATE `saldos` SET `pedidos`= `pedidos`+ ?, `catalogos`= `catalogos`+ ?, "+
         "`recompras`= `recompras`+ ?, `pagos`= `pagos`+ ?, `devoluciones`= `devoluciones`+ ?, "+
         "`comision`= `comision`+ ?, `balance`= -`pedidos`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "+
@@ -110,13 +110,35 @@ public class BalanceOperator implements IBalanceOperator
         statement.setFloat(3, balance.getTotalInRepurchases());
         statement.setFloat(4, balance.getTotalInPayments());
         statement.setFloat(5, balance.getTotalInDevolutions());
-        statement.setFloat(6, balance.getTotalInCommission()) ;
+        statement.setFloat(6, balance.getTotalInCommission());
         statement.setInt(7, balance.getPrefClientId());
         statement.setInt(8, balance.getCampNumber());
         statement.setBoolean(9, this.activeRow);
 
         returnCode += statement.executeUpdate();
         statement.close();
+        return returnCode;
+    }
+
+    @Override
+    public int correctCommission(Integer prefClientId, Integer campNumb, Float totalInCommission) throws Exception
+    {
+        int returnCode = 0;
+        String sqlStmnt = 
+        "UPDATE `saldos` "+
+        "SET `balance`= `balance`-`comision`, `comision`= ?, `balance`= `balance`+`comision` "+
+        "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setFloat(1,totalInCommission);
+        statement.setFloat(2, prefClientId);
+        statement.setFloat(3, campNumb);
+        statement.setBoolean(4, this.activeRow);
+        
+        returnCode += statement.executeUpdate();
+        statement.close();
+
         return returnCode;
     }
     
@@ -204,7 +226,7 @@ public class BalanceOperator implements IBalanceOperator
     @Override
     public int delete(int id) throws Exception
     {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub0
         return 0;
     }
 }

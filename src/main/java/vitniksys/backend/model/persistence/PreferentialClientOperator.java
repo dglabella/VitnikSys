@@ -162,15 +162,20 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
     @Override
     public int registerOrders(PreferentialClient prefClient) throws Exception
     {
+        if(prefClient instanceof Leader)
+        {
+            System.out.println("Leader: "+prefClient.getId());
+        }
+
         int returnCode = 0;
-        
+
         List<Article> articles =  new ArrayList<>();
         Iterator<Order> incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
 
         while(incomingOrdersIterator.hasNext())
             articles.add(incomingOrdersIterator.next().getArticle());
 
-        
+
         List<Order> orders =  new ArrayList<>();
         incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
 
@@ -207,23 +212,6 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
             returnCode += balanceOperator.update(balance);
         }
 
-        /*
-        //Any camp is ok, since all incoming orders are from the same campaign
-        balance.setCamp(prefClient.getIncomingOrders().get(0).getCampaign());
-
-        incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
-
-        while(incomingOrdersIterator.hasNext())
-            balance.setTotalInOrdersCom(balance.getTotalInOrdersCom()+incomingOrdersIterator.next().getCost());
-        
-        ArticleOperator articleOperator = ArticleOperator.getOperator();
-        OrderOperator orderOperator = OrderOperator.getOperator();
-        BalanceOperator balanceOperator = BalanceOperator.getOperator();
-        
-        returnCode += articleOperator.insertMany(articles);
-        returnCode += orderOperator.insertMany(orders);
-        returnCode += balanceOperator.update(balance);
-        */
 
         return returnCode;
     }
