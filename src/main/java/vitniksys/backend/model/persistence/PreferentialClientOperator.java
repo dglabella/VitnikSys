@@ -19,6 +19,7 @@ import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
+import vitniksys.backend.model.services.CommissionService;
 
 
 public abstract class PreferentialClientOperator implements IPreferentialClientOperator
@@ -162,11 +163,6 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
     @Override
     public int registerOrders(PreferentialClient prefClient) throws Exception
     {
-        if(prefClient instanceof Leader)
-        {
-            System.out.println("Leader: "+prefClient.getId());
-        }
-
         int returnCode = 0;
 
         List<Article> articles =  new ArrayList<>();
@@ -196,22 +192,35 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         Iterator<List<Order>> ordersByCampIterator = ordersByCamp.iterator();
         Iterator<Order> ordersIterator;
 
-        Balance balance = new Balance();
-        balance.setPrefClientId(prefClient.getId());
         while(ordersByCampIterator.hasNext())
         {
+            Balance balance = new Balance();
+            balance.setPrefClientId(prefClient.getId());
             //re-using variable
             orders = ordersByCampIterator.next();
             //Any camp is ok, since all orders from this sublist are from the same campaign
             balance.setCampNumber(orders.get(0).getCampNumber());
 
             ordersIterator = orders.iterator();
+
+            //Load subordinated Pref client balances to a leader
+            if(prefClient instanceof Leader)
+            {
+                //System.out.println("Leader: "+prefClient.getId());
+                Iterator<SubordinatedClient> subordinatesIterator = ((Leader)prefClient).getSubordinates().iterator();
+                while(subordinatesIterator.hasNext())
+                {
+                    Iterator<Order> subOrdersIterator = subordinatesIterator.next().getOrders().iterator();
+                    while(subOrdersIterator.hasNext())
+                        balance.setTotalInOrders(balance.getTotalInOrders()+ subOrdersIterator.next().getCost());
+                }
+            }
+
             while(ordersIterator.hasNext())
                 balance.setTotalInOrders(balance.getTotalInOrders()+ordersIterator.next().getCost());
             
             returnCode += balanceOperator.update(balance);
         }
-
 
         return returnCode;
     }

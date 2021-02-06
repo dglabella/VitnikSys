@@ -97,6 +97,7 @@ public class DetailFileInterpreter implements OrderObtainer
         ClientList ret = new ClientList();
         Iterator<DetailFileRow> detailFileRowsIterator = this.detailFileRows.iterator();
 
+        Leader leader;
         SubordinatedClient subClient;
 
         while(detailFileRowsIterator.hasNext())
@@ -117,7 +118,9 @@ public class DetailFileInterpreter implements OrderObtainer
                     else
                     {
                         subClient = new SubordinatedClient(row.getClientId());
-                        subClient.setLeader((Leader)associatedLeaders.get(associatedLeaders.locate(row.getLeaderId())));
+                        leader = (Leader)associatedLeaders.get(associatedLeaders.locate(row.getLeaderId()));
+                        subClient.setLeader(leader);
+                        leader.getSubordinates().add(subClient);
                         ret.add(subClient);
                     }
                 }
