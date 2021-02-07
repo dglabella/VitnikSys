@@ -204,6 +204,6 @@ public class Campaign
     @Override
     public String toString()
     {
-        return ""+this.getMonth()+"--"+this.getYear()+"--"+(this.alias!=null?this.alias:"S/N")+"--"+this.number;
+        return ""+Month.of(this.getMonth())+"--"+this.getYear()+"--"+(this.alias!=null?this.alias:"S/N")+"--"+this.number;
     }
 }

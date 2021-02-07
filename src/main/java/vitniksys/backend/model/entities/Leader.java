@@ -1,6 +1,7 @@
 package vitniksys.backend.model.entities;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.persistence.LeaderOperator;
@@ -41,6 +42,9 @@ public class Leader extends BaseClient
 
     public List<SubordinatedClient> getSubordinates()
     {
+        if(this.subordinates == null)
+            this.subordinates = new ArrayList<>();
+            
         return this.subordinates;
     }
 

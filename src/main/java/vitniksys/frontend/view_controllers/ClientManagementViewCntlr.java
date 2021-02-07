@@ -474,36 +474,44 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
     {
-        this.clearTables();
-
-        this.prefClient = prefClient;
-        this.actualOrders = this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber());
-        this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
-        this.prefClientId.setText(prefClient.getId().toString());
-        this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
-        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders) );
-
-        if(prefClient instanceof Leader)
+        if(this.actualCampaign != null && this.actualOrders != null)
         {
-            this.actualCommission = ((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
+            this.clearTables();
 
-            if(this.actualCommission != null)
+            this.prefClient = prefClient;
+            this.actualOrders = this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber());
+            this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
+            this.prefClientId.setText(prefClient.getId().toString());
+            this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
+            this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders) );
+
+            if(prefClient instanceof Leader)
             {
-                this.comLvl.setText("% "+this.actualCommission.getActualRate());
+                this.actualCommission = ((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
+
+                if(this.actualCommission != null)
+                {
+                    this.comLvl.setText("% "+this.actualCommission.getActualRate());
+                }
+                else
+                {
+                    this.suggestCommisionCreation();
+                }
             }
-            else
+
+            if(prefClient instanceof SubordinatedClient)
             {
-                this.suggestCommisionCreation();
+                this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
             }
+            
+            showTotalsForActualCamp();
+            insertDataIntoTables();
         }
-
-        if(prefClient instanceof SubordinatedClient)
+        else
         {
-            this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
+            THIS
+            this.showError("No existen campañas registradas o no se han cargado pedidos");
         }
-        
-        showTotalsForActualCamp();
-        insertDataIntoTables();
     }
 
     @Override
