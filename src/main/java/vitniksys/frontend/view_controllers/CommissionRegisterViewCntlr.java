@@ -68,8 +68,8 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
 
             ((CommissionService)this.getService(0)).modifyCommission(commission, this.orders);
             
-            //Reinit management
-            this.getPrevViewCntlr().manualInitialize();
+            //Refill management
+            ((ClientManagementViewCntlr)this.getPrevViewCntlr()).fillManagementView();
         }
         catch (Exception exception)
         {

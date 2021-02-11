@@ -1,6 +1,9 @@
 package vitniksys.backend.model.entities;
 
 import java.util.List;
+
+import vitniksys.backend.model.services.CampaignService;
+
 import java.time.Month;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -204,6 +207,7 @@ public class Campaign
     @Override
     public String toString()
     {
-        return ""+Month.of(this.getMonth())+"--"+this.getYear()+"--"+(this.alias!=null?this.alias:"S/N")+"--"+this.number;
+        String s = CampaignService.SEPARATOR;
+        return ""+Month.of(this.getMonth())+s+this.getYear()+s+(this.alias!=null?this.alias:"S/N")+s+this.number;
     }
 }

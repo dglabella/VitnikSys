@@ -78,21 +78,25 @@ public class OrdersRowTable
 
         Order order = null;
         OrdersRowTable ordersRowTable = null;
-        Iterator<Order> ordersIterator = orders.iterator();
-    
-        while(ordersIterator.hasNext())
-        {
-            order = ordersIterator.next();
-            ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), order.getArticle().getName(), 
-                order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order);
-            
-            if(order.isCommissionable())
-            {
-                ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR)));
-                ordersRowTable.setCommission(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR));
-            }
 
-            ret.add(ordersRowTable);
+        if(orders != null)
+        {
+            Iterator<Order> ordersIterator = orders.iterator();
+    
+            while(ordersIterator.hasNext())
+            {
+                order = ordersIterator.next();
+                ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), order.getArticle().getName(), 
+                    order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order);
+                
+                if(order.isCommissionable())
+                {
+                    ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR)));
+                    ordersRowTable.setCommission(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR));
+                }
+    
+                ret.add(ordersRowTable);
+            }
         }
 
         if(ret.size() == 0)

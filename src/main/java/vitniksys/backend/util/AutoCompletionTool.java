@@ -10,6 +10,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
+/**
+ * This class provides a simple way to make textfields with autoCompletion list.
+ * 
+ * Note: If set "textField.setOnKeyPressed(...)", "textField.textProperty().addListener(...)", 
+ * "listView.setOnKeyPressed(...)", "listView.setOnMouseClicked", then it will override the 
+ * default behavior of this component.
+ */
 public class AutoCompletionTool
 {
     private TextField textField;

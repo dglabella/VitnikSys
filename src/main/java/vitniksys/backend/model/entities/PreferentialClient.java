@@ -228,13 +228,16 @@ public abstract class PreferentialClient
         return "Id: "+this.id+" -- Name: "+this.name+" -- LastName: "+this.lastName;
     }
 
-    /**
-     * This method calculates the balance of this preferential client.
-     * Note: If the preferential client is a leader, then the balance
-     * is the sum of the balances of his subordinates clients plus his own.
-     * @return
-     */
-    public abstract Float calculateBalance();
+    public Float calculateBalance()
+    {
+        Float ret = 0f;
+        Iterator<Balance> it = this.getBalances().iterator();
+        
+        while(it.hasNext())
+            ret += it.next().getBalance();
+
+        return ret;
+    }
 
     /**
      * This method supplies an easy way to get the Data Acces Object (DAO).

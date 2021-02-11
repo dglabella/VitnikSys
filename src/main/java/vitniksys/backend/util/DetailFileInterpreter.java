@@ -111,16 +111,17 @@ public class DetailFileInterpreter implements OrderObtainer
                 }
                 else 
                 {
+                    //This conditions is evaluated because a leader can be or not an ordermaker but also, in the detail, is "his own leader"
                     if (associatedLeaders.exist(row.getClientId()))
                     {
-                        ret.add(new Leader(row.getClientId()));
+                        ret.add(associatedLeaders.get(associatedLeaders.locate(row.getClientId())));
                     }
                     else
                     {
                         subClient = new SubordinatedClient(row.getClientId());
                         leader = (Leader)associatedLeaders.get(associatedLeaders.locate(row.getLeaderId()));
                         subClient.setLeader(leader);
-                        leader.getSubordinates().add(subClient);
+                        //leader.getSubordinates().add(subClient);
                         ret.add(subClient);
                     }
                 }

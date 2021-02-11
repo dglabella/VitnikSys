@@ -6,7 +6,10 @@ import javafx.fxml.FXML;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import java.util.function.Predicate;
 import javafx.scene.control.Tooltip;
 import com.jfoenix.controls.JFXButton;
@@ -310,6 +313,24 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.loadData(this.REPURCHASES_TABLE_NUMBER, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
     }
 
+    public void fillManagementView()
+    {
+        this.clearTables();
+        
+        if(this.prefClient instanceof Leader)
+        {
+            ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
+        }
+        else if(this.prefClient instanceof BaseClient)
+        {
+            ((PreferentialClientService)this.getService(0)).searchBaseClient(this.prefClient.getId());
+        }
+        else
+        {
+            ((PreferentialClientService)this.getService(0)).searchSubordinatedClient(this.prefClient.getId());
+        }
+    }
+
     // ================================= protected methods ===================================
     @Override
     protected void manualInitialize()
@@ -319,18 +340,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             //((CampaignService)this.getService(1)).searchLastCamp();
             ((CampaignService)this.getService(1)).searchCamps(null, null, null, null, null);
 
-            if(this.prefClient instanceof Leader)
-            {
-                ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
-            }
-            else if(this.prefClient instanceof BaseClient)
-            {
-                ((PreferentialClientService)this.getService(0)).searchBaseClient(this.prefClient.getId());
-            }
-            else
-            {
-                ((PreferentialClientService)this.getService(0)).searchSubordinatedClient(this.prefClient.getId());
-            }
+            fillManagementView();
         }
         catch (Exception exception)
         {
@@ -425,6 +435,21 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.registerPropertiesValues(propertiesValues);
         
         this.campAutoCompletionTool = new AutoCompletionTool(this.camp, new ArrayList<>());
+        this.camp.setOnKeyReleased
+        (
+            new EventHandler<KeyEvent>()
+            {
+                @Override
+                public void handle(KeyEvent event)
+                {
+                    if(event.getCode() == KeyCode.ENTER)
+                    {
+                        actualCampaign = CampaignService.parseCamp(camp.getText());
+                        fillManagementView();
+                    }
+                }
+            }
+        );
 
         this.ordersFilter.textProperty().addListener((obs, oldValue, newValue) -> 
         {
@@ -474,44 +499,36 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
     {
-        if(this.actualCampaign != null && this.actualOrders != null)
+        this.clearTables();
+        
+        this.prefClient = prefClient;
+        this.actualOrders = this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign != null ? this.actualCampaign.getNumber() : null);
+        this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
+        this.prefClientId.setText(prefClient.getId().toString());
+        this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
+        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders) );
+
+        if(prefClient instanceof Leader)
         {
-            this.clearTables();
+            this.actualCommission = ((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
 
-            this.prefClient = prefClient;
-            this.actualOrders = this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign.getNumber());
-            this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
-            this.prefClientId.setText(prefClient.getId().toString());
-            this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
-            this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders) );
-
-            if(prefClient instanceof Leader)
+            if(this.actualCommission != null)
             {
-                this.actualCommission = ((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
-
-                if(this.actualCommission != null)
-                {
-                    this.comLvl.setText("% "+this.actualCommission.getActualRate());
-                }
-                else
-                {
-                    this.suggestCommisionCreation();
-                }
+                this.comLvl.setText("% "+this.actualCommission.getActualRate());
             }
-
-            if(prefClient instanceof SubordinatedClient)
+            else
             {
-                this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
+                this.suggestCommisionCreation();
             }
-            
-            showTotalsForActualCamp();
-            insertDataIntoTables();
         }
-        else
+
+        if(prefClient instanceof SubordinatedClient)
         {
-            THIS
-            this.showError("No existen campañas registradas o no se han cargado pedidos");
+            this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
         }
+        
+        showTotalsForActualCamp();
+        insertDataIntoTables();
     }
 
     @Override

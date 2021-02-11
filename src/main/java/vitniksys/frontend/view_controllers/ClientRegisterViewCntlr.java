@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
+import vitniksys.backend.util.CustomAlert;
+import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.services.PreferentialClientService;
 
 public class ClientRegisterViewCntlr extends ViewCntlr
@@ -161,7 +163,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @Override
     protected void manualInitialize()
     {
-        
+
     }
 
     // ================================= public methods ==================================
@@ -169,8 +171,15 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
         // TODO Auto-generated method stub
-
     }
 
     // ================================= service subscriber methods ==================================
+    //Override this method in order to execute manualInitialize in the prev controller
+    @Override
+    public void showSucces(String message)
+    {
+        new CustomAlert(AlertType.INFORMATION, "Exito", "El Cliente se ha registrado exitosamente!").customShow();
+        //Reinit the main menu pref clients table
+        this.getPrevViewCntlr().manualInitialize();
+    }
 }

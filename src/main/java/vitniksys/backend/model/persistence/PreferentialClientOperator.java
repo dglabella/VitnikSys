@@ -19,7 +19,6 @@ import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
-import vitniksys.backend.model.services.CommissionService;
 
 
 public abstract class PreferentialClientOperator implements IPreferentialClientOperator
@@ -202,24 +201,18 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
             balance.setCampNumber(orders.get(0).getCampNumber());
 
             ordersIterator = orders.iterator();
-
-            //Load subordinated Pref client balances to a leader
-            if(prefClient instanceof Leader)
-            {
-                //System.out.println("Leader: "+prefClient.getId());
-                Iterator<SubordinatedClient> subordinatesIterator = ((Leader)prefClient).getSubordinates().iterator();
-                while(subordinatesIterator.hasNext())
-                {
-                    Iterator<Order> subOrdersIterator = subordinatesIterator.next().getOrders().iterator();
-                    while(subOrdersIterator.hasNext())
-                        balance.setTotalInOrders(balance.getTotalInOrders()+ subOrdersIterator.next().getCost());
-                }
-            }
-
             while(ordersIterator.hasNext())
                 balance.setTotalInOrders(balance.getTotalInOrders()+ordersIterator.next().getCost());
             
             returnCode += balanceOperator.update(balance);
+
+            //Load subordinated Pref client balances to a leader
+            if(prefClient instanceof SubordinatedClient)
+            {
+                //Changing the id in order to add the subordinated client balance to his leader
+                balance.setPrefClientId(((SubordinatedClient)prefClient).getLeader().getId());
+                BalanceOperator.getOperator().update(balance);
+            }
         }
 
         return returnCode;

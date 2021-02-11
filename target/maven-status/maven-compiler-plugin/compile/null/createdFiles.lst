@@ -1,6 +1,7 @@
 vitniksys\backend\util\OrdersRowTable.class
 vitniksys\backend\model\services\PreferentialClientService$3.class
 vitniksys\backend\model\entities\Leader.class
+vitniksys\frontend\view_controllers\ClientManagementViewCntlr$2.class
 vitniksys\frontend\view_controllers\MainMenuViewCntlr$1.class
 vitniksys\backend\model\entities\Catalogue.class
 vitniksys\backend\model\enums\Bank.class

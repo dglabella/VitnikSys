@@ -60,17 +60,6 @@ public class Leader extends BaseClient
     }
 
     @Override
-    public Float calculateBalance()
-    {
-        Float ret = super.calculateBalance();
-        Iterator<SubordinatedClient> subsIterator = this.getSubordinates().iterator();
-        while(subsIterator.hasNext())
-            ret += subsIterator.next().calculateBalance();
-
-        return ret;
-    }
-
-    @Override
     public PreferentialClientOperator operator()
     {
         return LeaderOperator.getOperator();

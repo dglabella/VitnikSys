@@ -58,17 +58,6 @@ public class SubordinatedClient extends PreferentialClient
     }
 
     @Override
-    public Float calculateBalance()
-    {
-        Float ret = 0f;
-        Iterator<Balance> it = this.getBalances().iterator();
-        while(it.hasNext())
-            ret += it.next().getBalance();
-
-        return ret;
-    }
-
-    @Override
     public PreferentialClientOperator operator()
     {
         return SubordinatedClientOperator.getOperator();

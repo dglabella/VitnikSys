@@ -182,6 +182,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     {
         try 
         {
+            this.clearTables();
             ((PreferentialClientService)this.getService(0)).searchPreferentialClients();   
         }
         catch (Exception exception)

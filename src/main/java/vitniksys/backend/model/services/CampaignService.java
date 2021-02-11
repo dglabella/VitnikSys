@@ -23,6 +23,23 @@ import vitniksys.backend.model.persistence.PreferentialClientOperator;
 public class CampaignService extends Service
 {
     public static final int MAX_LENGTH_CAMP_ALIAS = 60;
+    public static final String SEPARATOR = "-";
+
+    private static final int CAMP_MONTH = 0;
+    private static final int CAMP_YEAR = 1;
+    private static final int CAMP_ALIAS = 2;
+    private static final int CAMP_NUMB = 3;
+
+    public static Campaign parseCamp(String campAsString)
+    {
+        Campaign ret = null;
+        String [] splitedString = campAsString.split(CampaignService.SEPARATOR);
+
+        ret = new Campaign(Integer.parseInt(splitedString[CAMP_NUMB]), Month.valueOf(splitedString[CAMP_MONTH]).getValue(), Integer.parseInt(splitedString[CAMP_YEAR]));
+        ret.setAlias(splitedString[CAMP_ALIAS]);
+
+        return ret;
+    }
     
     //Getters && Setters
     // ================================= private methods =================================
@@ -41,7 +58,7 @@ public class CampaignService extends Service
     {
         boolean ret = false;
 
-        if(campNumb != null && campAlias.length() <= CampaignService.MAX_LENGTH_CAMP_ALIAS 
+        if(campNumb != null && campAlias.length() <= CampaignService.MAX_LENGTH_CAMP_ALIAS && !campAlias.contains(CampaignService.SEPARATOR)
             && month != null && year != null && this.getExpressionChecker().isCatalogueCode(catalogueCode, true) && detailFileIsOk(detail, true))
         {
             ret = true;

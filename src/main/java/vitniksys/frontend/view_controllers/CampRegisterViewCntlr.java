@@ -122,7 +122,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     {
         boolean ret;
     
-        if (this.campAlias.getText().length() <= CampaignService.MAX_LENGTH_CAMP_ALIAS)
+        if (this.campAlias.getText().length() <= CampaignService.MAX_LENGTH_CAMP_ALIAS && !this.campAlias.getText().contains(CampaignService.SEPARATOR))
         {
             this.campAliasInvalid.setVisible(false);
             ret = true;

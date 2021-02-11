@@ -32,10 +32,13 @@ public class CommissionService extends Service
     {
         int ret = 0;
         
-        Iterator<Order> it = orders.iterator();
-        while(it.hasNext())
+        if(orders != null)
         {
-            ret += it.next().getQuantity();
+            Iterator<Order> it = orders.iterator();
+            while(it.hasNext())
+            {
+                ret += it.next().getQuantity();
+            }
         }
 
         return ret;
@@ -45,13 +48,17 @@ public class CommissionService extends Service
     {
         int ret = 0;
         
-        Iterator<Order> it = orders.iterator();
-        Order order = null;
-        while(it.hasNext())
+        if(orders != null)
         {
-            order = it.next();
-            ret += (order.isCommissionable() ? order.getQuantity() : 0);
+            Iterator<Order> it = orders.iterator();
+            Order order = null;
+            while(it.hasNext())
+            {
+                order = it.next();
+                ret += (order.isCommissionable() ? order.getQuantity() : 0);
+            }
         }
+
         return ret;
     }
 
