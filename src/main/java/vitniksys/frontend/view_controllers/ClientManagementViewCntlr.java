@@ -289,7 +289,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             ordersToUpdate.add(it.next().getOrder());
 
         ((CommissionService)this.getService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate);
-        ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
     }
 
     // ================================= private methods ===================================
@@ -435,7 +434,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.registerPropertiesValues(propertiesValues);
         
         this.campAutoCompletionTool = new AutoCompletionTool(this.camp, new ArrayList<>());
-        this.camp.setOnKeyReleased
+        this.campAutoCompletionTool.getTextField().setOnKeyReleased
         (
             new EventHandler<KeyEvent>()
             {
@@ -446,6 +445,11 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                     {
                         actualCampaign = CampaignService.parseCamp(camp.getText());
                         fillManagementView();
+                    }
+                    else if(event.getCode() == KeyCode.DOWN)
+                    {
+                        //This trigger the list to visible
+                        campAutoCompletionTool.getTextField().clear();  
                     }
                 }
             }
@@ -475,7 +479,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             });
         });
     }
-
+    
     // ================================= service subscriber methods ===================================
     @Override
     public void showQueriedCamp(Campaign camp) throws Exception
@@ -494,6 +498,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         //In the first position is supposed to be the last camp
         this.actualCampaign = camps.get(0);
         this.campAutoCompletionTool.setSuggestions(campsAsString);
+        this.camp.setText(this.actualCampaign.toString());
+        this.campAutoCompletionTool.getSuggestionsList().setVisible(false);
     }
 
     @Override
@@ -518,6 +524,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             }
             else
             {
+                this.comLvl.setText("% N/A");
                 this.suggestCommisionCreation();
             }
         }

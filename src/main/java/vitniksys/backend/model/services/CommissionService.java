@@ -153,7 +153,7 @@ public class CommissionService extends Service
                         getServiceSubscriber().showSucces
                         (
                             "Se han creado para el cliente preferencial " + orders.get(0).getPrefClientId() +
-                            "\nen la campaña "+ orders.get(0).getCampNumber() +" los niveles de comisión por defecto. "+
+                            "\nen la campaña " + orders.get(0).getCampNumber() + " los niveles de comisión por defecto. " +
                             "\nPueden modificarse y actualizarse a preferencia."
                         );
                     }
@@ -195,9 +195,8 @@ public class CommissionService extends Service
                     
                     updateCommission(commission, orders);
 
-
                     Connector.getConnector().commit();
-
+                    
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     getServiceSubscriber().showSucces("Se han modificado los niveles de comisión exitosamente.");
                 }

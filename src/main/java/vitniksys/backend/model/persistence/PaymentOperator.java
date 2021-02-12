@@ -51,10 +51,24 @@ public class PaymentOperator implements IPaymentOperator
     }
 
     @Override
-    public int insert(Payment entity) throws Exception
+    public int insert(Payment payment) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int returnCode = 0;
+        String sqlStmnt =
+        "INSERT INTO `pagos`(`id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`) "+
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, payment.getPrefClientId() );
+        statement.setInt(2, payment.getCampNumber() );
+        statement.setString(3, payment.getDescriptor() );
+        statement.setFloat(4, payment.getAmount() );
+        statement.setInt(5, payment.getPaymentStatus().ordinal() );
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+  
+        return returnCode;
     }
 
     @Override
@@ -88,8 +102,8 @@ public class PaymentOperator implements IPaymentOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-            "SELECT `cod`, `id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`, `fecha_registro`"+
-            "FROM `pagos`"+
+            "SELECT `cod`, `id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`, `fecha_registro` " +
+            "FROM `pagos` " +
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -100,8 +114,8 @@ public class PaymentOperator implements IPaymentOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-            "SELECT `cod`, `id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`, `fecha_registro`"+
-            "FROM `pagos`"+
+            "SELECT `cod`, `id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`, `fecha_registro` " +
+            "FROM `pagos` " +
             "WHERE `id_cp` = ? AND `active_row` = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
