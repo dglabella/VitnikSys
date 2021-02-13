@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
+import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
@@ -12,6 +13,7 @@ import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Payment;
+import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Devolution;
@@ -20,11 +22,13 @@ import vitniksys.backend.model.persistence.DevolutionOperator;
 import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.PaymentOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
+import vitniksys.backend.model.persistence.ReturnedArticleOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
@@ -365,7 +369,8 @@ public class PreferentialClientService extends Service
         }  
     }
 
-    public void registerDevolution(Integer prefClientId, Integer campNumber, String articleId, Integer quantity, Float cost, Reason reason) throws Exception
+    public void registerDevolution(Integer prefClientId, Integer campNumber, String articleId, String articleName, ArticleType articleType, 
+        Integer quantity, Float cost, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -381,6 +386,9 @@ public class PreferentialClientService extends Service
                 devolution.setCampNumber(campNumber);
                 devolution.setArticleId(articleId);
 
+                ReturnedArticle returnedArticle = new ReturnedArticle(reason);
+                returnedArticle.setArticleId(articleId);
+
                 Balance balance = new Balance();
                 balance.setPrefClientId(prefClientId);
                 balance.setCampNumber(campNumber);
@@ -391,6 +399,7 @@ public class PreferentialClientService extends Service
                     Connector.getConnector().startTransaction();
 
                     DevolutionOperator.getOperator().insert(devolution);
+                    ReturnedArticleOperator.getOperator().insert(returnedArticle);
                     BalanceOperator.getOperator().update(balance);
 
                     Connector.getConnector().commit();

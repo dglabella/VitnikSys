@@ -18,6 +18,11 @@ public class ReturnedArticle
     //Others
     private boolean active;
 
+    public ReturnedArticle(Reason reason)
+    {
+        this.reason = reason;
+    }
+
     public ReturnedArticle(int unitCode, Reason reason, boolean repurchased)
     {
         this.unitCode = unitCode;

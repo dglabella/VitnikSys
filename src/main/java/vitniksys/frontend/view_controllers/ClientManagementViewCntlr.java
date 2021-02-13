@@ -290,7 +290,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         ((CommissionService)this.getService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate);
     }
-
+    
     // ================================= private methods ===================================
     private void showTotalsForActualCamp()
     {
