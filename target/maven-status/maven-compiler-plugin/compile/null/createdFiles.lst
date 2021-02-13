@@ -1,4 +1,5 @@
 vitniksys\backend\util\OrdersRowTable.class
+vitniksys\backend\model\services\PreferentialClientService$6.class
 vitniksys\backend\model\services\PreferentialClientService$3.class
 vitniksys\backend\model\entities\Leader.class
 vitniksys\frontend\view_controllers\ClientManagementViewCntlr$2.class
@@ -19,11 +20,9 @@ vitniksys\frontend\view_controllers\CatalogueQueryViewCntlr.class
 vitniksys\backend\model\services\CommissionService.class
 vitniksys\backend\model\interfaces\IArticleOperator.class
 vitniksys\backend\model\enums\Reason.class
-vitniksys\backend\model\enums\Reason$1.class
 vitniksys\backend\model\interfaces\IBalanceOperator.class
 vitniksys\backend\model\services\PreferentialClientService$1.class
 vitniksys\frontend\views_subscriber\CampaignServiceSubscriber.class
-vitniksys\backend\model\enums\PayType$1.class
 vitniksys\frontend\views_subscriber\PreferentialClientServiceSubscriber.class
 vitniksys\backend\util\ClientList.class
 vitniksys\backend\model\interfaces\IReturnedArticleOperator.class
@@ -36,7 +35,6 @@ vitniksys\frontend\view_controllers\SearchCampsViewCntlr.class
 vitniksys\backend\model\entities\Devolution.class
 vitniksys\backend\model\entities\ReturnedArticle.class
 vitniksys\backend\model\persistence\OrderOperator.class
-vitniksys\backend\model\enums\PayItem$1.class
 vitniksys\backend\model\services\CampaignService$4.class
 vitniksys\backend\util\DetailFileRow.class
 vitniksys\backend\model\persistence\SubordinatedClientOperator.class
@@ -47,7 +45,6 @@ vitniksys\App.class
 vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\backend\model\enums\ArticleType.class
 vitniksys\frontend\view_controllers\MainMenuViewCntlr.class
-vitniksys\backend\model\enums\Bank$1.class
 vitniksys\backend\util\ExpressionChecker.class
 vitniksys\backend\model\services\CommissionService$1.class
 vitniksys\backend\model\entities\Observation.class
@@ -76,7 +73,6 @@ vitniksys\App$1.class
 vitniksys\frontend\view_controllers\ClientManagementViewCntlr$1.class
 vitniksys\backend\model\persistence\LeaderOperator.class
 vitniksys\backend\model\persistence\PreferentialClientOperator.class
-vitniksys\backend\model\enums\ArticleType$1.class
 vitniksys\backend\model\services\PreferentialClientService$2.class
 vitniksys\frontend\views_subscriber\CommissionServiceSubscriber.class
 vitniksys\backend\model\entities\SubordinatedClient.class
@@ -101,7 +97,6 @@ vitniksys\backend\util\PaymentsRowTable.class
 vitniksys\backend\model\interfaces\IDevolutionOperator.class
 vitniksys\backend\model\services\CatalogueService.class
 vitniksys\backend\util\CustomAlert.class
-vitniksys\backend\model\enums\PayStatus$1.class
 vitniksys\backend\model\services\CampaignService$2.class
 vitniksys\backend\model\services\CatalogueService$1.class
 vitniksys\backend\model\services\PreferentialClientService$4.class

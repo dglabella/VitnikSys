@@ -55,10 +55,23 @@ public class RepurchaseOperator implements IRepurchaseOperator
     }
 
     @Override
-    public int insert(Repurchase entity) throws Exception
+    public int insert(Repurchase repurchase) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int returnCode = 0;
+        String sqlStmnt =
+        "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`) "+
+        "VALUES (?, ?, ?, ?);";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, repurchase.getPrefClientId());
+        statement.setInt(2, repurchase.getCampNumber());
+        statement.setInt(3, repurchase.getReturnedArticleId() );
+        statement.setFloat(4, repurchase.getCost());
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+  
+        return returnCode;
     }
 
     @Override

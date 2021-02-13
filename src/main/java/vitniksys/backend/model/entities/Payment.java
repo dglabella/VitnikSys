@@ -25,6 +25,12 @@ public class Payment extends VitnikSearchableEntity
     //Others
     private boolean active;
 
+    public Payment(String descriptor, float amount)
+    {
+        this.descriptor = descriptor;
+        this.amount = amount;
+    }
+
     public Payment(int code, String descriptor, float amount, Timestamp registrationTime)
     {
         this.code = code;

@@ -55,10 +55,25 @@ public class DevolutionOperator implements IDevolutionOperator
     }
 
     @Override
-    public int insert(Devolution entity) throws Exception
+    public int insert(Devolution devolution) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int returnCode = 0;
+        String sqlStmnt =
+        "INSERT INTO `devoluciones`(`id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `motivo`) " +
+        "VALUES (?, ?, ?, ?, ?, ?);";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, devolution.getPrefClientId());
+        statement.setInt(2, devolution.getCampNumber());
+        statement.setString(3, devolution.getArticleId());
+        statement.setInt(4, devolution.getQuantity());
+        statement.setFloat(5, devolution.getCost());
+        statement.setInt(6, devolution.getReason().ordinal());
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+  
+        return returnCode;
     }
 
     @Override

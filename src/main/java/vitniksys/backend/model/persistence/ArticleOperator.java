@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Iterator;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Article;
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.interfaces.IArticleOperator;
 
 public class ArticleOperator implements IArticleOperator
@@ -47,10 +46,10 @@ public class ArticleOperator implements IArticleOperator
 
         statement.setString(1, article.getId());
         statement.setString(2, article.getName());
-        statement.setInt(3, ArticleType.toInt(article.getType()));
+        statement.setInt(3, article.getType().ordinal());
         statement.setFloat(4, article.getUnitPrice());
         statement.setString(5, article.getName());
-        statement.setInt(6, ArticleType.toInt(article.getType()));
+        statement.setInt(6, article.getType().ordinal());
         statement.setFloat(7, article.getUnitPrice());
 
         returnCode = statement.executeUpdate();
@@ -77,10 +76,10 @@ public class ArticleOperator implements IArticleOperator
 
             statement.setString(1, article.getId());
             statement.setString(2, article.getName());
-            statement.setInt(3, ArticleType.toInt(article.getType()));
+            statement.setInt(3, article.getType().ordinal());
             statement.setFloat(4, article.getUnitPrice());
             statement.setString(5, article.getName());
-            statement.setInt(6, ArticleType.toInt(article.getType()));
+            statement.setInt(6, article.getType().ordinal());
             statement.setFloat(7, article.getUnitPrice());
 
             returnCode += statement.executeUpdate();

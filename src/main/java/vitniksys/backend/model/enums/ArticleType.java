@@ -2,7 +2,7 @@ package vitniksys.backend.model.enums;
 
 public enum ArticleType
 {
-    PEDIDO, FREEPREMIUM, CALZADO, PROMO, OPORTUNIDAD, NA;
+    PEDIDO, PROMO, FREEPREMIUM, CALZADO, OPORTUNIDAD, NA;
     
     public static ArticleType toEnum(int val)
     {
@@ -27,36 +27,6 @@ public enum ArticleType
             default:
                 ret = NA;
         }
-        return ret;
-    }
-    
-    public static int toInt(ArticleType articleType)
-    {
-        int ret = 0;
-        if(articleType!=null)
-        {
-            switch (articleType)
-            {
-                case PEDIDO:
-                    ret = 1;
-                    break;
-                case PROMO:
-                    ret = 2;
-                    break;
-                case FREEPREMIUM:
-                    ret = 3;
-                    break;
-                case CALZADO:
-                    ret = 4;
-                    break;
-                case OPORTUNIDAD:
-                    ret = 5;
-                    break;
-                case NA:
-                    ret = 0;
-                    break;
-            }
-        } 
         return ret;
     }
 

@@ -5,6 +5,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Payment;
+import vitniksys.backend.model.enums.Bank;
+import vitniksys.backend.model.enums.PayItem;
+import vitniksys.backend.model.enums.PayStatus;
+import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.interfaces.IPaymentOperator;
 
 public class PaymentOperator implements IPaymentOperator
@@ -59,11 +63,14 @@ public class PaymentOperator implements IPaymentOperator
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
-        statement.setInt(1, payment.getPrefClientId() );
-        statement.setInt(2, payment.getCampNumber() );
-        statement.setString(3, payment.getDescriptor() );
-        statement.setFloat(4, payment.getAmount() );
-        statement.setInt(5, payment.getPaymentStatus().ordinal() );
+        statement.setInt(1, payment.getPrefClientId());
+        statement.setInt(2, payment.getCampNumber());
+        statement.setString(3, payment.getDescriptor());
+        statement.setFloat(4, payment.getAmount());
+        statement.setInt(5, payment.getItem().ordinal());
+        statement.setInt(6, payment.getPaymentMethod().ordinal());
+        statement.setInt(7, payment.getBank().ordinal());
+        statement.setInt(8, payment.getPaymentStatus().ordinal());
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -136,7 +143,12 @@ public class PaymentOperator implements IPaymentOperator
         Payment payment;
 		while (resultSet.next())
 		{
-            payment = new Payment(resultSet.getInt(1), resultSet.getString(4), resultSet.getFloat(4), resultSet.getTimestamp(10));
+            payment = new Payment(resultSet.getInt(1), resultSet.getString(4), resultSet.getFloat(5), resultSet.getTimestamp(10));
+
+            payment.setItem(PayItem.toEnum(resultSet.getInt(6)));
+            payment.setPaymentMethod(PayType.toEnum(resultSet.getInt(7)));
+            payment.setBank(Bank.toEnum(resultSet.getInt(8)));
+            payment.setPaymentStatus(PayStatus.toEnum(resultSet.getInt(9)));
 
             //fk ids            
             payment.setPrefClientId(resultSet.getInt(2));

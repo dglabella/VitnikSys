@@ -2,43 +2,30 @@ package vitniksys.backend.model.enums;
 
 public enum PayItem
 {
-    PEDIDO, CATALAGO, RECOMPRA, NA;
+    PEDIDO, CATALAGO, RECOMPRA, PAGO_AJUSTE, NA;
 
     public static PayItem toEnum(int val)
     {
         PayItem ret;
-        switch (val){
+
+        switch (val)
+        {
             case 1:
-                ret = PEDIDO;
+                ret = PayItem.PEDIDO;
                 break;
             case 2:
-                ret = CATALAGO;
+                ret = PayItem.CATALAGO;
                 break;
             case 3:
-                ret = RECOMPRA;
+                ret = PayItem.RECOMPRA;
+                break;
+            case 4:
+                ret = PayItem.PAGO_AJUSTE;
                 break;
             default:
-                ret = NA;
+                ret = PayItem.NA;
         }
-        return ret;
-    }
 
-    public static int toInt(PayItem item)
-    {
-        int ret;
-        switch (item){
-            case PEDIDO:
-                ret = 1;
-                break;
-            case CATALAGO:
-                ret = 2;
-                break;
-            case RECOMPRA:
-                ret = 3;
-                break;
-            default:
-                ret = 0;
-        }
         return ret;
     }
 }

@@ -234,7 +234,6 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     @Override
     public void showQueriedCatalogues(List<Catalogue> catalogues) throws Exception
     {
-        
         Iterator<Catalogue> cataloguesIterator = catalogues.iterator();
         while(cataloguesIterator.hasNext())
             this.autoCompletionTool.getSuggestions().add(""+cataloguesIterator.next().getCode());

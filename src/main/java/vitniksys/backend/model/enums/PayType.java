@@ -35,39 +35,5 @@ public enum PayType
         }
         
         return ret;
-    }
-    
-    public static int toInt(PayType type)
-    {
-        int ret = 0;
-
-        if(type!=null){
-            switch (type){
-                case EFECTIVO:
-                    ret = 1;
-                    break;
-                case DEPOSITO:
-                    ret = 2;
-                    break;
-                case TRANSFERENCIA:
-                    ret = 3;
-                    break;
-                case TARJETA:
-                    ret = 4;
-                    break;
-                case RAPIPAGO:
-                    ret = 5;
-                    break;
-                case CONVENIO:
-                    ret = 6;
-                    break;
-                case DEBITO:
-                    ret = 7;
-                    break;
-                default:
-                    ret = 0;
-            }
-        } 
-        return ret;
-    }  
+    } 
 }

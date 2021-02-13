@@ -23,6 +23,13 @@ public class Devolution extends VitnikSearchableEntity
     //Others
     private boolean active;
 
+    public Devolution(int quantity, float cost, Reason reason)
+    {
+        this.quantity = quantity;
+        this.cost = cost;
+        this.reason = reason;
+    }
+
     public Devolution(int code, int quantity, float cost, Reason reason, Timestamp registrationTime)
     {
         this.code = code;
