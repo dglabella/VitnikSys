@@ -1,6 +1,7 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
+import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
 
@@ -48,10 +49,22 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     }
 
     @Override
-    public int insert(ReturnedArticle entity) throws Exception
+    public int insert(ReturnedArticle returnedArticle) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int returnCode = 0;
+        String sqlStmnt = "INSERT INTO `articulos_devueltos`(`letra`, `motivo`, `recomprado`) "+
+        "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `recomprado` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setString(1, returnedArticle.getArticleId());
+        statement.setInt(2, returnedArticle.getReason().ordinal());
+        statement.setBoolean(3, returnedArticle.isRepurchased());
+        statement.setBoolean(4, returnedArticle.isRepurchased());
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+  
+        return returnCode;
     }
 
     @Override

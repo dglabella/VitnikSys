@@ -19,6 +19,11 @@ public class Repurchase extends VitnikSearchableEntity
 
     //Others
     private boolean active;
+
+    public Repurchase(float cost)
+    {
+        this.cost = cost;
+    }
    
     public Repurchase(int code, float cost, Timestamp registrationTime)
     {

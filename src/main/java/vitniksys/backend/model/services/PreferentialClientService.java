@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
@@ -13,22 +12,25 @@ import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Payment;
-import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
+import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.persistence.Connector;
-import vitniksys.backend.model.persistence.DevolutionOperator;
+import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.PaymentOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.entities.ReturnedArticle;
+import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.persistence.ArticleOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.BaseClientOperator;
-import vitniksys.backend.model.persistence.PreferentialClientOperator;
+import vitniksys.backend.model.persistence.DevolutionOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
+import vitniksys.backend.model.persistence.PreferentialClientOperator;
+import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
@@ -388,6 +390,7 @@ public class PreferentialClientService extends Service
 
                 ReturnedArticle returnedArticle = new ReturnedArticle(reason);
                 returnedArticle.setArticleId(articleId);
+                returnedArticle.setRepurchased(false);
 
                 Balance balance = new Balance();
                 balance.setPrefClientId(prefClientId);
@@ -412,6 +415,62 @@ public class PreferentialClientService extends Service
                     Connector.getConnector().rollBack();
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     getServiceSubscriber().showError("Error al realizar la devolución.", null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+
+        Platform.runLater(task); 
+    }
+
+    public void registerRepurchase(Integer prefClientId, Integer campNumber, Integer returnedArticleId, String articleId, Reason reason, Float cost) throws Exception
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+
+                Repurchase repurchase = new Repurchase(cost);
+                repurchase.setPrefClientId(prefClientId);
+                repurchase.setCampNumber(campNumber);
+                repurchase.setReturnedArticleId(returnedArticleId);
+
+                ReturnedArticle returnedArticle = new ReturnedArticle(reason);
+                returnedArticle.setArticleId(articleId);
+                returnedArticle.setRepurchased(true);
+
+                Balance balance = new Balance();
+                balance.setPrefClientId(prefClientId);
+                balance.setCampNumber(campNumber);
+                balance.setTotalInRepurchases(cost);
+
+                try
+                {
+                    Connector.getConnector().startTransaction();
+
+                    RepurchaseOperator.getOperator().insert(repurchase);
+                    ReturnedArticleOperator.getOperator().update(returnedArticle);
+                    BalanceOperator.getOperator().update(balance);
+
+                    Connector.getConnector().commit();
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("La recompra se ha registrado exitosamente!");
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack();
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al realizar la recompra.", null, exception);
                 }
                 finally
                 {
