@@ -151,19 +151,19 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
             {
                 new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "El archivo seleccionado es: " + detail.getAbsolutePath() +
                     "\nEsta seguro que desea cargar este detalle?").customShow().ifPresent(response ->
+                {
+                    if (response == ButtonType.OK)
                     {
-                        if (response == ButtonType.OK)
+                        try
                         {
-                            try
-                            {
-                                ((CampaignService)this.getService(1)).registerOrders(detail);
-                            }
-                            catch(Exception exception)
-                            {
-                                exception.printStackTrace();
-                            }
+                            ((CampaignService)this.getService(1)).registerOrders(detail);
                         }
-                    });
+                        catch(Exception exception)
+                        {
+                            exception.printStackTrace();
+                        }
+                    }
+                });
             }
             else
             {

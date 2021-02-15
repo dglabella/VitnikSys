@@ -23,6 +23,7 @@ vitniksys\backend\model\enums\Reason.class
 vitniksys\backend\model\interfaces\IBalanceOperator.class
 vitniksys\backend\model\services\PreferentialClientService$1.class
 vitniksys\frontend\views_subscriber\CampaignServiceSubscriber.class
+vitniksys\backend\model\services\PreferentialClientService$8.class
 vitniksys\frontend\views_subscriber\PreferentialClientServiceSubscriber.class
 vitniksys\backend\util\ClientList.class
 vitniksys\backend\model\interfaces\IReturnedArticleOperator.class
@@ -42,6 +43,7 @@ vitniksys\backend\model\entities\Article.class
 vitniksys\backend\model\interfaces\ICatalogueOperator.class
 vitniksys\frontend\view_controllers\ClientManagementViewCntlr.class
 vitniksys\App.class
+vitniksys\backend\model\services\PreferentialClientService$7.class
 vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\backend\model\enums\ArticleType.class
 vitniksys\frontend\view_controllers\MainMenuViewCntlr.class
