@@ -2,13 +2,17 @@ package vitniksys.backend.model.enums;
 
 public enum PayType
 {
-    EFECTIVO,DEPOSITO,TRANSFERENCIA,TARJETA,RAPIPAGO,CONVENIO,DEBITO,NA;
+    NA, EFECTIVO, DEPOSITO, TRANSFERENCIA, TARJETA, RAPIPAGO, CONVENIO, DEBITO;
     
     public static PayType toEnum(int val)
     {
         PayType ret = null;
         
-        switch (val){
+        switch (val)
+        {
+            case 0:
+                ret = NA;
+                break;
             case 1:
                 ret = EFECTIVO;
                 break;
@@ -30,8 +34,6 @@ public enum PayType
             case 7:
                 ret = DEBITO;
                 break;
-            default:
-                ret = NA;
         }
         
         return ret;

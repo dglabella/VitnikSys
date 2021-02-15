@@ -52,7 +52,8 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     public int insert(ReturnedArticle returnedArticle) throws Exception
     {
         int returnCode = 0;
-        String sqlStmnt = "INSERT INTO `articulos_devueltos`(`letra`, `motivo`, `recomprado`) "+
+        String sqlStmnt = 
+        "INSERT INTO `articulos_devueltos`(`letra`, `motivo`, `recomprado`) "+
         "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `recomprado` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
@@ -75,10 +76,21 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     }
 
     @Override
-    public int update(ReturnedArticle entity) throws Exception
+    public int update(ReturnedArticle returnedArticle) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        int returnCode = 0;
+        String sqlStmnt = 
+        "UPDATE `articulos_devueltos` SET `recomprado`= ? "+
+        "WHERE `ejemplar` = ? AND `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setBoolean(1, returnedArticle.isRepurchased());
+        statement.setInt(2, returnedArticle.getUnitCode());
+        statement.setBoolean(3, this.activeRow);
+
+        returnCode += statement.executeUpdate();
+        statement.close();
+        return returnCode;
     }
 
     @Override

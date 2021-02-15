@@ -1,13 +1,19 @@
 package vitniksys.backend.util;
 
+import java.net.URL;
 import java.util.Optional;
 import javafx.stage.Stage;
+import vitniksys.App;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 
 public class CustomAlert extends Alert
 {
@@ -21,6 +27,12 @@ public class CustomAlert extends Alert
 
     public static final String DEFAULT_DESCRIPTION = "No message to show";
 
+    public enum CustomAlertType
+    {
+        PAYMENT, REPURCHASE
+    }
+
+    private CustomAlertType customAlertType;
     private String description;
     private Exception exception;
     
@@ -35,6 +47,15 @@ public class CustomAlert extends Alert
     public CustomAlert(AlertType alertType, String title, String headerText)
     {
         super(alertType);
+        this.setTitle(title);
+        this.setHeaderText(headerText);
+        this.setResizable(false);
+    }
+
+    public CustomAlert(CustomAlertType customAlertType, String title, String headerText)
+    {
+        super(AlertType.CONFIRMATION);
+        this.customAlertType = customAlertType;
         this.setTitle(title);
         this.setHeaderText(headerText);
         this.setResizable(false);
@@ -93,6 +114,31 @@ public class CustomAlert extends Alert
             //pane.setMaxWidth(Double.MAX_VALUE);
             pane.getChildren().add(textArea);
             this.getDialogPane().setExpandableContent(pane);
+        }
+        else if(this.customAlertType != null)
+        {
+            String fileName = null;
+            FXMLLoader fxmlLoader = null;
+
+            switch (this.customAlertType)
+            {
+                case PAYMENT:
+                    fileName = "paymentDialog";
+                break;
+                case REPURCHASE:
+                    fileName = "repurchaseDialog";
+                break;
+            }
+
+            try
+            {
+                fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION + fileName + App.FILE_EXTENSION));
+                this.getDialogPane().setContent(fxmlLoader.load());
+            }
+            catch (Exception exception)
+            {
+                exception.printStackTrace();
+            }
         }
     }
 

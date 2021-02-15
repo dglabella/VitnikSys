@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.App;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
@@ -18,13 +19,6 @@ import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class CommissionService extends Service
 {
-    /**
-     * COMMISSION_RATIO_FACTOR is supposed to be used to divide the
-     * output of the commission lvl algorithm.
-     */
-    public static final float COMMISSION_RATIO_FACTOR = 100f;
-    public static final int MAX_COMMISSION_RATE = 50;
-
     // Getters && Setters
 
 
@@ -65,7 +59,7 @@ public class CommissionService extends Service
     public static float calculateTotalInCommission(int commissionFactor, List<Order> orders)
     {
         float ret = 0f;
-        float comFactor = commissionFactor/CommissionService.COMMISSION_RATIO_FACTOR;
+        float comFactor = commissionFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
         Iterator<Order> it = orders.iterator();
         Order order = null;
         while(it.hasNext())
@@ -103,7 +97,7 @@ public class CommissionService extends Service
             }
             else
             {
-                commissionFactor = CommissionService.MAX_COMMISSION_RATE;
+                commissionFactor = App.ConstraitConstants.MAX_COMMISSION_RATE;
             }
 
             commission.setActualQuantity(actualQuantity);

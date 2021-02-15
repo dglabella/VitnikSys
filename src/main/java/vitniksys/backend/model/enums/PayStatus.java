@@ -2,13 +2,17 @@ package vitniksys.backend.model.enums;
 
 public enum PayStatus
 {
-    RECIBIDO, ENVIADO, ENVIO_PENDIENTE, COBRADO, COBRO_PENDIENTE, NA;
+    NA, RECIBIDO, ENVIADO, ENVIO_PENDIENTE, COBRADO, COBRO_PENDIENTE;
     
     public static PayStatus toEnum(int val)
     {
         PayStatus ret = null;
         
-        switch (val){
+        switch (val)
+        {
+            case 0:
+                ret = NA;
+                break;
             case 1:
                 ret = RECIBIDO;
                 break;
@@ -23,9 +27,7 @@ public enum PayStatus
                 break;
             case 5:
                 ret = COBRO_PENDIENTE;
-                break;
-            default:
-                ret = NA;
+                break;                
         }
         return ret;
     } 

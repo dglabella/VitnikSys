@@ -2,13 +2,17 @@ package vitniksys.backend.model.enums;
 
 public enum Bank
 {
-    NA,SANTANDER,NACION,ICBC,SUPERVILLE,HSBC,GALICIA;
+    NA, SANTANDER, NACION, ICBC, SUPERVILLE, HSBC, GALICIA;
     
     public static Bank toEnum(int val)
     {
         Bank ret = null;
         
-        switch (val){
+        switch (val)
+        {
+            case 0:
+                ret = NA;
+                break;
             case 1:
                 ret = SANTANDER;
                 break;
@@ -27,8 +31,6 @@ public enum Bank
             case 6:
                 ret = GALICIA;
                 break;
-            default:
-                ret = NA;
         }
         return ret;
     }

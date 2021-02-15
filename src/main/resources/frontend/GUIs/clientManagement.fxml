@@ -152,8 +152,8 @@
                                              <contextMenu>
                                                 <ContextMenu>
                                                    <items>
-                                                      <MenuItem mnemonicParsing="false" text="Pagar" />
-                                                      <MenuItem mnemonicParsing="false" text="Corrección" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#payMenuItemSelected" text="Pagar" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#correctionPaymentMenuItemSelected" text="Corrección" />
                                                    </items>
                                                 </ContextMenu>
                                              </contextMenu>
@@ -209,8 +209,8 @@
                                              <contextMenu>
                                                 <ContextMenu>
                                                    <items>
-                                                      <MenuItem mnemonicParsing="false" text="Devolver" />
-                                                      <MenuItem mnemonicParsing="false" text="Ver stock" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#devolutionMenuItemSelected" text="Devolver" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#seeStockMenuItemSelected" text="Ver stock" />
                                                    </items>
                                                 </ContextMenu>
                                              </contextMenu>

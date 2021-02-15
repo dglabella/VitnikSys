@@ -39,6 +39,7 @@ import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
+import vitniksys.backend.util.CustomAlert.CustomAlertType;
 import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
@@ -261,6 +262,37 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
     @FXML
     private void cataloguesDeliveryMenuItemSelected()
+    {
+
+    }
+
+    @FXML
+    private void payMenuItemSelected()
+    {
+        new CustomAlert(CustomAlertType.PAYMENT, "PAGO", "Ingrese los datos necesarios para realizar el pago")
+        .customShow().ifPresent(response ->
+        {
+            if(response == ButtonType.OK)
+            {
+                
+            }
+        });
+    }
+
+    @FXML
+    private void correctionPaymentMenuItemSelected()
+    {
+
+    }
+
+    @FXML
+    private void devolutionMenuItemSelected()
+    {
+
+    }
+
+    @FXML
+    private void seeStockMenuItemSelected()
     {
 
     }

@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.application.Platform;
 import javafx.application.Application;
 import javafx.scene.control.ButtonType;
+import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
@@ -25,6 +26,27 @@ public class App extends Application
 {
     public static final String GUIs_LOCATION = App.class.getResource("") + "../frontend/GUIs/";
     public static final String FILE_EXTENSION = ".fxml";
+
+    public static class ConstraitConstants
+    {
+        public static final String GUIs_LOCATION = App.class.getResource("") + "../frontend/GUIs/";
+        public static final String FILE_EXTENSION = ".fxml";
+
+        public static final int MAX_LENGTH_CATALOGUE_LINK = 500;
+        public static final int MAX_LENGTH_MONEY_LEFT_DIGITS = 10;
+        public static final int MAX_LENGTH_MONEY_RIGHT_DIGITS = 2;
+
+        /**
+         * COMMISSION_RATIO_FACTOR is supposed to be used to divide the
+         * output of the commission lvl algorithm.
+         */
+        public static final float COMMISSION_RATIO_FACTOR = 100f;
+        public static final int MAX_COMMISSION_RATE = 50;
+
+        public static final int MAX_LENGTH_PAYMENT_DESCRIPTOR = 60;
+
+        public final static int THREAD_NUMBER = 1;
+    }
 
     @Override
     public void start(final Stage stage) throws IOException

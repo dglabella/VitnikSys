@@ -1,19 +1,21 @@
 package vitniksys.backend.model.services;
 
+import vitniksys.App;
 import java.util.List;
 import java.time.LocalDate;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.enums.Bank;
+import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
-import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.enums.ArticleType;
+import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.persistence.Connector;
@@ -21,23 +23,19 @@ import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.PaymentOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.SubordinatedClient;
-import vitniksys.backend.model.persistence.ArticleOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
+import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.DevolutionOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
-import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class PreferentialClientService extends Service
 {
-    public static final int MAX_LENGTH_PAYMENT_DESCRIPTOR = 60;
-
     //Getters && Setters
     
 
@@ -60,7 +58,7 @@ public class PreferentialClientService extends Service
     {
         boolean ret = false;
 
-        if(prefClientId != null && campNumber != null && descriptor.length() <= PreferentialClientService.MAX_LENGTH_PAYMENT_DESCRIPTOR && amount != null)
+        if(prefClientId != null && campNumber != null && descriptor.length() <= App.ConstraitConstants.MAX_LENGTH_PAYMENT_DESCRIPTOR && amount != null)
         {
             ret = true; 
         }
@@ -444,9 +442,8 @@ public class PreferentialClientService extends Service
                 repurchase.setCampNumber(campNumber);
                 repurchase.setReturnedArticleId(returnedArticleId);
 
-                ReturnedArticle returnedArticle = new ReturnedArticle(reason);
+                ReturnedArticle returnedArticle = new ReturnedArticle(returnedArticleId, reason, true);
                 returnedArticle.setArticleId(articleId);
-                returnedArticle.setRepurchased(true);
 
                 Balance balance = new Balance();
                 balance.setPrefClientId(prefClientId);

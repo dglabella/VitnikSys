@@ -1,5 +1,6 @@
 package vitniksys.backend.util;
 
+import vitniksys.App;
 import java.util.List;
 import java.util.Iterator;
 import java.sql.Timestamp;
@@ -9,7 +10,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.ArticleType;
-import vitniksys.backend.model.services.CommissionService;
 
 public class OrdersRowTable
 {
@@ -91,8 +91,8 @@ public class OrdersRowTable
                 
                 if(order.isCommissionable())
                 {
-                    ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR)));
-                    ordersRowTable.setCommission(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR));
+                    ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
+                    ordersRowTable.setCommission(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
                 }
     
                 ret.add(ordersRowTable);
@@ -122,8 +122,8 @@ public class OrdersRowTable
 
             if(order.isCommissionable())
             {
-                ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR)));
-                ordersRowTable.setCommission(order.getCost()*(commisionRatio/CommissionService.COMMISSION_RATIO_FACTOR));
+                ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
+                ordersRowTable.setCommission(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
             }
 
             ret.add(ordersRowTable);

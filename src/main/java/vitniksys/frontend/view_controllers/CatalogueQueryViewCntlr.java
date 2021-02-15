@@ -1,6 +1,7 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
+import vitniksys.App;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @FXML
     private void priceCheck()
     {
-        if(this.getExpressionChecker().moneyValue(this.price.getText(), CatalogueService.MAX_LENGTH_LEFT_DIGITS, CatalogueService.MAX_LENGTH_RIGHT_DIGITS, false))
+        if(this.getExpressionChecker().moneyValue(this.price.getText(), App.ConstraitConstants.MAX_LENGTH_MONEY_LEFT_DIGITS, App.ConstraitConstants.MAX_LENGTH_MONEY_RIGHT_DIGITS, false))
         {
             this.invalidPrice.setVisible(false);
         }
@@ -72,7 +73,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @FXML
     private void linkCheck()
     {
-        if(this.link.getText().length() <= CatalogueService.MAX_LENGTH_LINK)
+        if(this.link.getText().length() <= App.ConstraitConstants.MAX_LENGTH_CATALOGUE_LINK)
         {
             this.invalidLink.setVisible(false);
         }

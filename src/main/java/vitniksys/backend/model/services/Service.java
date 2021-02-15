@@ -1,5 +1,6 @@
 package vitniksys.backend.model.services;
 
+import vitniksys.App;
 //import javafx.concurrent.Task;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
@@ -8,15 +9,13 @@ import vitniksys.frontend.views_subscriber.ServiceSubscriber;
 
 public abstract class Service
 {
-    private final int THREAD_NUMBER = 1;
-
     private ExpressionChecker expressionChecker;
     private ServiceSubscriber serviceSubscriber;
     private ExecutorService executorService;
     
     public Service()
     {
-        this.executorService = Executors.newFixedThreadPool(THREAD_NUMBER);
+        this.executorService = Executors.newFixedThreadPool(App.ConstraitConstants.THREAD_NUMBER);
     }
 
     // ================================= Getters && setters =================================

@@ -1,5 +1,6 @@
 package vitniksys.backend.model.services;
 
+import vitniksys.App;
 import java.util.List;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
@@ -11,10 +12,6 @@ import vitniksys.frontend.views_subscriber.CatalogueServiceSubscriber;
 
 public class CatalogueService extends Service
 {
-    public static final int MAX_LENGTH_LINK = 500;
-    public static final int MAX_LENGTH_LEFT_DIGITS = 10;
-    public static final int MAX_LENGTH_RIGHT_DIGITS = 2;
-
     private boolean allFieldsAreOk(String code) 
     {
         boolean ret = false;
@@ -33,8 +30,8 @@ public class CatalogueService extends Service
 
         if((code != null && this.getExpressionChecker().isCatalogueCode(code, false)) &&
             initialStock != null && (price != null && 
-            this.getExpressionChecker().moneyValue(price, CatalogueService.MAX_LENGTH_LEFT_DIGITS, CatalogueService.MAX_LENGTH_RIGHT_DIGITS, false)) && 
-            (link == null || link.length() <= CatalogueService.MAX_LENGTH_LINK))
+            this.getExpressionChecker().moneyValue(price, App.ConstraitConstants.MAX_LENGTH_MONEY_LEFT_DIGITS, App.ConstraitConstants.MAX_LENGTH_MONEY_RIGHT_DIGITS, false)) && 
+            (link == null || link.length() <= App.ConstraitConstants.MAX_LENGTH_CATALOGUE_LINK))
         {
             ret =  true;
         }

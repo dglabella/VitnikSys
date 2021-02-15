@@ -1,5 +1,6 @@
 package vitniksys.frontend.view_controllers;
 
+import vitniksys.App;
 import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
@@ -165,12 +166,12 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         this.lvl3Quantity.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
         this.lvl4Quantity.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE));
 
-        this.lvl1RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, CommissionService.MAX_COMMISSION_RATE));
-        this.lvl2RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, CommissionService.MAX_COMMISSION_RATE));
-        this.lvl3RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, CommissionService.MAX_COMMISSION_RATE));
-        this.lvl4RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, CommissionService.MAX_COMMISSION_RATE));
+        this.lvl1RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
+        this.lvl2RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
+        this.lvl3RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
+        this.lvl4RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
 
-        this.lvl1RateSlider.setMax(CommissionService.MAX_COMMISSION_RATE);
+        this.lvl1RateSlider.setMax(App.ConstraitConstants.MAX_COMMISSION_RATE);
         this.lvl1RateSlider.setBlockIncrement(1);
         this.lvl1RateSlider.valueProperty().addListener
         (
@@ -188,7 +189,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
             }
         );
 
-        this.lvl2RateSlider.setMax(CommissionService.MAX_COMMISSION_RATE);
+        this.lvl2RateSlider.setMax(App.ConstraitConstants.MAX_COMMISSION_RATE);
         this.lvl2RateSlider.setBlockIncrement(1);
         this.lvl2RateSlider.valueProperty().addListener
         (
@@ -206,7 +207,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
             }
         );
 
-        this.lvl3RateSlider.setMax(CommissionService.MAX_COMMISSION_RATE);
+        this.lvl3RateSlider.setMax(App.ConstraitConstants.MAX_COMMISSION_RATE);
         this.lvl3RateSlider.setBlockIncrement(1);
         this.lvl3RateSlider.valueProperty().addListener
         (
@@ -224,7 +225,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
             }
         );
 
-        this.lvl4RateSlider.setMax(CommissionService.MAX_COMMISSION_RATE);
+        this.lvl4RateSlider.setMax(App.ConstraitConstants.MAX_COMMISSION_RATE);
         this.lvl4RateSlider.setBlockIncrement(1);
         this.lvl4RateSlider.valueProperty().addListener
         (
