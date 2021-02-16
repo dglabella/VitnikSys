@@ -143,6 +143,4 @@ public class PaymentDialogContentViewCntlr extends DialogContentViewCntlr implem
         this.banks.setValue(Bank.NA);
         this.paymentStatus.setValue(PayStatus.NA);
     }
-
-    // ================================= service subscriber methods ===================================
 }

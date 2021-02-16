@@ -114,7 +114,7 @@ public class CampaignService extends Service
 
     // ================================= protected methods =================================
 
-    // ================================= public methods =================================
+    // ================================= public methods ====================================
     public void searchCamps(String campNumb, String campAlias, Month month, Integer year, String catalogueCode) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
