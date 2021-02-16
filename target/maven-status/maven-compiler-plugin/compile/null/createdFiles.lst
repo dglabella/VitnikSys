@@ -66,6 +66,7 @@ vitniksys\backend\model\interfaces\ICampaignOperator.class
 vitniksys\backend\model\services\CampaignService$3.class
 vitniksys\backend\model\persistence\PaymentOperator.class
 vitniksys\backend\model\interfaces\IRepurchaseOperator.class
+vitniksys\frontend\view_controllers\repurchaseDialogContentViewCntlr.class
 vitniksys\backend\model\entities\Commission.class
 vitniksys\backend\model\services\CommissionService$2.class
 vitniksys\backend\model\entities\Balance.class
@@ -88,6 +89,7 @@ vitniksys\backend\model\persistence\ObservationOperator.class
 vitniksys\backend\model\persistence\CampaignOperator.class
 vitniksys\backend\model\persistence\BaseClientOperator.class
 vitniksys\backend\model\interfaces\IPaymentOperator.class
+vitniksys\frontend\view_controllers\StockAvailableViewCntlr.class
 vitniksys\frontend\view_controllers\ProcessingViewCntlr.class
 vitniksys\frontend\view_controllers\ViewCntlr.class
 vitniksys\backend\model\entities\VitnikSearchableEntity.class

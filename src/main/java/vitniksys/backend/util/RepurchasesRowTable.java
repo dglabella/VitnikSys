@@ -5,7 +5,7 @@ import vitniksys.backend.model.enums.ArticleType;
 
 public class RepurchasesRowTable
 {
-    private Integer devCode;
+    private Integer unitCode;
     private Integer deliveryNumber;
     private String articleId;
     private Float cost;
@@ -14,10 +14,10 @@ public class RepurchasesRowTable
     private ArticleType articleType;
     private Timestamp registrationTime;
 
-    public RepurchasesRowTable(Integer devCode, Integer deliveryNumber, String articleId, Float cost, 
+    public RepurchasesRowTable(Integer unitCode, Integer deliveryNumber, String articleId, Float cost, 
         Float repurchaseCost, String name, ArticleType articleType, Timestamp registrationTime)
     {
-        this.devCode = devCode;
+        this.unitCode = unitCode;
         this.deliveryNumber = deliveryNumber;
         this.articleId = articleId;
         this.cost = cost;
@@ -28,14 +28,14 @@ public class RepurchasesRowTable
     }
 
     //Getters && Setters
-    public Integer getDevCode()
+    public Integer getUnitCode()
     {
-        return this.devCode;
+        return this.unitCode;
     }
 
-    public void setDevCode(Integer devCode)
+    public void setUnitCode(Integer unitCode)
     {
-        this.devCode = devCode;
+        this.unitCode = unitCode;
     }
 
     public Integer getDeliveryNumber()

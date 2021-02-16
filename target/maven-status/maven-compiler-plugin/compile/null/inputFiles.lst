@@ -28,6 +28,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\CampaignOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\RepurchasesRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Catalogue.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\StockAvailableViewCntlr.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\services\CommissionService.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\ArticleType.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\OrderObtainer.java
@@ -53,6 +54,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\SubordinatedClientOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IDevolutionOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\CommissionRegisterViewCntlr.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\repurchaseDialogContentViewCntlr.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\ViewCntlr.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\RepurchaseOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\services\CampaignService.java

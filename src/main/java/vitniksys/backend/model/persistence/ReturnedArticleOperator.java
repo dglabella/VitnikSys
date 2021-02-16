@@ -1,7 +1,10 @@
 package vitniksys.backend.model.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
 
@@ -96,8 +99,37 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     @Override
     public List<ReturnedArticle> findAll() throws Exception
     {
-        // TODO Auto-generated method stub
-        return null;
+        List<ReturnedArticle> ret = new ArrayList<>();
+
+        String sqlStmnt = 
+        "";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setBoolean(3, this.activeRow);
+
+		ResultSet resultSet = statement.executeQuery();
+
+        ReturnedArticle returnedArticle;
+		while (resultSet.next())
+		{
+            returnedArticle = new ReturnedArticle(unitCode, reason, repurchased);
+
+            //fk ids
+
+
+            //Associations
+            
+
+			ret.add(returnedArticle);
+		}
+
+		statement.close();
+		
+		if(ret.size() == 0)
+            ret = null;
+		
+        return ret;
     }
 
     @Override

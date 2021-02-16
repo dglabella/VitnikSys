@@ -1,60 +1,98 @@
 package vitniksys.backend.util;
 
 import vitniksys.backend.model.enums.Reason;
+import vitniksys.backend.model.enums.ArticleType;
 
 public class StockRowTable
 {
-    private int codEjemplar;
-    private String nombre;
-    private float precio;
-    private Reason motivo;
+    private Integer unitCode;
+    private Integer deliveryNumber;
+    private Float price;
+    private String articleId;
+    private String articleName;
+    private ArticleType articleType;
+    private Reason reason;
 
-    public StockRowTable(int codEjemplar, float precio, String nombre, Reason motivo)
+    public StockRowTable(Integer unitCode, Integer deliveryNumber, Float price, String articleId, 
+        String articleName, ArticleType articleType, Reason reason)
     {
-        this.codEjemplar = codEjemplar;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.motivo = motivo;
+        this.unitCode = unitCode;
+        this.deliveryNumber = deliveryNumber;
+        this.price = price;
+        this.articleId = articleId;
+        this.articleName = articleName;
+        this.articleType = articleType;
+        this.reason = reason;
     }
 
     //Getting && Setters
-    public int getCodEjemplar()
+    public Integer getUnitCode()
     {
-        return this.codEjemplar;
+        return this.unitCode;
     }
 
-    public void setCodEjemplar(int codEjemplar)
+    public void setUnitCode(Integer unitCode)
     {
-        this.codEjemplar = codEjemplar;
+        this.unitCode = unitCode;
     }
 
-    public String getNombre()
+    public Integer getDeliveryNumber()
     {
-        return this.nombre;
+        return this.deliveryNumber;
     }
 
-    public void setNombre(String nombre)
+    public void setDeliveryNumber(Integer deliveryNumber)
     {
-        this.nombre = nombre;
+        this.deliveryNumber = deliveryNumber;
     }
 
-    public float getPrecio()
+    public Float getPrice()
     {
-        return this.precio;
+        return this.price;
     }
 
-    public void setPrecio(float precio)
+    public void setPrice(Float price)
     {
-        this.precio = precio;
+        this.price = price;
     }
 
-    public Reason getMotivo()
+    public String getArticleId()
     {
-        return this.motivo;
+        return this.articleId;
     }
 
-    public void setMotivo(Reason motivo)
+    public void setArticleId(String articleId)
     {
-        this.motivo = motivo;
+        this.articleId = articleId;
+    }
+
+    public String getArticleName()
+    {
+        return this.articleName;
+    }
+
+    public void setArticleName(String articleName)
+    {
+        this.articleName = articleName;
+    }
+
+    public ArticleType getArticleType()
+    {
+        return this.articleType;
+    }
+
+    public void setArticleType(ArticleType articleType)
+    {
+        this.articleType = articleType;
+    }
+
+    public Reason getReason()
+    {
+        return this.reason;
+    }
+
+    public void setReason(Reason reason)
+    {
+        this.reason = reason;
     }
 }

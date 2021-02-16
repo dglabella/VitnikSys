@@ -107,7 +107,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<OrdersRowTable, String> commissionCost;
     @FXML private TableColumn<OrdersRowTable, String> commission;
     @FXML private TableColumn<OrdersRowTable, String> articleName;
-    @FXML private TableColumn<OrdersRowTable, String> orderType;
+    @FXML private TableColumn<OrdersRowTable, String> articleType;
     @FXML private TableColumn<OrdersRowTable, String> articleId;
     @FXML private TableColumn<OrdersRowTable, String> unitPrice;
     @FXML private TableColumn<OrdersRowTable, String> withdrawalDate;
@@ -124,22 +124,16 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<PaymentsRowTable, String> paymentStatus;
 
     //repurchases columns
-    @FXML private TableColumn<RepurchasesRowTable, String> devolutionCode;
+    @FXML private TableColumn<RepurchasesRowTable, String> unitCode;
     @FXML private TableColumn<RepurchasesRowTable, String> deliveryNumberRep;
     @FXML private TableColumn<RepurchasesRowTable, String> articleIdRep;
     @FXML private TableColumn<RepurchasesRowTable, String> priceRep;
     @FXML private TableColumn<RepurchasesRowTable, String> repurchasePrice;
     @FXML private TableColumn<RepurchasesRowTable, String> nameRep;
-    @FXML private TableColumn<RepurchasesRowTable, String> typeRep;
+    @FXML private TableColumn<RepurchasesRowTable, String> articleTypeRep;
     @FXML private TableColumn<RepurchasesRowTable, String> repurchaseRegistrationTime;
 
     // ================================= FXML methods ===================================
-    @FXML
-    private void devolutionButtonPressed()
-    {
-
-    }
-
     @FXML
     private void editPrefClientButtonPressed()
     {
@@ -219,37 +213,13 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
 
     @FXML
-    private void payButtonPressed()
+    private void withdrawMenuItemSelected()
     {
 
     }
 
     @FXML
-    private void stockButtonPressed()
-    {
-
-    }
-
-    @FXML
-    private void validarIdentificador()
-    {
-
-    }
-
-    @FXML
-    private void validarMonto()
-    {
-
-    }
-
-    @FXML
-    private void withdrawAllButtonPressed()
-    {
-
-    }
-
-    @FXML
-    private void withdrawButtonPressed()
+    private void withdrawAllMenuItemSelected()
     {
 
     }
@@ -303,16 +273,21 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void seeStockMenuItemSelected()
     {
+        ViewCntlr viewCntlr = this.createStage("Stock de artículos devueltos", "stockAvailable", new PreferentialClientService());
+        viewCntlr.getStage().show();
 
+        ((StockAvailableViewCntlr)viewCntlr).setPrefClientId(this.prefClient.getId());
+        ((StockAvailableViewCntlr)viewCntlr).setCampNumber(this.actualCampaign.getNumber());
+        ((StockAvailableViewCntlr)viewCntlr).manualInitialize();
     }
 
     @FXML
     private void commissionLvlMenuItemSelected()
     {
         ViewCntlr viewCntlr = this.createStage("Comisión", "commissionRegister", new CommissionService());
+        viewCntlr.getStage().show();
 
         //load prefClientId and campNumber because sometimes actualCommission can be null
-        viewCntlr.getStage().show();
         ((CommissionRegisterViewCntlr)viewCntlr).loadPrefClient(this.prefClient);
         ((CommissionRegisterViewCntlr)viewCntlr).loadCamp(this.actualCampaign);
         ((CommissionRegisterViewCntlr)viewCntlr).loadOrders(this.actualOrders);
@@ -408,7 +383,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.commissionCost);
         columns.add(this.commission);
         columns.add(this.articleName);
-        columns.add(this.orderType);
+        columns.add(this.articleType);
         columns.add(this.articleId);
         columns.add(this.unitPrice);
         columns.add(this.withdrawalDate);
@@ -420,7 +395,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         propertiesValues.add(new PropertyValueFactory<>("commissionCost"));
         propertiesValues.add(new PropertyValueFactory<>("commission"));
         propertiesValues.add(new PropertyValueFactory<>("name"));
-        propertiesValues.add(new PropertyValueFactory<>("type"));
+        propertiesValues.add(new PropertyValueFactory<>("articleType"));
         propertiesValues.add(new PropertyValueFactory<>("articleId"));
         propertiesValues.add(new PropertyValueFactory<>("unitPrice"));
         propertiesValues.add(new PropertyValueFactory<>("withdrawalDate"));
@@ -450,13 +425,13 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.registerTable(this.payments);
         this.PAYMENTS_TABLE_NUMBER = 1;
 
-        columns.add(this.devolutionCode);
+        columns.add(this.unitCode);
         columns.add(this.deliveryNumberRep);
         columns.add(this.articleIdRep);
         columns.add(this.priceRep);
         columns.add(this.repurchasePrice);
         columns.add(this.nameRep);
-        columns.add(this.typeRep);
+        columns.add(this.articleTypeRep);
         columns.add(this.repurchaseRegistrationTime);
 
         propertiesValues.add(new PropertyValueFactory<>("devCode"));
@@ -505,7 +480,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 {
                     boolean ret;
                     if (newValue.isBlank() || (""+orderRow.getDeliveryNumber()).contains(newValue) || (""+orderRow.getCost()).contains(newValue) || 
-                        orderRow.getName().contains(newValue.toUpperCase()) || (""+orderRow.getType()).contains(newValue.toUpperCase()) || 
+                        orderRow.getName().contains(newValue.toUpperCase()) || (""+orderRow.getArticleType()).contains(newValue.toUpperCase()) || 
                         (""+orderRow.getArticleId()).contains(newValue.toUpperCase()) || (""+orderRow.getUnitPrice()).contains(newValue) ||
                         (""+orderRow.getWithdrawalDate()).contains(newValue) )
                     {

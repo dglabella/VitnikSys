@@ -20,7 +20,7 @@ public class OrdersRowTable
     private float commissionCost;
     private float commission;
     private String name;
-    private ArticleType type;
+    private ArticleType articleType;
     private String articleId; // Table id = letra
     private Float unitPrice;
     private Timestamp withdrawalDate;
@@ -28,7 +28,7 @@ public class OrdersRowTable
 
     private Order order;
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, String name, ArticleType type, 
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, String name, ArticleType articleType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, Order order)
     {
         this.code = code;
@@ -36,7 +36,7 @@ public class OrdersRowTable
         this.quantity = quantity;
         this.cost = cost;
         this.name = name;
-        this.type = type;
+        this.articleType = articleType;
         this.articleId = articleId;
         this.unitPrice = unitPrice;
         this.withdrawalDate = withdrawalDate;
@@ -53,7 +53,7 @@ public class OrdersRowTable
         );
     }
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, String name, ArticleType type, 
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, String name, ArticleType articleType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, ChangeListener<? super Boolean> changeListener, Order order)
     {
         this.code = code;
@@ -61,7 +61,7 @@ public class OrdersRowTable
         this.quantity = quantity;
         this.cost = cost;
         this.name = name;
-        this.type = type;
+        this.articleType = articleType;
         this.articleId = articleId;
         this.unitPrice = unitPrice;
         this.withdrawalDate = withdrawalDate;
@@ -206,14 +206,14 @@ public class OrdersRowTable
         this.name = name;
     }
 
-    public ArticleType getType()
+    public ArticleType getArticleType()
     {
-        return this.type;
+        return this.articleType;
     }
 
-    public void setType(ArticleType type)
+    public void setArticleType(ArticleType articleType)
     {
-        this.type = type;
+        this.articleType = articleType;
     }
 
     public String getArticleId()
