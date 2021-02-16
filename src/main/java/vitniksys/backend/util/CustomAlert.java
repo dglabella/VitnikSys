@@ -1,19 +1,17 @@
 package vitniksys.backend.util;
 
 import java.net.URL;
+import vitniksys.App;
 import java.util.Optional;
 import javafx.stage.Stage;
-import vitniksys.App;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
+import vitniksys.frontend.view_controllers.DialogContentViewCntlr;
 
 public class CustomAlert extends Alert
 {
@@ -27,14 +25,16 @@ public class CustomAlert extends Alert
 
     public static final String DEFAULT_DESCRIPTION = "No message to show";
 
+    private String description;
+    private Exception exception;
+
+    private CustomAlertType customAlertType;
+    private DialogContentViewCntlr dialogContentViewCntlr;
+
     public enum CustomAlertType
     {
         PAYMENT, REPURCHASE
     }
-
-    private CustomAlertType customAlertType;
-    private String description;
-    private Exception exception;
     
     public CustomAlert()
     {
@@ -96,6 +96,16 @@ public class CustomAlert extends Alert
         this.exception = exception;
     }
 
+    public DialogContentViewCntlr getDialogContentViewCntlr()
+    {
+        return this.dialogContentViewCntlr;
+    }
+
+    public void setDialogContentViewCntlr(DialogContentViewCntlr dialogContentViewCntlr)
+    {
+        this.dialogContentViewCntlr = dialogContentViewCntlr;
+    }
+
     private void build()
     {
         if(this.getException() != null)
@@ -123,17 +133,19 @@ public class CustomAlert extends Alert
             switch (this.customAlertType)
             {
                 case PAYMENT:
-                    fileName = "paymentDialog";
-                break;
+                    fileName = "paymentDialogContent";
+                    break;
                 case REPURCHASE:
-                    fileName = "repurchaseDialog";
-                break;
+                    fileName = "repurchaseDialogContent";
+                    break;
             }
 
             try
             {
                 fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION + fileName + App.FILE_EXTENSION));
                 this.getDialogPane().setContent(fxmlLoader.load());
+                this.dialogContentViewCntlr = fxmlLoader.getController();
+
             }
             catch (Exception exception)
             {

@@ -175,6 +175,12 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     
     // ================================= service subscriber methods =================================
     @Override
+    public void refresh() 
+    {
+        
+    }
+    
+    @Override
     public void showQueriedCatalogue(Catalogue catalogue) throws Exception
     {
         if(this.initialStock.getValueFactory() == null)

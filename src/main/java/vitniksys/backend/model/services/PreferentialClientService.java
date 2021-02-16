@@ -344,6 +344,7 @@ public class PreferentialClientService extends Service
 
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
                         getServiceSubscriber().showSucces("El pago se ha registrado exitosamente!");
+                        getServiceSubscriber().refresh();
                     }
                     catch (Exception exception)
                     {
@@ -407,6 +408,7 @@ public class PreferentialClientService extends Service
 
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!");
+                    getServiceSubscriber().refresh();
                 }
                 catch (Exception exception)
                 {
@@ -462,6 +464,7 @@ public class PreferentialClientService extends Service
 
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     getServiceSubscriber().showSucces("La recompra se ha registrado exitosamente!");
+                    getServiceSubscriber().refresh();
                 }
                 catch (Exception exception)
                 {

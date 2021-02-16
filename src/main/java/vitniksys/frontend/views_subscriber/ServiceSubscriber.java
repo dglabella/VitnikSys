@@ -36,4 +36,9 @@ public interface ServiceSubscriber
      * Called when a use case does not return an expected result.
      */
     void showNoResult(String message);
+
+    /**
+     * Called when some kind of refresh for a view is needed.
+     */
+    void refresh();
 }

@@ -39,8 +39,8 @@ import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.services.CampaignService;
-import vitniksys.backend.util.CustomAlert.CustomAlertType;
 import vitniksys.backend.model.services.CommissionService;
+import vitniksys.backend.util.CustomAlert.CustomAlertType;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.services.PreferentialClientService;
@@ -269,12 +269,22 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void payMenuItemSelected()
     {
-        new CustomAlert(CustomAlertType.PAYMENT, "PAGO", "Ingrese los datos necesarios para realizar el pago")
-        .customShow().ifPresent(response ->
+        CustomAlert customAlert = new CustomAlert(CustomAlertType.PAYMENT, "PAGO", "Ingrese los datos necesarios para realizar el pago");
+        customAlert.customShow().ifPresent(response ->
         {
             if(response == ButtonType.OK)
             {
-                
+                PaymentDialogContentViewCntlr cntlr = (PaymentDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+
+                try
+                {
+                    ((PreferentialClientService)this.getService(0)).registerPayment(this.prefClient.getId() , this.actualCampaign.getNumber(), cntlr.getDescriptor(), 
+                        cntlr.getAmount(), cntlr.getItem(), cntlr.getPaymentMethod(), cntlr.getBank(), cntlr.getPaymentStatus());
+                }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                }                
             }
         });
     }
@@ -513,6 +523,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
     
     // ================================= service subscriber methods ===================================
+    @Override
+    public void refresh() 
+    {
+        this.fillManagementView();
+    }
+
     @Override
     public void showQueriedCamp(Campaign camp) throws Exception
     {

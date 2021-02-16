@@ -255,11 +255,19 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     }
 
     // ================================= service subscriber methods =================================
+    @Override
+    public void refresh()
+    {
+        
+    }
+    
+    @Override
     public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
     {
         
     }
 
+    @Override
     public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
     {
         this.loadData(this.PREF_CLIENTS_TABLE_NUMBER, prefClients);

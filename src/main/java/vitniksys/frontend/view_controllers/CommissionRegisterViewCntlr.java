@@ -246,6 +246,13 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
 
     // ===================================== services subscriber methods =====================================
     @Override
+    public void refresh() 
+    {
+        //Refill management in order to get the new/updated commission
+        ((ClientManagementViewCntlr)this.getPrevViewCntlr()).fillManagementView();
+    }
+
+    @Override
     public void suggestCommisionCreation()
     {
         // TODO Auto-generated method stub
@@ -275,8 +282,5 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         this.lvl2RateSpinner.getValueFactory().setValue(commission.getLvl2Factor());
         this.lvl3RateSpinner.getValueFactory().setValue(commission.getLvl3Factor());
         this.lvl4RateSpinner.getValueFactory().setValue(commission.getLvl4Factor());
-
-        //Refill management in order to get the new/updated commission
-        ((ClientManagementViewCntlr)this.getPrevViewCntlr()).fillManagementView();
     }
 }

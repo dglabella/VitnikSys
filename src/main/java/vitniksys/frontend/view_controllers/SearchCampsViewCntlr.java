@@ -132,6 +132,12 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignServ
     
     // ================================= campaign service subscriber methods =================================
     @Override
+    public void refresh()
+    {
+        
+    }
+    
+    @Override
     public void showQueriedCamp(Campaign campaign) throws Exception
     {
         // Do nothing

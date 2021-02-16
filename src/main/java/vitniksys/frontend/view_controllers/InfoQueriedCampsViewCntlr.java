@@ -103,4 +103,11 @@ public class InfoQueriedCampsViewCntlr extends ViewCntlr
     {
         // TODO Auto-generated method stub
     }
+
+    // ================================= service subscriber methods =================================
+    @Override
+    public void refresh() 
+    {
+        
+    }
 }

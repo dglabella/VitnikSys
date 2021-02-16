@@ -15,8 +15,9 @@ import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.ExpressionChecker;
 
-public class PaymentDialogViewCntlr implements Initializable
+public class PaymentDialogContentViewCntlr extends DialogContentViewCntlr implements Initializable
 {
+    // ================================= FXML variables =================================
     @FXML private Label descriptorLabel;
     @FXML private Label amountLabel;
 
@@ -28,6 +29,7 @@ public class PaymentDialogViewCntlr implements Initializable
     @FXML private ComboBox<Bank> banks;
     @FXML private ComboBox<PayStatus> paymentStatus;
 
+    // ================================= FXML methods ===================================
     @FXML
     private boolean descriptorCheck()
     {
@@ -68,6 +70,41 @@ public class PaymentDialogViewCntlr implements Initializable
         return ret;
     }
 
+    // ================================= private methods ===================================
+
+    // ================================= protected methods ===================================
+
+    // ================================= public methods ===================================
+    public String getDescriptor()
+    {
+        return this.descriptor.getText();
+    }
+
+    public Float getAmount()
+    {
+        return Float.parseFloat(this.amount.getText());
+    }
+
+    public PayItem getItem()
+    {
+        return this.items.getValue();
+    }
+
+    public PayType getPaymentMethod()
+    {
+        return this.paymentMethods.getValue();
+    }
+
+    public Bank getBank()
+    {
+        return this.banks.getValue();
+    }
+
+    public PayStatus getPaymentStatus()
+    {
+        return this.paymentStatus.getValue();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -76,7 +113,6 @@ public class PaymentDialogViewCntlr implements Initializable
         this.items.getItems().add(PayItem.CATALAGO);
         this.items.getItems().add(PayItem.RECOMPRA);
         this.items.getItems().add(PayItem.PAGO_AJUSTE);
-        this.items.getItems().add(PayItem.NA);
         
         this.paymentMethods.getItems().add(PayType.NA);
         this.paymentMethods.getItems().add(PayType.EFECTIVO);
@@ -101,5 +137,12 @@ public class PaymentDialogViewCntlr implements Initializable
         this.paymentStatus.getItems().add(PayStatus.ENVIO_PENDIENTE);
         this.paymentStatus.getItems().add(PayStatus.COBRADO);
         this.paymentStatus.getItems().add(PayStatus.COBRO_PENDIENTE);
+
+        this.items.setValue(PayItem.NA);
+        this.paymentMethods.setValue(PayType.NA);
+        this.banks.setValue(Bank.NA);
+        this.paymentStatus.setValue(PayStatus.NA);
     }
+
+    // ================================= service subscriber methods ===================================
 }

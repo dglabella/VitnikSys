@@ -48,4 +48,11 @@ public class ProcessingViewCntlr extends ViewCntlr implements Initializable
         // TODO Auto-generated method stub
 
     }
+
+    // ================================= service subscriber methods =================================
+    @Override
+    public void refresh()
+    {
+        
+    }
 }

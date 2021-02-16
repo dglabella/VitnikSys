@@ -1,21 +1,18 @@
 package vitniksys.backend.model.services;
 
+import vitniksys.App;
 import java.util.List;
 import java.util.Iterator;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Order;
-import vitniksys.backend.model.entities.Leader;
-import vitniksys.App;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
-import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
-import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class CommissionService extends Service
 {
@@ -150,6 +147,9 @@ public class CommissionService extends Service
                             "\nen la campaña " + orders.get(0).getCampNumber() + " los niveles de comisión por defecto. " +
                             "\nPueden modificarse y actualizarse a preferencia."
                         );
+
+                        ((CommissionServiceSubscriber)getServiceSubscriber()).showCommission(commission);
+                        getServiceSubscriber().refresh();
                     }
                     catch (Exception exception)
                     {
@@ -161,7 +161,6 @@ public class CommissionService extends Service
                     {
                         Connector.getConnector().endTransaction();
                         Connector.getConnector().closeConnection();
-                        searchCommission(orders.get(0).getPrefClientId(), orders.get(0).getCampNumber());
                     }
                     return returnCode;
                 }
@@ -193,6 +192,7 @@ public class CommissionService extends Service
                     
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     getServiceSubscriber().showSucces("Se han modificado los niveles de comisión exitosamente.");
+                    getServiceSubscriber().refresh();
                 }
                 catch (Exception exception)
                 {
@@ -204,7 +204,6 @@ public class CommissionService extends Service
                 {
                     Connector.getConnector().endTransaction();
                     Connector.getConnector().closeConnection();
-                    searchCommission(commission.getPrefClientId(), commission.getCampNumber());
                 }
                 return returnCode;
             }
@@ -266,9 +265,9 @@ public class CommissionService extends Service
                             getServiceSubscriber().closeProcessIsWorking(customAlert);
                             getServiceSubscriber().showSucces("Pedidos actualizados!");
 
-                            Leader leader = LeaderOperator.getOperator().find(commission.getPrefClientId());
-
-                            ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(leader);
+                            getServiceSubscriber().refresh();
+                            //Leader leader = LeaderOperator.getOperator().find(commission.getPrefClientId());
+                            //((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(leader);
                         }
                         catch(Exception exception)
                         {

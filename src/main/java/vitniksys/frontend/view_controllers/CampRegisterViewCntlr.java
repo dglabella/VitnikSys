@@ -214,6 +214,12 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
 
     // ================================= campaign service subscriber methods =================================
     @Override
+    public void refresh() 
+    {
+        
+    }
+
+    @Override
     public void showQueriedCamp(Campaign campaign) throws Exception
     {
         this.lastCamp = campaign;

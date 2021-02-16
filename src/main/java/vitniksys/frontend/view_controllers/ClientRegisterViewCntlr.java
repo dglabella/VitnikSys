@@ -174,6 +174,12 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     }
 
     // ================================= service subscriber methods ==================================
+    @Override
+    public void refresh() 
+    {
+        
+    }
+
     //Override this method in order to execute manualInitialize in the prev controller
     @Override
     public void showSucces(String message)
