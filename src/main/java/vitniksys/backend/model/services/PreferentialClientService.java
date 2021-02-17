@@ -54,11 +54,11 @@ public class PreferentialClientService extends Service
         return ret;
     }
 
-    private boolean allFieldsAreOk(Integer prefClientId, Integer campNumber, String descriptor, Float amount)
+    private boolean allFieldsAreOk(Integer campNumber, String descriptor, Float amount)
     {
         boolean ret = false;
 
-        if(prefClientId != null && campNumber != null && descriptor.length() <= App.ConstraitConstants.MAX_LENGTH_PAYMENT_DESCRIPTOR && amount != null)
+        if(campNumber != null && descriptor.length() <= App.ConstraitConstants.MAX_LENGTH_PAYMENT_DESCRIPTOR && amount != null)
         {
             ret = true; 
         }
@@ -306,10 +306,10 @@ public class PreferentialClientService extends Service
         //this.getExecutorService().execute(task);
     }
 
-    public void registerPayment(Integer prefClientId, Integer campNumber, String descriptor, Float amount, PayItem item, 
+    public void registerPayment(PreferentialClient prefClient, Integer campNumber, String descriptor, Float amount, PayItem item, 
         PayType paymentMethod, Bank bank, PayStatus paymentStatus) throws Exception
     {
-        if(allFieldsAreOk(prefClientId, campNumber, descriptor, amount))
+        if(allFieldsAreOk(campNumber, descriptor, amount))
         {
             CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
             Task<Integer> task = new Task<>()
@@ -321,7 +321,7 @@ public class PreferentialClientService extends Service
                     int returnCode = 0;
 
                     Payment payment = new Payment(descriptor, amount);
-                    payment.setPrefClientId(prefClientId);
+                    payment.setPrefClientId(prefClient.getId());
                     payment.setCampNumber(campNumber);
                     payment.setItem(item);
                     payment.setPaymentMethod(paymentMethod);
@@ -329,7 +329,7 @@ public class PreferentialClientService extends Service
                     payment.setPaymentStatus(paymentStatus);
 
                     Balance balance = new Balance();
-                    balance.setPrefClientId(prefClientId);
+                    balance.setPrefClientId(prefClient.getId());
                     balance.setCampNumber(campNumber);
                     balance.setTotalInPayments(amount);
 
@@ -339,6 +339,13 @@ public class PreferentialClientService extends Service
 
                         PaymentOperator.getOperator().insert(payment);
                         BalanceOperator.getOperator().update(balance);
+
+                        if(prefClient instanceof SubordinatedClient)
+                        {
+                            //update also the leader balance
+                            balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
+                            BalanceOperator.getOperator().update(balance);
+                        }
 
                         Connector.getConnector().commit();
 
@@ -370,7 +377,7 @@ public class PreferentialClientService extends Service
         }  
     }
 
-    public void registerDevolution(Integer prefClientId, Integer campNumber, String articleId, String articleName, ArticleType articleType, 
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, String articleId, String articleName, ArticleType articleType, 
         Integer quantity, Float cost, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
@@ -383,7 +390,7 @@ public class PreferentialClientService extends Service
                 int returnCode = 0;
 
                 Devolution devolution = new Devolution(quantity, cost, reason);
-                devolution.setPrefClientId(prefClientId);
+                devolution.setPrefClientId(prefClient.getId());
                 devolution.setCampNumber(campNumber);
                 devolution.setArticleId(articleId);
 
@@ -392,7 +399,7 @@ public class PreferentialClientService extends Service
                 returnedArticle.setRepurchased(false);
 
                 Balance balance = new Balance();
-                balance.setPrefClientId(prefClientId);
+                balance.setPrefClientId(prefClient.getId());
                 balance.setCampNumber(campNumber);
                 balance.setTotalInDevolutions(cost);
 
@@ -403,6 +410,13 @@ public class PreferentialClientService extends Service
                     DevolutionOperator.getOperator().insert(devolution);
                     ReturnedArticleOperator.getOperator().insert(returnedArticle);
                     BalanceOperator.getOperator().update(balance);
+
+                    if(prefClient instanceof SubordinatedClient)
+                    {
+                        //update also the leader balance
+                        balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
+                        BalanceOperator.getOperator().update(balance);
+                    }
 
                     Connector.getConnector().commit();
 

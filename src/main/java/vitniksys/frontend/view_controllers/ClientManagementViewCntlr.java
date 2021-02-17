@@ -247,7 +247,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 PaymentDialogContentViewCntlr cntlr = (PaymentDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
                 try
                 {
-                    ((PreferentialClientService)this.getService(0)).registerPayment(this.prefClient.getId() , this.actualCampaign.getNumber(), cntlr.getDescriptor(), 
+                    ((PreferentialClientService)this.getService(0)).registerPayment(this.prefClient, this.actualCampaign.getNumber(), cntlr.getDescriptor(), 
                         cntlr.getAmount(), cntlr.getItem(), cntlr.getPaymentMethod(), cntlr.getBank(), cntlr.getPaymentStatus());
                 }
                 catch (Exception exception)

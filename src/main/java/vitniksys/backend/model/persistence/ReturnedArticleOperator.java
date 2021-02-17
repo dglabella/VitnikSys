@@ -100,7 +100,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     public List<ReturnedArticle> findAll() throws Exception
     {
         List<ReturnedArticle> ret = new ArrayList<>();
-
+        /*
         String sqlStmnt = 
         "";
 
@@ -125,7 +125,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
 		}
 
 		statement.close();
-		
+		*/
 		if(ret.size() == 0)
             ret = null;
 		
