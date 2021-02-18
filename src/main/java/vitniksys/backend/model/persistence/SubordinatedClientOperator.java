@@ -206,9 +206,9 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
     }
 
     @Override
-    public int insert(PreferentialClient cp) throws Exception
+    public Integer insert(PreferentialClient cp) throws Exception
     {
-        int returnCode;
+        Integer returnCode = null;
 
         String sqlStmnt = "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, "+
             "`email`, `tel`, `id_lider`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -253,7 +253,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
     }
 
     @Override
-    public int insertMany(List<PreferentialClient> list) throws Exception
+    public Integer insertMany(List<PreferentialClient> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

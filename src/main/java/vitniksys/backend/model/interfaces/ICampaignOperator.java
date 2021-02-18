@@ -20,5 +20,5 @@ public interface ICampaignOperator extends CrudOperator<Campaign>
 
     Campaign findLast() throws Exception;
 
-    int delete(int id) throws Exception;
+    Integer delete(int id) throws Exception;
 }

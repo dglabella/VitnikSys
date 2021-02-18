@@ -55,9 +55,9 @@ public class CampaignOperator implements ICampaignOperator
     }
 
     @Override
-    public int insert(Campaign camp) throws Exception
+    public Integer insert(Campaign camp) throws Exception
     {
-        int returnCode;
+        Integer returnCode = null;
 
         String sqlStmnt =
         "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year`, `cod_cat`) "+
@@ -87,14 +87,14 @@ public class CampaignOperator implements ICampaignOperator
     }
 
     @Override
-    public int insertMany(List<Campaign> list) throws Exception
+    public Integer insertMany(List<Campaign> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int update(Campaign e) throws Exception
+    public Integer update(Campaign campaign) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
@@ -131,13 +131,13 @@ public class CampaignOperator implements ICampaignOperator
             codCat = resultSet.getInt(2);
             if(!resultSet.wasNull())
             {
-                catalogue = new Catalogue(resultSet.getInt(2), resultSet.getInt(7), resultSet.getFloat(9));
+                catalogue = new Catalogue(codCat, resultSet.getInt(7), resultSet.getFloat(9));
                 catalogue.setActualStock(resultSet.getInt(8));
                 catalogue.setLink(resultSet.getString(10));
                 catalogue.setRegistrationTime(resultSet.getTimestamp(11));
 
                 //fk ids
-                camp.setCatalogueCode(resultSet.getInt(2));
+                camp.setCatalogueCode(codCat);
 
                 //Associations
                 camp.setCatalogue(catalogue);
@@ -218,13 +218,13 @@ public class CampaignOperator implements ICampaignOperator
             codCat = resultSet.getInt(2);
             if(!resultSet.wasNull())
             {
-                catalogue = new Catalogue(resultSet.getInt(2), resultSet.getInt(7), resultSet.getFloat(9));
+                catalogue = new Catalogue(codCat, resultSet.getInt(7), resultSet.getFloat(9));
                 catalogue.setActualStock(resultSet.getInt(8));
                 catalogue.setLink(resultSet.getString(10));
                 catalogue.setRegistrationTime(resultSet.getTimestamp(11));
 
                 //fk ids
-                camp.setCatalogueCode(resultSet.getInt(2));
+                camp.setCatalogueCode(codCat);
 
                 //Associations
                 camp.setCatalogue(catalogue);
@@ -334,7 +334,7 @@ public class CampaignOperator implements ICampaignOperator
     }
 
     @Override
-    public int delete(int id) throws Exception
+    public Integer delete(int id) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

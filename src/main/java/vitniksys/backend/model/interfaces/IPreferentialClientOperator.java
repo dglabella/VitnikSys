@@ -6,7 +6,7 @@ public interface IPreferentialClientOperator extends CrudOperator<PreferentialCl
 {
     PreferentialClient find(Integer id) throws Exception;
 
-    int delete(Integer id) throws Exception;
+    Integer delete(Integer id) throws Exception;
 
-    int registerOrders(PreferentialClient cp) throws Exception;
+    Integer registerOrders(PreferentialClient cp) throws Exception;
 }

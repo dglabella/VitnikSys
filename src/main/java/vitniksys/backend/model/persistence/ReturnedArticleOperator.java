@@ -1,10 +1,12 @@
 package vitniksys.backend.model.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.util.ArrayList;
+import java.sql.PreparedStatement;
+import vitniksys.backend.model.enums.Reason;
+import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
 
@@ -52,13 +54,13 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     }
 
     @Override
-    public int insert(ReturnedArticle returnedArticle) throws Exception
+    public Integer insert(ReturnedArticle returnedArticle) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt = 
         "INSERT INTO `articulos_devueltos`(`letra`, `motivo`, `recomprado`) "+
         "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `recomprado` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt, PreparedStatement.RETURN_GENERATED_KEYS);
 
         statement.setString(1, returnedArticle.getArticleId());
         statement.setInt(2, returnedArticle.getReason().ordinal());
@@ -66,22 +68,29 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         statement.setBoolean(4, returnedArticle.isRepurchased());
 
         returnCode = statement.executeUpdate();
+
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if(resultSet.next())
+        {
+            returnCode = resultSet.getInt(1);
+        }
+        
         statement.close();
   
         return returnCode;
     }
 
     @Override
-    public int insertMany(List<ReturnedArticle> list) throws Exception
+    public Integer insertMany(List<ReturnedArticle> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int update(ReturnedArticle returnedArticle) throws Exception
+    public Integer update(ReturnedArticle returnedArticle) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt = 
         "UPDATE `articulos_devueltos` SET `recomprado`= ? "+
         "WHERE `ejemplar` = ? AND `active_row` = ?;";
@@ -91,7 +100,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         statement.setInt(2, returnedArticle.getUnitCode());
         statement.setBoolean(3, this.activeRow);
 
-        returnCode += statement.executeUpdate();
+        returnCode = statement.executeUpdate();
         statement.close();
         return returnCode;
     }
@@ -100,32 +109,36 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     public List<ReturnedArticle> findAll() throws Exception
     {
         List<ReturnedArticle> ret = new ArrayList<>();
-        /*
+        
         String sqlStmnt = 
-        "";
+        "SELECT `ejemplar`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
+        "FROM `articulos_devueltos` "+
+        "INNER JOIN `articulos` ON articulos.letra = articulos_devueltos.letra "+
+        "WHERE articulos_devueltos.`active_row` = ? AND articulos.active_row = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
-        statement.setBoolean(3, this.activeRow);
+        statement.setBoolean(1, this.activeRow);
+        statement.setBoolean(2, ArticleOperator.getOperator().isActiveRow());
 
 		ResultSet resultSet = statement.executeQuery();
 
         ReturnedArticle returnedArticle;
 		while (resultSet.next())
 		{
-            returnedArticle = new ReturnedArticle(unitCode, reason, repurchased);
+            returnedArticle = new ReturnedArticle(resultSet.getInt(1), Reason.toEnum(resultSet.getInt(3)), resultSet.getBoolean(4) );
 
             //fk ids
-
+            returnedArticle.setArticleId(resultSet.getString(2));
 
             //Associations
-            
+            returnedArticle.setArticle(new Article(resultSet.getString(2), resultSet.getString(5), ArticleType.toEnum(resultSet.getInt(6)), resultSet.getFloat(7)));
 
 			ret.add(returnedArticle);
 		}
 
 		statement.close();
-		*/
+		
 		if(ret.size() == 0)
             ret = null;
 		
@@ -147,7 +160,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     }
 
     @Override
-    public int delete(int id) throws Exception
+    public Integer delete(int id) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

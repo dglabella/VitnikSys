@@ -54,11 +54,11 @@ public class OrderOperator implements IOrderOperator
     }
 
 	@Override
-	public int insert(Order order) throws Exception
+	public Integer insert(Order order) throws Exception
 	{
-		int returnCode;
-		String sqlStmnt = "INSERT INTO `pedidos`(`id_cp`, `nro_camp`, `letra`, `cant`, `monto`) VALUES "+
-		"(?, ?, ?, ?, ?);";
+		Integer returnCode = null;
+		String sqlStmnt = "INSERT INTO `pedidos`(`id_cp`, `nro_camp`, `letra`, `cant`, `monto`) "+
+		"VALUES (?, ?, ?, ?, ?);";
 		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 		
 		statement.setInt(1, order.getPrefClientId() );
@@ -74,9 +74,9 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
-	public int insertMany(List<Order> list) throws Exception
+	public Integer insertMany(List<Order> list) throws Exception
 	{
-		int returnCode = 0;
+		Integer returnCode = 0;
         String sqlStmnt = "INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`) VALUES "+
 		"(?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -104,7 +104,7 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
-	public int update(Order order) throws Exception
+	public Integer update(Order order) throws Exception
 	{
 		// TODO Auto-generated method stub
 		return 0;
@@ -188,9 +188,9 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
-	public int updateAll(List<Order> orders) throws Exception
+	public Integer updateAll(List<Order> orders) throws Exception
 	{
-		int returnCode = 0;
+		Integer returnCode = 0;
 		String sqlStmnt = 
 		"UPDATE `pedidos` "+
 		"SET `comisionable`= ? "+
@@ -224,7 +224,7 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
-	public int delete(int id)
+	public Integer delete(int id)
 	{
 		// TODO Auto-generated method stub
 		return 0;

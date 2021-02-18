@@ -9,5 +9,5 @@ public interface ICommissionOperator extends CrudOperator<Commission>
 
     Commission find(Integer prefClientId, Integer campNumber) throws Exception;
 
-    int delete(Integer prefClientId, Integer campNumber) throws Exception;
+    Integer delete(Integer prefClientId, Integer campNumber) throws Exception;
 }

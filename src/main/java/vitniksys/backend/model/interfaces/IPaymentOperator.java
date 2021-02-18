@@ -10,5 +10,5 @@ public interface IPaymentOperator extends CrudOperator<Payment>
 
     Payment find(int id) throws Exception;
 
-    int delete(int id) throws Exception;
+    Integer delete(int id) throws Exception;
 }

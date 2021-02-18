@@ -9,5 +9,5 @@ public interface IObservationOperator extends CrudOperator<Observation>
 
     Observation find(int id) throws Exception;
 
-    int delete(int id) throws Exception;
+    Integer delete(int id) throws Exception;
 }

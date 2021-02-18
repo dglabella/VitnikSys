@@ -4,11 +4,11 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
-import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.model.enums.PayItem;
-import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.enums.PayType;
+import vitniksys.backend.model.enums.PayStatus;
+import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.interfaces.IPaymentOperator;
 
 public class PaymentOperator implements IPaymentOperator
@@ -55,9 +55,9 @@ public class PaymentOperator implements IPaymentOperator
     }
 
     @Override
-    public int insert(Payment payment) throws Exception
+    public Integer insert(Payment payment) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt =
         "INSERT INTO `pagos`(`id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`) "+
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -79,14 +79,14 @@ public class PaymentOperator implements IPaymentOperator
     }
 
     @Override
-    public int insertMany(List<Payment> list) throws Exception
+    public Integer insertMany(List<Payment> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int update(Payment entity) throws Exception
+    public Integer update(Payment entity) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
@@ -176,7 +176,7 @@ public class PaymentOperator implements IPaymentOperator
     }
 
     @Override
-    public int delete(int id) throws Exception
+    public Integer delete(int id) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

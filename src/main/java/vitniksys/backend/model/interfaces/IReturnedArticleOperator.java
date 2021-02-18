@@ -10,5 +10,5 @@ public interface IReturnedArticleOperator extends CrudOperator<ReturnedArticle>
 
     ReturnedArticle find(int id) throws Exception;
 
-    int delete(int id) throws Exception;    
+    Integer delete(int id) throws Exception;    
 }

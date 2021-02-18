@@ -6,5 +6,5 @@ public interface IArticleOperator extends CrudOperator<Article>
 {
     Article find(String id) throws Exception;
 
-    int delete(String id) throws Exception;
+    Integer delete(String id) throws Exception;
 }

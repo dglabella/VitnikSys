@@ -15,10 +15,10 @@ import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Repurchase;
-import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
+import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 public class LeaderOperator extends BaseClientOperator
@@ -157,9 +157,9 @@ public class LeaderOperator extends BaseClientOperator
     }
 
     @Override
-    public int insert(PreferentialClient cp) throws Exception
+    public Integer insert(PreferentialClient cp) throws Exception
     {
-        int returnCode;
+        Integer returnCode = null;
         String sqlStmnt =
         "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`, `es_lider`) "+
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -204,7 +204,7 @@ public class LeaderOperator extends BaseClientOperator
     }
 
     @Override
-    public int insertMany(List<PreferentialClient> list) throws Exception
+    public Integer insertMany(List<PreferentialClient> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

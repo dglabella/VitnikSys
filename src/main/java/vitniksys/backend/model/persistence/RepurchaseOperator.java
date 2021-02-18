@@ -55,9 +55,9 @@ public class RepurchaseOperator implements IRepurchaseOperator
     }
 
     @Override
-    public int insert(Repurchase repurchase) throws Exception
+    public Integer insert(Repurchase repurchase) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt =
         "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`) "+
         "VALUES (?, ?, ?, ?);";
@@ -75,14 +75,14 @@ public class RepurchaseOperator implements IRepurchaseOperator
     }
 
     @Override
-    public int insertMany(List<Repurchase> list) throws Exception
+    public Integer insertMany(List<Repurchase> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int update(Repurchase entity) throws Exception
+    public Integer update(Repurchase entity) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
@@ -182,7 +182,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
     }
 
     @Override
-    public int delete(int id) throws Exception
+    public Integer delete(int id) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

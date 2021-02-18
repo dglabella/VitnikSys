@@ -51,9 +51,9 @@ public class CommissionOperator implements ICommissionOperator
     }
 
     @Override
-    public int insert(Commission commission) throws Exception
+    public Integer insert(Commission commission) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = 0;
         String sqlStmnt =
         "INSERT INTO `comisiones`(`id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`) VALUES (?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -63,22 +63,22 @@ public class CommissionOperator implements ICommissionOperator
         statement.setInt(3, commission.getActualQuantity());
         statement.setInt(4, commission.getActualRate());
 
-        returnCode += statement.executeUpdate();
+        returnCode = statement.executeUpdate();
         statement.close();
         return returnCode;
     }
 
     @Override
-    public int insertMany(List<Commission> list) throws Exception
+    public Integer insertMany(List<Commission> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int update(Commission commission) throws Exception
+    public Integer update(Commission commission) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt =
         "UPDATE `comisiones` "+
         "SET `cant_actual`= ?, `nivel_actual`= ?, `cant_min`= ?, `cant_1`= ?, `cant_2`= ?, `cant_3`= ?, `cant_4`= ?, `nivel_1`= ?, `nivel_2`= ?, `nivel_3`= ?, `nivel_4`= ? "+
@@ -102,7 +102,7 @@ public class CommissionOperator implements ICommissionOperator
         statement.setInt(13, commission.getCampNumber());
         statement.setBoolean(14, this.activeRow);
 
-        returnCode += statement.executeUpdate();
+        returnCode = statement.executeUpdate();
         statement.close();
 
         return returnCode;
@@ -225,7 +225,7 @@ public class CommissionOperator implements ICommissionOperator
     }
 
     @Override
-    public int delete(Integer prefClientId, Integer campNumber) throws Exception
+    public Integer delete(Integer prefClientId, Integer campNumber) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

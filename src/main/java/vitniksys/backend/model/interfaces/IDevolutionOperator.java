@@ -9,5 +9,5 @@ public interface IDevolutionOperator extends CrudOperator<Devolution>
 
     List<Devolution> findAll(Integer prefClientId, Integer campNumb) throws Exception;
 
-    int delete(int id) throws Exception;
+    Integer delete(int id) throws Exception;
 }

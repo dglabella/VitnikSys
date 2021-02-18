@@ -9,7 +9,7 @@ public interface IBalanceOperator extends CrudOperator<Balance>
 
     Balance find(int id) throws Exception;
 
-    int delete(int id) throws Exception;
+    Integer delete(int id) throws Exception;
 
-    int correctCommission(Integer balanceId, Integer campNumb, Float totalInCommission) throws Exception;
+    Integer correctCommission(Integer balanceId, Integer campNumb, Float totalInCommission) throws Exception;
 }

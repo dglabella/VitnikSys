@@ -11,7 +11,10 @@ import javafx.event.EventHandler;
 import javafx.application.Platform;
 import javafx.application.Application;
 import javafx.scene.control.ButtonType;
+import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.enums.Bank;
+import vitniksys.backend.model.enums.Reason;
+import vitniksys.backend.model.persistence.ReturnedArticleOperator;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
@@ -52,7 +55,6 @@ public class App extends Application
     public void start(final Stage stage) throws IOException
     {
         //new DetailFileInterpreter(new FileChooser().showOpenDialog(null)).insertClientFromDetailFile();
-
         String fileName = "mainMenu";
 
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(GUIs_LOCATION + fileName + FILE_EXTENSION));

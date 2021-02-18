@@ -36,9 +36,9 @@ public class ArticleOperator implements IArticleOperator
     }
 
     @Override
-    public int insert(Article article) throws Exception
+    public Integer insert(Article article) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt =
         "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) VALUES "+
         "(?, ?, ?, ?) ON DUPLICATE KEY UPDATE `nombre` = ?,`tipo` = ?,`precio_unitario` = ?;";
@@ -59,9 +59,9 @@ public class ArticleOperator implements IArticleOperator
     }
 
     @Override
-    public int insertMany(List<Article> list) throws Exception
+    public Integer insertMany(List<Article> list) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = 0;
         String sqlStmnt =
         "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) VALUES "+
         "(?, ?, ?, ?) ON DUPLICATE KEY UPDATE `nombre` = ?,`tipo` = ?,`precio_unitario` = ?;";
@@ -91,7 +91,7 @@ public class ArticleOperator implements IArticleOperator
     }
 
     @Override
-    public int update(Article article) throws Exception
+    public Integer update(Article article) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
@@ -112,7 +112,7 @@ public class ArticleOperator implements IArticleOperator
     }
 
     @Override
-    public int delete(String id) throws Exception
+    public Integer delete(String id) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

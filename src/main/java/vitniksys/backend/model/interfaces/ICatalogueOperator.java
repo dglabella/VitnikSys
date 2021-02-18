@@ -8,7 +8,7 @@ public interface ICatalogueOperator extends CrudOperator<Catalogue>
 {
     Catalogue find(int id) throws Exception;
 
-    int delete(int id) throws Exception;
+    Integer delete(int id) throws Exception;
 
     List<CatalogueDeliver> findCatalogueDeliveries(Integer baseClientId, Integer catalogueId) throws Exception;
 }

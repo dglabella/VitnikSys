@@ -377,7 +377,7 @@ public class PreferentialClientService extends Service
         }  
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, String articleId, String articleName, ArticleType articleType, 
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, String articleId, Integer unitCode, String articleName, ArticleType articleType, 
         Integer quantity, Float cost, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
@@ -389,14 +389,14 @@ public class PreferentialClientService extends Service
                 //returnCode is intended for future implementations
                 int returnCode = 0;
 
-                Devolution devolution = new Devolution(quantity, cost, reason);
-                devolution.setPrefClientId(prefClient.getId());
-                devolution.setCampNumber(campNumber);
-                devolution.setArticleId(articleId);
-
                 ReturnedArticle returnedArticle = new ReturnedArticle(reason);
                 returnedArticle.setArticleId(articleId);
                 returnedArticle.setRepurchased(false);
+
+                Devolution devolution = new Devolution(quantity, cost, reason);
+                devolution.setPrefClientId(prefClient.getId());
+                devolution.setCampNumber(campNumber);
+                devolution.setArticleId(articleId);                
 
                 Balance balance = new Balance();
                 balance.setPrefClientId(prefClient.getId());
@@ -406,9 +406,9 @@ public class PreferentialClientService extends Service
                 try
                 {
                     Connector.getConnector().startTransaction();
-
+                    
+                    devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle));
                     DevolutionOperator.getOperator().insert(devolution);
-                    ReturnedArticleOperator.getOperator().insert(returnedArticle);
                     BalanceOperator.getOperator().update(balance);
 
                     if(prefClient instanceof SubordinatedClient)
@@ -495,6 +495,6 @@ public class PreferentialClientService extends Service
             }
         };
 
-        Platform.runLater(task); 
+        Platform.runLater(task);
     }
 }

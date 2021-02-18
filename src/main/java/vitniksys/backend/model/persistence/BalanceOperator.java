@@ -53,9 +53,9 @@ public class BalanceOperator implements IBalanceOperator
     }
 
     @Override
-    public int insert(Balance balance) throws Exception
+    public Integer insert(Balance balance) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt =
         "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -63,15 +63,15 @@ public class BalanceOperator implements IBalanceOperator
         statement.setInt(1, balance.getPrefClientId());
         statement.setInt(2, balance.getCampNumber());
 
-        returnCode += statement.executeUpdate();
+        returnCode = statement.executeUpdate();
         statement.close();
         return returnCode;
     }
 
     @Override
-    public int insertMany(List<Balance> list) throws Exception
+    public Integer insertMany(List<Balance> list) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = 0;
         String sqlStmnt =
         "INSERT INTO `saldos`(`id_cp`, `nro_camp`) VALUES (?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -94,9 +94,9 @@ public class BalanceOperator implements IBalanceOperator
     }
 
     @Override
-    public int update(Balance balance) throws Exception
+    public Integer update(Balance balance) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt = 
         "UPDATE `saldos` SET `pedidos`= `pedidos`+ ?, `catalogos`= `catalogos`+ ?, "+
         "`recompras`= `recompras`+ ?, `pagos`= `pagos`+ ?, `devoluciones`= `devoluciones`+ ?, "+
@@ -115,15 +115,15 @@ public class BalanceOperator implements IBalanceOperator
         statement.setInt(8, balance.getCampNumber());
         statement.setBoolean(9, this.activeRow);
 
-        returnCode += statement.executeUpdate();
+        returnCode = statement.executeUpdate();
         statement.close();
         return returnCode;
     }
 
     @Override
-    public int correctCommission(Integer prefClientId, Integer campNumb, Float totalInCommission) throws Exception
+    public Integer correctCommission(Integer prefClientId, Integer campNumb, Float totalInCommission) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
         String sqlStmnt = 
         "UPDATE `saldos` "+
         "SET `balance`= `balance`-`comision`, `comision`= ?, `balance`= `balance`+`comision` "+
@@ -136,7 +136,7 @@ public class BalanceOperator implements IBalanceOperator
         statement.setFloat(3, campNumb);
         statement.setBoolean(4, this.activeRow);
         
-        returnCode += statement.executeUpdate();
+        returnCode = statement.executeUpdate();
         statement.close();
 
         return returnCode;
@@ -224,7 +224,7 @@ public class BalanceOperator implements IBalanceOperator
     }
 
     @Override
-    public int delete(int id) throws Exception
+    public Integer delete(int id) throws Exception
     {
         // TODO Auto-generated method stub0
         return 0;

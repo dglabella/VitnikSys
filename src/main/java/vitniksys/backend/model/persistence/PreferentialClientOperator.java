@@ -38,7 +38,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
     }
 
     @Override
-    public int update(PreferentialClient prefClient)
+    public Integer update(PreferentialClient prefClient)
     {
         // TODO Auto-generated method stub
         return 0;
@@ -153,25 +153,25 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
     }
 
     @Override
-    public int delete(Integer id) throws Exception
+    public Integer delete(Integer id) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int registerOrders(PreferentialClient prefClient) throws Exception
+    public Integer registerOrders(PreferentialClient prefClient) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = 0;
 
-        List<Article> articles =  new ArrayList<>();
+        List<Article> articles = new ArrayList<>();
         Iterator<Order> incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
 
         while(incomingOrdersIterator.hasNext())
             articles.add(incomingOrdersIterator.next().getArticle());
 
 
-        List<Order> orders =  new ArrayList<>();
+        List<Order> orders = new ArrayList<>();
         incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
 
         while(incomingOrdersIterator.hasNext())

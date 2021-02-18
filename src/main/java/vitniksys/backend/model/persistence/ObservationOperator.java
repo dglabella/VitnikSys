@@ -51,21 +51,21 @@ public class ObservationOperator implements IObservationOperator
     }
 
     @Override
-    public int insert(Observation entity) throws Exception
+    public Integer insert(Observation entity) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int insertMany(List<Observation> list) throws Exception
+    public Integer insertMany(List<Observation> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int update(Observation entity) throws Exception
+    public Integer update(Observation entity) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
@@ -151,7 +151,7 @@ public class ObservationOperator implements IObservationOperator
     }
 
     @Override
-    public int delete(int id) throws Exception
+    public Integer delete(int id) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

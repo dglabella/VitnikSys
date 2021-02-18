@@ -8,8 +8,8 @@ import java.sql.PreparedStatement;
 public class Connector
 {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis?serverTimezone=UTC";
-    //private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis?serverTimezone=UTC";
+    //private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis?serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis?serverTimezone=UTC";
     // private static final String URL =
     // "jdbc:mysql://localhost:3306/vitniksanluis";//SET GLOBAL time_zone = '-3:00'
     private static final String USER = "root";
@@ -62,5 +62,10 @@ public class Connector
     public PreparedStatement getStatement(String SQLstatement) throws SQLException
     {
         return Connector.connection.prepareStatement(SQLstatement);
+    }
+
+    public PreparedStatement getStatement(String SQLstatement, int returnGenKeys) throws SQLException
+    {
+        return Connector.connection.prepareStatement(SQLstatement, returnGenKeys);
     }
 }

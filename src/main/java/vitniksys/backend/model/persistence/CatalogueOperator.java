@@ -55,9 +55,9 @@ public class CatalogueOperator implements ICatalogueOperator
     }
 
     @Override
-    public int insert(Catalogue catalogue) throws Exception
+    public Integer insert(Catalogue catalogue) throws Exception
     {
-        int returnCode = 0;
+        Integer returnCode = null;
 
         String sqlStmnt =
         "INSERT INTO `catalogos`(`cod`, `stock_inicial`, `stock`, `precio`, `link`) "+
@@ -88,7 +88,7 @@ public class CatalogueOperator implements ICatalogueOperator
     }
 
     @Override
-    public int insertMany(List<Catalogue> list) throws Exception
+    public Integer insertMany(List<Catalogue> list) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
@@ -154,15 +154,15 @@ public class CatalogueOperator implements ICatalogueOperator
     }
 
     @Override
-    public int update(Catalogue catalogue) throws Exception
+    public Integer update(Catalogue catalogue) throws Exception
     {
-        int errorCode = 0;
+        Integer returnCode = 0;
 
-        return errorCode;
+        return returnCode;
     }
 
     @Override
-    public int delete(int id) throws Exception
+    public Integer delete(int id) throws Exception
     {
         int errorCode = 0;
 

@@ -7,6 +7,7 @@ public class Devolution extends VitnikSearchableEntity
 {
     //fk id
     private String articleId;
+    private Integer unitCode;
 
     //Entity properties
     private int code;
@@ -48,6 +49,16 @@ public class Devolution extends VitnikSearchableEntity
     public void setArticleId(String articleId)
     {
         this.articleId = articleId;
+    }
+
+    public Integer getUnitCode()
+    {
+        return this.unitCode;
+    }
+
+    public void setUnitCode(Integer unitCode)
+    {
+        this.unitCode = unitCode;
     }
 
     /**
