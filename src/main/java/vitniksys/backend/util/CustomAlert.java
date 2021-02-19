@@ -33,7 +33,7 @@ public class CustomAlert extends Alert
 
     public enum CustomAlertType
     {
-        PAYMENT, REPURCHASE
+        PAYMENT, REPURCHASE, DEVOLUTION
     }
     
     public CustomAlert()
@@ -137,6 +137,9 @@ public class CustomAlert extends Alert
                     break;
                 case REPURCHASE:
                     fileName = "repurchaseDialogContent";
+                    break;
+                case DEVOLUTION:
+                    fileName = "devolutionDialogContent";
                     break;
             }
 

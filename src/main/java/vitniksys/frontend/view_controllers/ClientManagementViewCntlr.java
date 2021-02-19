@@ -267,7 +267,23 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void devolutionMenuItemSelected()
     {
-
+        CustomAlert customAlert = new CustomAlert(CustomAlertType.DEVOLUTION , "DEVOLUTCIÓN", "Ingrese los datos necesarios para realizar la devolución");
+        customAlert.customShow().ifPresent(response ->
+        {
+            if(response == ButtonType.OK)
+            {
+                DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+                try
+                {
+                    ((PreferentialClientService)this.getService(0)).registerPayment(this.prefClient, this.actualCampaign.getNumber(), cntlr.getDescriptor(), 
+                        cntlr.getAmount(), cntlr.getItem(), cntlr.getPaymentMethod(), cntlr.getBank(), cntlr.getPaymentStatus());
+                }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                }                
+            }
+        });
     }
 
     @FXML

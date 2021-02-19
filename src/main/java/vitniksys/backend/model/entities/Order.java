@@ -10,6 +10,7 @@ public class Order extends VitnikSearchableEntity
     private Integer code;
     private Integer deliveryNumber;
     private Integer quantity;
+    private Integer returnedQuantity;
     private Float cost;
     private Timestamp withdrawalDate;
     private Timestamp registrationTime;

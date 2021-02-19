@@ -9,11 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import vitniksys.backend.util.ExpressionChecker;
 
-public class repurchaseDialogContentViewCntlr extends DialogContentViewCntlr implements Initializable
+public class RepurchaseDialogContentViewCntlr extends DialogContentViewCntlr implements Initializable
 {
     // ================================= FXML variables =================================
     @FXML private Label costLabel;
-
     @FXML private TextField cost;
 
     // ================================= FXML methods ===================================
