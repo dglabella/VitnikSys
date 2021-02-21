@@ -16,7 +16,6 @@ public class OrdersRowTable
     private Integer code;
     private Integer deliveryNumber;
     private Integer quantity;
-    private Integer returnedQuantity;
     private Float cost;
     private float commissionCost;
     private float commission;

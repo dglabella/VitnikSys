@@ -77,8 +77,9 @@ public class OrderOperator implements IOrderOperator
 	public Integer insertMany(List<Order> list) throws Exception
 	{
 		Integer returnCode = 0;
-        String sqlStmnt = "INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`) VALUES "+
-		"(?, ?, ?, ?, ?, ?);";
+        String sqlStmnt = 
+		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`) "+
+		"VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         Order order;
@@ -140,7 +141,7 @@ public class OrderOperator implements IOrderOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt =
-			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
+			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
 			"FROM `pedidos` "+
 			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
 			"WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
@@ -164,9 +165,10 @@ public class OrderOperator implements IOrderOperator
 		Order order;
 		while (resultSet.next())
 		{
-			order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(7), resultSet.getBoolean(9));
+			order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(8), resultSet.getBoolean(10));
 			order.setDeliveryNumber(resultSet.getInt(2));
-			order.setWithdrawalDate(resultSet.getTimestamp(8));
+			order.setReturnedQuantity(resultSet.getInt(7));
+			order.setWithdrawalDate(resultSet.getTimestamp(9));
 			
 			//fk ids
 			order.setPrefClientId(resultSet.getInt(3));
@@ -174,7 +176,7 @@ public class OrderOperator implements IOrderOperator
 			order.setArticleId(resultSet.getString(5));
 
 			//Associations
-			order.setArticle(new Article(resultSet.getString(5), resultSet.getString(10), ArticleType.toEnum(resultSet.getInt(11)), resultSet.getFloat(12)));
+			order.setArticle(new Article(resultSet.getString(5), resultSet.getString(11), ArticleType.toEnum(resultSet.getInt(12)), resultSet.getFloat(13)));
 			
 			ret.add(order);
 		}

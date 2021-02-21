@@ -267,23 +267,41 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void devolutionMenuItemSelected()
     {
-        CustomAlert customAlert = new CustomAlert(CustomAlertType.DEVOLUTION , "DEVOLUTCIÓN", "Ingrese los datos necesarios para realizar la devolución");
-        customAlert.customShow().ifPresent(response ->
+        OrdersRowTable orderRowTable = this.orders.getSelectionModel().getSelectedItem();
+
+        if(orderRowTable.getQuantity() == orderRowTable.getOrder().getReturnedQuantity())
         {
-            if(response == ButtonType.OK)
+            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "No quedan artículos por devolver").customShow();   
+        }
+        else
+        {
+            CustomAlert customAlert = new CustomAlert(CustomAlertType.DEVOLUTION , "DEVOLUCIÓN", "Ingrese el motivo de la devolución");
+
+            customAlert.customShow().ifPresent(response ->
             {
-                DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
-                try
-                {
-                    ((PreferentialClientService)this.getService(0)).registerPayment(this.prefClient, this.actualCampaign.getNumber(), cntlr.getDescriptor(), 
-                        cntlr.getAmount(), cntlr.getItem(), cntlr.getPaymentMethod(), cntlr.getBank(), cntlr.getPaymentStatus());
+                if(response == ButtonType.OK)
+                {                    
+                    try
+                    {
+                        DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+                        cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+
+                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getArticleId(), 
+                            null, orderRowTable.getCost(), cntlr.getReason());
+                    }
+                    catch (Exception exception)
+                    {
+                        exception.printStackTrace();
+                    }
                 }
-                catch (Exception exception)
-                {
-                    exception.printStackTrace();
-                }                
-            }
-        });
+            });
+        }
+    }
+
+    @FXML
+    private void devolutionRepMenuItemSelected()
+    {
+        
     }
 
     @FXML

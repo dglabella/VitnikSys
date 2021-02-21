@@ -1,4 +1,5 @@
 vitniksys\backend\util\OrdersRowTable.class
+vitniksys\frontend\view_controllers\RepurchaseDialogContentViewCntlr.class
 vitniksys\backend\model\services\PreferentialClientService$6.class
 vitniksys\backend\model\services\PreferentialClientService$3.class
 vitniksys\backend\model\entities\Leader.class
@@ -16,6 +17,7 @@ vitniksys\backend\util\RepurchasesRowTable.class
 vitniksys\backend\model\entities\Payment.class
 vitniksys\backend\model\entities\Campaign.class
 vitniksys\backend\model\services\CatalogueService$2.class
+vitniksys\frontend\view_controllers\DevolutionDialogContentViewCntlr.class
 vitniksys\frontend\view_controllers\CatalogueQueryViewCntlr.class
 vitniksys\backend\model\services\CommissionService.class
 vitniksys\backend\model\interfaces\IArticleOperator.class
@@ -66,7 +68,6 @@ vitniksys\backend\model\interfaces\ICampaignOperator.class
 vitniksys\backend\model\services\CampaignService$3.class
 vitniksys\backend\model\persistence\PaymentOperator.class
 vitniksys\backend\model\interfaces\IRepurchaseOperator.class
-vitniksys\frontend\view_controllers\repurchaseDialogContentViewCntlr.class
 vitniksys\backend\model\entities\Commission.class
 vitniksys\backend\model\services\CommissionService$2.class
 vitniksys\backend\model\entities\Balance.class

@@ -88,6 +88,16 @@ public class Order extends VitnikSearchableEntity
         this.quantity = quantity;
     }
 
+    public Integer getReturnedQuantity()
+    {
+        return this.returnedQuantity;
+    }
+
+    public void setReturnedQuantity(Integer returnedQuantity)
+    {
+        this.returnedQuantity = returnedQuantity;
+    }
+
     public Float getCost()
     {
         return this.cost;

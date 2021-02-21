@@ -58,8 +58,8 @@ public class DevolutionOperator implements IDevolutionOperator
     public Integer insert(Devolution devolution) throws Exception
     {
         Integer returnCode = null;
-        String sqlStmnt =
-        "INSERT INTO `devoluciones`(`id_cp`, `nro_camp`, `ejemplar`, `letra`, `cant`, `monto`, `motivo`) " +
+        String sqlStmnt = 
+        "INSERT INTO `devoluciones`(`id_cp`, `nro_camp`, `ejemplar`, `letra`, `monto`, `motivo`) " +
         "VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
@@ -67,9 +67,8 @@ public class DevolutionOperator implements IDevolutionOperator
         statement.setInt(2, devolution.getCampNumber());
         statement.setInt(3, devolution.getUnitCode());
         statement.setString(4, devolution.getArticleId());
-        statement.setInt(5, devolution.getQuantity());
-        statement.setFloat(6, devolution.getCost());
-        statement.setInt(7, devolution.getReason().ordinal());
+        statement.setFloat(5, devolution.getCost());
+        statement.setInt(6, devolution.getReason().ordinal());
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -115,7 +114,7 @@ public class DevolutionOperator implements IDevolutionOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, `ejemplar`, devoluciones.`letra`, `cant`, `monto`, `motivo`, `fecha_registro`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `cod`, `id_cp`, `nro_camp`, `ejemplar`, devoluciones.`letra`, `monto`, `motivo`, `fecha_registro`, `nombre`, `tipo`, `precio_unitario` "+
             "FROM `devoluciones` "+
             "INNER JOIN `articulos` ON devoluciones.letra = articulos.letra "+
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND devoluciones.active_row = ? AND articulos.active_row = ?;";
@@ -129,7 +128,7 @@ public class DevolutionOperator implements IDevolutionOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt =
-			"SELECT `cod`, `id_cp`, `nro_camp`, `ejemplar`, devoluciones.`letra`, `cant`, `monto`, `motivo`, `fecha_registro`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `cod`, `id_cp`, `nro_camp`, `ejemplar`, devoluciones.`letra`, `monto`, `motivo`, `fecha_registro`, `nombre`, `tipo`, `precio_unitario` "+
             "FROM `devoluciones` "+
             "INNER JOIN `articulos` ON devoluciones.letra = articulos.letra "+
             "WHERE `id_cp` = ? AND devoluciones.active_row = ? AND articulos.active_row = ?;";
@@ -153,8 +152,8 @@ public class DevolutionOperator implements IDevolutionOperator
 		Devolution devolution;
 		while (resultSet.next())
 		{
-            devolution = new Devolution(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(7), Reason.toEnum(resultSet.getInt(8)), resultSet.getTimestamp(9));
-			
+            devolution = new Devolution(resultSet.getInt(1), resultSet.getFloat(6), Reason.toEnum(resultSet.getInt(7)), resultSet.getTimestamp(8));
+
 			//fk ids
             devolution.setPrefClientId(resultSet.getInt(2));
             devolution.setCampNumber(resultSet.getInt(3));
@@ -163,7 +162,7 @@ public class DevolutionOperator implements IDevolutionOperator
             
 
             //Associations
-            devolution.setArticle(new Article(resultSet.getString(5), resultSet.getString(10), ArticleType.toEnum(resultSet.getInt(11)), resultSet.getFloat(12)));
+            devolution.setArticle(new Article(resultSet.getString(5), resultSet.getString(9), ArticleType.toEnum(resultSet.getInt(10)), resultSet.getFloat(11)));
 			
 			ret.add(devolution);
 		}

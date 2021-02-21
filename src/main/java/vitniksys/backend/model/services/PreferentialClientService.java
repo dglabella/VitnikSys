@@ -377,8 +377,7 @@ public class PreferentialClientService extends Service
         }  
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, String articleId, Integer unitCode, String articleName, ArticleType articleType, 
-        Integer quantity, Float cost, Reason reason) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -393,7 +392,7 @@ public class PreferentialClientService extends Service
                 returnedArticle.setArticleId(articleId);
                 returnedArticle.setRepurchased(false);
 
-                Devolution devolution = new Devolution(quantity, cost, reason);
+                Devolution devolution = new Devolution(cost, reason);
                 devolution.setPrefClientId(prefClient.getId());
                 devolution.setCampNumber(campNumber);
                 devolution.setArticleId(articleId);                

@@ -186,7 +186,7 @@
                                              <contextMenu>
                                                 <ContextMenu>
                                                    <items>
-                                                      <MenuItem mnemonicParsing="false" onAction="#devolutionMenuItemSelected" text="Devolver" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#devolutionRepMenuItemSelected" text="Devolver" />
                                                       <MenuItem mnemonicParsing="false" onAction="#seeStockMenuItemSelected" text="Ver stock" />
                                                    </items>
                                                 </ContextMenu>

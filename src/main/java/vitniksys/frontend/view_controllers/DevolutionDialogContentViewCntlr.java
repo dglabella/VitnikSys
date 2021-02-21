@@ -4,37 +4,25 @@ import java.net.URL;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.ComboBox;
+import javafx.collections.FXCollections;
+import vitniksys.backend.model.enums.Reason;
 
 public class DevolutionDialogContentViewCntlr extends DialogContentViewCntlr implements Initializable
 {
-    private Integer min;
-    private Integer max;
-
     // Getters && Setters
-    public Integer getMin()
+    public Reason getReason()
     {
-        return this.min;
+        return this.reason.getValue();
     }
 
-    public void setMin(Integer min)
+    public void setReason(Reason reason)
     {
-        this.min = min;
-    }
-
-    public Integer getMax()
-    {
-        return this.max;
-    }
-
-    public void setMax(Integer max)
-    {
-        this.max = max;
+        this.reason.setValue(reason);
     }
 
     // ================================= FXML variables =================================
-    @FXML private Spinner<Integer> quantity;
+    @FXML private ComboBox<Reason> reason;
 
     // ================================= FXML methods ===================================
 
@@ -47,6 +35,13 @@ public class DevolutionDialogContentViewCntlr extends DialogContentViewCntlr imp
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        this.quantity.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, this.getMax()));
+        this.reason.setItems(FXCollections.observableArrayList());
+        Reason [] reasons = Reason.values();
+        for(int i = 0; i < reasons.length; i++)
+        {
+            this.reason.getItems().add(reasons[i]);
+        }
+
+        this.reason.setValue(Reason.NA);
     }
 }
