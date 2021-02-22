@@ -141,6 +141,12 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
     }
 
     @Override
+    public void closeSubscriberStage()
+    {
+        this.stage.close();
+    }
+
+    @Override
     public CustomAlert showProcessIsWorking(String message)
     {
         CustomAlert customAlert = new CustomAlert(AlertType.NONE, "PROCESANDO", message);

@@ -14,12 +14,12 @@ import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ReturnedArticle;
+import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.PaymentOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
@@ -377,7 +377,7 @@ public class PreferentialClientService extends Service
         }  
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -388,14 +388,14 @@ public class PreferentialClientService extends Service
                 //returnCode is intended for future implementations
                 int returnCode = 0;
 
-                ReturnedArticle returnedArticle = new ReturnedArticle(reason);
+                ReturnedArticle returnedArticle = new ReturnedArticle(reason);  
                 returnedArticle.setArticleId(articleId);
                 returnedArticle.setRepurchased(false);
 
                 Devolution devolution = new Devolution(cost, reason);
                 devolution.setPrefClientId(prefClient.getId());
                 devolution.setCampNumber(campNumber);
-                devolution.setArticleId(articleId);                
+                devolution.setArticleId(articleId);         
 
                 Balance balance = new Balance();
                 balance.setPrefClientId(prefClient.getId());
@@ -408,6 +408,7 @@ public class PreferentialClientService extends Service
                     
                     devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle));
                     DevolutionOperator.getOperator().insert(devolution);
+                    OrderOperator.getOperator().incrementForDevolution(orderId);
                     BalanceOperator.getOperator().update(balance);
 
                     if(prefClient instanceof SubordinatedClient)

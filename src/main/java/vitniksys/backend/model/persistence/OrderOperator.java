@@ -112,6 +112,25 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
+	public Integer incrementForDevolution(Integer orderId) throws Exception
+	{
+		Integer returnCode = null;
+        String sqlStmnt = 
+        "UPDATE `pedidos` "+
+		"SET `cant_devueltos`= `cant_devueltos`+1 "+
+		"WHERE `cod` = ? AND `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, orderId);
+        statement.setBoolean(2, this.activeRow);
+        
+        returnCode = statement.executeUpdate();
+        statement.close();
+
+        return returnCode;
+	}
+
+	@Override
 	public List<Order> findAll() throws Exception
 	{
 		return null;

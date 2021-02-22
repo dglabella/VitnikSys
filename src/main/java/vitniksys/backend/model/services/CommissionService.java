@@ -7,10 +7,13 @@ import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
+import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
+import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
 
@@ -113,64 +116,79 @@ public class CommissionService extends Service
     }
 
     // ================================== public methods ==================================
-    public void createDefaultCommission(List<Order> orders) throws Exception
+    public void createDefaultCommission(PreferentialClient prefClient, List<Order> orders) throws Exception
     {
-        if(orders != null && orders.size() > 0)
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Creando comisión por defecto.");
+
+        Task<Integer> task = new Task<>()
         {
-            CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Creando comisión por defecto.");
-            Task<Integer> task = new Task<>()
+            @Override
+            protected Integer call() throws Exception
             {
-                @Override
-                protected Integer call() throws Exception
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+                try
                 {
-                    //returnCode is intended for future implementations
-                    int returnCode = 0;
-                    Commission commission = new Commission(orders.get(0).getPrefClientId(), orders.get(0).getCampNumber());
-                    commission.setActualQuantity(0);
-                    commission.setActualRate(0);
-                        
-                    try
+                    Connector.getConnector().startTransaction();
+                    if(prefClient != null && prefClient instanceof Leader)
                     {
-                        Connector.getConnector().startTransaction();
-                        
-                        CommissionOperator.getOperator().insert(commission);
-                        //get commission from database with default lvls
-                        commission = CommissionOperator.getOperator().find(orders.get(0).getPrefClientId(), orders.get(0).getCampNumber());
-                        updateCommission(commission, orders);
+                        if(orders != null && orders.size() > 0)
+                        {
+                            Connector.getConnector().startTransaction();
+                            Commission commission = new Commission(prefClient.getId(), orders.get(0).getCampNumber());
+                            commission.setActualQuantity(0);
+                            commission.setActualRate(0);
 
-                        Connector.getConnector().commit();
+                            CommissionOperator.getOperator().insert(commission);
+                            //get commission from database with default lvls
+                            commission = CommissionOperator.getOperator().find(prefClient.getId(), orders.get(0).getCampNumber());
 
-                        getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showSucces
-                        (
-                            "Se han creado para el cliente preferencial " + orders.get(0).getPrefClientId() +
-                            "\nen la campaña " + orders.get(0).getCampNumber() + " los niveles de comisión por defecto. " +
-                            "\nPueden modificarse y actualizarse a preferencia."
-                        );
+                            updateCommission(commission, orders);
 
-                        ((CommissionServiceSubscriber)getServiceSubscriber()).showCommission(commission);
-                        getServiceSubscriber().refresh();
+                            Connector.getConnector().commit();
+
+                            getServiceSubscriber().closeProcessIsWorking(customAlert);
+                            getServiceSubscriber().showSucces
+                            (
+                                "Se han creado para el cliente preferencial " + prefClient.getId() +
+                                "\nen la campaña " + orders.get(0).getCampNumber() + " los niveles de comisión por defecto. " +
+                                "\nPueden modificarse y actualizarse a preferencia."
+                            );
+
+                            ((CommissionServiceSubscriber)getServiceSubscriber()).showCommission(commission);
+                            getServiceSubscriber().refresh();
+                        }
+                        else
+                        {
+                            throw new Exception("No orders registered.");
+                        }
                     }
-                    catch (Exception exception)
+                    else
                     {
-                        Connector.getConnector().rollBack();
-                        getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showError("Error al intentar registrar los niveles de comisión.", null, exception);
+                        throw new Exception("This preferential client ("+(prefClient != null ? prefClient.getId():null)+") is not a leader");
                     }
-                    finally
-                    {
-                        Connector.getConnector().endTransaction();
-                        Connector.getConnector().closeConnection();
-                    }
-                    return returnCode;
+
+                } 
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                    Connector.getConnector().rollBack();
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al intentar registrar los niveles de comisión. Puede que el cliente \npreferencial "+
+                        "no sea un líder ó no haya pedidos registrados.", null, exception);
+
+                    getServiceSubscriber().closeSubscriberStage();
                 }
-            };
-            Platform.runLater(task);
-        }
-        else
-        {
-            this.getServiceSubscriber().showNoResult("No hay pedidos");
-        }
+                finally
+                {
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+        Platform.runLater(task);
     }
 
     public void modifyCommission(Commission commission, List<Order> orders) throws Exception

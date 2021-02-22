@@ -9,6 +9,8 @@ public interface IOrderOperator extends CrudOperator<Order>
 
     Integer updateAll(List<Order> orders) throws Exception;
 
+    Integer incrementForDevolution(Integer orderId) throws Exception;
+
     Order find(int id) throws Exception;
 
     Integer delete(int id) throws Exception;

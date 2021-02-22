@@ -55,7 +55,8 @@ public class CommissionOperator implements ICommissionOperator
     {
         Integer returnCode = 0;
         String sqlStmnt =
-        "INSERT INTO `comisiones`(`id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`) VALUES (?, ?, ?, ?);";
+        "INSERT INTO `comisiones`(`id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`) "+
+        "VALUES (?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, commission.getPrefClientId());

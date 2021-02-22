@@ -8,6 +8,9 @@ public interface ServiceSubscriber
     Service getService(int location);
 
     int addService(Service service);
+
+    void closeSubscriberStage();
+
     /**
      * Called everytime that a use case is initiated.
      * IMPORTANT: DO NOT USE THREAD BLOCKING INSTRUCTIONS HERE.

@@ -286,7 +286,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                         DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
                         cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
 
-                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getArticleId(), 
+                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), orderRowTable.getArticleId(), 
                             null, orderRowTable.getCost(), cntlr.getReason());
                     }
                     catch (Exception exception)
@@ -318,16 +318,23 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void commissionLvlMenuItemSelected()
     {
-        ViewCntlr viewCntlr = this.createStage("Comisión", "commissionRegister", new CommissionService());
-        viewCntlr.getStage().show();
+        if(this.prefClient instanceof Leader)
+        {
+            ViewCntlr viewCntlr = this.createStage("Comisión", "commissionRegister", new CommissionService());
+            viewCntlr.getStage().show();
 
-        //load prefClientId and campNumber because sometimes actualCommission can be null
-        ((CommissionRegisterViewCntlr)viewCntlr).loadPrefClient(this.prefClient);
-        ((CommissionRegisterViewCntlr)viewCntlr).loadCamp(this.actualCampaign);
-        ((CommissionRegisterViewCntlr)viewCntlr).loadOrders(this.actualOrders);
-        ((CommissionRegisterViewCntlr)viewCntlr).loadCommission(this.actualCommission);
-        
-        viewCntlr.manualInitialize();
+            //load prefClientId and campNumber because sometimes actualCommission can be null
+            ((CommissionRegisterViewCntlr)viewCntlr).loadPrefClient(this.prefClient);
+            ((CommissionRegisterViewCntlr)viewCntlr).loadCamp(this.actualCampaign);
+            ((CommissionRegisterViewCntlr)viewCntlr).loadOrders(this.actualOrders);
+            ((CommissionRegisterViewCntlr)viewCntlr).loadCommission(this.actualCommission);
+            
+            viewCntlr.manualInitialize();
+        }
+        else
+        {
+            new CustomAlert(AlertType.INFORMATION, "COMISIÓN", "Solo los líderes poseen niveles de comisión.").customShow();
+        }
     }
 
     @FXML

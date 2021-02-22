@@ -123,7 +123,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         {
             try
             {
-                ((CommissionService)this.getService(0)).createDefaultCommission(this.orders);
+                ((CommissionService)this.getService(0)).createDefaultCommission(this.prefClient, this.orders);
             }
             catch (Exception exception)
             {
