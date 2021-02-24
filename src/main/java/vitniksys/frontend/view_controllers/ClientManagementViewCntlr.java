@@ -111,6 +111,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<OrdersRowTable, String> articleId;
     @FXML private TableColumn<OrdersRowTable, String> unitPrice;
     @FXML private TableColumn<OrdersRowTable, String> withdrawalDate;
+    @FXML private TableColumn<OrdersRowTable, String> devQuantity;
     @FXML private TableColumn<OrdersRowTable, String> isCommissionable;
 
     //payments columns
@@ -269,33 +270,26 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         OrdersRowTable orderRowTable = this.orders.getSelectionModel().getSelectedItem();
 
-        if(orderRowTable.getQuantity() == orderRowTable.getOrder().getReturnedQuantity())
-        {
-            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "No quedan artículos por devolver").customShow();   
-        }
-        else
-        {
-            CustomAlert customAlert = new CustomAlert(CustomAlertType.DEVOLUTION , "DEVOLUCIÓN", "Ingrese el motivo de la devolución");
+        CustomAlert customAlert = new CustomAlert(CustomAlertType.DEVOLUTION , "DEVOLUCIÓN", "Ingrese el motivo de la devolución");
 
-            customAlert.customShow().ifPresent(response ->
-            {
-                if(response == ButtonType.OK)
-                {                    
-                    try
-                    {
-                        DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
-                        cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+        customAlert.customShow().ifPresent(response ->
+        {
+            if(response == ButtonType.OK)
+            {                    
+                try
+                {
+                    DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+                    cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
 
-                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), orderRowTable.getArticleId(), 
-                            null, orderRowTable.getCost(), cntlr.getReason());
-                    }
-                    catch (Exception exception)
-                    {
-                        exception.printStackTrace();
-                    }
+                    ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), orderRowTable.getArticleId(), 
+                        null, orderRowTable.getCost(), cntlr.getReason());
                 }
-            });
-        }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+            }
+        });
     }
 
     @FXML
@@ -372,7 +366,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     public void fillManagementView()
     {
         this.clearTables();
-        
+
         if(this.prefClient instanceof Leader)
         {
             ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
@@ -428,6 +422,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.articleId);
         columns.add(this.unitPrice);
         columns.add(this.withdrawalDate);
+        columns.add(this.devQuantity);
         columns.add(this.isCommissionable);
         
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
@@ -440,6 +435,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         propertiesValues.add(new PropertyValueFactory<>("articleId"));
         propertiesValues.add(new PropertyValueFactory<>("unitPrice"));
         propertiesValues.add(new PropertyValueFactory<>("withdrawalDate"));
+        propertiesValues.add(new PropertyValueFactory<>("returnedQuantity"));
         propertiesValues.add(new PropertyValueFactory<>("commissionable"));
 
         this.registerTable(this.orders);
@@ -539,7 +535,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     
     // ================================= service subscriber methods ===================================
     @Override
-    public void refresh() 
+    public void refresh()
     {
         this.fillManagementView();
     }
@@ -575,7 +571,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
         this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
-        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders) );
+        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders));
 
         if(prefClient instanceof Leader)
         {

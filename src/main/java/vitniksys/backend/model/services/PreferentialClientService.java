@@ -12,6 +12,7 @@ import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Repurchase;
@@ -374,7 +375,7 @@ public class PreferentialClientService extends Service
         {
             //Conflict with some fields.
             this.getServiceSubscriber().showError("Los campos deben completarse correctamente.");
-        }  
+        }
     }
 
     public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
@@ -392,7 +393,7 @@ public class PreferentialClientService extends Service
                 returnedArticle.setArticleId(articleId);
                 returnedArticle.setRepurchased(false);
 
-                Devolution devolution = new Devolution(cost, reason);
+                Devolution devolution = new Devolution(cost);
                 devolution.setPrefClientId(prefClient.getId());
                 devolution.setCampNumber(campNumber);
                 devolution.setArticleId(articleId);         
@@ -405,24 +406,46 @@ public class PreferentialClientService extends Service
                 try
                 {
                     Connector.getConnector().startTransaction();
-                    
-                    devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle));
-                    DevolutionOperator.getOperator().insert(devolution);
-                    OrderOperator.getOperator().incrementForDevolution(orderId);
-                    BalanceOperator.getOperator().update(balance);
-
-                    if(prefClient instanceof SubordinatedClient)
+                    if(unitCode == null)
                     {
-                        //update also the leader balance
-                        balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
-                        BalanceOperator.getOperator().update(balance);
+                        //Then, the devolution comes from an order, therefore a returned article will be creater in DB 
+                        //and the order will be updated adding 1 to de returned quantity attribute in DB.
+                        //Finally, a process for update (correct) the commission is executed.
+
+                    }
+                    else //Otherwise, the devolution comes from a repurchase, therefore a returned article will not be created but updated instead
+                    {
+
                     }
 
-                    Connector.getConnector().commit();
+                    Order order = OrderOperator.getOperator().find(orderId);
 
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!");
-                    getServiceSubscriber().refresh();
+                    if(order.getQuantity() > order.getReturnedQuantity())
+                    {                   
+                        devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle));
+                        DevolutionOperator.getOperator().insert(devolution);
+                        OrderOperator.getOperator().incrementForDevolution(orderId);
+                        BalanceOperator.getOperator().update(balance);
+
+                        if(prefClient instanceof SubordinatedClient)
+                        {
+                            //update also the leader balance
+                            balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
+                            BalanceOperator.getOperator().update(balance);
+                        }
+
+                        Connector.getConnector().commit();
+
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ ASDASDSA DASDAS ASDSADASDASDASDASDASDSADSAD ASD ASD ASD ASD SA DSAD );
+                        getServiceSubscriber().refresh();
+
+                    }
+                    else
+                    {
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showError("No quedan artículos por devolver.");
+                    }
                 }
                 catch (Exception exception)
                 {

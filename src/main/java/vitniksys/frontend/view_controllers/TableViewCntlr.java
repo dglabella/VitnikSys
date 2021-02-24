@@ -76,13 +76,13 @@ public abstract class TableViewCntlr extends ViewCntlr
     {
         for (int i = 0; i < this.tables.size(); i++)
         {
-            this.tables.get(i).getItems().clear();
+            this.tableDataLists.get(i).clear();
         } 
     }
 
     protected void clearTable(int tableNumber)
     {
-        this.tables.get(tableNumber).getItems().clear();
+        this.tableDataLists.get(tableNumber).clear();
     }
 
     protected void registerColumn(TableColumn column)

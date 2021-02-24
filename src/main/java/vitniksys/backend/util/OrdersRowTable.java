@@ -16,6 +16,7 @@ public class OrdersRowTable
     private Integer code;
     private Integer deliveryNumber;
     private Integer quantity;
+    private Integer returnedQuantity;
     private Float cost;
     private float commissionCost;
     private float commission;
@@ -28,12 +29,13 @@ public class OrdersRowTable
 
     private Order order;
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, String name, ArticleType articleType, 
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, ArticleType articleType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, Order order)
     {
         this.code = code;
         this.deliveryNumber = deliveryNumber;
         this.quantity = quantity;
+        this.returnedQuantity = returnedQuantity;
         this.cost = cost;
         this.name = name;
         this.articleType = articleType;
@@ -53,12 +55,13 @@ public class OrdersRowTable
         );
     }
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Float cost, String name, ArticleType articleType, 
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, ArticleType articleType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, ChangeListener<? super Boolean> changeListener, Order order)
     {
         this.code = code;
         this.deliveryNumber = deliveryNumber;
         this.quantity = quantity;
+        this.returnedQuantity = returnedQuantity;
         this.cost = cost;
         this.name = name;
         this.articleType = articleType;
@@ -86,7 +89,7 @@ public class OrdersRowTable
             while(ordersIterator.hasNext())
             {
                 order = ordersIterator.next();
-                ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), order.getArticle().getName(), 
+                ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
                     order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order);
                 
                 if(order.isCommissionable())
@@ -116,7 +119,7 @@ public class OrdersRowTable
         while(ordersIterator.hasNext())
         {
             order = ordersIterator.next();
-            ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getCost(), order.getArticle().getName(), 
+            ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
                 order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
                 order.isCommissionable(), changeListener, order);
 
@@ -166,6 +169,16 @@ public class OrdersRowTable
         this.quantity = quantity;
     }
 
+    public Integer getReturnedQuantity()
+    {
+        return this.returnedQuantity;
+    }
+
+    public void setReturnedQuantity(Integer returnedQuantity)
+    {
+        this.returnedQuantity = returnedQuantity;
+    }
+    
     public Float getCost()
     {
         return this.cost;

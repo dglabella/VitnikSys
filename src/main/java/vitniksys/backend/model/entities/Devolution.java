@@ -1,53 +1,38 @@
 package vitniksys.backend.model.entities;
 
 import java.sql.Timestamp;
-import vitniksys.backend.model.enums.Reason;
 
 public class Devolution extends VitnikSearchableEntity
 {
     //fk id
-    private String articleId;
     private Integer unitCode;
 
     //Entity properties
     private int code;
     private float cost;
-    private Reason reason;
     private Timestamp registrationTime;
 
     //Domain Associations
     private PreferentialClient client;
-    private Article article;
     private Campaign campaign;
+    private ReturnedArticle returnedArticle;
 
     //Others
     private boolean active;
 
-    public Devolution(float cost, Reason reason)
+    public Devolution(float cost)
     {
         this.cost = cost;
-        this.reason = reason;
     }
 
-    public Devolution(int code, float cost, Reason reason, Timestamp registrationTime)
+    public Devolution(int code, float cost, Timestamp registrationTime)
     {
         this.code = code;
         this.cost = cost;
-        this.reason = reason;
         this.registrationTime = registrationTime;
     }
 
     //Getters && Setters
-    public String getArticleId()
-    {
-        return this.articleId;
-    }
-
-    public void setArticleId(String articleId)
-    {
-        this.articleId = articleId;
-    }
-
     public Integer getUnitCode()
     {
         return this.unitCode;
@@ -86,16 +71,6 @@ public class Devolution extends VitnikSearchableEntity
         this.cost = cost;
     }
 
-    public Reason getReason()
-    {
-        return this.reason;
-    }
-
-    public void setReason(Reason reason)
-    {
-        this.reason = reason;
-    }
-
     public Timestamp getRegistrationTime()
     {
         return this.registrationTime;
@@ -126,16 +101,6 @@ public class Devolution extends VitnikSearchableEntity
         this.client = client;
     }
 
-    public Article getArticle()
-    {
-        return this.article;
-    }
-
-    public void setArticle(Article article)
-    {
-        this.article = article;
-    }
-
     public Campaign getCampaign()
     {
         return this.campaign;
@@ -144,5 +109,15 @@ public class Devolution extends VitnikSearchableEntity
     public void setCamp(Campaign campaign)
     {
         this.campaign = campaign;
+    }
+
+    public ReturnedArticle getReturnedArticle()
+    {
+        return this.returnedArticle;
+    }
+
+    public void setReturnedArticle(ReturnedArticle returnedArticle)
+    {
+        this.returnedArticle = returnedArticle;
     }
 }

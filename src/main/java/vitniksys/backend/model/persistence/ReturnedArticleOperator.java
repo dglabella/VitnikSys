@@ -59,13 +59,12 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         Integer returnCode = null;
         String sqlStmnt = 
         "INSERT INTO `articulos_devueltos`(`letra`, `motivo`, `recomprado`) "+
-        "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `recomprado` = ?;";
+        "VALUES (?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt, PreparedStatement.RETURN_GENERATED_KEYS);
 
         statement.setString(1, returnedArticle.getArticleId());
         statement.setInt(2, returnedArticle.getReason().ordinal());
         statement.setBoolean(3, returnedArticle.isRepurchased());
-        statement.setBoolean(4, returnedArticle.isRepurchased());
 
         returnCode = statement.executeUpdate();
 

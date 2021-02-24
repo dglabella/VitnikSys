@@ -238,10 +238,41 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
-	public Order find(int id)
+	public Order find(int id) throws Exception
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Order ret = null;
+
+		PreparedStatement statement = null;
+		String sqlStmnt = 
+		"SELECT `id_cp`, `nro_camp`, `letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable` "+
+		"FROM `pedidos` "+
+		"WHERE `cod` = ? AND `active_row` = ?;";
+
+		statement = Connector.getConnector().getStatement(sqlStmnt);
+
+		statement.setInt(1, id);
+		statement.setBoolean(2, this.activeRow);
+
+		ResultSet resultSet = statement.executeQuery();
+
+		if(resultSet.next())
+		{
+			ret = new Order(id, resultSet.getInt(5), resultSet.getFloat(7), resultSet.getBoolean(10));
+			ret.setDeliveryNumber(resultSet.getInt(4));
+			ret.setReturnedQuantity(resultSet.getInt(6));
+			ret.setWithdrawalDate(resultSet.getTimestamp(8));
+			ret.setRegistrationTime(resultSet.getTimestamp(9));
+
+			//fk ids
+			ret.setPrefClientId(resultSet.getInt(1));
+			ret.setCampNumber(resultSet.getInt(2));
+			ret.setArticleId(resultSet.getString(3)); 
+
+			//Associations
+
+		}
+		
+		return ret;
 	}
 
 	@Override
