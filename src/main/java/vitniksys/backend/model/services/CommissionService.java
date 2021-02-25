@@ -11,7 +11,6 @@ import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
-import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CommissionOperator;
@@ -49,7 +48,10 @@ public class CommissionService extends Service
             while(it.hasNext())
             {
                 order = it.next();
-                ret += (order.isCommissionable() ? order.getQuantity() : 0);
+                if(order.isCommissionable())
+                {
+                    ret += order.getQuantity() - order.getReturnedQuantity();
+                }
             }
         }
 
@@ -65,14 +67,17 @@ public class CommissionService extends Service
         while(it.hasNext())
         {
             order = it.next();
-            ret += (order.isCommissionable() ? order.getCost()*comFactor : 0f);
+            if(order.isCommissionable())
+            {
+                ret += ((order.getCost() / order.getQuantity()) * (order.getQuantity() - order.getReturnedQuantity())) * comFactor;
+            }
         }
 
         return ret;
     }
 
     // ================================== private methods ==================================
-    private void updateCommission(Commission commission, List<Order> orders) throws Exception
+    protected void updateCommission(Commission commission, List<Order> orders) throws Exception
     {
         int actualQuantity =  CommissionService.calculateCommissionablesQuantity(orders);
         int commissionFactor = 0;
@@ -167,8 +172,7 @@ public class CommissionService extends Service
                     {
                         throw new Exception("This preferential client ("+(prefClient != null ? prefClient.getId():null)+") is not a leader");
                     }
-
-                } 
+                }
                 catch (Exception exception)
                 {
                     exception.printStackTrace();

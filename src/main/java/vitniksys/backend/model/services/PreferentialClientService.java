@@ -17,6 +17,7 @@ import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ReturnedArticle;
@@ -378,7 +379,7 @@ public class PreferentialClientService extends Service
         }
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Commission commission, List<Order> orders, Integer campNumber, Integer orderId, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -389,14 +390,13 @@ public class PreferentialClientService extends Service
                 //returnCode is intended for future implementations
                 int returnCode = 0;
 
-                ReturnedArticle returnedArticle = new ReturnedArticle(reason);  
+                ReturnedArticle returnedArticle = new ReturnedArticle(reason);
                 returnedArticle.setArticleId(articleId);
                 returnedArticle.setRepurchased(false);
 
                 Devolution devolution = new Devolution(cost);
                 devolution.setPrefClientId(prefClient.getId());
                 devolution.setCampNumber(campNumber);
-                devolution.setArticleId(articleId);         
 
                 Balance balance = new Balance();
                 balance.setPrefClientId(prefClient.getId());
@@ -411,41 +411,42 @@ public class PreferentialClientService extends Service
                         //Then, the devolution comes from an order, therefore a returned article will be creater in DB 
                         //and the order will be updated adding 1 to de returned quantity attribute in DB.
                         //Finally, a process for update (correct) the commission is executed.
+                        Order order = OrderOperator.getOperator().find(orderId);
 
+                        if(order.getQuantity() > order.getReturnedQuantity())
+                        {
+                            devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle));
+                            DevolutionOperator.getOperator().insert(devolution);
+                            OrderOperator.getOperator().incrementForDevolution(orderId);
+                            BalanceOperator.getOperator().update(balance);
+
+                            if(prefClient instanceof SubordinatedClient)
+                            {
+                                //update also the leader balance
+                                balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
+                                BalanceOperator.getOperator().update(balance);
+                            }
+
+                            //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
+                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders);
+
+                            Connector.getConnector().commit();
+
+                            getServiceSubscriber().closeProcessIsWorking(customAlert);
+                            getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ unitCode);
+                            getServiceSubscriber().refresh();
+
+                        }
+                        else
+                        {
+                            getServiceSubscriber().closeProcessIsWorking(customAlert);
+                            getServiceSubscriber().showError("No quedan artículos por devolver.");
+                        }
                     }
                     else //Otherwise, the devolution comes from a repurchase, therefore a returned article will not be created but updated instead
                     {
 
-                    }
-
-                    Order order = OrderOperator.getOperator().find(orderId);
-
-                    if(order.getQuantity() > order.getReturnedQuantity())
-                    {                   
-                        devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle));
-                        DevolutionOperator.getOperator().insert(devolution);
-                        OrderOperator.getOperator().incrementForDevolution(orderId);
-                        BalanceOperator.getOperator().update(balance);
-
-                        if(prefClient instanceof SubordinatedClient)
-                        {
-                            //update also the leader balance
-                            balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
-                            BalanceOperator.getOperator().update(balance);
-                        }
-
-                        Connector.getConnector().commit();
-
-                        getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ ASDASDSA DASDAS ASDSADASDASDASDASDASDSADSAD ASD ASD ASD ASD SA DSAD );
-                        getServiceSubscriber().refresh();
-
-                    }
-                    else
-                    {
-                        getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showError("No quedan artículos por devolver.");
-                    }
+                    }                    
                 }
                 catch (Exception exception)
                 {
@@ -462,7 +463,7 @@ public class PreferentialClientService extends Service
             }
         };
 
-        Platform.runLater(task); 
+        Platform.runLater(task);
     }
 
     public void registerRepurchase(Integer prefClientId, Integer campNumber, Integer returnedArticleId, String articleId, Reason reason, Float cost) throws Exception
