@@ -316,7 +316,7 @@ public class CampaignService extends Service
                         Connector.getConnector().commit();
 
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showSucces("Las órdenes se agregaron exitosamente!");
+                        getServiceSubscriber().showSucces("Los pedidos se registraron exitosamente!");
                     }
                     catch (Exception exception)
                     {

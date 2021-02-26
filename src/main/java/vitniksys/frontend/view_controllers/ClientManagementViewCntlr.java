@@ -269,27 +269,33 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     private void devolutionMenuItemSelected()
     {
         OrdersRowTable orderRowTable = this.orders.getSelectionModel().getSelectedItem();
-
-        CustomAlert customAlert = new CustomAlert(CustomAlertType.DEVOLUTION , "DEVOLUCIÓN", "Ingrese el motivo de la devolución");
-
-        customAlert.customShow().ifPresent(response ->
+        if(orderRowTable != null)
         {
-            if(response == ButtonType.OK)
-            {                    
-                try
-                {
-                    DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
-                    cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+            CustomAlert customAlert = new CustomAlert(CustomAlertType.DEVOLUTION , "DEVOLUCIÓN", "Ingrese el motivo de la devolución");
 
-                    ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), orderRowTable.getArticleId(), 
-                        null, orderRowTable.getCost(), cntlr.getReason());
+            customAlert.customShow().ifPresent(response ->
+            {
+                if(response == ButtonType.OK)
+                {                    
+                    try
+                    {
+                        DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+                        cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
+
+                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), orderRowTable.getArticleId(), 
+                            null, orderRowTable.getCost(), cntlr.getReason());
+                    }
+                    catch (Exception exception)
+                    {
+                        exception.printStackTrace();
+                    }
                 }
-                catch (Exception exception)
-                {
-                    exception.printStackTrace();
-                }
-            }
-        });
+            });
+        }
+        else
+        {
+            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "No hay pedidos registrados.").customShow();
+        }
     }
 
     @FXML

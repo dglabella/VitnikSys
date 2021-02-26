@@ -28,6 +28,7 @@ import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
+import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.DevolutionOperator;
@@ -379,7 +380,7 @@ public class PreferentialClientService extends Service
         }
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Commission commission, List<Order> orders, Integer campNumber, Integer orderId, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -405,37 +406,50 @@ public class PreferentialClientService extends Service
 
                 try
                 {
-                    Connector.getConnector().startTransaction();
-                    if(unitCode == null)
-                    {
-                        //Then, the devolution comes from an order, therefore a returned article will be creater in DB 
-                        //and the order will be updated adding 1 to de returned quantity attribute in DB.
-                        //Finally, a process for update (correct) the commission is executed.
-                        Order order = OrderOperator.getOperator().find(orderId);
+                    Connector.getConnector().startTransaction(); //START TRANSACTION
 
-                        if(order.getQuantity() > order.getReturnedQuantity())
+                    if(unitCode == null) //comes from orders
+                    {
+                        Order order = OrderOperator.getOperator().find(orderId); //SEARCH IN DB
+
+                        if(order.getQuantity() > order.getReturnedQuantity()) //No client can return an article if already all of its units were returned
                         {
-                            devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle));
-                            DevolutionOperator.getOperator().insert(devolution);
-                            OrderOperator.getOperator().incrementForDevolution(orderId);
-                            BalanceOperator.getOperator().update(balance);
+                            devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle)); //INSERT
+                            DevolutionOperator.getOperator().insert(devolution); //INSERT
+                            OrderOperator.getOperator().incrementForDevolution(orderId); //UPDATE
+                            BalanceOperator.getOperator().update(balance); //UPDATE
+
+
+                            Commission commission = null;
+                            List<Order> orders = null;
 
                             if(prefClient instanceof SubordinatedClient)
                             {
                                 //update also the leader balance
                                 balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
-                                BalanceOperator.getOperator().update(balance);
+                                BalanceOperator.getOperator().update(balance); //UPDATE
+
+                                commission = CommissionOperator.getOperator().find(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader commission
+                                orders = OrderOperator.getOperator().findAll(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader orders for that camp number
+                            }
+                            else if(prefClient instanceof Leader)
+                            {
+                                commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission
+                                orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
                             }
 
-                            //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
-                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders);
+                            if(commission != null)
+                            {
+                                //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
+                                ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders); //UPDATE
+                            }
+                            //otherwise, register the devolution but just ignore update commission becuase, once the commission is created, it will self update.
 
-                            Connector.getConnector().commit();
+                            Connector.getConnector().commit(); // COMMIT
 
                             getServiceSubscriber().closeProcessIsWorking(customAlert);
-                            getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ unitCode);
+                            getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ devolution.getUnitCode());
                             getServiceSubscriber().refresh();
-
                         }
                         else
                         {
@@ -443,20 +457,20 @@ public class PreferentialClientService extends Service
                             getServiceSubscriber().showError("No quedan artículos por devolver.");
                         }
                     }
-                    else //Otherwise, the devolution comes from a repurchase, therefore a returned article will not be created but updated instead
+                    else //comes from repurchases
                     {
 
                     }                    
                 }
                 catch (Exception exception)
                 {
-                    Connector.getConnector().rollBack();
+                    Connector.getConnector().rollBack(); //ROLLBACK
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     getServiceSubscriber().showError("Error al realizar la devolución.", null, exception);
                 }
                 finally
                 {
-                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().endTransaction(); //END TRANSACTION
                     Connector.getConnector().closeConnection();
                 }
                 return returnCode;

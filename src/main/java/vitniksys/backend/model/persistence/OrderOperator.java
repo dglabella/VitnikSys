@@ -146,7 +146,7 @@ public class OrderOperator implements IOrderOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt =
-			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
+			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
 			"FROM `pedidos` "+
 			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
 			"WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
