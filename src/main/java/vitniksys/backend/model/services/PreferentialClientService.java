@@ -459,7 +459,7 @@ public class PreferentialClientService extends Service
                     }
                     else //comes from repurchases
                     {
-
+                        
                     }                    
                 }
                 catch (Exception exception)

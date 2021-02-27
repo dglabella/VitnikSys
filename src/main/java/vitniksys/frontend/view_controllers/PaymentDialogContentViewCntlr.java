@@ -138,9 +138,9 @@ public class PaymentDialogContentViewCntlr extends DialogContentViewCntlr implem
         this.paymentStatus.getItems().add(PayStatus.COBRADO);
         this.paymentStatus.getItems().add(PayStatus.COBRO_PENDIENTE);
 
-        this.items.setValue(PayItem.NA);
-        this.paymentMethods.setValue(PayType.NA);
+        this.items.setValue(PayItem.PEDIDO);
+        this.paymentMethods.setValue(PayType.EFECTIVO);
         this.banks.setValue(Bank.NA);
-        this.paymentStatus.setValue(PayStatus.NA);
+        this.paymentStatus.setValue(PayStatus.RECIBIDO);
     }
 }

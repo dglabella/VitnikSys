@@ -42,6 +42,6 @@ public class DevolutionDialogContentViewCntlr extends DialogContentViewCntlr imp
             this.reason.getItems().add(reasons[i]);
         }
 
-        this.reason.setValue(Reason.NA);
+        this.reason.setValue(Reason.OTROS);
     }
 }
