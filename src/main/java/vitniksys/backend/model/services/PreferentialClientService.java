@@ -419,7 +419,6 @@ public class PreferentialClientService extends Service
                             OrderOperator.getOperator().incrementForDevolution(orderId); //UPDATE
                             BalanceOperator.getOperator().update(balance); //UPDATE
 
-
                             Commission commission = null;
                             List<Order> orders = null;
 
@@ -459,8 +458,41 @@ public class PreferentialClientService extends Service
                     }
                     else //comes from repurchases
                     {
-                        
-                    }                    
+                        returnedArticle.setUnitCode(unitCode);
+                        ReturnedArticleOperator.getOperator().update(returnedArticle);
+                        DevolutionOperator.getOperator().insert(devolution); //INSERT
+                        BalanceOperator.getOperator().update(balance); //UPDATE
+
+                        Commission commission = null;
+                        List<Order> orders = null;
+
+                        if(prefClient instanceof SubordinatedClient)
+                        {
+                            //update also the leader balance
+                            balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
+                            BalanceOperator.getOperator().update(balance); //UPDATE
+
+                            commission = CommissionOperator.getOperator().find(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader commission
+                            orders = OrderOperator.getOperator().findAll(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader orders for that camp number
+                        }
+                        else if(prefClient instanceof Leader)
+                        {
+                            commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission
+                            orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
+                        }
+
+                        if(commission != null)
+                        {
+                            //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
+                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders); //UPDATE
+                        }
+
+                        Connector.getConnector().commit(); // 
+
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ unitCode);
+                        getServiceSubscriber().refresh();
+                    }
                 }
                 catch (Exception exception)
                 {
