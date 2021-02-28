@@ -9,6 +9,7 @@ import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Commission;
+import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
@@ -37,7 +38,7 @@ public class CommissionService extends Service
         return ret;
     }
 
-    public static int calculateCommissionablesQuantity(List<Order> orders)
+    public static int calculateCommissionablesQuantity(List<Order> orders, List<Repurchase> repurchases)
     {
         int ret = 0;
         
@@ -51,6 +52,20 @@ public class CommissionService extends Service
                 if(order.isCommissionable())
                 {
                     ret += order.getQuantity() - order.getReturnedQuantity();
+                }
+            }
+        }
+
+        if(repurchases != null)
+        {
+            Iterator<Repurchase> it = repurchases.iterator();
+            Repurchase repurchase = null;
+            while(it.hasNext())
+            {
+                repurchase = it.next();
+                if(repurchase.isCommissionable())
+                {
+                    ret++;
                 }
             }
         }
@@ -77,9 +92,9 @@ public class CommissionService extends Service
     }
 
     // ================================== private methods ==================================
-    protected void updateCommission(Commission commission, List<Order> orders) throws Exception
+    protected void updateCommission(Commission commission, List<Order> orders, List<Repurchase> repurchases) throws Exception
     {
-        int actualQuantity =  CommissionService.calculateCommissionablesQuantity(orders);
+        int actualQuantity =  CommissionService.calculateCommissionablesQuantity(orders, repurchases);
         int commissionFactor = 0;
 
         if(commission != null && orders != null && orders.size() > 0)
@@ -121,7 +136,7 @@ public class CommissionService extends Service
     }
 
     // ================================== public methods ==================================
-    public void createDefaultCommission(PreferentialClient prefClient, List<Order> orders) throws Exception
+    public void createDefaultCommission(PreferentialClient prefClient, List<Order> orders, List<Repurchase> repurchases) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Creando comisión por defecto.");
 
@@ -148,7 +163,7 @@ public class CommissionService extends Service
                             //get commission from database with default lvls
                             commission = CommissionOperator.getOperator().find(prefClient.getId(), orders.get(0).getCampNumber());
 
-                            updateCommission(commission, orders);
+                            updateCommission(commission, orders, repurchases);
 
                             Connector.getConnector().commit();
 
@@ -195,7 +210,7 @@ public class CommissionService extends Service
         Platform.runLater(task);
     }
 
-    public void modifyCommission(Commission commission, List<Order> orders) throws Exception
+    public void modifyCommission(Commission commission, List<Order> orders, List<Repurchase> repurchases) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Modificando comisión.");
         Task<Integer> task = new Task<>()
@@ -208,7 +223,7 @@ public class CommissionService extends Service
                 {
                     Connector.getConnector().startTransaction();
                     
-                    updateCommission(commission, orders);
+                    updateCommission(commission, orders, repurchases);
 
                     Connector.getConnector().commit();
                     
@@ -259,7 +274,7 @@ public class CommissionService extends Service
         }
     }
     
-    public void updateCommissionableOrders(Commission commission, List<Order> orders)
+    public void updateCommissionableOrders(Commission commission, List<Order> orders, List<Repurchase> repurchases)
     {
         if(commission != null)
         {
@@ -280,7 +295,7 @@ public class CommissionService extends Service
 
                             OrderOperator.getOperator().updateAll(orders);
 
-                            updateCommission(commission, orders);
+                            updateCommission(commission, orders, repurchases);
 
                             Connector.getConnector().commit();
                             

@@ -551,6 +551,7 @@ public class PreferentialClientService extends Service
                         Integer campNumb = CampaignOperator.getOperator().findLast().getNumber();
                         Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumb); //search for leader commission
                         List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
+                        List<Repurchase> repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
 
                         if(commission != null)
                         {

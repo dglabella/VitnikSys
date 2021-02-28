@@ -59,14 +59,15 @@ public class RepurchaseOperator implements IRepurchaseOperator
     {
         Integer returnCode = null;
         String sqlStmnt =
-        "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`) "+
-        "VALUES (?, ?, ?, ?);";
+        "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`, `comisionable`) "+
+        "VALUES (?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, repurchase.getPrefClientId());
         statement.setInt(2, repurchase.getCampNumber());
         statement.setInt(3, repurchase.getReturnedArticleId() );
         statement.setFloat(4, repurchase.getCost());
+        statement.setBoolean(5, repurchase.isCommissionable());
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -105,7 +106,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `comisionable`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
             "FROM `recompras` "+
             "INNER JOIN `articulos_devueltos` ON recompras.ejemplar = articulos_devueltos.ejemplar "+
             "INNER JOIN `articulos` ON articulos_devueltos.letra = articulos.letra "+
@@ -121,7 +122,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `comisionable`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
             "FROM `recompras` "+
             "INNER JOIN `articulos_devueltos` ON recompras.ejemplar = articulos_devueltos.ejemplar "+
             "INNER JOIN `articulos` ON articulos_devueltos.letra = articulos.letra "+
@@ -149,13 +150,14 @@ public class RepurchaseOperator implements IRepurchaseOperator
         ReturnedArticle returnedArticle;
 		while (resultSet.next())
 		{
-            article = new Article(resultSet.getString(7), resultSet.getString(10), ArticleType.toEnum(resultSet.getInt(11)), resultSet.getFloat(12));
-            returnedArticle = new ReturnedArticle(resultSet.getInt(4), Reason.toEnum(resultSet.getInt(8)), resultSet.getBoolean(9));
-            repurchase = new Repurchase(resultSet.getInt(1), resultSet.getFloat(5), resultSet.getTimestamp(6));
+            article = new Article(resultSet.getString(8), resultSet.getString(11), ArticleType.toEnum(resultSet.getInt(12)), resultSet.getFloat(13));
+            returnedArticle = new ReturnedArticle(resultSet.getInt(4), Reason.toEnum(resultSet.getInt(9)), resultSet.getBoolean(10));
+            repurchase = new Repurchase(resultSet.getInt(1), resultSet.getFloat(5), resultSet.getTimestamp(7));
+            repurchase.setCommissionable(resultSet.getBoolean(6);
 
+            
             //fk ids
             returnedArticle.setArticleId(article.getId());
-            
             repurchase.setPrefClientId(resultSet.getInt(2));
             repurchase.setCampNumber(resultSet.getInt(3));
             repurchase.setReturnedArticleId(resultSet.getInt(4));
