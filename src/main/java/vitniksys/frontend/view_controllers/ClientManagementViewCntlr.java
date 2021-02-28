@@ -44,6 +44,7 @@ import vitniksys.backend.util.CustomAlert.CustomAlertType;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.services.PreferentialClientService;
+import vitniksys.backend.model.services.StockAvailableService;
 import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
 import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
@@ -307,10 +308,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void seeStockMenuItemSelected()
     {
-        ViewCntlr viewCntlr = this.createStage("Stock de artículos devueltos", "stockAvailable", new PreferentialClientService());
+        ViewCntlr viewCntlr = this.createStage("Stock de artículos devueltos", "stockAvailable", new StockAvailableService());
         viewCntlr.getStage().show();
 
         ((StockAvailableViewCntlr)viewCntlr).setPrefClientId(this.prefClient.getId());
+        ((StockAvailableViewCntlr)viewCntlr).setPrefClientName(this.prefClient.getName());
+        ((StockAvailableViewCntlr)viewCntlr).setPrefClientLastName(this.prefClient.getLastName());
         ((StockAvailableViewCntlr)viewCntlr).setCampNumber(this.actualCampaign.getNumber());
         ((StockAvailableViewCntlr)viewCntlr).manualInitialize();
     }

@@ -8,7 +8,7 @@ public interface IReturnedArticleOperator extends CrudOperator<ReturnedArticle>
 {
     List<ReturnedArticle> findAll(Integer prefClientId, Integer campNumb) throws Exception;
 
-    ReturnedArticle find(int id) throws Exception;
+    ReturnedArticle find(Integer id) throws Exception;
 
-    Integer delete(int id) throws Exception;    
+    Integer delete(Integer id) throws Exception;
 }

@@ -23,6 +23,7 @@ vitniksys\backend\model\services\CommissionService.class
 vitniksys\backend\model\interfaces\IArticleOperator.class
 vitniksys\backend\model\enums\Reason.class
 vitniksys\backend\model\interfaces\IBalanceOperator.class
+vitniksys\frontend\views_subscriber\StockAvailableServiceSubscriber.class
 vitniksys\backend\model\services\PreferentialClientService$1.class
 vitniksys\frontend\views_subscriber\CampaignServiceSubscriber.class
 vitniksys\backend\model\services\PreferentialClientService$8.class
@@ -48,6 +49,7 @@ vitniksys\App.class
 vitniksys\backend\model\services\PreferentialClientService$7.class
 vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\backend\model\enums\ArticleType.class
+vitniksys\backend\model\services\StockAvailableService.class
 vitniksys\frontend\view_controllers\MainMenuViewCntlr.class
 vitniksys\backend\util\ExpressionChecker.class
 vitniksys\backend\model\services\CommissionService$1.class
@@ -102,6 +104,7 @@ vitniksys\backend\model\services\PreferentialClientService$5.class
 vitniksys\backend\model\interfaces\CrudOperator.class
 vitniksys\backend\model\persistence\ReturnedArticleOperator.class
 vitniksys\backend\util\PaymentsRowTable.class
+vitniksys\backend\model\services\StockAvailableService$1.class
 vitniksys\backend\model\interfaces\IDevolutionOperator.class
 vitniksys\backend\model\services\CatalogueService.class
 vitniksys\backend\util\CustomAlert.class

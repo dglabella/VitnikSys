@@ -9,17 +9,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.util.StockRowTable;
-import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
-import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
+import vitniksys.backend.model.entities.ReturnedArticle;
+import vitniksys.backend.model.services.StockAvailableService;
+import vitniksys.frontend.views_subscriber.StockAvailableServiceSubscriber;
 
-public class StockAvailableViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber
+public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvailableServiceSubscriber
 {
     private int RETURNED_ARTICLES_TABLE_NUMBER;
 
     private Integer prefClientId;
     private Integer campNumber;
+    private String prefClientName;
+    private String prefClientLastName;
 
     // ================================= FXML variables ===================================
     @FXML private Label total;
@@ -56,11 +58,38 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements Preferent
         this.campNumber = campNumber;
     }
 
+    public String getPrefClientName()
+    {
+        return this.prefClientName;
+    }
+
+    public void setPrefClientName(String prefClientName)
+    {
+        this.prefClientName = prefClientName;
+    }
+
+    public String getPrefClientLastName()
+    {
+        return this.prefClientLastName;
+    }
+
+    public void setPrefClientLastName(String prefClientLastName)
+    {
+        this.prefClientLastName = prefClientLastName;
+    }
+
     // ================================= FXML methods ===================================
     @FXML
     private void repurchaseMenuItemSelected()
     {
-
+        try
+        {
+            throw new Exception("Operation not suported yet");
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
     }
 
     // ================================= private methods ===================================
@@ -69,13 +98,22 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements Preferent
     @Override
     protected void manualInitialize()
     {
-        // TODO Auto-generated method stub
+        try
+        {
+            ((StockAvailableService)this.getService(0)).getStockAvailable();
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
     }
 
     // ================================= public methods ===================================
     @Override
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
+        this.nameLastnameId.setText(this.prefClientName+" "+this.prefClientLastName+" - "+this.prefClientId);
+
         List<TableColumn> columns = new ArrayList<>();
         List<PropertyValueFactory> propertiesValues = new ArrayList<>();
 
@@ -110,20 +148,8 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements Preferent
     }
 
     @Override
-    public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
+    public void showStockAvailable(List<ReturnedArticle> returnedArticles) throws Exception
     {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
-    {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void showObservation(List<Observation> observations)
-    {
-        // TODO Auto-generated method stub
+        this.loadData(this.RETURNED_ARTICLES_TABLE_NUMBER, returnedArticles);
     }
 }

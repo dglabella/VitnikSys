@@ -10,9 +10,9 @@ import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
-import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Repurchase;
@@ -415,8 +415,12 @@ public class PreferentialClientService extends Service
                         if(order.getQuantity() > order.getReturnedQuantity()) //No client can return an article if already all of its units were returned
                         {
                             devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle)); //INSERT
+
+                            devolution.setPrefClientId(order.getPrefClientId()); //in this case, the devolution MUST to be registered with the order owner.
                             DevolutionOperator.getOperator().insert(devolution); //INSERT
+
                             OrderOperator.getOperator().incrementForDevolution(orderId); //UPDATE
+
                             BalanceOperator.getOperator().update(balance); //UPDATE
 
                             Commission commission = null;
@@ -470,7 +474,7 @@ public class PreferentialClientService extends Service
                         {
                             //update also the leader balance
                             balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
-                            BalanceOperator.getOperator().update(balance); //UPDATE
+                            BalanceOperator.getOperator().update(balance); //UPDATE 
 
                             commission = CommissionOperator.getOperator().find(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader commission
                             orders = OrderOperator.getOperator().findAll(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader orders for that camp number
@@ -487,7 +491,7 @@ public class PreferentialClientService extends Service
                             ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders); //UPDATE
                         }
 
-                        Connector.getConnector().commit(); // 
+                        Connector.getConnector().commit(); // COMMIT
 
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
                         getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ unitCode);
@@ -512,8 +516,10 @@ public class PreferentialClientService extends Service
         Platform.runLater(task);
     }
 
-    public void registerRepurchase(Integer prefClientId, Integer campNumber, Integer returnedArticleId, String articleId, Reason reason, Float cost) throws Exception
+    public void registerRepurchase(PreferentialClient prefClient, Integer campNumber, Integer returnedArticleId, String articleId, Reason reason, Float cost) throws Exception
     {
+        //SI UN LIDER RECOMPRA ALGO QUE FUE PEDIDO EN LA CAMPAÑA VIGENTE (QUIE SE ALLA DEVUELTO AHORA), SE DEBE AGREGAR UN ARTICULO A LA COMISIÓN, POR ENDE DEBE ACTUALZARSE
+
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
         {
@@ -524,7 +530,7 @@ public class PreferentialClientService extends Service
                 int returnCode = 0;
 
                 Repurchase repurchase = new Repurchase(cost);
-                repurchase.setPrefClientId(prefClientId);
+                repurchase.setPrefClientId(prefClient.getId());
                 repurchase.setCampNumber(campNumber);
                 repurchase.setReturnedArticleId(returnedArticleId);
 
@@ -532,13 +538,30 @@ public class PreferentialClientService extends Service
                 returnedArticle.setArticleId(articleId);
 
                 Balance balance = new Balance();
-                balance.setPrefClientId(prefClientId);
+                balance.setPrefClientId(prefClient.getId());
                 balance.setCampNumber(campNumber);
                 balance.setTotalInRepurchases(cost);
 
                 try
                 {
                     Connector.getConnector().startTransaction();
+
+                    if(prefClient instanceof Leader)
+                    {
+                        Integer campNumb = CampaignOperator.getOperator().findLast().getNumber();
+                        Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumb); //search for leader commission
+                        List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
+
+                        if(commission != null)
+                        {
+                            //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
+                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders); //UPDATE
+                        }
+                        else
+                        {
+                            throw new Exception("Commission with prefClient id = "+prefClient.getId()+" and campaign number = "+campNumb+" is null. Cannot update this commission for a repurchase because it not exist.");
+                        }
+                    }
 
                     RepurchaseOperator.getOperator().insert(repurchase);
                     ReturnedArticleOperator.getOperator().update(returnedArticle);

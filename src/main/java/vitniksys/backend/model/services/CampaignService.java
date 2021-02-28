@@ -11,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.OrderObtainer;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
@@ -338,36 +339,6 @@ public class CampaignService extends Service
         else
         {
             this.getServiceSubscriber().showError("No hay un archivo de detalle cargado.");
-        }
-    }
-
-    public void searchOrders(Integer campNumb, Integer prefClientId)
-    {
-        //If all fields are OK...
-        if(allFieldsAreOk(campNumb, prefClientId))
-        {
-            CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-
-            Task<Integer> task = new Task<>()
-            {
-                @Override
-                protected Integer call() throws Exception
-                {
-                    //returnCode is intended for future implementations
-                    int returnCode = 0;
-
-                    OrderOperator.getOperator().findAll();
-
-                    return returnCode;
-                }
-            };
-
-            Platform.runLater(task);
-        }
-        else
-        {
-            //Conflict with some fields.
-            this.getServiceSubscriber().showError("Los campos deben completarse correctamente.");
         }
     }
 }

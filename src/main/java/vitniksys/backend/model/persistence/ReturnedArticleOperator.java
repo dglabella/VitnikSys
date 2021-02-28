@@ -152,14 +152,14 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     }
 
     @Override
-    public ReturnedArticle find(int id) throws Exception
+    public ReturnedArticle find(Integer id) throws Exception
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Integer delete(int id) throws Exception
+    public Integer delete(Integer id) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;
