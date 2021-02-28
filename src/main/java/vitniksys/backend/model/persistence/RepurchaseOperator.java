@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.ReturnedArticle;
@@ -59,15 +60,14 @@ public class RepurchaseOperator implements IRepurchaseOperator
     {
         Integer returnCode = null;
         String sqlStmnt =
-        "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`, `comisionable`) "+
-        "VALUES (?, ?, ?, ?, ?);";
+        "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`) "+
+        "VALUES (?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, repurchase.getPrefClientId());
         statement.setInt(2, repurchase.getCampNumber());
         statement.setInt(3, repurchase.getReturnedArticleId() );
         statement.setFloat(4, repurchase.getCost());
-        statement.setBoolean(5, repurchase.isCommissionable());
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -106,33 +106,37 @@ public class RepurchaseOperator implements IRepurchaseOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `comisionable`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `cod`, `recompras`.`ejemplar`, `precio_recompra`, `recompras`.`fecha_registro`, `cod_pedido`, `motivo`, `recomprado`, `pedidos`.`id_cp`, `pedidos`.`nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario` "+
             "FROM `recompras` "+
-            "INNER JOIN `articulos_devueltos` ON recompras.ejemplar = articulos_devueltos.ejemplar "+
-            "INNER JOIN `articulos` ON articulos_devueltos.letra = articulos.letra "+
-            "WHERE `id_cp` = ? AND `nro_camp` = ? AND recompras.active_row = ? AND articulos_devueltos.active_row = ? AND articulos.active_row = ?;";
+            "INNER JOIN `articulos_devueltos` ON `recompras`.`ejemplar` = `articulos_devueltos`.`ejemplar` "+
+            "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+
+            "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
+            "WHERE `recompras`.`id_cp` = ? AND `recompras`.`nro_camp` = ? AND `recompras`.`active_row` = ? AND `articulos_devueltos`.`active_row` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setInt(2, campNumb);
             statement.setBoolean(3, this.activeRow);
             statement.setBoolean(4, ReturnedArticleOperator.getOperator().isActiveRow());
-            statement.setBoolean(5, ArticleOperator.getOperator().isActiveRow());	
+            statement.setBoolean(5, OrderOperator.getOperator().isActiveRow());
+            statement.setBoolean(6, ArticleOperator.getOperator().isActiveRow());
         }
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-			"SELECT `cod`, `id_cp`, `nro_camp`, recompras.`ejemplar`, `precio_recompra`, `comisionable`, `fecha_registro`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `cod`, `recompras`.`ejemplar`, `precio_recompra`, `recompras`.`fecha_registro`, `cod_pedido`, `motivo`, `recomprado`, `pedidos`.`id_cp`, `pedidos`.`nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario` "+
             "FROM `recompras` "+
-            "INNER JOIN `articulos_devueltos` ON recompras.ejemplar = articulos_devueltos.ejemplar "+
-            "INNER JOIN `articulos` ON articulos_devueltos.letra = articulos.letra "+
-            "WHERE `id_cp` = ? AND recompras.active_row = ? AND articulos_devueltos.active_row = ? AND articulos.active_row = ?;";
+            "INNER JOIN `articulos_devueltos` ON `recompras`.`ejemplar` = `articulos_devueltos`.`ejemplar` "+
+            "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+
+            "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
+            "WHERE `recompras`.`id_cp` = ? AND `recompras`.`active_row` = ? AND `articulos_devueltos`.`active_row` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
             statement = Connector.getConnector().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setBoolean(2, this.activeRow);
             statement.setBoolean(3, ReturnedArticleOperator.getOperator().isActiveRow());
-            statement.setBoolean(4, ArticleOperator.getOperator().isActiveRow());
+            statement.setBoolean(4, OrderOperator.getOperator().isActiveRow());
+            statement.setBoolean(5, ArticleOperator.getOperator().isActiveRow());
         }
         else if(prefClientId == null && campNumb != null)
         {
@@ -145,26 +149,35 @@ public class RepurchaseOperator implements IRepurchaseOperator
 
 		ResultSet resultSet = statement.executeQuery();
 
+        Order order;
         Article article;
         Repurchase repurchase;
         ReturnedArticle returnedArticle;
 		while (resultSet.next())
 		{
-            article = new Article(resultSet.getString(8), resultSet.getString(11), ArticleType.toEnum(resultSet.getInt(12)), resultSet.getFloat(13));
-            returnedArticle = new ReturnedArticle(resultSet.getInt(4), Reason.toEnum(resultSet.getInt(9)), resultSet.getBoolean(10));
-            repurchase = new Repurchase(resultSet.getInt(1), resultSet.getFloat(5), resultSet.getTimestamp(7));
-            repurchase.setCommissionable(resultSet.getBoolean(6);
+            repurchase =  new Repurchase(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getTimestamp(4));
+            returnedArticle = new ReturnedArticle(resultSet.getInt(2), Reason.toEnum(resultSet.getInt(6)), resultSet.getBoolean(7));
+            order = new Order(resultSet.getInt(5), resultSet.getInt(12), resultSet.getFloat(14), resultSet.getBoolean(17));
+            order.setDeliveryNumber(resultSet.getInt(11));
+            order.setReturnedQuantity(resultSet.getInt(13));
+            order.setWithdrawalDate(resultSet.getTimestamp(15));
+            order.setRegistrationTime(resultSet.getTimestamp(16));
+            article = new Article(resultSet.getString(10), resultSet.getString(18), ArticleType.toEnum(resultSet.getInt(19)), resultSet.getFloat(20));
 
-            
             //fk ids
-            returnedArticle.setArticleId(article.getId());
-            repurchase.setPrefClientId(resultSet.getInt(2));
-            repurchase.setCampNumber(resultSet.getInt(3));
-            repurchase.setReturnedArticleId(resultSet.getInt(4));
+            repurchase.setPrefClientId(prefClientId);
+            repurchase.setCampNumber(campNumb);
+            repurchase.setReturnedArticleId(returnedArticle.getUnitCode());
+            returnedArticle.setOrderId(order.getCode());
+            order.setPrefClientId(resultSet.getInt(8));
+            order.setCampNumber(resultSet.getInt(9));
+            order.setArticleId(article.getId());
 
             //Associations
+            order.setArticle(article);
+            returnedArticle.setOrder(order);
             repurchase.setReturnedArticle(returnedArticle);
-			
+            
 			ret.add(repurchase);
 		}
 

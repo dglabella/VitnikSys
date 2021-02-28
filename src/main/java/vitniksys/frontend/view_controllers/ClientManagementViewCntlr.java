@@ -330,6 +330,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             ((CommissionRegisterViewCntlr)viewCntlr).loadPrefClient(this.prefClient);
             ((CommissionRegisterViewCntlr)viewCntlr).loadCamp(this.actualCampaign);
             ((CommissionRegisterViewCntlr)viewCntlr).loadOrders(this.actualOrders);
+            ((CommissionRegisterViewCntlr)viewCntlr).loadRepurchases(this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
             ((CommissionRegisterViewCntlr)viewCntlr).loadCommission(this.actualCommission);
             
             viewCntlr.manualInitialize();
@@ -348,7 +349,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         while(it.hasNext())
             ordersToUpdate.add(it.next().getOrder());
 
-        ((CommissionService)this.getService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate);
+        ((CommissionService)this.getService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
     }
     
     // ================================= private methods ===================================
@@ -580,7 +581,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
         this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
-        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders));
+        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
 
         if(prefClient instanceof Leader)
         {

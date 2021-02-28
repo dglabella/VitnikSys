@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
@@ -58,11 +59,11 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     {
         Integer returnCode = null;
         String sqlStmnt = 
-        "INSERT INTO `articulos_devueltos`(`letra`, `motivo`, `recomprado`) "+
+        "INSERT INTO `articulos_devueltos`(`cod_pedido`, `motivo`, `recomprado`) "+
         "VALUES (?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt, PreparedStatement.RETURN_GENERATED_KEYS);
 
-        statement.setString(1, returnedArticle.getArticleId());
+        statement.setInt(1, returnedArticle.getOrderId());
         statement.setInt(2, returnedArticle.getReason().ordinal());
         statement.setBoolean(3, returnedArticle.isRepurchased());
 
@@ -110,28 +111,46 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         List<ReturnedArticle> ret = new ArrayList<>();
         
         String sqlStmnt = 
-        "SELECT `ejemplar`, articulos_devueltos.`letra`, `motivo`, `recomprado`, `nombre`, `tipo`, `precio_unitario` "+
+        "SELECT `ejemplar`, `cod_pedido`, `motivo`, `recomprado`, `id_cp`, `nro_camp`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `articulos`.`letra`, `nombre`, `tipo`, `precio_unitario` "+
         "FROM `articulos_devueltos` "+
-        "INNER JOIN `articulos` ON articulos.letra = articulos_devueltos.letra "+
-        "WHERE articulos_devueltos.`active_row` = ? AND articulos.active_row = ?;";
+        "INNER JOIN `pedidos` ON `cod_pedido` = `pedidos`.`cod` "+
+        "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
+        "WHERE `articulos_devueltos`.`active_row` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setBoolean(1, this.activeRow);
-        statement.setBoolean(2, ArticleOperator.getOperator().isActiveRow());
+        statement.setBoolean(2, OrderOperator.getOperator().isActiveRow());
+        statement.setBoolean(3, ArticleOperator.getOperator().isActiveRow());
 
 		ResultSet resultSet = statement.executeQuery();
 
         ReturnedArticle returnedArticle;
 		while (resultSet.next())
 		{
-            returnedArticle = new ReturnedArticle(resultSet.getInt(1), Reason.toEnum(resultSet.getInt(3)), resultSet.getBoolean(4) );
+            returnedArticle = new ReturnedArticle(resultSet.getInt(1), Reason.toEnum(resultSet.getInt(3)), resultSet.getBoolean(4));
+            Order order = new Order(resultSet.getInt(2), resultSet.getInt(8), resultSet.getFloat(10), resultSet.getBoolean(13));
+            order.setDeliveryNumber(resultSet.getInt(7));
+            order.setQuantity(resultSet.getInt(8));
+            order.setReturnedQuantity(resultSet.getInt(9));
+            order.setCost(resultSet.getFloat(10));
+            order.setWithdrawalDate(resultSet.getTimestamp(11));
+            order.setRegistrationTime(resultSet.getTimestamp(12));
+            order.setCommissionable(resultSet.getBoolean(13));
+
+            Article article = new Article(resultSet.getString(14), resultSet.getString(15), ArticleType.toEnum(resultSet.getInt(16)), resultSet.getFloat(17));
 
             //fk ids
-            returnedArticle.setArticleId(resultSet.getString(2));
+            order.setPrefClientId(resultSet.getInt(5));
+            order.setCampNumber(resultSet.getInt(6));
+
+            returnedArticle.setOrderId(resultSet.getInt(2));
+            order.setArticleId(article.getId());
+            
 
             //Associations
-            returnedArticle.setArticle(new Article(resultSet.getString(2), resultSet.getString(5), ArticleType.toEnum(resultSet.getInt(6)), resultSet.getFloat(7)));
+            order.setArticle(article);
+            returnedArticle.setOrder(order);
 
 			ret.add(returnedArticle);
 		}

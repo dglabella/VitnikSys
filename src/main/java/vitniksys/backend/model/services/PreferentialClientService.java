@@ -392,7 +392,7 @@ public class PreferentialClientService extends Service
                 int returnCode = 0;
 
                 ReturnedArticle returnedArticle = new ReturnedArticle(reason);
-                returnedArticle.setArticleId(articleId);
+                returnedArticle.set
                 returnedArticle.setRepurchased(false);
 
                 Devolution devolution = new Devolution(cost);
@@ -425,6 +425,7 @@ public class PreferentialClientService extends Service
 
                             Commission commission = null;
                             List<Order> orders = null;
+                            List<Repurchase> repurchases = null;  
 
                             if(prefClient instanceof SubordinatedClient)
                             {
@@ -434,17 +435,19 @@ public class PreferentialClientService extends Service
 
                                 commission = CommissionOperator.getOperator().find(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader commission
                                 orders = OrderOperator.getOperator().findAll(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader orders for that camp number
+                                repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
                             }
                             else if(prefClient instanceof Leader)
                             {
                                 commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission
                                 orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
+                                repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
                             }
 
                             if(commission != null)
                             {
                                 //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
-                                ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders); //UPDATE
+                                ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders,repurchases); //UPDATE
                             }
                             //otherwise, register the devolution but just ignore update commission becuase, once the commission is created, it will self update.
 
@@ -469,6 +472,7 @@ public class PreferentialClientService extends Service
 
                         Commission commission = null;
                         List<Order> orders = null;
+                        List<Repurchase> repurchases = null;
 
                         if(prefClient instanceof SubordinatedClient)
                         {
@@ -478,17 +482,19 @@ public class PreferentialClientService extends Service
 
                             commission = CommissionOperator.getOperator().find(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader commission
                             orders = OrderOperator.getOperator().findAll(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader orders for that camp number
+                            repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
                         }
                         else if(prefClient instanceof Leader)
                         {
                             commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission
                             orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
+                            repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
                         }
 
                         if(commission != null)
                         {
                             //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
-                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders); //UPDATE
+                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders, repurchases); //UPDATE
                         }
 
                         Connector.getConnector().commit(); // COMMIT
@@ -556,7 +562,7 @@ public class PreferentialClientService extends Service
                         if(commission != null)
                         {
                             //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
-                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders); //UPDATE
+                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders, repurchases); //UPDATE
                         }
                         else
                         {

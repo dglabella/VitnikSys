@@ -5,7 +5,7 @@ import vitniksys.backend.model.enums.Reason;
 public class ReturnedArticle
 {
     //fk id
-    private String articleId;
+    private Integer orderId;
 
     //Entity properties
     private int unitCode; //Table id = ejemplar
@@ -13,7 +13,7 @@ public class ReturnedArticle
     private boolean repurchased;
 
     //Domain Associations
-    private Article article;
+    private Order order;
 
     //Others
     private boolean active;
@@ -31,14 +31,14 @@ public class ReturnedArticle
     }
     
     //Getters && Setters
-    public String getArticleId()
+    public Integer getOrderId()
     {
-        return this.articleId;
+        return this.orderId;
     }
 
-    public void setArticleId(String articleId)
+    public void setOrderId(Integer orderId)
     {
-        this.articleId = articleId;
+        this.orderId = orderId;
     }
 
     /**
@@ -89,13 +89,13 @@ public class ReturnedArticle
         this.active = active;
     }
 
-    public Article getArticle()
+    public Order getOrder()
     {
-        return this.article;
+        return this.order;
     }
 
-    public void setArticle(Article article)
+    public void setOrder(Order order)
     {
-        this.article = article;
+        this.order = order;
     }
 }

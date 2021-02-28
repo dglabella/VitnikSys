@@ -1,7 +1,7 @@
 package vitniksys.frontend.view_controllers;
 
-import vitniksys.App;
 import java.net.URL;
+import vitniksys.App;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
@@ -15,6 +15,7 @@ import vitniksys.backend.model.entities.Order;
 import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Commission;
+import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
@@ -24,6 +25,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     private PreferentialClient prefClient;
     private Campaign camp;
     private List<Order> orders;
+    private List<Repurchase> repurchases;
     private Commission commission;
 
     @FXML private Label idCpNameLastName;
@@ -67,7 +69,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
             commission.setPrefClientId(this.prefClient.getId());
             commission.setCampNumber(this.camp.getNumber());
 
-            ((CommissionService)this.getService(0)).modifyCommission(commission, this.orders);
+            ((CommissionService)this.getService(0)).modifyCommission(commission, this.orders, this.repurchases);
             
             //Refill management
             ((ClientManagementViewCntlr)this.getPrevViewCntlr()).fillManagementView();
@@ -123,7 +125,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         {
             try
             {
-                ((CommissionService)this.getService(0)).createDefaultCommission(this.prefClient, this.orders);
+                ((CommissionService)this.getService(0)).createDefaultCommission(this.prefClient, this.orders, this.repurchases);
             }
             catch (Exception exception)
             {
@@ -155,6 +157,11 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     {
         this.orders = orders;
 	}
+
+    public void loadRepurchases(List<Repurchase> repurchases)
+    {
+        this.repurchases = repurchases;
+    }
 
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception

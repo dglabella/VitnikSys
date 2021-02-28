@@ -115,8 +115,6 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
         this.nameLastnameId.setText(this.prefClientName+" "+this.prefClientLastName+" - "+this.prefClientId);
 
         List<TableColumn> columns = new ArrayList<>();
-        List<PropertyValueFactory> propertiesValues = new ArrayList<>();
-
         columns.add(this.unitCode);
         columns.add(this.deliveryNumber);
         columns.add(this.price);
@@ -124,7 +122,8 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
         columns.add(this.articleName);
         columns.add(this.articleType);
         columns.add(this.reason);
-        
+
+        List<PropertyValueFactory> propertiesValues = new ArrayList<>();
         propertiesValues.add(new PropertyValueFactory<>("unitCode"));
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
         propertiesValues.add(new PropertyValueFactory<>("price"));

@@ -39,7 +39,6 @@ vitniksys\frontend\view_controllers\SearchCampsViewCntlr.class
 vitniksys\backend\model\entities\Devolution.class
 vitniksys\backend\model\entities\ReturnedArticle.class
 vitniksys\backend\model\persistence\OrderOperator.class
-vitniksys\backend\model\services\CampaignService$4.class
 vitniksys\backend\util\DetailFileRow.class
 vitniksys\backend\model\persistence\SubordinatedClientOperator.class
 vitniksys\backend\model\entities\Article.class

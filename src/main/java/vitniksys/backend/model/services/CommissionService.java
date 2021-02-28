@@ -63,7 +63,7 @@ public class CommissionService extends Service
             while(it.hasNext())
             {
                 repurchase = it.next();
-                if(repurchase.isCommissionable())
+                if(repurchase.getReturnedArticle().getOrder().isCommissionable())
                 {
                     ret++;
                 }
