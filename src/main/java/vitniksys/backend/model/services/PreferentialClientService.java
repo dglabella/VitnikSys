@@ -418,31 +418,22 @@ public class PreferentialClientService extends Service
                         OrderOperator.getOperator().incrementForDevolution(orderId); //UPDATE
                         BalanceOperator.getOperator().update(balance); //UPDATE
 
-                        Commission commission = null;
-                        List<Order> orders = null;
-                        List<Repurchase> repurchases = null;  
 
                         if(prefClient instanceof SubordinatedClient)
                         {
                             //update also the leader balance
                             balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
                             BalanceOperator.getOperator().update(balance); //UPDATE
+                        }
 
-                            commission = CommissionOperator.getOperator().find(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader commission
-                            orders = OrderOperator.getOperator().findAll(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader orders for that camp number
-                            repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
-                        }
-                        else if(prefClient instanceof Leader)
-                        {
-                            commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission
-                            orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
-                            repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
-                        }
+                        Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission. (maybe is not a leader)
+                        List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
+                        List<Repurchase> repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
 
                         if(commission != null)
                         {
                             //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
-                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders,repurchases); //UPDATE
+                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders, repurchases); //UPDATE
                         }
                         //otherwise, register the devolution but just ignore update commission becuase, once the commission is created, it will self update.
 
@@ -476,16 +467,9 @@ public class PreferentialClientService extends Service
 
         Platform.runLater(task);
     }
-
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer unitCode) throws Exception
+    
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer repurchaseId) throws Exception
     {
-
-    }
-
-    public void registerRepurchase(PreferentialClient prefClient, Integer campNumber, Integer returnedArticleId, String articleId, Reason reason, Float cost) throws Exception
-    {
-        //SI UN LIDER RECOMPRA ALGO QUE FUE PEDIDO EN LA CAMPAÑA VIGENTE (QUIE SE ALLA DEVUELTO AHORA), SE DEBE AGREGAR UN ARTICULO A LA COMISIÓN, POR ENDE DEBE ACTUALZARSE
-
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
         {
@@ -495,28 +479,42 @@ public class PreferentialClientService extends Service
                 //returnCode is intended for future implementations
                 int returnCode = 0;
 
-                Repurchase repurchase = new Repurchase(cost);
-                repurchase.setPrefClientId(prefClient.getId());
-                repurchase.setCampNumber(campNumber);
-                repurchase.setReturnedArticleId(returnedArticleId);
-
-                ReturnedArticle returnedArticle = new ReturnedArticle(returnedArticleId, reason, true);
-                returnedArticle.setArticleId(articleId);
-
-                Balance balance = new Balance();
-                balance.setPrefClientId(prefClient.getId());
-                balance.setCampNumber(campNumber);
-                balance.setTotalInRepurchases(cost);
-
                 try
                 {
-                    Connector.getConnector().startTransaction();
+                    Connector.getConnector().startTransaction(); //START TRANSACTION
 
-                    if(prefClient instanceof Leader)
+                    Repurchase repurchase = RepurchaseOperator.getOperator().find(repurchaseId);
+
+                    if(!repurchase.isReturned())
                     {
-                        Integer campNumb = CampaignOperator.getOperator().findLast().getNumber();
-                        Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumb); //search for leader commission
-                        List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
+                        ReturnedArticle returnedArticle = new ReturnedArticle();
+                        returnedArticle.setUnitCode(repurchase.getReturnedArticleId());
+                        returnedArticle.setRepurchased(false);
+                        
+                        Devolution devolution = new Devolution(repurchase.getCost());
+                        devolution.setPrefClientId(prefClient.getId());
+                        devolution.setCampNumber(campNumber);
+                        devolution.setUnitCode(returnedArticle.getUnitCode());
+
+                        Balance balance = new Balance();
+                        balance.setPrefClientId(prefClient.getId());
+                        balance.setCampNumber(campNumber);
+                        balance.setTotalInDevolutions(repurchase.getCost());
+
+
+                        ReturnedArticleOperator.getOperator().update(returnedArticle);
+                        DevolutionOperator.getOperator().insert(devolution);
+                        BalanceOperator.getOperator().update(balance);
+
+                        if(prefClient instanceof SubordinatedClient)
+                        {
+                            //update also the leader balance
+                            balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
+                            BalanceOperator.getOperator().update(balance); //UPDATE
+                        }
+
+                        Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber);
+                        List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber);
                         List<Repurchase> repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
 
                         if(commission != null)
@@ -524,37 +522,34 @@ public class PreferentialClientService extends Service
                             //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
                             ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders, repurchases); //UPDATE
                         }
-                        else
-                        {
-                            throw new Exception("Commission with prefClient id = "+prefClient.getId()+" and campaign number = "+campNumb+" is null. Cannot update this commission for a repurchase because it not exist.");
-                        }
+
+                        Connector.getConnector().commit(); // COMMIT
+
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ repurchase.getReturnedArticleId());
+                        getServiceSubscriber().refresh();
                     }
-
-                    RepurchaseOperator.getOperator().insert(repurchase);
-                    ReturnedArticleOperator.getOperator().update(returnedArticle);
-                    BalanceOperator.getOperator().update(balance);
-
-                    Connector.getConnector().commit();
-
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showSucces("La recompra se ha registrado exitosamente!");
-                    getServiceSubscriber().refresh();
+                    else
+                    {
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showError("La recompra ya ha sido devuelta.");
+                    }
                 }
                 catch (Exception exception)
                 {
-                    Connector.getConnector().rollBack();
+                    Connector.getConnector().rollBack(); //ROLLBACK
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showError("Error al realizar la recompra.", null, exception);
+                    getServiceSubscriber().showError("Error al realizar la devolución.", null, exception);
                 }
                 finally
                 {
-                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().endTransaction(); //END TRANSACTION
                     Connector.getConnector().closeConnection();
                 }
                 return returnCode;
             }
         };
 
-        Platform.runLater(task);
+        Platform.runLater(task);    
     }
 }

@@ -18,6 +18,11 @@ public class ReturnedArticle
     //Others
     private boolean active;
 
+    public ReturnedArticle()
+    {
+        // Empty constructor
+    }
+
     public ReturnedArticle(Reason reason)
     {
         this.reason = reason;

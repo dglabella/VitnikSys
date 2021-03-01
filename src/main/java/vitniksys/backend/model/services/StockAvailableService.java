@@ -4,10 +4,16 @@ import java.util.List;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
-import vitniksys.frontend.views_subscriber.StockAvailableServiceSubscriber;
+import vitniksys.backend.model.entities.Balance;
+import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ReturnedArticle;
+import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.persistence.BalanceOperator;
+import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
+import vitniksys.frontend.views_subscriber.StockAvailableServiceSubscriber;
 
 public class StockAvailableService extends Service
 {
@@ -26,10 +32,12 @@ public class StockAvailableService extends Service
 
                     if(returnedArticles != null)
                     {
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
                         ((StockAvailableServiceSubscriber)getServiceSubscriber()).showStockAvailable(returnedArticles);
                     }
                     else
                     {
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
                         getServiceSubscriber().showNoResult("No hay stock disponible");
                     }
                 }
@@ -48,5 +56,69 @@ public class StockAvailableService extends Service
             }
         };
         Platform.runLater(task);
-    }    
+    }
+
+    public void registerRepurchase(PreferentialClient prefClient, Integer campNumber, Integer unitCode, Float repurchasePrice) throws Exception
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+
+                ReturnedArticle returnedArticle = new ReturnedArticle();
+                returnedArticle.setUnitCode(unitCode);
+                returnedArticle.setRepurchased(true);
+
+                Repurchase repurchase = new Repurchase(repurchasePrice);
+                repurchase.setPrefClientId(prefClient.getId());
+                repurchase.setCampNumber(campNumber);
+                repurchase.setReturnedArticleId(unitCode);
+
+                Balance balance = new Balance();
+                balance.setPrefClientId(prefClient.getId());
+                balance.setCampNumber(campNumber);
+                balance.setTotalInRepurchases(repurchasePrice);
+
+                try
+                {
+                    Connector.getConnector().startTransaction();
+
+                    ReturnedArticleOperator.getOperator().update(returnedArticle);
+                    RepurchaseOperator.getOperator().insert(repurchase);
+                    BalanceOperator.getOperator().update(balance);
+
+                    if(prefClient instanceof SubordinatedClient)
+                    {
+                        //update also the leader balance
+                        balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
+                        BalanceOperator.getOperator().update(balance); //UPDATE
+                    }
+                    
+                    Connector.getConnector().commit();
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("La recompra se ha registrado exitosamente!");
+                    getServiceSubscriber().refresh();
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack();
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al realizar la recompra.", null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+
+        Platform.runLater(task);
+    }
 }

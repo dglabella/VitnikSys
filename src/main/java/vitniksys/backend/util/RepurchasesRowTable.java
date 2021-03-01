@@ -1,10 +1,17 @@
 package vitniksys.backend.util;
 
+import java.util.List;
 import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.ArrayList;
+import javafx.scene.control.CheckBox;
+import javafx.beans.value.ObservableValue;
 import vitniksys.backend.model.enums.ArticleType;
+import vitniksys.backend.model.entities.Repurchase;
 
 public class RepurchasesRowTable
 {
+    private Integer cod;
     private Integer unitCode;
     private Integer deliveryNumber;
     private String articleId;
@@ -13,10 +20,15 @@ public class RepurchasesRowTable
     private String name;
     private ArticleType articleType;
     private Timestamp registrationTime;
+    private CheckBox commissionable;
 
-    public RepurchasesRowTable(Integer unitCode, Integer deliveryNumber, String articleId, Float cost, 
-        Float repurchaseCost, String name, ArticleType articleType, Timestamp registrationTime)
+    private Repurchase repurchase;
+
+    
+    public RepurchasesRowTable(Integer cod, Integer unitCode, Integer deliveryNumber, String articleId, Float cost, Float repurchaseCost, 
+        String name, ArticleType articleType, Timestamp registrationTime, boolean commissionable, Repurchase repurchase)
     {
+        this.cod = cod;
         this.unitCode = unitCode;
         this.deliveryNumber = deliveryNumber;
         this.articleId = articleId;
@@ -25,9 +37,51 @@ public class RepurchasesRowTable
         this.name = name;
         this.articleType = articleType;
         this.registrationTime = registrationTime;
+        this.commissionable.setSelected(commissionable);
+
+        this.repurchase = repurchase;
+
+        this.commissionable.selectedProperty().addListener
+        (
+            (ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) -> 
+            {
+                this.repurchase.setCommissionable(newValue);
+            }
+        );
+    }
+
+    public static List<RepurchasesRowTable> generateRows(List<Repurchase> repurchases)
+    {
+        List<RepurchasesRowTable> ret = new ArrayList<>();
+
+        if(repurchases != null)
+        {
+            Repurchase repurchase = null;
+            Iterator<Repurchase> it = repurchases.iterator();
+            while(it.hasNext())
+            {
+                repurchase = it.next();
+
+                ret.add(new RepurchasesRowTable(repurchase.getCode(), repurchase.getReturnedArticleId(), repurchase.getReturnedArticle().getOrder().getDeliveryNumber(), repurchase.getReturnedArticle().getOrder().getArticleId(), 
+                                                repurchase.getReturnedArticle().getOrder().getArticle().getUnitPrice(), repurchase.getCost(), repurchase.getReturnedArticle().getOrder().getArticle().getName(), 
+                                                repurchase.getReturnedArticle().getOrder().getArticle().getType(), repurchase.getRegistrationTime(), repurchase.isCommissionable(), repurchase));
+            }
+        }
+
+        return ret;
     }
 
     //Getters && Setters
+    public Integer getCod()
+    {
+        return this.cod;
+    }
+
+    public void setCod(Integer cod)
+    {
+        this.cod = cod;
+    }
+
     public Integer getUnitCode()
     {
         return this.unitCode;
@@ -106,5 +160,25 @@ public class RepurchasesRowTable
     public void setRegistrationTime(Timestamp registrationTime)
     {
         this.registrationTime = registrationTime;
+    }
+
+    public CheckBox getCommissionable()
+    {
+        return this.commissionable;
+    }
+
+    public void setCommissionable(CheckBox commissionable)
+    {
+        this.commissionable = commissionable;
+    }
+
+    public Repurchase getRepurchase()
+    {
+        return this.repurchase;
+    }
+
+    public void setRepurchase(Repurchase repurchase)
+    {
+        this.repurchase = repurchase;
     }
 }

@@ -244,14 +244,16 @@ public class OrderOperator implements IOrderOperator
 
 		PreparedStatement statement = null;
 		String sqlStmnt = 
-		"SELECT `id_cp`, `nro_camp`, `letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable` "+
+		"SELECT `id_cp`, `nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario` "+
 		"FROM `pedidos` "+
-		"WHERE `cod` = ? AND `active_row` = ?;";
+		"INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
+		"WHERE `cod` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
 		statement = Connector.getConnector().getStatement(sqlStmnt);
 
 		statement.setInt(1, id);
 		statement.setBoolean(2, this.activeRow);
+		statement.setBoolean(3, ArticleOperator.getOperator().isActiveRow());
 
 		ResultSet resultSet = statement.executeQuery();
 
@@ -262,14 +264,15 @@ public class OrderOperator implements IOrderOperator
 			ret.setReturnedQuantity(resultSet.getInt(6));
 			ret.setWithdrawalDate(resultSet.getTimestamp(8));
 			ret.setRegistrationTime(resultSet.getTimestamp(9));
+			Article article = new Article(resultSet.getString(3), resultSet.getString(11), ArticleType.toEnum(resultSet.getInt(12)) , resultSet.getFloat(13));
 
 			//fk ids
 			ret.setPrefClientId(resultSet.getInt(1));
 			ret.setCampNumber(resultSet.getInt(2));
-			ret.setArticleId(resultSet.getString(3)); 
+			ret.setArticleId(article.getId());
 
 			//Associations
-
+			ret.setArticle(article);
 		}
 		
 		return ret;

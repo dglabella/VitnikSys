@@ -113,7 +113,6 @@
                               <MenuItem mnemonicParsing="false" onAction="#withdrawMenuItemSelected" text="Retirar" />
                             <MenuItem mnemonicParsing="false" onAction="#withdrawAllMenuItemSelected" text="Retirar todo" />
                               <MenuItem mnemonicParsing="false" onAction="#devolutionMenuItemSelected" text="Devolver" />
-                              <MenuItem mnemonicParsing="false" onAction="#updateCommissionablesOrders" text="Actualizar comisionables" />
                           </items>
                         </ContextMenu>
                      </contextMenu>
@@ -175,14 +174,15 @@
                                        <children>
                                           <TableView fx:id="repurchases" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="1300.0">
                                              <columns>
-                                                <TableColumn fx:id="unitCode" minWidth="100.0" prefWidth="110.0" text="Ejemplar" />
-                                                <TableColumn fx:id="deliveryNumberRep" minWidth="100.0" prefWidth="110.0" text="Nro Envío" />
-                                                <TableColumn fx:id="articleIdRep" minWidth="100.0" prefWidth="110.0" text="Letra" />
-                                                <TableColumn fx:id="priceRep" minWidth="100.0" prefWidth="110.0" text="Precio" />
-                                                <TableColumn fx:id="repurchasePrice" minWidth="100.0" prefWidth="110.0" text="Precio Rec" />
-                                                <TableColumn fx:id="nameRep" minWidth="420.0" prefWidth="430.0" text="Nombre" />
-                                                <TableColumn fx:id="articleTypeRep" minWidth="200.0" prefWidth="200.0" text="Tipo" />
-                                                <TableColumn fx:id="repurchaseRegistrationTime" minWidth="100.0" prefWidth="120.0" text="Fecha Recompra" />
+                                                <TableColumn fx:id="unitCode" minWidth="80.0" resizable="false" text="Ejemplar" />
+                                                <TableColumn fx:id="deliveryNumberRep" minWidth="80.0" resizable="false" text="Nro Envío" />
+                                                <TableColumn fx:id="articleIdRep" minWidth="80.0" resizable="false" text="Letra" />
+                                                <TableColumn fx:id="priceRep" minWidth="100.0" prefWidth="110.0" resizable="false" text="Precio" />
+                                                <TableColumn fx:id="repurchasePrice" minWidth="100.0" prefWidth="120.0" resizable="false" text="Precio Rec" />
+                                                <TableColumn fx:id="nameRep" minWidth="420.0" prefWidth="430.0" resizable="false" text="Nombre" />
+                                                <TableColumn fx:id="articleTypeRep" minWidth="130.0" prefWidth="200.0" resizable="false" text="Tipo" />
+                                                <TableColumn fx:id="repurchaseRegistrationTime" minWidth="160.0" prefWidth="160.0" resizable="false" text="Fecha Recompra" />
+                                                <TableColumn fx:id="isCommissionableRep" minWidth="30.0" prefWidth="40.0" resizable="false" text="Com?" />
                                              </columns>
                                              <contextMenu>
                                                 <ContextMenu>
@@ -285,6 +285,7 @@
             <MenuItem mnemonicParsing="false" onAction="#observationsMenuItemSelected" text="Observaciones" />
             <MenuItem mnemonicParsing="false" onAction="#cataloguesDeliveryMenuItemSelected" text="Entregar catálogos" />
           <MenuItem mnemonicParsing="false" onAction="#commissionLvlMenuItemSelected" text="Niveles de comisión" />
+            <MenuItem mnemonicParsing="false" onAction="#updateCommissionablesOrders" text="Actualizar comisionables" />
         </items>
       </ContextMenu>
    </contextMenu>

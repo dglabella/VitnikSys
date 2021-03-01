@@ -91,6 +91,7 @@ vitniksys\backend\model\persistence\ObservationOperator.class
 vitniksys\backend\model\persistence\CampaignOperator.class
 vitniksys\backend\model\persistence\BaseClientOperator.class
 vitniksys\backend\model\interfaces\IPaymentOperator.class
+vitniksys\backend\model\services\StockAvailableService$2.class
 vitniksys\frontend\view_controllers\StockAvailableViewCntlr.class
 vitniksys\frontend\view_controllers\ProcessingViewCntlr.class
 vitniksys\frontend\view_controllers\ViewCntlr.class

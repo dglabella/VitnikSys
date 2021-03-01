@@ -4,13 +4,20 @@ import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import vitniksys.backend.util.CustomAlert;
+import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.StockRowTable;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.ReturnedArticle;
+import vitniksys.backend.util.CustomAlert.CustomAlertType;
+import vitniksys.backend.model.entities.Campaign;
+import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.services.StockAvailableService;
 import vitniksys.frontend.views_subscriber.StockAvailableServiceSubscriber;
 
@@ -18,14 +25,13 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
 {
     private int RETURNED_ARTICLES_TABLE_NUMBER;
 
-    private Integer prefClientId;
-    private Integer campNumber;
-    private String prefClientName;
-    private String prefClientLastName;
+    private PreferentialClient prefClient;
+    private Campaign camp;
 
     // ================================= FXML variables ===================================
     @FXML private Label total;
     @FXML private Label nameLastnameId;
+    @FXML private Label assignmentCampaign;
 
     @FXML private TableView<StockRowTable> returnedArticles;
     
@@ -38,44 +44,24 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @FXML private TableColumn<StockRowTable, String> reason;
 
     // Getters && Setters
-    protected Integer getPrefClientId()
+    public PreferentialClient getPrefClient()
     {
-        return this.prefClientId;
+        return this.prefClient;
     }
 
-    protected void setPrefClientId(Integer prefClientId)
+    public void setPrefClient(PreferentialClient prefClient)
     {
-        this.prefClientId = prefClientId;
+        this.prefClient = prefClient;
     }
 
-    protected Integer getCampNumber()
+    protected Campaign getCamp()
     {
-        return this.campNumber;
+        return this.camp;
     }
 
-    protected void setCampNumber(Integer campNumber)
+    protected void setCamp(Campaign camp)
     {
-        this.campNumber = campNumber;
-    }
-
-    public String getPrefClientName()
-    {
-        return this.prefClientName;
-    }
-
-    public void setPrefClientName(String prefClientName)
-    {
-        this.prefClientName = prefClientName;
-    }
-
-    public String getPrefClientLastName()
-    {
-        return this.prefClientLastName;
-    }
-
-    public void setPrefClientLastName(String prefClientLastName)
-    {
-        this.prefClientLastName = prefClientLastName;
+        this.camp = camp;
     }
 
     // ================================= FXML methods ===================================
@@ -84,7 +70,31 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     {
         try
         {
-            throw new Exception("Operation not suported yet");
+            StockRowTable stockRowTable = this.returnedArticles.getSelectionModel().getSelectedItem();
+            if(stockRowTable != null)
+            {
+                CustomAlert customAlert = new CustomAlert(CustomAlertType.REPURCHASE , "RECOMPRA", "Ingrese el monto de reventa");
+
+                customAlert.customShow().ifPresent(response ->
+                {
+                    if(response == ButtonType.OK)
+                    {                    
+                        try
+                        {
+                            ((StockAvailableService)this.getService(0)).registerRepurchase(this.prefClient, this.camp.getNumber(), stockRowTable.getUnitCode(), 
+                                                                                            ((RepurchaseDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getCost());
+                        }
+                        catch (Exception exception)
+                        {
+                            exception.printStackTrace();
+                        }
+                    }
+                });
+            }
+            else
+            {
+                new CustomAlert(AlertType.INFORMATION, "RECOMPRA", "Debe seleccionar un item de la tabla.").customShow();
+            }
         }
         catch (Exception exception)
         {
@@ -100,6 +110,9 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     {
         try
         {
+            this.nameLastnameId.setText(this.prefClient.getName()+" "+this.prefClient.getLastName()+" - "+this.prefClient.getId());
+            this.assignmentCampaign.setText(this.camp.getEnumMonth()+" - "+this.camp.getYear()+" - "+this.camp.getNumber());
+            
             ((StockAvailableService)this.getService(0)).getStockAvailable();
         }
         catch (Exception exception)
@@ -112,8 +125,6 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @Override
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        this.nameLastnameId.setText(this.prefClientName+" "+this.prefClientLastName+" - "+this.prefClientId);
-
         List<TableColumn> columns = new ArrayList<>();
         columns.add(this.unitCode);
         columns.add(this.deliveryNumber);
@@ -149,6 +160,13 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @Override
     public void showStockAvailable(List<ReturnedArticle> returnedArticles) throws Exception
     {
-        this.loadData(this.RETURNED_ARTICLES_TABLE_NUMBER, returnedArticles);
+        this.loadData(this.RETURNED_ARTICLES_TABLE_NUMBER, StockRowTable.generateRows(returnedArticles));
+
+        float total = 0f;
+        Iterator<ReturnedArticle> it = returnedArticles.iterator();
+        while(it.hasNext())
+            total += it.next().getOrder().getArticle().getUnitPrice();
+        
+        this.total.setText(""+total);
     }
 }

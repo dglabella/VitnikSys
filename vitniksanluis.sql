@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 28-02-2021 a las 23:19:14
+-- Tiempo de generación: 01-03-2021 a las 10:09:47
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -611,7 +611,14 @@ CREATE TABLE IF NOT EXISTS `articulos_devueltos` (
   `active_row` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ejemplar`),
   KEY `cod_pedido` (`cod_pedido`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `articulos_devueltos`
+--
+
+INSERT INTO `articulos_devueltos` (`ejemplar`, `cod_pedido`, `motivo`, `recomprado`, `active_row`) VALUES
+(1, 1756, 13, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -854,7 +861,7 @@ CREATE TABLE IF NOT EXISTS `comisiones` (
 
 INSERT INTO `comisiones` (`id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4`, `active_row`) VALUES
 (276, 220, 177, 10, 10, 50, 120, 200, 300, 5, 8, 10, 13, 1),
-(535, 220, 26, 5, 10, 50, 120, 200, 300, 5, 8, 10, 13, 1);
+(535, 220, 5, 8, 10, 50, 120, 200, 300, 5, 8, 10, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -875,7 +882,14 @@ CREATE TABLE IF NOT EXISTS `devoluciones` (
   KEY `id_cp` (`id_cp`),
   KEY `nro_camp` (`nro_camp`),
   KEY `ejemplar` (`ejemplar`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `devoluciones`
+--
+
+INSERT INTO `devoluciones` (`cod`, `id_cp`, `nro_camp`, `ejemplar`, `monto`, `fecha_registro`, `active_row`) VALUES
+(1, 535, 220, 1, '999.90', '2021-03-01 09:38:36', 1);
 
 -- --------------------------------------------------------
 
@@ -1756,7 +1770,7 @@ INSERT INTO `pedidos` (`cod`, `id_cp`, `nro_camp`, `letra`, `nro_envio`, `cant`,
 (1753, 835, 220, 'AHZZ', 6559433, 1, 0, '176.21', NULL, '2021-02-17 12:29:35', 1, 1),
 (1754, 835, 220, 'AQQT', 6559433, 1, 0, '206.21', NULL, '2021-02-17 12:29:35', 1, 1),
 (1755, 835, 220, 'AYPE', 6559433, 1, 0, '1749.93', NULL, '2021-02-17 12:29:35', 1, 1),
-(1756, 535, 220, 'AYNQ', 6559390, 1, 0, '749.93', NULL, '2021-02-17 12:29:35', 1, 1),
+(1756, 535, 220, 'AYNQ', 6559390, 1, 1, '749.93', NULL, '2021-02-17 12:29:35', 1, 1),
 (1757, 535, 220, 'AXHY', 6559390, 1, 0, '1199.93', NULL, '2021-02-17 12:29:35', 1, 1),
 (1758, 535, 220, 'AVMI', 6559390, 1, 0, '1274.93', NULL, '2021-02-17 12:29:35', 1, 1),
 (1759, 535, 220, 'AYDU', 6559390, 1, 0, '1462.43', NULL, '2021-02-17 12:29:35', 1, 1),
@@ -1949,13 +1963,22 @@ CREATE TABLE IF NOT EXISTS `recompras` (
   `nro_camp` int(10) UNSIGNED NOT NULL,
   `ejemplar` int(10) UNSIGNED NOT NULL,
   `precio_recompra` decimal(10,2) UNSIGNED NOT NULL,
+  `comisionable` tinyint(1) NOT NULL,
+  `devuelta` tinyint(1) NOT NULL DEFAULT '0',
   `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `active_row` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`cod`),
   KEY `id_cp` (`id_cp`),
   KEY `nro_camp` (`nro_camp`),
   KEY `ejemplar` (`ejemplar`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `recompras`
+--
+
+INSERT INTO `recompras` (`cod`, `id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`, `comisionable`, `devuelta`, `fecha_registro`, `active_row`) VALUES
+(1, 535, 220, 1, '1000.00', 0, 0, '2021-03-01 09:58:22', 1);
 
 -- --------------------------------------------------------
 
@@ -2036,7 +2059,7 @@ INSERT INTO `saldos` (`id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `r
 (476, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (516, 220, '-399.90', '399.90', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (516, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
-(535, 220, '-19584.91', '20615.70', '0.00', '0.00', '0.00', '0.00', '1030.79', 1),
+(535, 220, '-20182.03', '20615.70', '0.00', '1000.00', '0.00', '999.90', '433.77', 1),
 (535, 221, '615.70', '0.00', '0.00', '0.00', '615.70', '0.00', '0.00', 1),
 (549, 220, '-5769.59', '5769.59', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (549, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),

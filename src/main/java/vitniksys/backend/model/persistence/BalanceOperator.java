@@ -99,6 +99,7 @@ public class BalanceOperator implements IBalanceOperator
     public Integer update(Balance balance) throws Exception
     {
         Integer returnCode = null;
+
         String sqlStmnt = 
         "UPDATE `saldos` SET `pedidos`= `pedidos`+ ?, `catalogos`= `catalogos`+ ?, "+
         "`recompras`= `recompras`+ ?, `pagos`= `pagos`+ ?, `devoluciones`= `devoluciones`+ ?, "+
@@ -119,6 +120,7 @@ public class BalanceOperator implements IBalanceOperator
 
         returnCode = statement.executeUpdate();
         statement.close();
+        
         return returnCode;
     }
 

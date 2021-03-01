@@ -12,6 +12,7 @@ import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
+import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CommissionOperator;
@@ -63,7 +64,7 @@ public class CommissionService extends Service
             while(it.hasNext())
             {
                 repurchase = it.next();
-                if(repurchase.getReturnedArticle().getOrder().isCommissionable())
+                if(repurchase.isCommissionable() && !repurchase.isReturned())
                 {
                     ret++;
                 }
@@ -294,6 +295,7 @@ public class CommissionService extends Service
                             Connector.getConnector().startTransaction();
 
                             OrderOperator.getOperator().updateAll(orders);
+                            RepurchaseOperator.getOperator().updateAll(repurchases);
 
                             updateCommission(commission, orders, repurchases);
 

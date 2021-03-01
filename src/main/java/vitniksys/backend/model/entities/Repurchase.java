@@ -10,6 +10,8 @@ public class Repurchase extends VitnikSearchableEntity
     //Entity properties
     private Integer code;
     private float cost;
+    private boolean commissionable;
+    private boolean returned;
     private Timestamp registrationTime;
 
     //Domain Associations
@@ -69,6 +71,26 @@ public class Repurchase extends VitnikSearchableEntity
     public void setCost(float cost)
     {
         this.cost = cost;
+    }
+
+    public boolean isCommissionable()
+    {
+        return this.commissionable;
+    }
+
+    public void setCommissionable(boolean commissionable)
+    {
+        this.commissionable = commissionable;
+    }
+
+    public boolean isReturned()
+    {
+        return this.returned;
+    }
+
+    public void setReturned(boolean returned)
+    {
+        this.returned = returned;
     }
 
     public Timestamp getRegistrationTime()

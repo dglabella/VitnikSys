@@ -42,9 +42,10 @@ import vitniksys.backend.model.services.CampaignService;
 import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.util.CustomAlert.CustomAlertType;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.SubordinatedClient;
-import vitniksys.backend.model.services.PreferentialClientService;
 import vitniksys.backend.model.services.StockAvailableService;
+import vitniksys.backend.model.services.PreferentialClientService;
 import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
 import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
@@ -134,6 +135,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<RepurchasesRowTable, String> nameRep;
     @FXML private TableColumn<RepurchasesRowTable, String> articleTypeRep;
     @FXML private TableColumn<RepurchasesRowTable, String> repurchaseRegistrationTime;
+    @FXML private TableColumn<RepurchasesRowTable, String> isCommissionableRep;
 
     // ================================= FXML methods ===================================
     @FXML
@@ -280,11 +282,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 {                    
                     try
                     {
-                        DevolutionDialogContentViewCntlr cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
-                        cntlr = (DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
-
-                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), orderRowTable.getArticleId(), 
-                            null, orderRowTable.getCost(), cntlr.getReason());
+                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), 
+                                                                                            ((DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getReason());
                     }
                     catch (Exception exception)
                     {
@@ -295,14 +294,37 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         }
         else
         {
-            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "No hay pedidos registrados.").customShow();
+            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "Debe seleccionar un pedido.").customShow();
         }
     }
 
     @FXML
     private void devolutionRepMenuItemSelected()
     {
-        
+        RepurchasesRowTable repurchasesRowTable = this.repurchases.getSelectionModel().getSelectedItem();
+        if(repurchasesRowTable != null)
+        {
+            CustomAlert customAlert = new CustomAlert(AlertType.CONFIRMATION , "DEVOLUCIÓN", "Desea devolver esta recompra?");
+
+            customAlert.customShow().ifPresent(response ->
+            {
+                if(response == ButtonType.OK)
+                {
+                    try
+                    {
+                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), repurchasesRowTable.getCod());
+                    }
+                    catch (Exception exception)
+                    {
+                        exception.printStackTrace();
+                    }
+                }
+            });
+        }
+        else
+        {
+            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "Debe seleccionar una recompra.").customShow();
+        }
     }
 
     @FXML
@@ -310,12 +332,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         ViewCntlr viewCntlr = this.createStage("Stock de artículos devueltos", "stockAvailable", new StockAvailableService());
         viewCntlr.getStage().show();
+        ((StockAvailableViewCntlr)viewCntlr).setPrefClient(this.prefClient);
+        ((StockAvailableViewCntlr)viewCntlr).setCamp(this.actualCampaign);
 
-        ((StockAvailableViewCntlr)viewCntlr).setPrefClientId(this.prefClient.getId());
-        ((StockAvailableViewCntlr)viewCntlr).setPrefClientName(this.prefClient.getName());
-        ((StockAvailableViewCntlr)viewCntlr).setPrefClientLastName(this.prefClient.getLastName());
-        ((StockAvailableViewCntlr)viewCntlr).setCampNumber(this.actualCampaign.getNumber());
-        ((StockAvailableViewCntlr)viewCntlr).manualInitialize();
+        viewCntlr.manualInitialize();
     }
 
     @FXML
@@ -345,11 +365,16 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     private void updateCommissionablesOrders()
     {
         List<Order> ordersToUpdate = new ArrayList<>();
-        Iterator<OrdersRowTable> it = this.orders.getItems().iterator();
-        while(it.hasNext())
-            ordersToUpdate.add(it.next().getOrder());
+        Iterator<OrdersRowTable> it1 = this.orders.getItems().iterator();
+        while(it1.hasNext())
+            ordersToUpdate.add(it1.next().getOrder());
 
-        ((CommissionService)this.getService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
+        List<Repurchase> repurchasesToUpdate = new ArrayList<>();
+        Iterator<RepurchasesRowTable> it2 = this.repurchases.getItems().iterator();
+        while(it2.hasNext())
+            repurchasesToUpdate.add(it2.next().getRepurchase());
+
+        ((CommissionService)this.getService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate, repurchasesToUpdate);
     }
     
     // ================================= private methods ===================================
@@ -370,7 +395,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.actualOrders, com));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
-        this.loadData(this.REPURCHASES_TABLE_NUMBER, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
+        this.loadData(this.REPURCHASES_TABLE_NUMBER, RepurchasesRowTable.generateRows(this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
     }
 
     public void fillManagementView()
@@ -480,6 +505,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.nameRep);
         columns.add(this.articleTypeRep);
         columns.add(this.repurchaseRegistrationTime);
+        columns.add(this.isCommissionableRep);
 
         propertiesValues.add(new PropertyValueFactory<>("devCode"));
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
@@ -489,6 +515,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         propertiesValues.add(new PropertyValueFactory<>("name"));
         propertiesValues.add(new PropertyValueFactory<>("articleType"));
         propertiesValues.add(new PropertyValueFactory<>("registrationTime"));
+        propertiesValues.add(new PropertyValueFactory<>("commissionable"));
 
         this.registerTable(this.repurchases);
         this.REPURCHASES_TABLE_NUMBER = 2;

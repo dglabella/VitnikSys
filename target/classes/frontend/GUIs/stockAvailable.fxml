@@ -28,23 +28,33 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <Label layoutX="500.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="75.0" text="Total:" textFill="WHITE">
+            <Label layoutX="300.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="75.0" text="Total:" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="28.0" />
                </font>
             </Label>
-            <Label fx:id="total" layoutX="580.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" text="----" textFill="WHITE">
+            <Label fx:id="total" layoutX="380.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" text="----" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="28.0" />
                </font>
             </Label>
-            <TextField layoutX="500.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Filtro de artículos" />
-            <Label layoutX="15.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="210.0" text="Stock disponible" textFill="WHITE">
+            <TextField layoutX="450.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Filtro de artículos" />
+            <Label layoutX="15.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="205.0" text="Stock disponible" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="28.0" />
                </font>
             </Label>
             <Label fx:id="nameLastnameId" layoutX="15.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="470.0" text="nombre apellido cp id" textFill="WHITE">
+               <font>
+                  <Font name="Britannic Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="670.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="220.0" text="Campaña de asignación:" textFill="WHITE">
+               <font>
+                  <Font name="Britannic Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="assignmentCampaign" alignment="CENTER" contentDisplay="CENTER" layoutX="650.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" text="---" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="20.0" />
                </font>
