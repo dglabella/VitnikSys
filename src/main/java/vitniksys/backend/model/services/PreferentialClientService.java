@@ -380,7 +380,7 @@ public class PreferentialClientService extends Service
         }
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, String articleId, Integer unitCode, Float cost, Reason reason) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -391,94 +391,42 @@ public class PreferentialClientService extends Service
                 //returnCode is intended for future implementations
                 int returnCode = 0;
 
-                ReturnedArticle returnedArticle = new ReturnedArticle(reason);
-                returnedArticle.set
-                returnedArticle.setRepurchased(false);
-
-                Devolution devolution = new Devolution(cost);
-                devolution.setPrefClientId(prefClient.getId());
-                devolution.setCampNumber(campNumber);
-
-                Balance balance = new Balance();
-                balance.setPrefClientId(prefClient.getId());
-                balance.setCampNumber(campNumber);
-                balance.setTotalInDevolutions(cost);
-
                 try
                 {
                     Connector.getConnector().startTransaction(); //START TRANSACTION
 
-                    if(unitCode == null) //comes from orders
+                    Order order = OrderOperator.getOperator().find(orderId); //SEARCH IN DB
+
+                    if(order.getQuantity() > order.getReturnedQuantity()) //No client can return an article if already all of its units were returned
                     {
-                        Order order = OrderOperator.getOperator().find(orderId); //SEARCH IN DB
+                        ReturnedArticle returnedArticle = new ReturnedArticle(reason);
+                        returnedArticle.setOrderId(orderId);
+                        returnedArticle.setRepurchased(false);
+        
+                        Devolution devolution = new Devolution(order.getArticle().getUnitPrice());
+                        devolution.setPrefClientId(order.getPrefClientId()); // Register this devolution with the preferential Client id from the one that make the order.
+                        devolution.setCampNumber(campNumber);
 
-                        if(order.getQuantity() > order.getReturnedQuantity()) //No client can return an article if already all of its units were returned
-                        {
-                            devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle)); //INSERT
+                        Balance balance = new Balance();
+                        balance.setPrefClientId(prefClient.getId());
+                        balance.setCampNumber(campNumber);
+                        balance.setTotalInDevolutions(order.getArticle().getUnitPrice());
+                        
 
-                            devolution.setPrefClientId(order.getPrefClientId()); //in this case, the devolution MUST to be registered with the order owner.
-                            DevolutionOperator.getOperator().insert(devolution); //INSERT
-
-                            OrderOperator.getOperator().incrementForDevolution(orderId); //UPDATE
-
-                            BalanceOperator.getOperator().update(balance); //UPDATE
-
-                            Commission commission = null;
-                            List<Order> orders = null;
-                            List<Repurchase> repurchases = null;  
-
-                            if(prefClient instanceof SubordinatedClient)
-                            {
-                                //update also the leader balance
-                                balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
-                                BalanceOperator.getOperator().update(balance); //UPDATE
-
-                                commission = CommissionOperator.getOperator().find(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader commission
-                                orders = OrderOperator.getOperator().findAll(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader orders for that camp number
-                                repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
-                            }
-                            else if(prefClient instanceof Leader)
-                            {
-                                commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission
-                                orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
-                                repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
-                            }
-
-                            if(commission != null)
-                            {
-                                //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
-                                ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders,repurchases); //UPDATE
-                            }
-                            //otherwise, register the devolution but just ignore update commission becuase, once the commission is created, it will self update.
-
-                            Connector.getConnector().commit(); // COMMIT
-
-                            getServiceSubscriber().closeProcessIsWorking(customAlert);
-                            getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ devolution.getUnitCode());
-                            getServiceSubscriber().refresh();
-                        }
-                        else
-                        {
-                            getServiceSubscriber().closeProcessIsWorking(customAlert);
-                            getServiceSubscriber().showError("No quedan artículos por devolver.");
-                        }
-                    }
-                    else //comes from repurchases
-                    {
-                        returnedArticle.setUnitCode(unitCode);
-                        ReturnedArticleOperator.getOperator().update(returnedArticle);
+                        devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle)); //INSERT
                         DevolutionOperator.getOperator().insert(devolution); //INSERT
+                        OrderOperator.getOperator().incrementForDevolution(orderId); //UPDATE
                         BalanceOperator.getOperator().update(balance); //UPDATE
 
                         Commission commission = null;
                         List<Order> orders = null;
-                        List<Repurchase> repurchases = null;
+                        List<Repurchase> repurchases = null;  
 
                         if(prefClient instanceof SubordinatedClient)
                         {
                             //update also the leader balance
                             balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
-                            BalanceOperator.getOperator().update(balance); //UPDATE 
+                            BalanceOperator.getOperator().update(balance); //UPDATE
 
                             commission = CommissionOperator.getOperator().find(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader commission
                             orders = OrderOperator.getOperator().findAll(((SubordinatedClient)prefClient).getLeaderId(), campNumber); //search for leader orders for that camp number
@@ -494,15 +442,22 @@ public class PreferentialClientService extends Service
                         if(commission != null)
                         {
                             //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
-                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders, repurchases); //UPDATE
+                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders,repurchases); //UPDATE
                         }
+                        //otherwise, register the devolution but just ignore update commission becuase, once the commission is created, it will self update.
 
                         Connector.getConnector().commit(); // COMMIT
 
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ unitCode);
+                        getServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ devolution.getUnitCode());
                         getServiceSubscriber().refresh();
                     }
+                    else
+                    {
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showError("No quedan artículos por devolver.");
+                    }
+                    
                 }
                 catch (Exception exception)
                 {
@@ -520,6 +475,11 @@ public class PreferentialClientService extends Service
         };
 
         Platform.runLater(task);
+    }
+
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer unitCode) throws Exception
+    {
+
     }
 
     public void registerRepurchase(PreferentialClient prefClient, Integer campNumber, Integer returnedArticleId, String articleId, Reason reason, Float cost) throws Exception
