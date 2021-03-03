@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="995.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.view_controllers.CommissionRegisterViewCntlr">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="995.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.view_controllers.CommissionRegisterViewCntlr">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="995.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
          <children>
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="910.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="940.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -177,7 +177,7 @@
             <Spinner fx:id="otherRateSpinner" layoutX="370.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="250.0" layoutY="580.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="430.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+      <AnchorPane layoutX="25.0" layoutY="580.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="950.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
             <Label fx:id="invalidPrice111" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
                <font>
@@ -189,7 +189,7 @@
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <JFXButton fx:id="update" buttonType="RAISED" layoutX="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#updateButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Actualizar">
+            <JFXButton fx:id="update" buttonType="RAISED" layoutX="400.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#updateButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Actualizar">
                <graphic>
                   <ImageView fitHeight="68.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
