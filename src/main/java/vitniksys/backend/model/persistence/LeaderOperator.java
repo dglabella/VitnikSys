@@ -106,7 +106,10 @@ public class LeaderOperator extends BaseClientOperator
             
             Iterator<SubordinatedClient> it = ret.getSubordinates().iterator();
             while(it.hasNext())
-                ret.getOrders().addAll(it.next().getOrders());
+            {
+                SubordinatedClient subordinatedClient = it.next();
+                ret.getOrders().addAll(subordinatedClient.getOrders());
+            }
         }
 
         statement.close();
