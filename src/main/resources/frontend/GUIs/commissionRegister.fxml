@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.view_controllers.CommissionRegisterViewCntlr">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="995.0" style="-fx-background-color: #ededed;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vitniksys.frontend.view_controllers.CommissionRegisterViewCntlr">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="995.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
          <children>
-            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="445.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
+            <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" layoutX="910.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#backButtonPressed" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: white; -fx-background-radius: 50;">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -22,14 +22,24 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <Label fx:id="idCpNameLastName" contentDisplay="CENTER" layoutX="15.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="420.0" text="id cp - name" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="idCpNameLastName" contentDisplay="CENTER" layoutX="15.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="350.0" text="id cp - name" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Britannic Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label contentDisplay="CENTER" layoutX="400.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="95.0" text="Cantidad:" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Britannic Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="actualQuantity" contentDisplay="CENTER" layoutX="500.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="95.0" text="---" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="22.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="25.0" layoutY="77.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="450.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+      <AnchorPane layoutX="25.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="450.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
             <Label fx:id="invalidPrice" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
                <font>
@@ -41,7 +51,145 @@
                   <Font name="Verdana" size="15.0" />
                </font>
             </Label>
-            <JFXButton fx:id="update" buttonType="RAISED" layoutX="160.0" layoutY="536.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#updateButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Actualizar">
+            <Slider fx:id="lvl1RateSlider" layoutX="210.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl1RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 1" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Nivel 1" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="lvl1Quantity" layoutX="250.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Slider fx:id="lvl2RateSlider" layoutX="210.0" layoutY="220.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl2RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="270.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 2" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="220.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Nivel 2" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="lvl2Quantity" layoutX="250.0" layoutY="270.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Slider fx:id="lvl3RateSlider" layoutX="210.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl3RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="370.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 3" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Nivel 3" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="lvl3Quantity" layoutX="255.0" layoutY="370.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Mínima" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="minQuantity" layoutX="250.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" text="Factor: Pedido - Oportunidad" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="actualRate" alignment="CENTER" contentDisplay="CENTER" layoutX="315.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="120.0" text="?" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana Bold" size="17.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="lvl1RateSpinner" layoutX="370.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Spinner fx:id="lvl2RateSpinner" layoutX="370.0" layoutY="220.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Spinner fx:id="lvl3RateSpinner" layoutX="370.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="420.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Nivel 4" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Slider fx:id="lvl4RateSlider" layoutX="215.0" layoutY="420.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl3RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
+            <Spinner fx:id="lvl4RateSpinner" layoutX="370.0" layoutY="420.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="510.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="450.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+         <children>
+            <Label fx:id="invalidPrice1" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="invalidLink1" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Label>
+            <Slider fx:id="fpRateSlider" layoutX="175.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl1RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="235.0" text="Factor: Free Premium" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="fpActualRate" alignment="CENTER" contentDisplay="CENTER" layoutX="270.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="120.0" text="?" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana Bold" size="17.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="fpRateSpinner" layoutX="370.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="510.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="450.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+         <children>
+            <Label fx:id="invalidPrice11" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="invalidLink11" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Label>
+            <Slider fx:id="otherRateSlider" layoutX="175.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl1RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana" size="17.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="235.0" text="Factor: Otros" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana Bold" size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="otherActualRate" alignment="CENTER" contentDisplay="CENTER" layoutX="270.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="120.0" text="?" textAlignment="CENTER">
+               <font>
+                  <Font name="Verdana Bold" size="17.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="otherRateSpinner" layoutX="370.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="250.0" layoutY="580.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="430.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
+         <children>
+            <Label fx:id="invalidPrice111" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="invalidLink111" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
+               <font>
+                  <Font name="Verdana" size="15.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="update" buttonType="RAISED" layoutX="165.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#updateButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Actualizar">
                <graphic>
                   <ImageView fitHeight="68.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -50,84 +198,6 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <Slider fx:id="lvl1RateSlider" layoutX="210.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl1RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cantidad Actual" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 1" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Nivel 1" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Spinner fx:id="lvl1Quantity" layoutX="250.0" layoutY="148.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
-            <Label fx:id="actualQuantity" alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="?" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Slider fx:id="lvl2RateSlider" layoutX="210.0" layoutY="288.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl2RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="248.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 2" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="288.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Nivel 2" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Spinner fx:id="lvl2Quantity" layoutX="250.0" layoutY="248.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
-            <Slider fx:id="lvl3RateSlider" layoutX="210.0" layoutY="388.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl3RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="348.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 3" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="388.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Nivel 3" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Spinner fx:id="lvl3Quantity" layoutX="250.0" layoutY="348.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
-            <Slider fx:id="lvl4RateSlider" layoutX="210.0" layoutY="488.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl4RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="448.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 4" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="488.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Nivel 4" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Spinner fx:id="lvl4Quantity" layoutX="250.0" layoutY="448.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Mínima" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Spinner fx:id="minQuantity" layoutX="250.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor Actual" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Label fx:id="actualRate" alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="?" textAlignment="CENTER">
-               <font>
-                  <Font name="Verdana" size="17.0" />
-               </font>
-            </Label>
-            <Spinner fx:id="lvl1RateSpinner" layoutX="370.0" layoutY="188.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
-            <Spinner fx:id="lvl2RateSpinner" layoutX="370.0" layoutY="288.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
-            <Spinner fx:id="lvl3RateSpinner" layoutX="370.0" layoutY="388.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
-            <Spinner fx:id="lvl4RateSpinner" layoutX="370.0" layoutY="488.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" />
          </children>
       </AnchorPane>
    </children>
