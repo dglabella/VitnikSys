@@ -405,6 +405,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         if(this.prefClient instanceof Leader)
         {
             ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
+            
         }
         else if(this.prefClient instanceof BaseClient)
         {
@@ -608,6 +609,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
         this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
+
+        System.out.println(" === === "+this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
+
         this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
 
         if(prefClient instanceof Leader)
