@@ -100,25 +100,25 @@ public class CommissionService extends Service
 
         if(commission != null && orders != null && orders.size() > 0)
         {
-            if(commission.getMinQuantity() <= actualQuantity && actualQuantity <= commission.getLvl1Quantity())
+            if(actualQuantity < commission.getMinQuantity())
+            {
+                commissionFactor = 0;
+            }
+            else if(commission.getMinQuantity() <= actualQuantity && actualQuantity < commission.getLvl1Quantity())
             {
                 commissionFactor = commission.getLvl1Factor();
             }
-            else if(actualQuantity <= commission.getLvl2Quantity())
+            else if(actualQuantity < commission.getLvl2Quantity())
             {
                 commissionFactor = commission.getLvl2Factor();
             }
-            else if(actualQuantity <= commission.getLvl3Quantity())
+            else if(actualQuantity < commission.getLvl3Quantity())
             {
                 commissionFactor = commission.getLvl3Factor();
             }
-            else if(actualQuantity <= commission.getLvl4Quantity())
-            {
-                commissionFactor = commission.getLvl4Factor();
-            }
             else
             {
-                commissionFactor = App.ConstraitConstants.MAX_COMMISSION_RATE;
+                commissionFactor = commission.getLvl4Factor();
             }
 
             commission.setActualQuantity(actualQuantity);
