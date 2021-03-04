@@ -41,16 +41,6 @@
       </AnchorPane>
       <AnchorPane layoutX="25.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="450.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <Label fx:id="invalidPrice" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="invalidLink" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
             <Slider fx:id="lvl1RateSlider" layoutX="210.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl1RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Cant. Nivel 1" textAlignment="CENTER">
                <font>
@@ -117,16 +107,6 @@
       </AnchorPane>
       <AnchorPane layoutX="510.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="450.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <Label fx:id="invalidPrice1" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="invalidLink1" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
             <Slider fx:id="fpRateSlider" layoutX="175.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl1RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor" textAlignment="CENTER">
                <font>
@@ -148,16 +128,6 @@
       </AnchorPane>
       <AnchorPane layoutX="510.0" layoutY="360.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="450.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <Label fx:id="invalidPrice11" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="invalidLink11" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
             <Slider fx:id="otherRateSlider" layoutX="175.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#lvl1RateSliderOnMouseClicked" prefHeight="30.0" prefWidth="150.0" />
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="80.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" text="Factor" textAlignment="CENTER">
                <font>
@@ -179,16 +149,6 @@
       </AnchorPane>
       <AnchorPane layoutX="25.0" layoutY="580.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="950.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 15, 0, 0, 0); -fx-background-radius: 8;">
          <children>
-            <Label fx:id="invalidPrice111" layoutX="220.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="invalidLink111" layoutX="220.0" layoutY="260.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" text="Ingrese dato válido" textFill="RED" visible="false">
-               <font>
-                  <Font name="Verdana" size="15.0" />
-               </font>
-            </Label>
             <JFXButton fx:id="update" buttonType="RAISED" layoutX="400.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#updateButtonPressed" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 60;" text="Actualizar">
                <graphic>
                   <ImageView fitHeight="68.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">

@@ -12,10 +12,10 @@ import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.OrderOperator;
-import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CommissionOperator;
+import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
 
 public class CommissionService extends Service
@@ -211,7 +211,8 @@ public class CommissionService extends Service
         Platform.runLater(task);
     }
 
-    public void modifyCommission(Commission commission, List<Order> orders, List<Repurchase> repurchases) throws Exception
+    public void modifyCommission(Integer prefClientId, Integer campNumber, Integer actualQuantity, Integer actualRate, Integer minQuantity, Integer lvl1Quantity, Integer lvl2Quantity, Integer lvl3Quantity, 
+        Integer lvl1Factor, Integer lvl2Factor, Integer lvl3Factor, Integer lvl4Factor, Integer fpFactor, Integer otherFactor, List<Order> orders, List<Repurchase> repurchases) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Modificando comisión.");
         Task<Integer> task = new Task<>()
@@ -219,7 +220,8 @@ public class CommissionService extends Service
             int returnCode = 0;
             @Override
             protected Integer call() throws Exception
-            {       
+            {
+                Commission commission = new Commission(actualQuantity, actualRate, minQuantity, lvl1Quantity, lvl2Quantity, lvl3Quantity, lvl1Factor, lvl2Factor, lvl3Factor, lvl4Factor, fpFactor, otherFactor);
                 try
                 {
                     Connector.getConnector().startTransaction();

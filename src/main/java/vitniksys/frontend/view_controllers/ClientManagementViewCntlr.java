@@ -141,7 +141,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void editPrefClientButtonPressed()
     {
-
+        
     }
 
     @FXML

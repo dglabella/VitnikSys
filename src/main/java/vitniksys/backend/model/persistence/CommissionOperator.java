@@ -82,7 +82,7 @@ public class CommissionOperator implements ICommissionOperator
         Integer returnCode = null;
         String sqlStmnt =
         "UPDATE `comisiones` "+
-        "SET `cant_actual`= ?, `nivel_actual`= ?, `cant_min`= ?, `cant_1`= ?, `cant_2`= ?, `cant_3`= ?, `cant_4`= ?, `nivel_1`= ?, `nivel_2`= ?, `nivel_3`= ?, `nivel_4`= ? "+
+        "SET `cant_actual`= ?, `nivel_actual`= ?, `cant_min`= ?, `cant_1`= ?, `cant_2`= ?, `cant_3`= ?, `nivel_1`= ?, `nivel_2`= ?, `nivel_3`= ?, `nivel_4`= ?, `nivel_fp`= ?, `nivel_otros`= ? "+
         "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -93,15 +93,18 @@ public class CommissionOperator implements ICommissionOperator
         statement.setInt(4, commission.getLvl1Quantity());
         statement.setInt(5, commission.getLvl2Quantity());
         statement.setInt(6, commission.getLvl3Quantity());
-        statement.setInt(7, commission.getLvl4Quantity());
-        statement.setInt(8, commission.getLvl1Factor());
-        statement.setInt(9, commission.getLvl2Factor());
-        statement.setInt(10, commission.getLvl3Factor());
-        statement.setInt(11, commission.getLvl4Factor());
+        
+        statement.setInt(7, commission.getLvl1Factor());
+        statement.setInt(8, commission.getLvl2Factor());
+        statement.setInt(9, commission.getLvl3Factor());
+        statement.setInt(10, commission.getLvl4Factor());
 
-        statement.setInt(12, commission.getPrefClientId());
-        statement.setInt(13, commission.getCampNumber());
-        statement.setBoolean(14, this.activeRow);
+        statement.setInt(11, commission.getFpFactor()) ;
+        statement.setInt(12, commission.getOtherFactor());
+
+        statement.setInt(13, commission.getPrefClientId());
+        statement.setInt(14, commission.getCampNumber());
+        statement.setBoolean(15, this.activeRow);
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -126,9 +129,9 @@ public class CommissionOperator implements ICommissionOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt =
-			"SELECT `id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
+			"SELECT `cant_actual`, `nivel_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4`, `nivel_fp`, `nivel_otros` "+
             "FROM `comisiones` "+
-            "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
+            "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?";
 
 			statement = Connector.getConnector().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
@@ -138,9 +141,9 @@ public class CommissionOperator implements ICommissionOperator
         else if(prefClientId != null && campNumb == null)
         {
             sqlStmnt =
-            "SELECT `id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
+			"SELECT `cant_actual`, `nivel_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4`, `nivel_fp`, `nivel_otros` "+
             "FROM `comisiones` "+
-            "WHERE `id_cp` = ? AND `active_row` = ?;";
+            "WHERE `id_cp` = ? AND `active_row` = ?";
 
 			statement = Connector.getConnector().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
@@ -160,15 +163,16 @@ public class CommissionOperator implements ICommissionOperator
 		Commission commission;
 		while (resultSet.next())
 		{
+
             commission = new Commission
             (
-                resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7), 
-                resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11), resultSet.getInt(12), resultSet.getInt(13)
+                resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), resultSet.getInt(6), 
+                resultSet.getInt(7), resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11), resultSet.getInt(12)
             );
 			
 			//fk ids
-			commission.setPrefClientId(resultSet.getInt(1));
-			commission.setCampNumber(resultSet.getInt(2));
+			commission.setPrefClientId(prefClientId);
+			commission.setCampNumber(campNumb);
 
 			//Associations
 			
@@ -188,9 +192,9 @@ public class CommissionOperator implements ICommissionOperator
     {
         Commission ret = null;
         String sqlStmnt =
-        "SELECT `id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `cant_4`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4` "+
+        "SELECT `cant_actual`, `nivel_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4`, `nivel_fp`, `nivel_otros` "+
         "FROM `comisiones` "+
-        "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
+        "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
@@ -212,12 +216,12 @@ public class CommissionOperator implements ICommissionOperator
         {
             ret = new Commission
             (
-                resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), resultSet.getInt(6), resultSet.getInt(7), 
-                resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11), resultSet.getInt(12), resultSet.getInt(13)
+                resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), resultSet.getInt(6), 
+                resultSet.getInt(7), resultSet.getInt(8), resultSet.getInt(9), resultSet.getInt(10), resultSet.getInt(11), resultSet.getInt(12)
             );
 
-            ret.setPrefClientId(resultSet.getInt(1));
-            ret.setCampNumber(resultSet.getInt(2));
+            ret.setPrefClientId(prefClientId);
+            ret.setCampNumber(campNumber);
         }
 
         statement.close();

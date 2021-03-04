@@ -9,11 +9,13 @@ public class Commission extends VitnikSearchableEntity
     private int lvl1Quantity;
     private int lvl2Quantity;
     private int lvl3Quantity;
-    private int lvl4Quantity;
     private int lvl1Factor;
     private int lvl2Factor;
     private int lvl3Factor;
     private int lvl4Factor;
+    private int fpFactor;
+    private int otherFactor;
+
 
     //Domain Associations
     private Leader leader;
@@ -28,8 +30,8 @@ public class Commission extends VitnikSearchableEntity
         this.setCampNumber(campNumber);
     }
 
-    public Commission(int actualQuantity, int actualRate, int minQuantity, int lvl1Quantity, int lvl2Quantity, int lvl3Quantity,
-        int lvl4Quantity, int lvl1Factor, int lvl2Factor, int lvl3Factor, int lvl4Factor)
+    public Commission(int actualQuantity, int actualRate, int minQuantity, int lvl1Quantity, int lvl2Quantity, int lvl3Quantity, 
+        int lvl1Factor, int lvl2Factor, int lvl3Factor, int lvl4Factor, int fpFactor, int otherFactor)
     {
         this.actualQuantity = actualQuantity;
         this.actualRate = actualRate;
@@ -37,11 +39,14 @@ public class Commission extends VitnikSearchableEntity
         this.lvl1Quantity = lvl1Quantity;
         this.lvl2Quantity = lvl2Quantity;
         this.lvl3Quantity = lvl3Quantity;
-        this.lvl4Quantity = lvl4Quantity;
+        
         this.lvl1Factor = lvl1Factor;
         this.lvl2Factor = lvl2Factor;
         this.lvl3Factor = lvl3Factor;
         this.lvl4Factor = lvl4Factor;
+
+        this.fpFactor = fpFactor;
+        this.otherFactor = otherFactor;
     }
 
     //Getters && Setters
@@ -105,16 +110,6 @@ public class Commission extends VitnikSearchableEntity
         this.lvl3Quantity = lvl3Quantity;
     }
 
-    public int getLvl4Quantity()
-    {
-        return this.lvl4Quantity;
-    }
-
-    public void setLvl4Quantity(int lvl4Quantity)
-    {
-        this.lvl4Quantity = lvl4Quantity;
-    }
-
     public int getLvl1Factor()
     {
         return this.lvl1Factor;
@@ -153,6 +148,26 @@ public class Commission extends VitnikSearchableEntity
     public void setLvl4Factor(int lvl4Factor)
     {
         this.lvl4Factor = lvl4Factor;
+    }
+
+    public int getFpFactor()
+    {
+        return this.fpFactor;
+    }
+
+    public void setFpFactor(int fpFactor)
+    {
+        this.fpFactor = fpFactor;
+    }
+
+    public int getOtherFactor()
+    {
+        return this.otherFactor;
+    }
+
+    public void setOtherFactor(int otherFactor)
+    {
+        this.otherFactor = otherFactor;
     }
 
     public int getIsActive()
