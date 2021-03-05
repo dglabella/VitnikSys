@@ -552,4 +552,45 @@ public class PreferentialClientService extends Service
 
         Platform.runLater(task);    
     }
+
+    public void registerWithdrawals(List<Order> orders) throws Exception
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+
+                try
+                {
+                    Connector.getConnector().startTransaction(); //START TRANSACTION
+
+                    OrderOperator.getOperator().registerWithdrawals(orders);
+
+                    Connector.getConnector().commit(); // COMMIT
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("Los retiros se han registrado exitosamente!");
+                    getServiceSubscriber().refresh();
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack(); //ROLLBACK
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al realizar los retiros.", null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction(); //END TRANSACTION
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+
+        Platform.runLater(task);    
+    }
 }

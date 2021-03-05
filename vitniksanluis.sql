@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 05-03-2021 a las 03:27:03
+-- Tiempo de generación: 05-03-2021 a las 21:30:20
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -990,7 +990,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
 --
 
 INSERT INTO `pedidos` (`cod`, `id_cp`, `nro_camp`, `letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `aumenta_comision`, `active_row`) VALUES
-(976, 706, 220, 'ASGR', 6559365, 1, 0, '359.96', NULL, '2021-02-17 12:29:34', 1, 1, 1),
+(976, 706, 220, 'ASGR', 6559365, 1, 0, '359.96', '2021-03-05 19:12:12', '2021-02-17 12:29:34', 1, 1, 1),
 (977, 706, 220, 'ASGO', 6559365, 1, 0, '359.96', NULL, '2021-02-17 12:29:34', 1, 1, 1),
 (978, 706, 220, 'APHU', 6564079, 1, 0, '689.90', NULL, '2021-02-17 12:29:34', 1, 1, 1),
 (979, 706, 220, 'ALMB', 6564079, 1, 0, '449.90', NULL, '2021-02-17 12:29:34', 1, 1, 1),

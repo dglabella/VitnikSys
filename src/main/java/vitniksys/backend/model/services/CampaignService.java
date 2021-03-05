@@ -11,10 +11,8 @@ import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.OrderObtainer;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
-import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
-import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CatalogueOperator;
@@ -120,11 +118,11 @@ public class CampaignService extends Service
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         
-        Task<Void> task = new Task<>()
-        {
-            @Override
-            protected Void call() throws Exception
-            {
+        //Task<Integer> task = new Task<>()
+        //{
+            //@Override
+            //protected Integer call() throws Exception
+            //{
                 int retCode = 0;
                 Campaign camp = null;
                 List<Campaign> camps = null;
@@ -179,11 +177,12 @@ public class CampaignService extends Service
                 {
                     Connector.getConnector().closeConnection();
                 }
-                return null;
-            }
-        };
+
+                //return retCode;
+            //}
+        //};
         
-        Platform.runLater(task);
+        //Platform.runLater(task);
         //ExecutorService executorService = Executors.newFixedThreadPool(1);
         //executorService.execute(task);
     }

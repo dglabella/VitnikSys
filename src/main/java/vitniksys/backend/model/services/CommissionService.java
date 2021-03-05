@@ -296,7 +296,7 @@ public class CommissionService extends Service
                         {
                             Connector.getConnector().startTransaction();
 
-                            OrderOperator.getOperator().updateAll(orders);
+                            OrderOperator.getOperator().updateAllForCommission(orders);
                             RepurchaseOperator.getOperator().updateAll(repurchases);
 
                             updateCommission(commission, orders, repurchases);

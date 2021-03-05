@@ -209,12 +209,40 @@ public class OrderOperator implements IOrderOperator
 	}
 
 	@Override
-	public Integer updateAll(List<Order> orders) throws Exception
+	public Integer registerWithdrawals(List<Order> orders) throws Exception
 	{
 		Integer returnCode = 0;
 		String sqlStmnt = 
 		"UPDATE `pedidos` "+
-		"SET `comisionable`= ? "+
+		"SET `fecha_retiro`= CURRENT_TIMESTAMP "+
+		"WHERE `cod` = ? AND `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        Order order;
+		Iterator<Order> listIterator = orders.iterator();
+		
+        while(listIterator.hasNext())
+        {
+			order = listIterator.next();
+			
+            statement.setInt(1, order.getCode());
+			statement.setBoolean(2, this.activeRow);
+
+            returnCode += statement.executeUpdate();
+        }
+
+        statement.close();
+
+        return returnCode;
+	}
+
+	@Override
+	public Integer updateAllForCommission(List<Order> orders) throws Exception
+	{
+		Integer returnCode = 0;
+		String sqlStmnt = 
+		"UPDATE `pedidos` "+
+		"SET `comisionable`= ?, `aumenta_comision`= ? "+
 		"WHERE `cod` = ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
@@ -226,8 +254,9 @@ public class OrderOperator implements IOrderOperator
 			order = listIterator.next();
 			
 			statement.setBoolean(1, order.isCommissionable());
-            statement.setInt(2, order.getCode());
-			statement.setBoolean(3, this.activeRow);
+			statement.setBoolean(2, order.isCountForCommission());
+            statement.setInt(3, order.getCode());
+			statement.setBoolean(4, this.activeRow);
 
             returnCode += statement.executeUpdate();
         }

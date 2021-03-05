@@ -405,8 +405,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         if(this.prefClient instanceof Leader)
         {
+            System.out.println(""+this.prefClient+" ------- "+this.actualCampaign);
             ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId(), this.actualCampaign.getNumber());
-            
         }
         else if(this.prefClient instanceof BaseClient)
         {
@@ -597,6 +597,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             campsAsString.add(campsAsStringIterator.next().toString());
 
         //In the first position is supposed to be the last camp
+        System.out.println("CAMP CUALLLLLLLLLLLLLLL  "+camps.get(0));
         this.actualCampaign = camps.get(0);
         this.campAutoCompletionTool.setSuggestions(campsAsString);
         this.camp.setText(this.actualCampaign.toString());

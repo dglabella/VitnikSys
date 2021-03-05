@@ -7,7 +7,9 @@ public interface IOrderOperator extends CrudOperator<Order>
 {
     List<Order> findAll(Integer prefClientId, Integer campNumb) throws Exception;
 
-    Integer updateAll(List<Order> orders) throws Exception;
+    Integer updateAllForCommission(List<Order> orders) throws Exception;
+
+    Integer registerWithdrawals(List<Order> orders) throws Exception;
 
     Integer incrementForDevolution(Integer orderId) throws Exception;
 
