@@ -50,7 +50,7 @@ public class CommissionService extends Service
             while(it.hasNext())
             {
                 order = it.next();
-                if(order.isCommissionable())
+                if(order.isCountForCommission())
                 {
                     ret += order.getQuantity() - order.getReturnedQuantity();
                 }
@@ -64,13 +64,13 @@ public class CommissionService extends Service
             while(it.hasNext())
             {
                 repurchase = it.next();
-                if(repurchase.isCommissionable() && !repurchase.isReturned())
+                if(repurchase.isCountForCommission() && !repurchase.isReturned())
                 {
                     ret++;
                 }
             }
         }
-
+        
         return ret;
     }
 

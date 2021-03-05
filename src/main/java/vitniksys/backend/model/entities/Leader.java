@@ -2,7 +2,6 @@ package vitniksys.backend.model.entities;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;

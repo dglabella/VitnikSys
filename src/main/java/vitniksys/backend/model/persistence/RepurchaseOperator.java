@@ -61,15 +61,14 @@ public class RepurchaseOperator implements IRepurchaseOperator
     {
         Integer returnCode = null;
         String sqlStmnt =
-        "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`, `comisionable`) "+
-        "VALUES (?, ?, ?, ?, ?);";
+        "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`) "+
+        "VALUES (?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, repurchase.getPrefClientId());
         statement.setInt(2, repurchase.getCampNumber());
         statement.setInt(3, repurchase.getReturnedArticleId() );
         statement.setFloat(4, repurchase.getCost());
-        statement.setBoolean(5, repurchase.isCommissionable());
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -99,7 +98,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
 
 		String sqlStmnt = 
 		"UPDATE `recompras` "+
-        "SET `comisionable`= ?, `devuelta`= ? "+
+        "SET `aumenta_comision`= ?, `devuelta`= ? "+
 		"WHERE `cod` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -111,7 +110,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         {
 			repurchase = listIterator.next();
 			
-			statement.setBoolean(1, repurchase.isCommissionable());
+			statement.setBoolean(1, repurchase.isCountForCommission());
             statement.setBoolean(2, repurchase.isReturned());
             statement.setInt(3, repurchase.getCode());
 			statement.setBoolean(4, this.activeRow);
@@ -159,7 +158,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-			"SELECT `recompras`.`cod`, `recompras`.`ejemplar`, `precio_recompra`, `recompras`.`comisionable`, `devuelta`, `recompras`.`fecha_registro`, `cod_pedido`, `motivo`, `recomprado`, `pedidos`.`id_cp`, `pedidos`.`nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `pedidos`.`comisionable`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `recompras`.`cod`, `recompras`.`ejemplar`, `precio_recompra`, `recompras`.`aumenta_comision`, `devuelta`, `recompras`.`fecha_registro`, `cod_pedido`, `motivo`, `recomprado`, `pedidos`.`id_cp`, `pedidos`.`nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `pedidos`.`comisionable`, `nombre`, `tipo`, `precio_unitario`, `pedidos`.`aumenta_comision` "+
             "FROM `recompras` "+
             "INNER JOIN `articulos_devueltos` ON `recompras`.`ejemplar` = `articulos_devueltos`.`ejemplar` "+
             "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+
@@ -191,10 +190,10 @@ public class RepurchaseOperator implements IRepurchaseOperator
 		while (resultSet.next())
 		{
             repurchase =  new Repurchase(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getTimestamp(6));
-            repurchase.setCommissionable(resultSet.getBoolean(4));
+            repurchase.setCountForCommission(resultSet.getBoolean(4));
             repurchase.setReturned(resultSet.getBoolean(5));
             returnedArticle = new ReturnedArticle(resultSet.getInt(2), Reason.toEnum(resultSet.getInt(8)), resultSet.getBoolean(9));
-            order = new Order(resultSet.getInt(7), resultSet.getInt(14), resultSet.getFloat(16), resultSet.getBoolean(19));
+            order = new Order(resultSet.getInt(7), resultSet.getInt(14), resultSet.getFloat(16), resultSet.getBoolean(19), resultSet.getBoolean(23));
             order.setDeliveryNumber(resultSet.getInt(13));
             order.setReturnedQuantity(resultSet.getInt(15));
             order.setWithdrawalDate(resultSet.getTimestamp(17));
@@ -222,9 +221,6 @@ public class RepurchaseOperator implements IRepurchaseOperator
 		
 		if(ret.size() == 0)
             ret = null;
-		
-        
-        System.out.println("HOLAAAAA "+ret);
 
         return ret;
     }
@@ -235,7 +231,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         Repurchase ret = null;
 
         String sqlStmnt =
-        "SELECT `id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`, `comisionable`, `devuelta`, `fecha_registro` "+
+        "SELECT `id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`, `aumenta_comision`, `devuelta`, `fecha_registro` "+
         "FROM `recompras` "+
         "WHERE `cod` = ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -248,7 +244,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         if (resultSet.next())
         {
             ret = new Repurchase(id, resultSet.getFloat(4), resultSet.getTimestamp(7));
-            ret.setCommissionable(resultSet.getBoolean(5));
+            ret.setCountForCommission(resultSet.getBoolean(5));
             ret.setReturned(resultSet.getBoolean(6));
 
             //fk ids

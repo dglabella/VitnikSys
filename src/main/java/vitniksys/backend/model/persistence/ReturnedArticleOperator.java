@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.enums.Reason;
-import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
@@ -111,7 +111,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         List<ReturnedArticle> ret = new ArrayList<>();
         
         String sqlStmnt = 
-        "SELECT `ejemplar`, `cod_pedido`, `motivo`, `recomprado`, `id_cp`, `nro_camp`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `articulos`.`letra`, `nombre`, `tipo`, `precio_unitario` "+
+        "SELECT `ejemplar`, `cod_pedido`, `motivo`, `recomprado`, `id_cp`, `nro_camp`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `aumenta_comision`, `articulos`.`letra`, `nombre`, `tipo`, `precio_unitario` "+
         "FROM `articulos_devueltos` "+
         "INNER JOIN `pedidos` ON `cod_pedido` = `pedidos`.`cod` "+
         "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
@@ -129,16 +129,15 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
 		while (resultSet.next())
 		{
             returnedArticle = new ReturnedArticle(resultSet.getInt(1), Reason.toEnum(resultSet.getInt(3)), resultSet.getBoolean(4));
-            Order order = new Order(resultSet.getInt(2), resultSet.getInt(8), resultSet.getFloat(10), resultSet.getBoolean(13));
+            Order order = new Order(resultSet.getInt(2), resultSet.getInt(8), resultSet.getFloat(10), resultSet.getBoolean(13), resultSet.getBoolean(14));
             order.setDeliveryNumber(resultSet.getInt(7));
             order.setQuantity(resultSet.getInt(8));
             order.setReturnedQuantity(resultSet.getInt(9));
             order.setCost(resultSet.getFloat(10));
             order.setWithdrawalDate(resultSet.getTimestamp(11));
             order.setRegistrationTime(resultSet.getTimestamp(12));
-            order.setCommissionable(resultSet.getBoolean(13));
 
-            Article article = new Article(resultSet.getString(14), resultSet.getString(15), ArticleType.toEnum(resultSet.getInt(16)), resultSet.getFloat(17));
+            Article article = new Article(resultSet.getString(15), resultSet.getString(16), ArticleType.toEnum(resultSet.getInt(17)), resultSet.getFloat(18));
 
             //fk ids
             order.setPrefClientId(resultSet.getInt(5));

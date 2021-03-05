@@ -146,7 +146,7 @@ public class OrderOperator implements IOrderOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt =
-			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
+			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision` ,`nombre`, `tipo`, `precio_unitario`"+
 			"FROM `pedidos` "+
 			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
 			"WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
@@ -160,7 +160,7 @@ public class OrderOperator implements IOrderOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt =
-			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`"+
+			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario`"+
 			"FROM `pedidos` "+
 			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
 			"WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
@@ -184,7 +184,7 @@ public class OrderOperator implements IOrderOperator
 		Order order;
 		while (resultSet.next())
 		{
-			order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(8), resultSet.getBoolean(10));
+			order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(8), resultSet.getBoolean(10), resultSet.getBoolean(11));
 			order.setDeliveryNumber(resultSet.getInt(2));
 			order.setReturnedQuantity(resultSet.getInt(7));
 			order.setWithdrawalDate(resultSet.getTimestamp(9));
@@ -195,7 +195,7 @@ public class OrderOperator implements IOrderOperator
 			order.setArticleId(resultSet.getString(5));
 
 			//Associations
-			order.setArticle(new Article(resultSet.getString(5), resultSet.getString(11), ArticleType.toEnum(resultSet.getInt(12)), resultSet.getFloat(13)));
+			order.setArticle(new Article(resultSet.getString(5), resultSet.getString(12), ArticleType.toEnum(resultSet.getInt(13)), resultSet.getFloat(14)));
 			
 			ret.add(order);
 		}
@@ -244,7 +244,7 @@ public class OrderOperator implements IOrderOperator
 
 		PreparedStatement statement = null;
 		String sqlStmnt = 
-		"SELECT `id_cp`, `nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario` "+
+		"SELECT `id_cp`, `nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario` "+
 		"FROM `pedidos` "+
 		"INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
 		"WHERE `cod` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
@@ -259,12 +259,12 @@ public class OrderOperator implements IOrderOperator
 
 		if(resultSet.next())
 		{
-			ret = new Order(id, resultSet.getInt(5), resultSet.getFloat(7), resultSet.getBoolean(10));
+			ret = new Order(id, resultSet.getInt(5), resultSet.getFloat(7), resultSet.getBoolean(10), resultSet.getBoolean(11));
 			ret.setDeliveryNumber(resultSet.getInt(4));
 			ret.setReturnedQuantity(resultSet.getInt(6));
 			ret.setWithdrawalDate(resultSet.getTimestamp(8));
 			ret.setRegistrationTime(resultSet.getTimestamp(9));
-			Article article = new Article(resultSet.getString(3), resultSet.getString(11), ArticleType.toEnum(resultSet.getInt(12)) , resultSet.getFloat(13));
+			Article article = new Article(resultSet.getString(3), resultSet.getString(12), ArticleType.toEnum(resultSet.getInt(13)) , resultSet.getFloat(14));
 
 			//fk ids
 			ret.setPrefClientId(resultSet.getInt(1));

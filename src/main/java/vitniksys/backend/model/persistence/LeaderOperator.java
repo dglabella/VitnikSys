@@ -6,8 +6,8 @@ import java.sql.Types;
 import java.time.ZoneId;
 import java.time.Instant;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
@@ -53,7 +53,7 @@ public class LeaderOperator extends BaseClientOperator
 
     
     @Override
-    public Leader find(Integer id) throws Exception
+    public PreferentialClient find(Integer id) throws Exception
     {
         Leader ret = null;
         String sqlStmnt =
@@ -102,6 +102,71 @@ public class LeaderOperator extends BaseClientOperator
             ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), null));
 
             ret.setCommissions(new VitnikSearchableList<Commission>(CommissionOperator.getOperator().findAll(ret.getId(), null)));
+            ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll(id));
+            
+            Iterator<SubordinatedClient> it = ret.getSubordinates().iterator();
+            while(it.hasNext())
+            {
+                SubordinatedClient subordinatedClient = it.next();
+                ret.getOrders().addAll(subordinatedClient.getOrders());
+            }
+        }
+
+        statement.close();
+            
+        return ret;     
+    }
+
+    @Override
+    public Leader find(Integer id, Integer campNumber) throws Exception
+    {
+        Leader ret = null;
+        String sqlStmnt =
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        if(id != null)
+        {
+            statement.setInt(1, id);
+        }
+        else
+        {
+            throw new Exception("Leader id is null");
+        }
+
+        statement.setBoolean(2, true);
+        statement.setBoolean(3, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if(resultSet.next())
+        {
+            ret = new Leader(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
+            
+            ret.setDni(resultSet.getLong(3));
+            ret.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
+            if(!resultSet.wasNull())
+            {
+                ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+
+            ret.setEmail(resultSet.getString(8));
+            ret.setPhoneNumber(resultSet.getLong(9));
+
+            ret.setOrders(new VitnikSearchableList<Order>(OrderOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setDevolutions(new VitnikSearchableList<Devolution>(DevolutionOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setRepurchases(new VitnikSearchableList<Repurchase>(RepurchaseOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setPayments(new VitnikSearchableList<Payment>(PaymentOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setBalances(new VitnikSearchableList<Balance>(BalanceOperator.getOperator().findAll(ret.getId(), campNumber)));
+
+            ret.setObservations(new VitnikSearchableList<Observation>(ObservationOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), campNumber));
+
+            ret.setCommissions(new VitnikSearchableList<Commission>(CommissionOperator.getOperator().findAll(ret.getId(), campNumber)));
             ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll(id));
             
             Iterator<SubordinatedClient> it = ret.getSubordinates().iterator();

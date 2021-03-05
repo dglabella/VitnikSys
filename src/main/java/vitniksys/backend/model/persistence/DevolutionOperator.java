@@ -114,7 +114,7 @@ public class DevolutionOperator implements IDevolutionOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-			"SELECT `devoluciones`.`cod`, `devoluciones`.`ejemplar`, `devoluciones`.`monto`, `devoluciones`.`fecha_registro`, `cod_pedido`, `articulos_devueltos`.`motivo`, `recomprado`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `pedidos`.`monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `devoluciones`.`cod`, `devoluciones`.`ejemplar`, `devoluciones`.`monto`, `devoluciones`.`fecha_registro`, `cod_pedido`, `articulos_devueltos`.`motivo`, `recomprado`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `pedidos`.`monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`, `aumenta_comision` "+
             "FROM `devoluciones` "+
             "INNER JOIN `articulos_devueltos` ON `devoluciones`.`ejemplar` = `articulos_devueltos`.`ejemplar` "+
             "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+
@@ -131,7 +131,7 @@ public class DevolutionOperator implements IDevolutionOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-			"SELECT `devoluciones`.`cod`, `devoluciones`.`id_cp`, `devoluciones`.`nro_camp`, `devoluciones`.`ejemplar`, `devoluciones`.`monto`, `devoluciones`.`fecha_registro`, `cod_pedido`, `articulos_devueltos`.`motivo`, `recomprado`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `pedidos`.`monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `devoluciones`.`cod`, `devoluciones`.`ejemplar`, `devoluciones`.`monto`, `devoluciones`.`fecha_registro`, `cod_pedido`, `articulos_devueltos`.`motivo`, `recomprado`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `pedidos`.`monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`, `aumenta_comision` "+
             "FROM `devoluciones` "+
             "INNER JOIN `articulos_devueltos` ON `devoluciones`.`ejemplar` = `articulos_devueltos`.`ejemplar` "+
             "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+
@@ -159,15 +159,14 @@ public class DevolutionOperator implements IDevolutionOperator
 		Devolution devolution;
 		while (resultSet.next())
 		{
-            devolution = new Devolution(resultSet.getInt(1), resultSet.getFloat(5), resultSet.getTimestamp(6));
-            ReturnedArticle returnedArticle = new ReturnedArticle(resultSet.getInt(4), Reason.toEnum(resultSet.getInt(8)), resultSet.getBoolean(9));
-            Order order = new Order(resultSet.getInt(7), resultSet.getInt(12), resultSet.getFloat(14), resultSet.getBoolean(17));
-            order.setDeliveryNumber(resultSet.getInt(11));
-            order.setReturnedQuantity(resultSet.getInt(13));
-            order.setWithdrawalDate(resultSet.getTimestamp(15));
-            order.setRegistrationTime(resultSet.getTimestamp(16));
-            order.setCommissionable(resultSet.getBoolean(17));
-            Article article = new Article(resultSet.getString(10), resultSet.getString(18), ArticleType.toEnum(resultSet.getInt(19)), resultSet.getFloat(20));
+            devolution = new Devolution(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getTimestamp(4));
+            ReturnedArticle returnedArticle = new ReturnedArticle(resultSet.getInt(2), Reason.toEnum(resultSet.getInt(6)), resultSet.getBoolean(7));
+            Order order = new Order(resultSet.getInt(5), resultSet.getInt(10), resultSet.getFloat(12), resultSet.getBoolean(15), resultSet.getBoolean(19));
+            order.setDeliveryNumber(resultSet.getInt(9));
+            order.setReturnedQuantity(resultSet.getInt(11));
+            order.setWithdrawalDate(resultSet.getTimestamp(13));
+            order.setRegistrationTime(resultSet.getTimestamp(14));
+            Article article = new Article(resultSet.getString(8), resultSet.getString(16), ArticleType.toEnum(resultSet.getInt(17)), resultSet.getFloat(18));
 
 			//fk ids
             devolution.setPrefClientId(prefClientId);

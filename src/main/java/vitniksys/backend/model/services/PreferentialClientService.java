@@ -151,7 +151,7 @@ public class PreferentialClientService extends Service
         }
     }
 
-    public void searchLeader(Integer id)
+    public void searchLeader(Integer id, Integer campNumber)
     {   
         CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del Lider "+id);
         Task<Void> task = new Task<>()
@@ -162,7 +162,7 @@ public class PreferentialClientService extends Service
                 Leader leader = null;
                 try
                 {
-                    leader = LeaderOperator.getOperator().find(id);
+                    leader = LeaderOperator.getOperator().find(id, campNumber);
 
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     if(leader != null)
@@ -192,7 +192,7 @@ public class PreferentialClientService extends Service
         //this.getExecutorService().execute(task);    
     }
 
-    public void searchSubordinatedClient(Integer id)
+    public void searchSubordinatedClient(Integer id, Integer campNumber)
     {
         CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del cliente preferencial "+id);
         Task<Void> task = new Task<>()
@@ -203,7 +203,7 @@ public class PreferentialClientService extends Service
                 SubordinatedClient subordinatedClient = null;
                 try
                 {
-                    subordinatedClient = SubordinatedClientOperator.getOperator().find(id);
+                    subordinatedClient = (SubordinatedClient) SubordinatedClientOperator.getOperator().find(id, campNumber);
 
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     if(subordinatedClient != null)
@@ -231,7 +231,7 @@ public class PreferentialClientService extends Service
         //this.getExecutorService().execute(task);
     }
 
-    public void searchBaseClient(Integer id)
+    public void searchBaseClient(Integer id, Integer campNumber)
     {
         CustomAlert customAlert = getServiceSubscriber().showProcessIsWorking("Recuperando datos del cliente preferencial base "+id);
         Task<Void> task = new Task<>()
@@ -242,7 +242,7 @@ public class PreferentialClientService extends Service
                 BaseClient baseClient = null;
                 try
                 {
-                    baseClient = BaseClientOperator.getOperator().find(id);
+                    baseClient = (BaseClient) BaseClientOperator.getOperator().find(id, campNumber);
 
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     if(baseClient != null)

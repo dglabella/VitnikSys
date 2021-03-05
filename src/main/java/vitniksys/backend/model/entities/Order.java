@@ -15,6 +15,7 @@ public class Order extends VitnikSearchableEntity
     private Timestamp withdrawalDate;
     private Timestamp registrationTime;
     private boolean commissionable;
+    private boolean countForCommission;
 
     //Domain Associations
     private PreferentialClient client;
@@ -24,19 +25,19 @@ public class Order extends VitnikSearchableEntity
     //Others
     private boolean active;
 
-    public Order(Integer quantity, Float cost, boolean commissionable)
+    public Order(Integer quantity, Float cost)
     {
         this.quantity = quantity;
         this.cost = cost;
-        this.commissionable = commissionable;
     }
     
-    public Order(Integer code, Integer quantity, Float cost, boolean commissionable)
+    public Order(Integer code, Integer quantity, Float cost, boolean commissionable, boolean countForCommission)
     {
         this.code = code;
         this.quantity = quantity;
         this.cost = cost;
         this.commissionable = commissionable;
+        this.countForCommission = countForCommission;
     }
 
     //Getters && Setters
@@ -136,6 +137,16 @@ public class Order extends VitnikSearchableEntity
     public void setCommissionable(boolean commissionable)
     {
         this.commissionable = commissionable;
+    }
+
+    public boolean isCountForCommission()
+    {
+        return this.countForCommission;
+    }
+
+    public void setCountForCommission(boolean countForCommission)
+    {
+        this.countForCommission = countForCommission;
     }
 
     public boolean isActive()

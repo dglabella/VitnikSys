@@ -115,6 +115,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<OrdersRowTable, String> withdrawalDate;
     @FXML private TableColumn<OrdersRowTable, String> devQuantity;
     @FXML private TableColumn<OrdersRowTable, String> isCommissionable;
+    @FXML private TableColumn<OrdersRowTable, String> countForCommission;
 
     //payments columns
     @FXML private TableColumn<PaymentsRowTable, String> code;
@@ -141,7 +142,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void editPrefClientButtonPressed()
     {
-        
+
     }
 
     @FXML
@@ -404,16 +405,16 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         if(this.prefClient instanceof Leader)
         {
-            ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId());
+            ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId(), this.actualCampaign.getNumber());
             
         }
         else if(this.prefClient instanceof BaseClient)
         {
-            ((PreferentialClientService)this.getService(0)).searchBaseClient(this.prefClient.getId());
+            ((PreferentialClientService)this.getService(0)).searchBaseClient(this.prefClient.getId(), this.actualCampaign.getNumber());
         }
         else
         {
-            ((PreferentialClientService)this.getService(0)).searchSubordinatedClient(this.prefClient.getId());
+            ((PreferentialClientService)this.getService(0)).searchSubordinatedClient(this.prefClient.getId(), this.actualCampaign.getNumber());
         }
     }
 
@@ -460,6 +461,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.withdrawalDate);
         columns.add(this.devQuantity);
         columns.add(this.isCommissionable);
+        columns.add(this.countForCommission);
+        
         
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
         propertiesValues.add(new PropertyValueFactory<>("quantity"));
@@ -473,6 +476,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         propertiesValues.add(new PropertyValueFactory<>("withdrawalDate"));
         propertiesValues.add(new PropertyValueFactory<>("returnedQuantity"));
         propertiesValues.add(new PropertyValueFactory<>("commissionable"));
+        propertiesValues.add(new PropertyValueFactory<>("countForCommission"));
 
         this.registerTable(this.orders);
         this.ORDERS_TABLE_NUMBER = 0; //Because is the first table registered.
@@ -616,6 +620,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         if(prefClient instanceof Leader)
         {
+            System.out.println(" **** "+((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber()));
+
             this.actualCommission = ((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
 
             if(this.actualCommission != null)

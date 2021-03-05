@@ -25,12 +25,13 @@ public class OrdersRowTable
     private String articleId; // Table id = letra
     private Float unitPrice;
     private Timestamp withdrawalDate;
+    private CheckBox countForCommission;
     private CheckBox commissionable;
 
     private Order order;
 
     public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, ArticleType articleType, 
-        String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, Order order)
+        String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, boolean countForCommission, Order order)
     {
         this.code = code;
         this.deliveryNumber = deliveryNumber;
@@ -43,7 +44,9 @@ public class OrdersRowTable
         this.unitPrice = unitPrice;
         this.withdrawalDate = withdrawalDate;
         this.commissionable = new CheckBox();
-        this.commissionable.setSelected(commissionable);        
+        this.commissionable.setSelected(commissionable);
+        this.countForCommission = new CheckBox();
+        this.countForCommission.setSelected(countForCommission);
         this.order = order;
 
         this.commissionable.selectedProperty().addListener
@@ -53,10 +56,18 @@ public class OrdersRowTable
                 this.order.setCommissionable(newValue);
             }
         );
+
+        this.countForCommission.selectedProperty().addListener
+        (
+            (ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) -> 
+            {
+                this.order.setCountForCommission(newValue);
+            }
+        );
     }
 
     public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, ArticleType articleType, 
-        String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, ChangeListener<? super Boolean> changeListener, Order order)
+        String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, boolean countForCommission, ChangeListener<? super Boolean> changeListener, Order order)
     {
         this.code = code;
         this.deliveryNumber = deliveryNumber;
@@ -90,7 +101,7 @@ public class OrdersRowTable
             {
                 order = ordersIterator.next();
                 ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
-                    order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order);
+                    order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order.isCountForCommission(), order);
                 
                 if(order.isCommissionable())
                 {
@@ -121,7 +132,7 @@ public class OrdersRowTable
             order = ordersIterator.next();
             ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
                 order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
-                order.isCommissionable(), changeListener, order);
+                order.isCommissionable(), order.isCountForCommission(), changeListener, order);
 
             if(order.isCommissionable())
             {
@@ -257,6 +268,16 @@ public class OrdersRowTable
     public void setWithdrawalDate(Timestamp withdrawalDate)
     {
         this.withdrawalDate = withdrawalDate;
+    }
+
+    public CheckBox getCountForCommission()
+    {
+        return this.countForCommission;
+    }
+
+    public void setCountForCommission(CheckBox countForCommission)
+    {
+        this.countForCommission = countForCommission;
     }
 
     public CheckBox getCommissionable()

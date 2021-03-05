@@ -90,7 +90,7 @@ public class BaseClientOperator extends PreferentialClientOperator
     }
     
     @Override
-    public BaseClient find(Integer id) throws Exception
+    public PreferentialClient find(Integer id) throws Exception
     {
         BaseClient ret = null;
         String sqlStmnt =
@@ -136,6 +136,60 @@ public class BaseClientOperator extends PreferentialClientOperator
 
             ret.setObservations(new VitnikSearchableList<Observation>(ObservationOperator.getOperator().findAll(ret.getId(), null)));
             ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), null));
+        }
+
+        statement.close();
+            
+        return ret;
+    }
+
+    @Override
+    public PreferentialClient find(Integer id, Integer campNumber) throws Exception
+    {
+        BaseClient ret = null;
+        String sqlStmnt =
+        "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        if(id != null)
+        {
+            statement.setInt(1, id);
+        }
+        else
+        {
+            throw new Exception("Base client id is null");
+        }
+
+        statement.setBoolean(2, false);
+        statement.setBoolean(3, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if(resultSet.next())
+        {
+            ret = new BaseClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
+            
+            ret.setDni(resultSet.getLong(3));
+            ret.setLocation(resultSet.getString(6));
+            Date date = resultSet.getDate(7);
+            if(!resultSet.wasNull())
+            {
+                ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+            ret.setEmail(resultSet.getString(8));
+            ret.setPhoneNumber(resultSet.getLong(9));
+
+            ret.setOrders(new VitnikSearchableList<Order>(OrderOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setDevolutions(new VitnikSearchableList<Devolution>(DevolutionOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setRepurchases(new VitnikSearchableList<Repurchase>(RepurchaseOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setPayments(new VitnikSearchableList<Payment>(PaymentOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setBalances(new VitnikSearchableList<Balance>(BalanceOperator.getOperator().findAll(ret.getId(), campNumber)));
+
+            ret.setObservations(new VitnikSearchableList<Observation>(ObservationOperator.getOperator().findAll(ret.getId(), campNumber)));
+            ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), campNumber));
         }
 
         statement.close();

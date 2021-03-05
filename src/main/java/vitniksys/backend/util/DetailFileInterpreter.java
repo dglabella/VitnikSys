@@ -145,7 +145,7 @@ public class DetailFileInterpreter implements OrderObtainer
             
             //all orders are commissionable by default and it's supposed to
             //be checked manually by the user if some orders are not commissionable.
-            order = new Order(row.getQuant(), row.getPrice(), true);
+            order = new Order(row.getQuant(), row.getPrice());
             order.setDeliveryNumber(row.getDeliveryNumber());
             article = new Article(row.getLetters(), row.getName(), ArticleType.inferType(row.getObs()), row.getUnitPrice());
             order.setArticle(article);

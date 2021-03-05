@@ -20,13 +20,13 @@ public class RepurchasesRowTable
     private String name;
     private ArticleType articleType;
     private Timestamp registrationTime;
-    private CheckBox commissionable;
+    private CheckBox countForCommission;
 
     private Repurchase repurchase;
 
     
     public RepurchasesRowTable(Integer cod, Integer unitCode, Integer deliveryNumber, String articleId, Float cost, Float repurchaseCost, 
-        String name, ArticleType articleType, Timestamp registrationTime, boolean commissionable, Repurchase repurchase)
+        String name, ArticleType articleType, Timestamp registrationTime, boolean countForCommission, Repurchase repurchase)
     {
         this.cod = cod;
         this.unitCode = unitCode;
@@ -37,15 +37,15 @@ public class RepurchasesRowTable
         this.name = name;
         this.articleType = articleType;
         this.registrationTime = registrationTime;
-        this.commissionable.setSelected(commissionable);
+        this.countForCommission.setSelected(countForCommission);
 
         this.repurchase = repurchase;
 
-        this.commissionable.selectedProperty().addListener
+        this.countForCommission.selectedProperty().addListener
         (
             (ObservableValue<? extends Boolean> ov, Boolean oldValue, Boolean newValue) -> 
             {
-                this.repurchase.setCommissionable(newValue);
+                this.repurchase.setCountForCommission(newValue);
             }
         );
     }
@@ -64,7 +64,7 @@ public class RepurchasesRowTable
 
                 ret.add(new RepurchasesRowTable(repurchase.getCode(), repurchase.getReturnedArticleId(), repurchase.getReturnedArticle().getOrder().getDeliveryNumber(), repurchase.getReturnedArticle().getOrder().getArticleId(), 
                                                 repurchase.getReturnedArticle().getOrder().getArticle().getUnitPrice(), repurchase.getCost(), repurchase.getReturnedArticle().getOrder().getArticle().getName(), 
-                                                repurchase.getReturnedArticle().getOrder().getArticle().getType(), repurchase.getRegistrationTime(), repurchase.isCommissionable(), repurchase));
+                                                repurchase.getReturnedArticle().getOrder().getArticle().getType(), repurchase.getRegistrationTime(), repurchase.isCountForCommission(), repurchase));
             }
         }
 
@@ -162,14 +162,14 @@ public class RepurchasesRowTable
         this.registrationTime = registrationTime;
     }
 
-    public CheckBox getCommissionable()
+    public CheckBox getCountForCommission()
     {
-        return this.commissionable;
+        return this.countForCommission;
     }
 
-    public void setCommissionable(CheckBox commissionable)
+    public void setCountForCommission(CheckBox countForCommission)
     {
-        this.commissionable = commissionable;
+        this.countForCommission = countForCommission;
     }
 
     public Repurchase getRepurchase()

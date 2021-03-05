@@ -10,7 +10,8 @@ public class Repurchase extends VitnikSearchableEntity
     //Entity properties
     private Integer code;
     private float cost;
-    private boolean commissionable;
+    private boolean countForCommission;
+
     private boolean returned;
     private Timestamp registrationTime;
 
@@ -73,14 +74,14 @@ public class Repurchase extends VitnikSearchableEntity
         this.cost = cost;
     }
 
-    public boolean isCommissionable()
+    public boolean isCountForCommission()
     {
-        return this.commissionable;
+        return this.countForCommission;
     }
 
-    public void setCommissionable(boolean commissionable)
+    public void setCountForCommission(boolean countForCommission)
     {
-        this.commissionable = commissionable;
+        this.countForCommission = countForCommission;
     }
 
     public boolean isReturned()
