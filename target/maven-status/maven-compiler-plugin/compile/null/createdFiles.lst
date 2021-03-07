@@ -8,6 +8,7 @@ vitniksys\frontend\view_controllers\MainMenuViewCntlr$1.class
 vitniksys\backend\model\entities\Catalogue.class
 vitniksys\backend\model\enums\Bank.class
 vitniksys\frontend\view_controllers\InfoQueriedCampsViewCntlr.class
+vitniksys\backend\model\services\PreferentialClientService$10.class
 vitniksys\backend\model\entities\Order.class
 vitniksys\backend\model\entities\CatalogueDeliver.class
 vitniksys\backend\model\persistence\RepurchaseOperator.class
@@ -27,6 +28,7 @@ vitniksys\frontend\views_subscriber\StockAvailableServiceSubscriber.class
 vitniksys\backend\model\services\PreferentialClientService$9.class
 vitniksys\backend\model\services\PreferentialClientService$1.class
 vitniksys\frontend\views_subscriber\CampaignServiceSubscriber.class
+vitniksys\frontend\view_controllers\ObservationEditorViewCntlr.class
 vitniksys\backend\model\services\PreferentialClientService$8.class
 vitniksys\frontend\views_subscriber\PreferentialClientServiceSubscriber.class
 vitniksys\backend\util\ClientList.class

@@ -51,10 +51,24 @@ public class ObservationOperator implements IObservationOperator
     }
 
     @Override
-    public Integer insert(Observation entity) throws Exception
+    public Integer insert(Observation observation) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        Integer returnCode = null;
+        String sqlStmnt =
+        "INSERT INTO `observaciones`(`id_cp`, `nro_camp`, `observacion`) "+
+        "VALUES (?, ?, ?) "+
+        "ON DUPLICATE KEY UPDATE `observacion` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        statement.setInt(1, observation.getPrefClientId());
+        statement.setInt(2, observation.getCampNumber());
+        statement.setString(3, observation.getObservation());
+        statement.setString(4, observation.getObservation());
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+  
+        return returnCode;
     }
 
     @Override

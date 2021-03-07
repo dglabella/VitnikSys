@@ -13,6 +13,7 @@ import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Repurchase;
@@ -23,6 +24,7 @@ import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.persistence.LeaderOperator;
+import vitniksys.backend.model.persistence.ObservationOperator;
 import vitniksys.backend.model.persistence.PaymentOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
@@ -35,6 +37,7 @@ import vitniksys.backend.model.persistence.DevolutionOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
+import vitniksys.frontend.view_controllers.ViewCntlr;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class PreferentialClientService extends Service
@@ -592,5 +595,49 @@ public class PreferentialClientService extends Service
         };
 
         Platform.runLater(task);    
+    }
+
+    public void registerObservation(Integer prefClientId, Integer campNumber, String obs) throws Exception
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+
+                Observation observation = new Observation(obs);
+                observation.setPrefClientId(prefClientId);
+                observation.setCampNumber(campNumber);
+
+                try
+                {
+                    Connector.getConnector().startTransaction(); //START TRANSACTION
+                    
+                    ObservationOperator.getOperator().insert(observation);
+
+                    Connector.getConnector().commit(); // COMMIT
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("Observación registrada exitosamente!");
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack(); //ROLLBACK
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al guardar la observación.", null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction(); //END TRANSACTION
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+        
+        Platform.runLater(task);
     }
 }

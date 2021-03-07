@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 05-03-2021 a las 21:30:20
+-- Tiempo de generación: 07-03-2021 a las 22:48:10
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -611,14 +611,15 @@ CREATE TABLE IF NOT EXISTS `articulos_devueltos` (
   `active_row` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ejemplar`),
   KEY `cod_pedido` (`cod_pedido`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `articulos_devueltos`
 --
 
 INSERT INTO `articulos_devueltos` (`ejemplar`, `cod_pedido`, `motivo`, `recomprado`, `active_row`) VALUES
-(1, 1756, 13, 1, 1);
+(1, 1756, 13, 1, 1),
+(3, 1758, 13, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -861,7 +862,8 @@ CREATE TABLE IF NOT EXISTS `comisiones` (
 --
 
 INSERT INTO `comisiones` (`id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`, `cant_min`, `cant_1`, `cant_2`, `cant_3`, `nivel_1`, `nivel_2`, `nivel_3`, `nivel_4`, `nivel_fp`, `nivel_otros`, `active_row`) VALUES
-(276, 220, 177, 10, 10, 50, 120, 200, 5, 8, 10, 13, 5, 8, 1);
+(276, 220, 177, 10, 10, 50, 120, 200, 5, 8, 10, 13, 5, 8, 1),
+(535, 220, 24, 10, 10, 50, 120, 200, 10, 11, 12, 13, 5, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -882,14 +884,15 @@ CREATE TABLE IF NOT EXISTS `devoluciones` (
   KEY `id_cp` (`id_cp`),
   KEY `nro_camp` (`nro_camp`),
   KEY `ejemplar` (`ejemplar`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `devoluciones`
 --
 
 INSERT INTO `devoluciones` (`cod`, `id_cp`, `nro_camp`, `ejemplar`, `monto`, `fecha_registro`, `active_row`) VALUES
-(1, 535, 220, 1, '999.90', '2021-03-01 09:38:36', 1);
+(1, 535, 220, 1, '999.90', '2021-03-01 09:38:36', 1),
+(3, 535, 220, 3, '1699.90', '2021-03-06 23:15:58', 1);
 
 -- --------------------------------------------------------
 
@@ -949,14 +952,15 @@ CREATE TABLE IF NOT EXISTS `pagos` (
   PRIMARY KEY (`cod`),
   KEY `id_cp` (`id_cp`),
   KEY `nro_camp` (`nro_camp`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `pagos`
 --
 
 INSERT INTO `pagos` (`cod`, `id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`, `fecha_registro`, `active_row`) VALUES
-(1, 941, 221, 'AB-1223-Z', '615.70', 1, 1, 0, 1, '2021-02-17 12:42:14', 1);
+(1, 941, 221, 'AB-1223-Z', '615.70', 1, 1, 0, 1, '2021-02-17 12:42:14', 1),
+(2, 535, 220, '777', '1500.00', 1, 1, 0, 1, '2021-03-07 14:47:54', 1);
 
 -- --------------------------------------------------------
 
@@ -1773,7 +1777,7 @@ INSERT INTO `pedidos` (`cod`, `id_cp`, `nro_camp`, `letra`, `nro_envio`, `cant`,
 (1755, 835, 220, 'AYPE', 6559433, 1, 0, '1749.93', NULL, '2021-02-17 12:29:35', 1, 1, 1),
 (1756, 535, 220, 'AYNQ', 6559390, 1, 1, '749.93', NULL, '2021-02-17 12:29:35', 1, 1, 1),
 (1757, 535, 220, 'AXHY', 6559390, 1, 0, '1199.93', NULL, '2021-02-17 12:29:35', 1, 1, 1),
-(1758, 535, 220, 'AVMI', 6559390, 1, 0, '1274.93', NULL, '2021-02-17 12:29:35', 1, 1, 1),
+(1758, 535, 220, 'AVMI', 6559390, 1, 1, '1274.93', NULL, '2021-02-17 12:29:35', 1, 1, 1),
 (1759, 535, 220, 'AYDU', 6559390, 1, 0, '1462.43', NULL, '2021-02-17 12:29:35', 1, 1, 1),
 (1760, 535, 220, 'AXOT', 6559390, 1, 0, '824.93', NULL, '2021-02-17 12:29:35', 1, 1, 1),
 (1761, 535, 220, 'AYXC', 6564096, 1, 0, '659.94', NULL, '2021-02-17 12:29:35', 1, 1, 1),
@@ -2033,7 +2037,7 @@ INSERT INTO `saldos` (`id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `r
 (240, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (269, 220, '-4954.70', '4954.70', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (269, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
-(276, 220, '-102783.14', '114203.50', '0.00', '0.00', '0.00', '0.00', '11420.36', 1),
+(276, 220, '-103883.39', '114203.50', '0.00', '0.00', '0.00', '0.00', '10320.11', 1),
 (276, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (288, 220, '-3037.22', '3037.22', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (288, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
@@ -2053,7 +2057,7 @@ INSERT INTO `saldos` (`id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `r
 (476, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (516, 220, '-399.90', '399.90', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (516, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
-(535, 220, '-20182.03', '20615.70', '0.00', '1000.00', '0.00', '999.90', '433.77', 1),
+(535, 220, '-15679.80', '20615.70', '0.00', '1000.00', '1500.00', '2699.80', '1736.10', 1),
 (535, 221, '615.70', '0.00', '0.00', '0.00', '615.70', '0.00', '0.00', 1),
 (549, 220, '-5769.59', '5769.59', '0.00', '0.00', '0.00', '0.00', '0.00', 1),
 (549, 221, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 1),

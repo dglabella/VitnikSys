@@ -21,7 +21,7 @@ import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
 public class CommissionService extends Service
 {
     // Getters && Setters
-
+    
 
     public static int calculateArticlesQuantity(List<Order> orders)
     {

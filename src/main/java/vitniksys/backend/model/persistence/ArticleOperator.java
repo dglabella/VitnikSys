@@ -40,8 +40,9 @@ public class ArticleOperator implements IArticleOperator
     {
         Integer returnCode = null;
         String sqlStmnt =
-        "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) VALUES "+
-        "(?, ?, ?, ?) ON DUPLICATE KEY UPDATE `nombre` = ?,`tipo` = ?,`precio_unitario` = ?;";
+        "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) "+
+        "VALUES (?, ?, ?, ?) "+
+        "ON DUPLICATE KEY UPDATE `nombre` = ?,`tipo` = ?,`precio_unitario` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setString(1, article.getId());
