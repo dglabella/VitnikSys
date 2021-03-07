@@ -74,10 +74,12 @@ public class CommissionService extends Service
         return ret;
     }
 
-    public static float calculateTotalInCommission(int commissionFactor, List<Order> orders)
+    public static float calculateTotalInCommission(Commission commission, List<Order> orders)
     {
         float ret = 0f;
-        float comFactor = commissionFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
+        float comFactor = commission.getActualRate()/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
+        float fpFactor = commission.getFpFactor()/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
+        float otherFactor = commission.getOtherFactor()/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
         Iterator<Order> it = orders.iterator();
         Order order = null;
         while(it.hasNext())
@@ -85,7 +87,21 @@ public class CommissionService extends Service
             order = it.next();
             if(order.isCommissionable())
             {
-                ret += ((order.getCost() / order.getQuantity()) * (order.getQuantity() - order.getReturnedQuantity())) * comFactor;
+                switch(order.getArticle().getType())
+                {
+                    case PEDIDO:
+                    case OPORTUNIDAD:
+                        ret += ((order.getCost() / order.getQuantity()) * (order.getQuantity() - order.getReturnedQuantity())) * comFactor;
+                    break;
+
+                    case FREEPREMIUM:
+                    case PROMO:
+                        ret += ((order.getCost() / order.getQuantity()) * (order.getQuantity() - order.getReturnedQuantity())) * fpFactor;
+                    break;
+
+                    default:
+                        ret += ((order.getCost() / order.getQuantity()) * (order.getQuantity() - order.getReturnedQuantity())) * otherFactor;
+                }
             }
         }
 
@@ -126,7 +142,7 @@ public class CommissionService extends Service
 
             CommissionOperator.getOperator().update(commission);
 
-            Float totalInCommission = CommissionService.calculateTotalInCommission(commissionFactor, orders);
+            Float totalInCommission = CommissionService.calculateTotalInCommission(commission, orders);
 
             BalanceOperator.getOperator().correctCommission(commission.getPrefClientId(), commission.getCampNumber(), totalInCommission);
         }
@@ -215,40 +231,33 @@ public class CommissionService extends Service
         Integer lvl1Factor, Integer lvl2Factor, Integer lvl3Factor, Integer lvl4Factor, Integer fpFactor, Integer otherFactor, List<Order> orders, List<Repurchase> repurchases) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Modificando comisión.");
-        Task<Integer> task = new Task<>()
+           
+        Commission commission = new Commission(actualQuantity, actualRate, minQuantity, lvl1Quantity, lvl2Quantity, lvl3Quantity, lvl1Factor, lvl2Factor, lvl3Factor, lvl4Factor, fpFactor, otherFactor);
+        commission.setPrefClientId(prefClientId);
+        commission.setCampNumber(campNumber);
+        try
         {
-            int returnCode = 0;
-            @Override
-            protected Integer call() throws Exception
-            {
-                Commission commission = new Commission(actualQuantity, actualRate, minQuantity, lvl1Quantity, lvl2Quantity, lvl3Quantity, lvl1Factor, lvl2Factor, lvl3Factor, lvl4Factor, fpFactor, otherFactor);
-                try
-                {
-                    Connector.getConnector().startTransaction();
-                    
-                    updateCommission(commission, orders, repurchases);
+            Connector.getConnector().startTransaction();
+            
+            updateCommission(commission, orders, repurchases);
 
-                    Connector.getConnector().commit();
-                    
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showSucces("Se han modificado los niveles de comisión exitosamente.");
-                    getServiceSubscriber().refresh();
-                }
-                catch (Exception exception)
-                {
-                    Connector.getConnector().rollBack();
-                    getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showError("Error al intentar modificar los niveles de comisión.", null, exception);
-                }
-                finally
-                {
-                    Connector.getConnector().endTransaction();
-                    Connector.getConnector().closeConnection();
-                }
-                return returnCode;
-            }
-        };
-        Platform.runLater(task);
+            Connector.getConnector().commit();
+            
+            getServiceSubscriber().closeProcessIsWorking(customAlert);
+            getServiceSubscriber().showSucces("Se han modificado los niveles de comisión exitosamente.");
+            getServiceSubscriber().refresh();
+        }
+        catch (Exception exception)
+        {
+            Connector.getConnector().rollBack();
+            getServiceSubscriber().closeProcessIsWorking(customAlert);
+            getServiceSubscriber().showError("Error al intentar modificar los niveles de comisión.", null, exception);
+        }
+        finally
+        {
+            Connector.getConnector().endTransaction();
+            Connector.getConnector().closeConnection();
+        }
     }
     
     public void searchCommission(Integer prefClientId, Integer campNumber) throws Exception

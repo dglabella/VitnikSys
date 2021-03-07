@@ -140,7 +140,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-			"SELECT `recompras`.`cod`, `recompras`.`ejemplar`, `precio_recompra`, `recompras`.`comisionable`, `devuelta`, `recompras`.`fecha_registro`, `cod_pedido`, `motivo`, `recomprado`, `pedidos`.`id_cp`, `pedidos`.`nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `pedidos`.`comisionable`, `nombre`, `tipo`, `precio_unitario` "+
+			"SELECT `recompras`.`cod`, `recompras`.`ejemplar`, `precio_recompra`, `recompras`.`aumenta_comision`, `devuelta`, `recompras`.`fecha_registro`, `cod_pedido`, `motivo`, `recomprado`, `pedidos`.`id_cp`, `pedidos`.`nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `pedidos`.`comisionable`, `nombre`, `tipo`, `precio_unitario`, `pedidos`.`aumenta_comision` "+
             "FROM `recompras` "+
             "INNER JOIN `articulos_devueltos` ON `recompras`.`ejemplar` = `articulos_devueltos`.`ejemplar` "+
             "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+

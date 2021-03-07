@@ -65,7 +65,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
                 this.fpRateSpinner.getValue(), this.otherRateSpinner.getValue(), this.orders, this.repurchases);
             
             //Refill management
-            ((ClientManagementViewCntlr)this.getPrevViewCntlr()).fillManagementView();
+            this.getPrevViewCntlr().refresh();
         }
         catch (Exception exception)
         {
@@ -169,6 +169,8 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         this.lvl2RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
         this.lvl3RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
         this.lvl4RateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
+        this.fpRateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
+        this.otherRateSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, App.ConstraitConstants.MAX_COMMISSION_RATE));
 
         this.lvl1RateSlider.setMax(App.ConstraitConstants.MAX_COMMISSION_RATE);
         this.lvl1RateSlider.setBlockIncrement(1);
@@ -241,6 +243,42 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
                 this.lvl4RateSlider.setValue(newValue.intValue());
             }
         );
+
+        this.fpRateSlider.setMax(App.ConstraitConstants.MAX_COMMISSION_RATE);
+        this.fpRateSlider.setBlockIncrement(1);
+        this.fpRateSlider.valueProperty().addListener
+        (
+            (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
+            {
+                this.fpRateSpinner.getValueFactory().setValue(newValue.intValue());
+            }
+        );
+
+        this.fpRateSpinner.valueProperty().addListener
+        (
+            (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
+            {
+                this.fpRateSlider.setValue(newValue.intValue());
+            }
+        );
+
+        this.otherRateSlider.setMax(App.ConstraitConstants.MAX_COMMISSION_RATE);
+        this.otherRateSlider.setBlockIncrement(1);
+        this.otherRateSlider.valueProperty().addListener
+        (
+            (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
+            {
+                this.otherRateSpinner.getValueFactory().setValue(newValue.intValue());
+            }
+        );
+
+        this.otherRateSpinner.valueProperty().addListener
+        (
+            (ObservableValue<? extends Number> ov, Number oldValue, Number newValue) -> 
+            {
+                this.otherRateSlider.setValue(newValue.intValue());
+            }
+        );
     }
 
     // ===================================== services subscriber methods =====================================
@@ -264,6 +302,8 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
 
         this.actualQuantity.setText(""+commission.getActualQuantity());
         this.actualRate.setText(""+commission.getActualRate());
+        this.fpActualRate.setText(""+commission.getFpFactor());
+        this.otherActualRate.setText(""+commission.getOtherFactor());
 
         this.minQuantity.getValueFactory().setValue(commission.getMinQuantity());
 
@@ -275,10 +315,14 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         this.lvl2RateSlider.setValue(commission.getLvl2Factor());
         this.lvl3RateSlider.setValue(commission.getLvl3Factor());
         this.lvl4RateSlider.setValue(commission.getLvl4Factor());
+        this.fpRateSlider.setValue(commission.getFpFactor());
+        this.otherRateSlider.setValue(commission.getOtherFactor());
 
         this.lvl1RateSpinner.getValueFactory().setValue(commission.getLvl1Factor());
         this.lvl2RateSpinner.getValueFactory().setValue(commission.getLvl2Factor());
         this.lvl3RateSpinner.getValueFactory().setValue(commission.getLvl3Factor());
         this.lvl4RateSpinner.getValueFactory().setValue(commission.getLvl4Factor());
+        this.fpRateSpinner.getValueFactory().setValue(commission.getFpFactor());
+        this.otherRateSpinner.getValueFactory().setValue(commission.getOtherFactor());
     }
 }

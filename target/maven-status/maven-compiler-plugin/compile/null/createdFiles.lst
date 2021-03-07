@@ -78,6 +78,7 @@ vitniksys\frontend\view_controllers\PaymentDialogContentViewCntlr.class
 vitniksys\backend\util\AutoCompletionTool.class
 vitniksys\App$1.class
 vitniksys\frontend\view_controllers\ClientManagementViewCntlr$1.class
+vitniksys\backend\util\OrdersRowTable$1.class
 vitniksys\backend\model\persistence\LeaderOperator.class
 vitniksys\backend\model\persistence\PreferentialClientOperator.class
 vitniksys\backend\model\services\PreferentialClientService$2.class

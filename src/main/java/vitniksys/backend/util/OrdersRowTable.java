@@ -86,7 +86,7 @@ public class OrdersRowTable
         this.order = order;
     }
 
-    public static List<OrdersRowTable> generateRows(List<Order> orders, int commisionRatio)
+    public static List<OrdersRowTable> generateRows(List<Order> orders, int commisionRatio, int fpCommisionRatio, int otherCommisionRatio)
     {
         List<OrdersRowTable> ret = new ArrayList<>();
 
@@ -105,8 +105,26 @@ public class OrdersRowTable
                 
                 if(order.isCommissionable())
                 {
-                    ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
-                    ordersRowTable.setCommission(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
+                    switch(order.getArticle().getType())
+                    {
+                        case PEDIDO:
+                        case OPORTUNIDAD:
+                            ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
+                            ordersRowTable.setCommission(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
+                        break;
+
+                        case FREEPREMIUM:
+                        case PROMO:
+                            ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(fpCommisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
+                            ordersRowTable.setCommission(order.getCost()*(fpCommisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
+                        break;
+
+                        default:
+                            ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(otherCommisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
+                            ordersRowTable.setCommission(order.getCost()*(otherCommisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
+                    }
+
+                    
                 }
     
                 ret.add(ordersRowTable);

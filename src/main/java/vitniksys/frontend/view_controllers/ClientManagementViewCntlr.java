@@ -392,9 +392,18 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
     private void insertDataIntoTables()
     {
-        int com = this.actualCommission != null ? this.actualCommission.getActualRate() : 0;
+        int com = 0;
+        int fpCom = 0;
+        int otherCom = 0;
 
-        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.actualOrders, com));
+        if(this.actualCommission != null)
+        {
+            com = this.actualCommission.getActualRate();
+            fpCom = this.actualCommission.getFpFactor();
+            otherCom = this.actualCommission.getOtherFactor();
+        }
+
+        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.actualOrders, com, fpCom, otherCom));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
         this.loadData(this.REPURCHASES_TABLE_NUMBER, RepurchasesRowTable.generateRows(this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
     }
@@ -405,7 +414,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         if(this.prefClient instanceof Leader)
         {
-            System.out.println(""+this.prefClient+" ------- "+this.actualCampaign);
             ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId(), this.actualCampaign.getNumber());
         }
         else if(this.prefClient instanceof BaseClient)
@@ -597,7 +605,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             campsAsString.add(campsAsStringIterator.next().toString());
 
         //In the first position is supposed to be the last camp
-        System.out.println("CAMP CUALLLLLLLLLLLLLLL  "+camps.get(0));
         this.actualCampaign = camps.get(0);
         this.campAutoCompletionTool.setSuggestions(campsAsString);
         this.camp.setText(this.actualCampaign.toString());
@@ -615,14 +622,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.prefClientId.setText(prefClient.getId().toString());
         this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
 
-        System.out.println(" === === "+this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
-
         this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
 
         if(prefClient instanceof Leader)
         {
-            System.out.println(" **** "+((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber()));
-
             this.actualCommission = ((Leader)this.prefClient).getCommissions().locateWithCampNumb(this.actualCampaign.getNumber());
 
             if(this.actualCommission != null)
