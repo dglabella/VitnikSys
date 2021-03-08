@@ -77,8 +77,7 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     @Override
     public void refresh()
     {
-        // TODO Auto-generated method stub
-        
+        manualInitialize();        
     }
 
     @Override

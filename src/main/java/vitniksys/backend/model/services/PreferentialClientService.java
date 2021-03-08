@@ -657,6 +657,8 @@ public class PreferentialClientService extends Service
 
                 try
                 {
+                    Connector.getConnector().startTransaction();
+
                     Observation observation = ObservationOperator.getOperator().find(prefClientId, campNumber);
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
 
@@ -667,8 +669,12 @@ public class PreferentialClientService extends Service
                     else
                     {
                         getServiceSubscriber().showNoResult("No existe observación registrada del cliente "+prefClientId+" para la campaña "+campNumber+"\nSe creará la observación correspondiente...");
-                        registerObservation(prefClientId, campNumber, "");
+
+                        createObservation(prefClientId, campNumber, "");
+                        getServiceSubscriber().refresh();
                     }
+
+                    Connector.getConnector().commit();
                 }
                 catch (Exception exception)
                 {

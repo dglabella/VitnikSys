@@ -150,6 +150,51 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
     }
 
     @Override
+    public PreferentialClient findShort(Integer id) throws Exception
+    {
+        SubordinatedClient ret = null;
+        String sqlStmnt =
+        "SELECT `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `id_cp` = ? AND `id_lider` IS NOT NULL AND `es_lider` = ? AND `active_row` = ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        if(id != null)
+        {
+            statement.setInt(1, id);
+        }
+        else
+        {
+            throw new Exception("SubordinatedClient id is null");
+        }
+
+        statement.setBoolean(2, false);
+        statement.setBoolean(3, this.activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if(resultSet.next())
+        {
+            ret = new SubordinatedClient(id, resultSet.getString(2), resultSet.getString(3));
+            
+            ret.setDni(resultSet.getLong(1));
+            ret.setLocation(resultSet.getString(4));
+            Date date = resultSet.getDate(5);
+            if(!resultSet.wasNull())
+            {
+                ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+            ret.setEmail(resultSet.getString(6));
+            ret.setPhoneNumber(resultSet.getLong(7));
+        }
+
+        statement.close();
+            
+        return ret;
+    }
+
+    @Override
     public PreferentialClient find(Integer id) throws Exception
     {
         SubordinatedClient ret = null;
