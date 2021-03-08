@@ -18,6 +18,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.FilenameUtils;
+import vitniksys.backend.util.ExpressionChecker;
 import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
@@ -141,7 +142,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     {
         boolean ret;
     
-        if (this.getExpressionChecker().isCatalogueCode(this.catalogueCode.getText(), true))
+        if (ExpressionChecker.getExpressionChecker().isCatalogueCode(this.catalogueCode.getText(), true))
         {
             this.catalogueCodeInvalid.setVisible(false);
             ret = true;

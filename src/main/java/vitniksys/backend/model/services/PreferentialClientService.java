@@ -13,18 +13,18 @@ import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
-import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
+import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Devolution;
+import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.persistence.LeaderOperator;
-import vitniksys.backend.model.persistence.ObservationOperator;
 import vitniksys.backend.model.persistence.PaymentOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
@@ -34,6 +34,7 @@ import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.DevolutionOperator;
+import vitniksys.backend.model.persistence.ObservationOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
@@ -49,10 +50,9 @@ public class PreferentialClientService extends Service
         String email, String phoneNumber, String leaderId)
     {
         boolean ret = false;
-        if(this.getExpressionChecker().onlyNumbers(id, false) && this.getExpressionChecker().onlyNumbers(dni, true)
-            && this.getExpressionChecker().composedName(name) && this.getExpressionChecker().composedName(lastName)
-            && this.getExpressionChecker().isEmail(email, true) && this.getExpressionChecker().onlyNumbers(phoneNumber, true)
-            && this.getExpressionChecker().onlyNumbers(leaderId, true))
+        ExpressionChecker ec = ExpressionChecker.getExpressionChecker();
+        if(ec.onlyNumbers(id, false) && ec.onlyNumbers(dni, true) && ec.composedName(name) && ec.composedName(lastName) && 
+            ec.isEmail(email, true) && ec.onlyNumbers(phoneNumber, true) && ec.onlyNumbers(leaderId, true))
         {
             ret = true;
         }
@@ -106,7 +106,7 @@ public class PreferentialClientService extends Service
                     }
                     else
                     {
-                        prefClient =  new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        prefClient = new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
                     }
 
                     prefClient.setDni(!dni.isBlank()?Long.parseLong(dni):null);
@@ -654,7 +654,7 @@ public class PreferentialClientService extends Service
             {
                 //returnCode is intended for future implementations
                 int returnCode = 0;
-
+                
                 try
                 {
                     Connector.getConnector().startTransaction();

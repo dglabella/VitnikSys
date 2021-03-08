@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.services.Service;
 import vitniksys.frontend.views_subscriber.ServiceSubscriber;
 
@@ -21,7 +20,6 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
     private Stage stage;
     private List<Service> services;
     private ViewCntlr prevViewCntlr;
-    private ExpressionChecker expressionChecker;
 
     // ================================= Getters && setters =================================
     protected void setPrevViewCntlr(ViewCntlr prevViewCntlr)
@@ -88,20 +86,9 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
         {
             viewCtrller.addService(service);
             service.setServiceSubscriber(viewCtrller);
-            service.setExpressionChecker(this.expressionChecker);
         }
 
         return viewCtrller;
-    }
-
-    protected ExpressionChecker getExpressionChecker()
-    {
-        return this.expressionChecker;
-    }
-
-    protected void setExpressionChecker(ExpressionChecker expressionChecker)
-    {
-        this.expressionChecker = expressionChecker;
     }
 
     // =================================== public methods ===================================
@@ -117,7 +104,6 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
         try 
         {
             this.services = new ArrayList<>();
-            this.expressionChecker = ExpressionChecker.getExpressionChecker();
             this.customInitialize(url, rb);    
         }
         catch (Exception exception)

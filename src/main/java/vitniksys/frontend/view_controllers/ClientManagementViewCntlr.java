@@ -142,7 +142,22 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void editPrefClientButtonPressed()
     {
-
+        ClientRegisterViewCntlr viewCntlr = (ClientRegisterViewCntlr) this.createStage("Cliente preferencial "+this.prefClient.getId(), "clientRegister", new PreferentialClientService());
+        viewCntlr.getStage().show();
+        viewCntlr.setPrefClientId(this.prefClient.getId());
+        viewCntlr.setDni(this.prefClient.getDni());
+        viewCntlr.setName(this.prefClient.getName());
+        viewCntlr.setLastName(this.prefClient.getLastName());
+        viewCntlr.setLocation(this.prefClient.getLocation());
+        viewCntlr.setEmail(this.prefClient.getEmail());
+        viewCntlr.setPhoneNumber(this.prefClient.getPhoneNumber());
+        viewCntlr.setBirthdate(this.prefClient.getBirthDate());
+        viewCntlr.setIsLeader(this.prefClient instanceof Leader ? true : false);
+        viewCntlr.setRegisterButtonText("Actualizar");
+        if(this.prefClient instanceof SubordinatedClient)
+            viewCntlr.setLeaderId(((SubordinatedClient)this.prefClient).getLeaderId());
+        //Not supported yet for hierarchy changes. Disable for all
+        viewCntlr.disableLeaderInfo(true);
     }
 
     @FXML

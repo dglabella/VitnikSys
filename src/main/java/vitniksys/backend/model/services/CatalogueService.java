@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
+import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.CatalogueOperator;
@@ -16,7 +17,7 @@ public class CatalogueService extends Service
     {
         boolean ret = false;
 
-        if( code != null && this.getExpressionChecker().isCatalogueCode(code, false) )
+        if( code != null && ExpressionChecker.getExpressionChecker().isCatalogueCode(code, false) )
         {
             ret =  true;
         }
@@ -28,9 +29,9 @@ public class CatalogueService extends Service
     {
         boolean ret = false;
 
-        if((code != null && this.getExpressionChecker().isCatalogueCode(code, false)) &&
+        if((code != null && ExpressionChecker.getExpressionChecker().isCatalogueCode(code, false)) &&
             initialStock != null && (price != null && 
-            this.getExpressionChecker().moneyValue(price, App.ConstraitConstants.MAX_LENGTH_MONEY_LEFT_DIGITS, App.ConstraitConstants.MAX_LENGTH_MONEY_RIGHT_DIGITS, false)) && 
+            ExpressionChecker.getExpressionChecker().moneyValue(price, App.ConstraitConstants.MAX_LENGTH_MONEY_LEFT_DIGITS, App.ConstraitConstants.MAX_LENGTH_MONEY_RIGHT_DIGITS, false)) && 
             (link == null || link.length() <= App.ConstraitConstants.MAX_LENGTH_CATALOGUE_LINK))
         {
             ret =  true;

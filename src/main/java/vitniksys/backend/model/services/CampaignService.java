@@ -12,6 +12,7 @@ import vitniksys.backend.util.OrderObtainer;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
+import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CampaignOperator;
@@ -58,7 +59,7 @@ public class CampaignService extends Service
         boolean ret = false;
 
         if(campNumb != null && campAlias.length() <= CampaignService.MAX_LENGTH_CAMP_ALIAS && !campAlias.contains(CampaignService.SEPARATOR)
-            && month != null && year != null && this.getExpressionChecker().isCatalogueCode(catalogueCode, true) && detailFileIsOk(detail, true))
+            && month != null && year != null && ExpressionChecker.getExpressionChecker().isCatalogueCode(catalogueCode, true) && detailFileIsOk(detail, true))
         {
             ret = true;
         }

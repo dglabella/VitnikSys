@@ -4,12 +4,10 @@ import vitniksys.App;
 //import javafx.concurrent.Task;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
-import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.frontend.views_subscriber.ServiceSubscriber;
 
 public abstract class Service
 {
-    private ExpressionChecker expressionChecker;
     private ServiceSubscriber serviceSubscriber;
     private ExecutorService executorService;
     
@@ -19,15 +17,6 @@ public abstract class Service
     }
 
     // ================================= Getters && setters =================================
-    public ExpressionChecker getExpressionChecker()
-    {
-        return this.expressionChecker;
-    }
-
-    public void setExpressionChecker(ExpressionChecker expressionChecker)
-    {
-        this.expressionChecker = ExpressionChecker.getExpressionChecker();
-    }
 
     public ServiceSubscriber getServiceSubscriber()
     {

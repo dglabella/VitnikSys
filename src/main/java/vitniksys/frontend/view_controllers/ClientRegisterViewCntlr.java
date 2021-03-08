@@ -2,13 +2,16 @@ package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
 import javafx.fxml.FXML;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
+import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
+import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.services.PreferentialClientService;
 
 public class ClientRegisterViewCntlr extends ViewCntlr
@@ -35,11 +38,13 @@ public class ClientRegisterViewCntlr extends ViewCntlr
 
     @FXML private CheckBox isLeader;
 
+    @FXML private JFXButton register;
+
     // ================================= FXML methods =================================
     @FXML
     private void idCheck()
     {
-        if(this.getExpressionChecker().onlyNumbers(this.id.getText(), false))
+        if(ExpressionChecker.getExpressionChecker().onlyNumbers(this.id.getText(), false))
         {
             this.invalidId.setVisible(false);
         }
@@ -53,7 +58,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void dniCheck()
     {
-        if(this.getExpressionChecker().onlyNumbers(this.dni.getText(), true))
+        if(ExpressionChecker.getExpressionChecker().onlyNumbers(this.dni.getText(), true))
         {
             this.invalidDni.setVisible(false);
         }
@@ -67,7 +72,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void nameCheck()
     {
-        if(this.getExpressionChecker().composedName(this.name.getText()))
+        if(ExpressionChecker.getExpressionChecker().composedName(this.name.getText()))
         {
             this.invalidName.setVisible(false);
         }
@@ -81,7 +86,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void lastNameCheck()
     {
-        if(this.getExpressionChecker().composedName(this.lastName.getText()))
+        if(ExpressionChecker.getExpressionChecker().composedName(this.lastName.getText()))
         {
             this.invalidLastName.setVisible(false);
         }
@@ -95,7 +100,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void emailCheck()
     {
-        if(this.getExpressionChecker().isEmail(this.email.getText(), true))
+        if(ExpressionChecker.getExpressionChecker().isEmail(this.email.getText(), true))
         {
             this.invalidEmail.setVisible(false);
         }
@@ -109,7 +114,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void phoneNumberCheck()
     {
-        if(this.getExpressionChecker().onlyNumbers(this.phoneNumber.getText(), true))
+        if(ExpressionChecker.getExpressionChecker().onlyNumbers(this.phoneNumber.getText(), true))
         {
             this.invalidPhoneNumber.setVisible(false);
         }
@@ -123,7 +128,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void leaderIdCheck()
     {
-        if(this.getExpressionChecker().onlyNumbers(this.leaderId.getText(), true))
+        if(ExpressionChecker.getExpressionChecker().onlyNumbers(this.leaderId.getText(), true))
         {
             this.invalidLeaderId.setVisible(false);
         }
@@ -137,13 +142,17 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void registerButtonPressed() throws Exception
     {
+        System.out.println(" id ="+this.id.getText()+" dni ="+this.dni.getText()+" name ="+this.name.getText()+
+        " lastname ="+this.lastName.getText()+" loc ="+this.location.getText()+" birth ="+this.birthdate.getValue()+" email ="+this.email.getText()+
+        " phone ="+this.phoneNumber.getText()+" isLeader ="+ this.isLeader.isSelected()+"  leader ="+this.leaderId.getText());
+
         ((PreferentialClientService)this.getService(0)).registerClient(this.id.getText(), this.dni.getText(), this.name.getText(),
             this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),
             this.phoneNumber.getText(), this.isLeader.isSelected(), this.leaderId.getText());
     }
 
     @FXML
-    private void isLeaderCheckBoxPressed() throws Exception
+    private void isLeaderCheckBoxPressed()
     {
         if(this.isLeader.isSelected())
         {
@@ -160,6 +169,67 @@ public class ClientRegisterViewCntlr extends ViewCntlr
 
 
     // ================================= protected methods ===============================
+    protected void setRegisterButtonText(String text)
+    {
+        this.register.setText(text);
+    }
+
+    protected void disableLeaderInfo(boolean value)
+    {
+        this.leaderId.setDisable(value);
+        this.isLeader.setDisable(value);
+    }
+
+    protected void setPrefClientId(Integer prefClientId)
+    {
+        this.id.setText(""+prefClientId);
+    }
+
+    protected void setDni(Long dni)
+    {
+        this.dni.setText(""+dni);
+    }
+
+    protected void setName(String name)
+    {
+        this.name.setText(name);
+    }
+
+    protected void setLastName(String lastName)
+    {
+        this.lastName.setText(lastName);
+    }
+
+    protected void setLocation(String location)
+    {
+        this.location.setText(location);
+    }
+
+    protected void setEmail(String email)
+    {
+        this.email.setText(email);
+    }
+
+    protected void setPhoneNumber(Long phone)
+    {
+        this.phoneNumber.setText(""+phone);
+    }
+
+    protected void setBirthdate(LocalDate birthDate)
+    {
+        this.birthdate.setValue(birthDate);
+    }
+
+    protected void setIsLeader(boolean isLeader)
+    {
+        this.isLeader.setSelected(isLeader);
+    }
+
+    protected void setLeaderId(Integer leaderId)
+    {
+        this.leaderId.setText(""+leaderId);
+    }
+
     @Override
     protected void manualInitialize()
     {
@@ -177,7 +247,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @Override
     public void refresh() 
     {
-        
+           
     }
 
     //Override this method in order to execute manualInitialize in the prev controller

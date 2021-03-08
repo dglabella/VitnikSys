@@ -12,6 +12,7 @@ import javafx.scene.control.Spinner;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ScrollEvent;
+import vitniksys.backend.util.ExpressionChecker;
 import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Catalogue;
@@ -45,7 +46,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @FXML
     private void codeCheck()
     {
-        if(this.getExpressionChecker().isCatalogueCode(this.catalogueCode.getText(), false))
+        if(ExpressionChecker.getExpressionChecker().isCatalogueCode(this.catalogueCode.getText(), false))
         {
             this.invalidCode.setVisible(false);
         }
@@ -59,7 +60,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @FXML
     private void priceCheck()
     {
-        if(this.getExpressionChecker().moneyValue(this.price.getText(), App.ConstraitConstants.MAX_LENGTH_MONEY_LEFT_DIGITS, App.ConstraitConstants.MAX_LENGTH_MONEY_RIGHT_DIGITS, false))
+        if(ExpressionChecker.getExpressionChecker().moneyValue(this.price.getText(), App.ConstraitConstants.MAX_LENGTH_MONEY_LEFT_DIGITS, App.ConstraitConstants.MAX_LENGTH_MONEY_RIGHT_DIGITS, false))
         {
             this.invalidPrice.setVisible(false);
         }
