@@ -121,7 +121,7 @@ public class LeaderOperator extends BaseClientOperator
     public Leader find(Integer id, Integer campNumber) throws Exception
     {
         Leader ret = null;
-        String sqlStmnt =
+        String sqlStmnt = 
         "SELECT `id_cp`, `id_lider`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel` "+
         "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";

@@ -14,46 +14,35 @@ import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class ObservationEditorViewCntlr extends ViewCntlr implements PreferentialClientServiceSubscriber
 {
-    private Campaign camp;
-    private PreferentialClient prefClient;
-    private Observation observation;
+    private Integer prefClientId;
+    private Integer campNumber;
 
     // ============================================= FXML variables =============================================
     @FXML private Label campLabel;
     @FXML private Label prefClientLabel;
 
-    @FXML private TextArea observationText;
+    @FXML private TextArea observation;
 
 
     // Getters && Setters
-    public Campaign getCamp()
+    public Integer getPrefClientId()
     {
-        return this.camp;
+        return this.prefClientId;
     }
 
-    public void setCamp(Campaign camp)
+    public void setPrefClientId(Integer prefClientId)
     {
-        this.camp = camp;
+        this.prefClientId = prefClientId;
     }
 
-    public PreferentialClient getPrefClient()
+    public Integer getCampNumber()
     {
-        return this.prefClient;
+        return this.campNumber;
     }
 
-    public void setPrefClient(PreferentialClient prefClient)
+    public void setCampNumber(Integer campNumber)
     {
-        this.prefClient = prefClient;
-    }
-
-    public Observation getObservation()
-    {
-        return this.observation;
-    }
-
-    public void setObservation(Observation observation)
-    {
-        this.observation = observation;
+        this.campNumber = campNumber;
     }
     
     // ============================================= FXML methods =============================================
@@ -62,7 +51,7 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     {
         try
         {
-            ((PreferentialClientService)this.getService(0)).registerObservation(this.prefClient.getId(), this.camp.getNumber(), this.observationText.getText());
+            ((PreferentialClientService)this.getService(0)).registerObservation(this.prefClientId, this.campNumber, this.observation.getText());
         }
         catch (Exception exception)
         {
@@ -76,7 +65,14 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     @Override
     protected void manualInitialize()
     {
-        // TODO Auto-generated method stub
+        try
+        {
+            ((PreferentialClientService)this.getService(0)).searchObservation(this.prefClientId, this.campNumber);   
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
     }
 
     // ============================================= public methods =============================================
@@ -92,7 +88,7 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     {
         this.campLabel.setText(camp.toString());
         this.prefClientLabel.setText(""+prefClient.getName()+" "+prefClient.getLastName()+" - "+prefClient.getId());
-        this.observationText.setText(""+this.observation.getObservation());
+        this.observationText.setText(this.observation != null ?""+this.observation.getObservation():"");
     }
 
 

@@ -158,14 +158,14 @@ public class ObservationOperator implements IObservationOperator
     }
 
     @Override
-    public Observation find(int id) throws Exception
+    public Observation find(Integer prefClientId, Integer campNumber) throws Exception
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Integer delete(int id) throws Exception
+    public Integer delete(Integer prefClientId, Integer campNumber) throws Exception
     {
         // TODO Auto-generated method stub
         return 0;

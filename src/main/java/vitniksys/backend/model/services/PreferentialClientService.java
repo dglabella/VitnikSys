@@ -640,4 +640,40 @@ public class PreferentialClientService extends Service
         
         Platform.runLater(task);
     }
+
+    public void searchObservation(Integer prefClientId, Integer campNumber)
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Buscando observación...");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+
+                try
+                {        
+                    ObservationOperator.getOperator().find();
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("Observación registrada exitosamente!");
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack(); //ROLLBACK
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al guardar la observación.", null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction(); //END TRANSACTION
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+        
+        Platform.runLater(task);
+    }
 }
