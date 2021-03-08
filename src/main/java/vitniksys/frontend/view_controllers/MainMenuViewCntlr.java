@@ -274,7 +274,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     }
 
     @Override
-    public void showObservation(List<Observation> observations)
+    public void showObservation(Observation observation)
     {
         // TODO Auto-generated method stub
     }

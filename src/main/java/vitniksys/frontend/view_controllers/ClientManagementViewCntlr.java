@@ -235,13 +235,11 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         if(this.prefClient instanceof BaseClient) // works also for Leader because extends from base client
         {
             ViewCntlr viewCntlr = this.createStage("Observación", "observationEditor", new PreferentialClientService());
-            ((ObservationEditorViewCntlr)viewCntlr).setCamp(this.actualCampaign);
-            ((ObservationEditorViewCntlr)viewCntlr).setPrefClient(this.prefClient);
-            ((ObservationEditorViewCntlr)viewCntlr).setObservation(((BaseClient)this.prefClient).getObservations().locateWithCampNumb(this.actualCampaign.getNumber()));
-
+            ((ObservationEditorViewCntlr)viewCntlr).setCampNumber(this.actualCampaign.getNumber());
+            ((ObservationEditorViewCntlr)viewCntlr).setPrefClientId(this.prefClient.getId());
             viewCntlr.getStage().show();
+            viewCntlr.manualInitialize();
         }
-        
     }
 
     @FXML
@@ -664,7 +662,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
 
     @Override
-    public void showObservation(List<Observation> observations)
+    public void showObservation(Observation observation)
     {
         // TODO Auto-generated method stub
     }

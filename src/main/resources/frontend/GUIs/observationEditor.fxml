@@ -48,13 +48,13 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <TextArea fx:id="observationText" layoutX="20.0" layoutY="125.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="520.0" />
-            <Label fx:id="campLabel" alignment="CENTER" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="560.0" text="Camp" textAlignment="CENTER">
+            <TextArea fx:id="observation" layoutX="20.0" layoutY="125.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="520.0" />
+            <Label fx:id="camp" alignment="CENTER" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="560.0" text="Camp" textAlignment="CENTER">
                <font>
                   <Font name="Britannic Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="prefClientLabel" alignment="CENTER" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="560.0" text="Nombre" textAlignment="CENTER">
+            <Label fx:id="prefClient" alignment="CENTER" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="560.0" text="Nombre" textAlignment="CENTER">
                <font>
                   <Font name="Britannic Bold" size="20.0" />
                </font>

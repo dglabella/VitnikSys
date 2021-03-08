@@ -37,7 +37,6 @@ import vitniksys.backend.model.persistence.DevolutionOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
-import vitniksys.frontend.view_controllers.ViewCntlr;
 import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
 
 public class PreferentialClientService extends Service
@@ -72,6 +71,14 @@ public class PreferentialClientService extends Service
         return ret;
     }
     // ================================= protected methods =================================
+    protected void createObservation(Integer prefClientId, Integer campNumber, String obs) throws Exception
+    {
+        Observation observation = new Observation(obs);
+        observation.setPrefClientId(prefClientId);
+        observation.setCampNumber(campNumber);
+        
+        ObservationOperator.getOperator().insert(observation);
+    }
 
     // ================================= public methods ====================================
     public void registerClient(String id, String dni, String name, String lastName, String location,
@@ -608,15 +615,11 @@ public class PreferentialClientService extends Service
                 //returnCode is intended for future implementations
                 int returnCode = 0;
 
-                Observation observation = new Observation(obs);
-                observation.setPrefClientId(prefClientId);
-                observation.setCampNumber(campNumber);
-
                 try
                 {
                     Connector.getConnector().startTransaction(); //START TRANSACTION
                     
-                    ObservationOperator.getOperator().insert(observation);
+                    createObservation(prefClientId, campNumber, obs);
 
                     Connector.getConnector().commit(); // COMMIT
 
@@ -653,11 +656,19 @@ public class PreferentialClientService extends Service
                 int returnCode = 0;
 
                 try
-                {        
-                    ObservationOperator.getOperator().find();
-
+                {
+                    Observation observation = ObservationOperator.getOperator().find(prefClientId, campNumber);
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getServiceSubscriber().showSucces("Observación registrada exitosamente!");
+
+                    if(observation != null)
+                    {
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showObservation(observation);
+                    }
+                    else
+                    {
+                        getServiceSubscriber().showNoResult("No existe observación registrada del cliente "+prefClientId+" para la campaña "+campNumber+"\nSe creará la observación correspondiente...");
+                        registerObservation(prefClientId, campNumber, "");
+                    }
                 }
                 catch (Exception exception)
                 {

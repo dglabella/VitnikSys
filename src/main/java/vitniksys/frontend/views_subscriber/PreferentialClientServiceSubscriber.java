@@ -11,5 +11,5 @@ public interface PreferentialClientServiceSubscriber extends ServiceSubscriber
 
     void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception;
 
-    void showObservation(List<Observation> observations);
+    void showObservation(Observation observation);
 }

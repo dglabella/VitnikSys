@@ -2,8 +2,14 @@ package vitniksys.backend.model.persistence;
 
 import java.util.List;
 import java.sql.ResultSet;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+
+import vitniksys.backend.model.entities.BaseClient;
+import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.interfaces.IObservationOperator;
 
@@ -160,8 +166,58 @@ public class ObservationOperator implements IObservationOperator
     @Override
     public Observation find(Integer prefClientId, Integer campNumber) throws Exception
     {
-        // TODO Auto-generated method stub
-        return null;
+        Observation ret = null;
+
+		PreparedStatement statement = null;
+		String sqlStmnt = 
+		"SELECT `observacion`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`, `cod_cat`, `alias`, `mes`, `year` "+
+        "FROM `observaciones` "+
+        "INNER JOIN `clientes_preferenciales` ON `observaciones`.`id_cp` = `clientes_preferenciales`.`id_cp` "+
+        "INNER JOIN `camps` ON `observaciones`.`nro_camp` = `camps`.`nro_camp` "+
+        "WHERE `observacion`.`id_cp`= ? AND `observacion`.`nro_camp`= ? AND `observacion`.`active_row` = ? AND `clientes_preferenciales`.`active_row`= ? AND `camps`.`active_row`= ?;";
+
+        System.out.println("1111111111111");
+		statement = Connector.getConnector().getStatement(sqlStmnt);
+        System.out.println("2222222222222");
+
+		statement.setInt(1, prefClientId);
+		statement.setInt(2, campNumber);
+		statement.setBoolean(3, this.isActiveRow());
+        statement.setBoolean(4, BaseClientOperator.getOperator().isActiveRow());
+        statement.setBoolean(5, CampaignOperator.getOperator().isActiveRow());
+
+		ResultSet resultSet = statement.executeQuery();
+
+        BaseClient baseClient = null;
+        Campaign camp = null;
+		if(resultSet.next())
+		{
+            System.out.println("333333333333333");
+			ret = new Observation(resultSet.getString(1));
+            baseClient = new BaseClient(prefClientId, resultSet.getString(3), resultSet.getString(4));
+            baseClient.setDni(resultSet.getLong(2));
+            baseClient.setLocation(resultSet.getString(5));
+            Date date = resultSet.getDate(6);
+            if(!resultSet.wasNull())
+            {
+                baseClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+            }
+            baseClient.setEmail(resultSet.getString(7));
+            baseClient.setPhoneNumber(resultSet.getLong(8));
+            camp = new Campaign(campNumber, resultSet.getInt(11), resultSet.getInt(12));
+            camp.setAlias(resultSet.getString(10));
+
+			//fk ids
+            camp.setCatalogueCode(resultSet.getInt(9));
+			ret.setPrefClientId(prefClientId);
+			ret.setCampNumber(campNumber);
+			
+			//Associations
+            ret.setPrefClient(baseClient);
+			ret.setCamp(camp);
+		}
+		System.out.println("444444444444444");
+		return ret;
     }
 
     @Override

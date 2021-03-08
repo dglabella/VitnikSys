@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.services.PreferentialClientService;
@@ -18,9 +17,8 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     private Integer campNumber;
 
     // ============================================= FXML variables =============================================
-    @FXML private Label campLabel;
-    @FXML private Label prefClientLabel;
-
+    @FXML private Label camp;
+    @FXML private Label prefClient;
     @FXML private TextArea observation;
 
 
@@ -86,9 +84,7 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        this.campLabel.setText(camp.toString());
-        this.prefClientLabel.setText(""+prefClient.getName()+" "+prefClient.getLastName()+" - "+prefClient.getId());
-        this.observationText.setText(this.observation != null ?""+this.observation.getObservation():"");
+        // TODO Auto-generated method stub
     }
 
 
@@ -106,8 +102,10 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     }
 
     @Override
-    public void showObservation(List<Observation> observations)
+    public void showObservation(Observation observation)
     {
-        // TODO Auto-generated method stub
+        this.camp.setText(""+observation.getCampaign().toString());
+        this.prefClient.setText(""+observation.getPrefClient().getName()+" "+observation.getPrefClient().getLastName()+" - "+observation.getPrefClient().getId());
+        this.observation.setText(observation.getObservation());
     }
 }

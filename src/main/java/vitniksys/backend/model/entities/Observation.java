@@ -6,7 +6,7 @@ public class Observation extends VitnikSearchableEntity
     private String observation;
 
     //Domain Associations
-    private PreferentialClient client;
+    private PreferentialClient prefClient;
     private Campaign campaign;
 
     //Others
@@ -43,9 +43,9 @@ public class Observation extends VitnikSearchableEntity
      * @return return the corresponding client whose id identifies, in part, to this observation.
      * The BD table key (column name: id_cp).
      */
-    public PreferentialClient getClient()
+    public PreferentialClient getPrefClient()
     {
-        return this.client;
+        return this.prefClient;
     }
 
     /**
@@ -53,9 +53,9 @@ public class Observation extends VitnikSearchableEntity
      * @param cliente set the corresponding client whose id identifies, in part, to this observation.
      * The BD table key (column name: id_cp).
      */
-    public void setCliente(PreferentialClient client)
+    public void setPrefClient(PreferentialClient prefClient)
     {
-        this.client = client;
+        this.prefClient = prefClient;
     }
 
     /**

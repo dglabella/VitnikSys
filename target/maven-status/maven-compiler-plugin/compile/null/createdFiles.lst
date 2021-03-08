@@ -89,6 +89,7 @@ vitniksys\backend\model\entities\SubordinatedClient.class
 vitniksys\backend\model\interfaces\IOrderOperator.class
 vitniksys\backend\model\entities\PreferentialClient.class
 vitniksys\backend\model\enums\PayStatus.class
+vitniksys\backend\model\services\PreferentialClientService$11.class
 vitniksys\backend\model\persistence\ArticleOperator.class
 vitniksys\backend\model\persistence\ObservationOperator.class
 vitniksys\backend\model\persistence\CampaignOperator.class
