@@ -142,9 +142,9 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        System.out.println(" id ="+this.id.getText()+" dni ="+this.dni.getText()+" name ="+this.name.getText()+
-        " lastname ="+this.lastName.getText()+" loc ="+this.location.getText()+" birth ="+this.birthdate.getValue()+" email ="+this.email.getText()+
-        " phone ="+this.phoneNumber.getText()+" isLeader ="+ this.isLeader.isSelected()+"  leader ="+this.leaderId.getText());
+        //System.out.println(" id ="+this.id.getText()+" dni ="+this.dni.getText()+" name ="+this.name.getText()+
+        //" lastname ="+this.lastName.getText()+" loc ="+this.location.getText()+" birth ="+this.birthdate.getValue()+" email ="+this.email.getText()+
+        //" phone ="+this.phoneNumber.getText()+" isLeader ="+ this.isLeader.isSelected()+"  leader ="+this.leaderId.getText());
 
         ((PreferentialClientService)this.getService(0)).registerClient(this.id.getText(), this.dni.getText(), this.name.getText(),
             this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),

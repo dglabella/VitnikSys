@@ -149,7 +149,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         viewCntlr.setName(this.prefClient.getName());
         viewCntlr.setLastName(this.prefClient.getLastName());
         viewCntlr.setLocation(this.prefClient.getLocation());
-        viewCntlr.setEmail(this.prefClient.getEmail());
+        viewCntlr.setEmail(this.prefClient.getEmail() != null? this.prefClient.getEmail() : "");
         viewCntlr.setPhoneNumber(this.prefClient.getPhoneNumber());
         viewCntlr.setBirthdate(this.prefClient.getBirthDate());
         viewCntlr.setIsLeader(this.prefClient instanceof Leader ? true : false);

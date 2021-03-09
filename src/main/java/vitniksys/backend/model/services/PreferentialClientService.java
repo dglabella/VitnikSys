@@ -119,7 +119,9 @@ public class PreferentialClientService extends Service
                     {
                         Connector.getConnector().startTransaction();
 
+                        System.out.println("11111111111111");
                         returnCode += prefClient.operator().insert(prefClient);
+                        System.out.println("22222222222222");asdsadasasdsadasdsadasd
 
                         Balance balance = new Balance();
 

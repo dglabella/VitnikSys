@@ -87,7 +87,13 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
                 }
             }
 
-            prefClient.setDni(resultSet.getLong(3));
+            Long dni = resultSet.getLong(3);
+
+            if(!resultSet.wasNull())
+                prefClient.setDni(dni);
+            else
+                prefClient.setDni(null);
+            
             prefClient.setLocation(resultSet.getString(6));
             Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
@@ -95,7 +101,13 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
                 prefClient.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
             prefClient.setEmail(resultSet.getString(8));
-            prefClient.setPhoneNumber(resultSet.getLong(9));
+
+            Long phone = resultSet.getLong(9);
+            if(!resultSet.wasNull())
+                prefClient.setPhoneNumber(phone);
+            else
+                prefClient.setPhoneNumber(null);
+            
 
             ret.add(prefClient);
         }
