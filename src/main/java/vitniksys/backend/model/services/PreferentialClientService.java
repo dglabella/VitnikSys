@@ -487,7 +487,7 @@ public class PreferentialClientService extends Service
         }
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, Reason reason) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, Reason reason, Integer comFactor) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -509,15 +509,18 @@ public class PreferentialClientService extends Service
                         ReturnedArticle returnedArticle = new ReturnedArticle(reason);
                         returnedArticle.setOrderId(orderId);
                         returnedArticle.setRepurchased(false);
-        
-                        Devolution devolution = new Devolution(order.getArticle().getUnitPrice());
+
+                        float cf = comFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
+                        float devCost = ((order.getCost() / order.getQuantity()) * (order.getQuantity() - order.getReturnedQuantity())) * cf;
+
+                        Devolution devolution = new Devolution(order.getCost() / order.getQuantity());
                         devolution.setPrefClientId(order.getPrefClientId()); // Register this devolution with the preferential Client id from the one that make the order.
                         devolution.setCampNumber(campNumber);
 
                         Balance balance = new Balance();
                         balance.setPrefClientId(prefClient.getId());
                         balance.setCampNumber(campNumber);
-                        balance.setTotalInDevolutions(order.getArticle().getUnitPrice());
+                        balance.setTotalInDevolutions(devCost);
                         
 
                         devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle)); //INSERT
