@@ -118,7 +118,12 @@ public class BaseClientOperator extends PreferentialClientOperator
         {
             ret = new BaseClient(id, resultSet.getString(2), resultSet.getString(3));
             
-            ret.setDni(resultSet.getLong(1));
+            Long dni = resultSet.getLong(1);
+            if(!resultSet.wasNull())
+                ret.setDni(dni);
+            else
+                ret.setDni(null);
+            
             ret.setLocation(resultSet.getString(4));
             Date date = resultSet.getDate(5);
             if(!resultSet.wasNull())
@@ -126,7 +131,12 @@ public class BaseClientOperator extends PreferentialClientOperator
                 ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
             ret.setEmail(resultSet.getString(6));
-            ret.setPhoneNumber(resultSet.getLong(7));
+
+            Long phone = resultSet.getLong(7);
+            if(!resultSet.wasNull())
+                ret.setPhoneNumber(phone);
+            else
+                ret.setPhoneNumber(null);
         }
 
         statement.close();
@@ -163,7 +173,12 @@ public class BaseClientOperator extends PreferentialClientOperator
         {
             ret = new BaseClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
             
-            ret.setDni(resultSet.getLong(3));
+            Long dni = resultSet.getLong(3);
+            if(!resultSet.wasNull())
+                ret.setDni(dni);
+            else
+                ret.setDni(null);
+
             ret.setLocation(resultSet.getString(6));
             Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
@@ -171,7 +186,12 @@ public class BaseClientOperator extends PreferentialClientOperator
                 ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
             ret.setEmail(resultSet.getString(8));
-            ret.setPhoneNumber(resultSet.getLong(9));
+
+            Long phone = resultSet.getLong(9);
+            if(!resultSet.wasNull())
+                ret.setPhoneNumber(phone);
+            else
+                ret.setPhoneNumber(null);
 
             ret.setOrders(new VitnikSearchableList<Order>(OrderOperator.getOperator().findAll(ret.getId(), null)));
             ret.setDevolutions(new VitnikSearchableList<Devolution>(DevolutionOperator.getOperator().findAll(ret.getId(), null)));
@@ -217,7 +237,12 @@ public class BaseClientOperator extends PreferentialClientOperator
         {
             ret = new BaseClient(resultSet.getInt(1), resultSet.getString(4), resultSet.getString(5));
             
-            ret.setDni(resultSet.getLong(3));
+            Long dni = resultSet.getLong(3);
+            if(!resultSet.wasNull())
+                ret.setDni(dni);
+            else
+                ret.setDni(null);
+
             ret.setLocation(resultSet.getString(6));
             Date date = resultSet.getDate(7);
             if(!resultSet.wasNull())
@@ -225,7 +250,12 @@ public class BaseClientOperator extends PreferentialClientOperator
                 ret.setBirthDate(Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
             }
             ret.setEmail(resultSet.getString(8));
-            ret.setPhoneNumber(resultSet.getLong(9));
+
+            Long phone = resultSet.getLong(9);
+            if(!resultSet.wasNull())
+                ret.setPhoneNumber(phone);
+            else
+                ret.setPhoneNumber(null);
 
             ret.setOrders(new VitnikSearchableList<Order>(OrderOperator.getOperator().findAll(ret.getId(), campNumber)));
             ret.setDevolutions(new VitnikSearchableList<Devolution>(DevolutionOperator.getOperator().findAll(ret.getId(), campNumber)));
