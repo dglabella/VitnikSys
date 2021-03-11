@@ -23,7 +23,7 @@ public class RepurchaseDialogContentViewCntlr extends DialogContentViewCntlr imp
     
         if (ExpressionChecker.getExpressionChecker().moneyValue(this.cost.getText(), 10, 2, false))
         {
-            this.costLabel.setText("ID / Descriptor");
+            this.costLabel.setText("Precio de recompra");
             this.costLabel.setTextFill(Color.web("#000000"));
             ret = true;
         }

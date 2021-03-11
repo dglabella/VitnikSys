@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
@@ -105,20 +106,26 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @FXML
     private void resendVitnikMenuItemSelected()
     {
-        try
-        {
             new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "Desea registrar estos artículos como devueltos a VITNIK?")
             .customShow().ifPresent(response -> 
             {
-                //Iterator<StockRowTable> it = this.returnedArticles.getSelectionModel().getSelectedItems().iterator();
+                if(response == ButtonType.OK)
+                {
+                    try
+                    {
+                        Iterator<StockRowTable> it = this.returnedArticles.getSelectionModel().getSelectedItems().iterator();
+                        List<Integer> unitCodes = new ArrayList<>();
+                        while(it.hasNext())
+                            unitCodes.add(it.next().getUnitCode());
 
-                //((StockAvailableService)this.getService(0)).registerVitnikResend(this.prefClient, this.camp.getNumber(), stockRowTable.getUnitCode());
+                        ((StockAvailableService)this.getService(0)).registerVitnikResend(unitCodes);
+                    }
+                    catch(Exception exception)
+                    {
+                        exception.printStackTrace();
+                    }
+                }
             });
-        }
-        catch(Exception exception)
-        {
-            exception.printStackTrace();
-        }
     }
 
     // ================================= private methods ===================================
@@ -167,6 +174,8 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
         
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
+
+        this.returnedArticles.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
     
     // ================================= service subscriber methods ===================================

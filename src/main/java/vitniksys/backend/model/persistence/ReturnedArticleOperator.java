@@ -2,6 +2,7 @@ package vitniksys.backend.model.persistence;
 
 import java.util.List;
 import java.sql.ResultSet;
+import java.util.Iterator;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.enums.Reason;
@@ -92,13 +93,15 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     {
         Integer returnCode = null;
         String sqlStmnt = 
-        "UPDATE `articulos_devueltos` SET `recomprado`= ? "+
-        "WHERE `ejemplar` = ? AND `active_row` = ?;";
+        "UPDATE `articulos_devueltos` "+
+        "SET `recomprado`= ?, `reenviado_vitnik`= ? "+
+        "WHERE `ejemplar`= ? AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setBoolean(1, returnedArticle.isRepurchased());
-        statement.setInt(2, returnedArticle.getUnitCode());
-        statement.setBoolean(3, this.activeRow);
+        statement.setBoolean(2, returnedArticle.isForwarded());
+        statement.setInt(3, returnedArticle.getUnitCode());
+        statement.setBoolean(4, this.activeRow);
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -115,13 +118,15 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         "FROM `articulos_devueltos` "+
         "INNER JOIN `pedidos` ON `cod_pedido` = `pedidos`.`cod` "+
         "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
-        "WHERE `articulos_devueltos`.`active_row` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
+        "WHERE `recomprado`= ? AND `reenviado_vitnik`= ? AND `articulos_devueltos`.`active_row`= ? AND `pedidos`.`active_row`= ? AND `articulos`.`active_row`= ?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
-        statement.setBoolean(1, this.activeRow);
-        statement.setBoolean(2, OrderOperator.getOperator().isActiveRow());
-        statement.setBoolean(3, ArticleOperator.getOperator().isActiveRow());
+        statement.setBoolean(1, false);
+        statement.setBoolean(2, false);
+        statement.setBoolean(3, this.activeRow);
+        statement.setBoolean(4, OrderOperator.getOperator().isActiveRow());
+        statement.setBoolean(5, ArticleOperator.getOperator().isActiveRow());
 
 		ResultSet resultSet = statement.executeQuery();
 
@@ -167,6 +172,38 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public Integer updateAll(List<ReturnedArticle> returnedArticles) throws Exception
+    {
+        Integer returnCode = 0;
+
+		String sqlStmnt = 
+		"UPDATE `articulos_devueltos` "+
+        "SET `recomprado`= ?, `reenviado_vitnik`= ? "+
+        "WHERE `ejemplar`= ? AND `active_row`= ?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        ReturnedArticle returnedArticle;
+		Iterator<ReturnedArticle> listIterator = returnedArticles.iterator();
+		
+        while(listIterator.hasNext())
+        {
+			returnedArticle = listIterator.next();
+			
+			statement.setBoolean(1, returnedArticle.isRepurchased());
+            statement.setBoolean(2, returnedArticle.isForwarded());
+            statement.setInt(3, returnedArticle.getUnitCode());
+			statement.setBoolean(4, this.activeRow);
+
+            returnCode += statement.executeUpdate();
+        }
+
+        statement.close();
+
+        return returnCode;
     }
 
     @Override

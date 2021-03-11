@@ -11,6 +11,7 @@ public class ReturnedArticle
     private int unitCode; //Table id = ejemplar
     private Reason reason;
     private boolean repurchased;
+    private boolean forwarded;
 
     //Domain Associations
     private Order order;
@@ -83,6 +84,17 @@ public class ReturnedArticle
     {
         this.repurchased = repurchased;
     }
+
+    public boolean isForwarded()
+    {
+		return this.forwarded;
+	}
+
+	public void setForwarded(boolean forwarded)
+    {
+		this.forwarded = forwarded;
+	}
+
 
     public boolean isActive()
     {

@@ -1,5 +1,7 @@
 package vitniksys.backend.model.services;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
@@ -120,5 +122,58 @@ public class StockAvailableService extends Service
         };
 
         Platform.runLater(task);
+    }
+
+    public void registerVitnikResend(List<Integer> unitCodes) throws Exception
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso...");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+
+                try
+                {
+                    Connector.getConnector().startTransaction();
+
+                    ReturnedArticle returnedArticle;
+                    List<ReturnedArticle> returnedArticles = new ArrayList<>();
+                    Iterator<Integer> it = unitCodes.iterator();
+                    while(it.hasNext())
+                    {
+                        returnedArticle = new ReturnedArticle();
+                        returnedArticle.setUnitCode(it.next());
+                        returnedArticle.setRepurchased(false);
+                        returnedArticle.setForwarded(true);
+                        returnedArticles.add(returnedArticle);
+                    }
+
+                    ReturnedArticleOperator.getOperator().updateAll(returnedArticles);
+                    
+                    Connector.getConnector().commit();
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("Reenvios registrados exitosamente!");
+                    getServiceSubscriber().refresh();
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack();
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al registrar el reenvio a VITNIK.", null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+
+        Platform.runLater(task);  
     }
 }

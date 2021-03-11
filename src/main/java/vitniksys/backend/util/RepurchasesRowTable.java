@@ -37,6 +37,7 @@ public class RepurchasesRowTable
         this.name = name;
         this.articleType = articleType;
         this.registrationTime = registrationTime;
+        this.countForCommission = new CheckBox();
         this.countForCommission.setSelected(countForCommission);
 
         this.repurchase = repurchase;
