@@ -2,6 +2,7 @@ package vitniksys.backend.model.services;
 
 import vitniksys.App;
 import java.util.List;
+import java.util.Iterator;
 import java.time.LocalDate;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
@@ -80,6 +81,30 @@ public class PreferentialClientService extends Service
         ObservationOperator.getOperator().insert(observation);
     }
 
+    protected float calculateTotalBalance(Integer prefClientId) throws Exception
+    {
+        float ret = 0f;
+        try
+        {
+            List<Balance> balances = BalanceOperator.getOperator().findAll(prefClientId, null);
+
+            if(balances != null)
+            {
+                Iterator<Balance> it = balances.iterator();
+
+                while(it.hasNext())
+                {
+                    ret += it.next().getBalance();
+                }
+            }
+        }
+        catch (Exception exception)
+        {
+            throw exception;
+        }
+        return ret;
+    }
+
     // ================================= public methods ====================================
     public void registerClient(String id, String dni, String name, String lastName, String location,
             LocalDate birthDate, String email, String phoneNumber, Boolean isLeader, String leaderId) throws Exception
@@ -95,31 +120,31 @@ public class PreferentialClientService extends Service
                     //returnCode is intended for future implementations
                     int returnCode = 0;
                     PreferentialClient prefClient;
-                    if(isLeader)
-                    {
-                        prefClient = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
-                    }
-                    else if(leaderId != null && !leaderId.isBlank())
-                    {
-                        prefClient = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
-                        ((SubordinatedClient)prefClient).setLeader(new Leader(Integer.parseInt(leaderId)));
-                    }
-                    else
-                    {
-                        prefClient = new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
-                    }
-
-                    prefClient.setDni(!dni.isBlank()?Long.parseLong(dni):null);
-                    prefClient.setLocation(location.toUpperCase());
-                    prefClient.setBirthDate(birthDate);
-                    prefClient.setEmail(email);
-                    prefClient.setPhoneNumber(!phoneNumber.isBlank()?Long.parseLong(phoneNumber):null);
-
                     try
                     {
-                        Connector.getConnector().startTransaction();
+                        Connector.getConnector().startTransaction(); //START TRANSACTION
 
-                        returnCode += prefClient.operator().insert(prefClient);
+                        if(isLeader)
+                        {
+                            prefClient = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        }
+                        else if(leaderId != null && !leaderId.isBlank())
+                        {
+                            prefClient = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                            ((SubordinatedClient)prefClient).setLeader(new Leader(Integer.parseInt(leaderId)));
+                        }
+                        else
+                        {
+                            prefClient = new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        }
+
+                        prefClient.setDni(!dni.isBlank()?Long.parseLong(dni):null);
+                        prefClient.setLocation(location != null ? location.toUpperCase() : null);
+                        prefClient.setBirthDate(birthDate);
+                        prefClient.setEmail(email);
+                        prefClient.setPhoneNumber(!phoneNumber.isBlank()?Long.parseLong(phoneNumber):null);
+
+                        returnCode += prefClient.operator().insert(prefClient); // INSERT
 
                         Balance balance = new Balance();
 
@@ -130,18 +155,87 @@ public class PreferentialClientService extends Service
                         balance.setPrefClientId(prefClient.getId());
                         balance.setCampNumber(balance.getCampaign().getNumber());
 
-                        returnCode += BalanceOperator.getOperator().insert(balance);
+                        returnCode += BalanceOperator.getOperator().insert(balance); // INSERT
 
-                        Connector.getConnector().commit();
+                        Connector.getConnector().commit(); // COMMIT
 
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getServiceSubscriber().showSucces("El Cliente se ha registrado exitosamente!");
+                        getServiceSubscriber().showSucces("El cliente se ha registrado exitosamente!");
                     }
                     catch (Exception exception)
                     {
                         Connector.getConnector().rollBack();
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
                         getServiceSubscriber().showError("Error al intentar registrar el cliente.", null, exception);
+                    }
+                    finally
+                    {
+                        Connector.getConnector().endTransaction();
+                        Connector.getConnector().closeConnection();
+                    }
+                    return returnCode;
+                }
+            };
+
+            Platform.runLater(task);
+        }
+        else
+        {
+            //Conflict with some fields.
+            this.getServiceSubscriber().showError("Los campos deben completarse correctamente.");
+        }
+    }
+
+    public void updateClient(String id, String dni, String name, String lastName, String location,
+            LocalDate birthDate, String email, String phoneNumber, Boolean isLeader, String leaderId) throws Exception
+    {
+        if(allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId))
+        {
+            CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Actualizando Datos...");
+            Task<Integer> task = new Task<>()
+            {
+                @Override
+                protected Integer call() throws Exception
+                {
+                    //returnCode is intended for future implementations
+                    int returnCode = 0;
+                    PreferentialClient prefClient;
+                    try
+                    {
+                        Connector.getConnector().startTransaction(); //START TRANSACTION
+
+                        if(isLeader)
+                        {
+                            prefClient = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        }
+                        else if(leaderId != null && !leaderId.isBlank())
+                        {
+                            prefClient = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                            ((SubordinatedClient)prefClient).setLeader(new Leader(Integer.parseInt(leaderId)));
+                        }
+                        else
+                        {
+                            prefClient = new BaseClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
+                        }
+
+                        prefClient.setDni(!dni.isBlank()?Long.parseLong(dni):null);
+                        prefClient.setLocation(location != null ? location.toUpperCase() : null);
+                        prefClient.setBirthDate(birthDate);
+                        prefClient.setEmail(email);
+                        prefClient.setPhoneNumber(!phoneNumber.isBlank()?Long.parseLong(phoneNumber):null);
+
+                        returnCode += prefClient.operator().update(prefClient); // UPDATE
+
+                        Connector.getConnector().commit(); // COMMIT
+
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showSucces("La actualización se ha registrado exitosamente!");
+                    }
+                    catch (Exception exception)
+                    {
+                        Connector.getConnector().rollBack();
+                        getServiceSubscriber().closeProcessIsWorking(customAlert);
+                        getServiceSubscriber().showError("Error al actualizar los datos del cliente.", null, exception);
                     }
                     finally
                     {
@@ -178,6 +272,7 @@ public class PreferentialClientService extends Service
                     if(leader != null)
                     {
                         ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(leader);
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showTotalBalance(calculateTotalBalance(id));
                     }
                     else
                     {
@@ -219,6 +314,7 @@ public class PreferentialClientService extends Service
                     if(subordinatedClient != null)
                     {
                         ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(subordinatedClient);
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showTotalBalance(calculateTotalBalance(id));
                     }
                     else
                     {
@@ -258,6 +354,7 @@ public class PreferentialClientService extends Service
                     if(baseClient != null)
                     {
                         ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showQueriedPrefClient(baseClient);
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showTotalBalance(calculateTotalBalance(id));
                     }
                     else
                     {

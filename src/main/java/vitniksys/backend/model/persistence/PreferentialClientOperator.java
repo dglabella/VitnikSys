@@ -1,8 +1,9 @@
 package vitniksys.backend.model.persistence;
 
-import java.sql.Date;
-import java.util.List;
 import java.util.Set;
+import java.sql.Date;
+import java.sql.Types;
+import java.util.List;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.time.Instant;
@@ -38,10 +39,72 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
     }
 
     @Override
-    public Integer update(PreferentialClient prefClient)
+    public Integer update(PreferentialClient prefClient) throws Exception
     {
-        // TODO Auto-generated method stub
-        return 0;
+        Integer returnCode = null;
+
+        String sqlStmnt =
+        "UPDATE `clientes_preferenciales` "+
+        "SET `dni`=?, `nombre`=?, `apellido`=?, `lugar`=?, `fecha_nac`=?, `email`=?, `tel`=? "+
+        "WHERE `id_cp`=? AND `active_row`=?;";
+
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+
+        if(prefClient.getDni() != null)
+        {
+            statement.setLong(1, prefClient.getDni());
+        }
+        else
+        {
+            statement.setNull(1, Types.BIGINT);
+        }
+        
+        statement.setString(2, prefClient.getName());
+        statement.setString(3, prefClient.getLastName());
+
+        if(prefClient.getLocation() != null && !prefClient.getLocation().isBlank())
+        {
+            statement.setString(4, prefClient.getLocation());
+        }
+        else
+        {
+            statement.setNull(4, Types.VARCHAR);
+        }
+
+        if(prefClient.getBirthDate() != null)
+        {
+            statement.setDate(5, Date.valueOf(prefClient.getBirthDate()));
+        }
+        else
+        {
+            statement.setNull(5, Types.DATE);
+        }
+
+        if(prefClient.getEmail() != null && !prefClient.getEmail().isBlank())
+        {
+            statement.setString(6, prefClient.getEmail());
+        }
+        else
+        {
+            statement.setNull(6, Types.VARCHAR);
+        }
+
+        if(prefClient.getPhoneNumber() != null)
+        {
+            statement.setLong(7, prefClient.getPhoneNumber());
+        }
+        else
+        {
+            statement.setNull(7, Types.BIGINT);
+        }
+
+        statement.setInt(8, prefClient.getId());
+        statement.setBoolean(9, this.activeRow);
+
+        returnCode = statement.executeUpdate();
+        statement.close();
+        
+        return returnCode;
     }
 
     /**

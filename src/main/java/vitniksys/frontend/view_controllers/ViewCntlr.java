@@ -44,7 +44,7 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
 
     // ==================================== FXML methods ====================================
     @FXML
-    private void backButtonPressed()
+    protected void backButtonPressed()
     {
         this.stage.close();
     }

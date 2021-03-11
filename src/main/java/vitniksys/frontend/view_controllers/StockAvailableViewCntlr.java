@@ -102,6 +102,25 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
         }
     }
 
+    @FXML
+    private void resendVitnikMenuItemSelected()
+    {
+        try
+        {
+            new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "Desea registrar estos artículos como devueltos a VITNIK?")
+            .customShow().ifPresent(response -> 
+            {
+                //Iterator<StockRowTable> it = this.returnedArticles.getSelectionModel().getSelectedItems().iterator();
+
+                //((StockAvailableService)this.getService(0)).registerVitnikResend(this.prefClient, this.camp.getNumber(), stockRowTable.getUnitCode());
+            });
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+
     // ================================= private methods ===================================
 
     // ================================= protected methods ===================================

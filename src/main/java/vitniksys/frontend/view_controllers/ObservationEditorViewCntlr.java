@@ -101,7 +101,13 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     }
 
     @Override
-    public void showObservation(Observation observation)
+    public void showTotalBalance(float total) throws Exception
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void showObservation(Observation observation) throws Exception
     {
         this.camp.setText(""+observation.getCampaign().toString());
         this.prefClient.setText(""+observation.getPrefClient().getName()+" "+observation.getPrefClient().getLastName()+" - "+observation.getPrefClient().getId());

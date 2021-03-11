@@ -144,6 +144,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         ClientRegisterViewCntlr viewCntlr = (ClientRegisterViewCntlr) this.createStage("Cliente preferencial "+this.prefClient.getId(), "clientRegister", new PreferentialClientService());
         viewCntlr.getStage().show();
+
         viewCntlr.setPrefClientId(this.prefClient.getId());
         viewCntlr.setDni(this.prefClient.getDni());
         viewCntlr.setName(this.prefClient.getName());
@@ -156,8 +157,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         viewCntlr.setRegisterButtonText("Actualizar");
         if(this.prefClient instanceof SubordinatedClient)
             viewCntlr.setLeaderId(((SubordinatedClient)this.prefClient).getLeaderId());
+
         //Not supported yet for hierarchy changes. Disable for all
-        viewCntlr.disableLeaderInfo(true);
+        viewCntlr.disableNotUpdateAllowedFields(true);
+        viewCntlr.setUpdateMode(true); // Reusing view for update
     }
 
     @FXML
@@ -235,13 +238,51 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void withdrawMenuItemSelected()
     {
-
+        new CustomAlert(AlertType.CONFIRMATION, "CONFIRMACIÓN", "Desea registrar los retiros seleccionados?")
+        .customShow().ifPresent(response ->
+        {
+            if(response == ButtonType.OK)
+            {
+                try
+                {
+                    List<Order> orders = new ArrayList<>();
+                    Iterator<OrdersRowTable> it = this.orders.getSelectionModel().getSelectedItems().iterator();
+                    while(it.hasNext())
+                        orders.add(it.next().getOrder());
+                
+                    ((PreferentialClientService)this.getService(0)).registerWithdrawals(orders);
+                }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+            }
+        });
     }
 
     @FXML
     private void withdrawAllMenuItemSelected()
     {
+        new CustomAlert(AlertType.CONFIRMATION, "CONFIRMACIÓN", "Desea registrar los retiros seleccionados?")
+        .customShow().ifPresent(response ->
+        {
+            if(response == ButtonType.OK)
+            {
+                try
+                {
+                    List<Order> orders = new ArrayList<>();
+                    Iterator<OrdersRowTable> it = this.orders.getItems().iterator();
+                    while(it.hasNext())
+                        orders.add(it.next().getOrder());
 
+                    ((PreferentialClientService)this.getService(0)).registerWithdrawals(orders);
+                }
+                catch (Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+            }
+        });
     }
 
     @FXML
@@ -408,8 +449,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.totalInCampaignOrders.setText(balance != null ? ""+balance.getTotalInOrders() : ""+0);
         this.paymentsPane.setText(balance != null ? "Pagos: "+ balance.getTotalInPayments() : ""+0);
         this.repurchasesPane.setText(balance != null ? "Recompras: "+ balance.getTotalInRepurchases() : ""+0);
-
-        this.balance.setText(""+ this.prefClient.calculateBalance());
     }
 
     private void insertDataIntoTables()
@@ -632,7 +671,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.camp.setText(this.actualCampaign.toString());
         this.campAutoCompletionTool.getSuggestionsList().setVisible(false);
     }
-
+    
     @Override
     public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
     {
@@ -677,7 +716,13 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
 
     @Override
-    public void showObservation(Observation observation)
+    public void showTotalBalance(float total) throws Exception
+    {
+        this.balance.setText(""+total);
+    }
+
+    @Override
+    public void showObservation(Observation observation) throws Exception
     {
         // TODO Auto-generated method stub
     }

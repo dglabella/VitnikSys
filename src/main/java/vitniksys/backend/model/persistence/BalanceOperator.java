@@ -57,8 +57,8 @@ public class BalanceOperator implements IBalanceOperator
     {
         Integer returnCode = null;
         String sqlStmnt =
-        "INSERT INTO `saldos`(`id_cp`, `nro_camp`) "
-        +"VALUES (?, ?);";
+        "INSERT INTO `saldos`(`id_cp`, `nro_camp`) "+
+        "VALUES (?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setInt(1, balance.getPrefClientId());

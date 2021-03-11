@@ -228,17 +228,6 @@ public abstract class PreferentialClient
         return "Id: "+this.id+" -- Name: "+this.name+" -- LastName: "+this.lastName;
     }
 
-    public Float calculateBalance()
-    {
-        Float ret = 0f;
-        Iterator<Balance> it = this.getBalances().iterator();
-        
-        while(it.hasNext())
-            ret += it.next().getBalance();
-
-        return ret;
-    }
-
     /**
      * This method supplies an easy way to get the Data Acces Object (DAO).
      * Using polymorphism, this method delegates creating a CRUD Operator.

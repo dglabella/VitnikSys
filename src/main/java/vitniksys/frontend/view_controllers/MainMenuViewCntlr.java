@@ -258,7 +258,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @Override
     public void refresh()
     {
-        
+        this.manualInitialize();
     }
     
     @Override
@@ -274,7 +274,13 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     }
 
     @Override
-    public void showObservation(Observation observation)
+    public void showTotalBalance(float total) throws Exception
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void showObservation(Observation observation) throws Exception
     {
         // TODO Auto-generated method stub
     }

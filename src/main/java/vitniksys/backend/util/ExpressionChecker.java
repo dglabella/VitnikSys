@@ -137,17 +137,24 @@ public class ExpressionChecker
 
     public boolean isEmail(String string, boolean allowEmpty) 
     {
-        boolean ret;
+        boolean ret = false;
 
         if(allowEmpty)
             pattern = Pattern.compile("(^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$|^$)?");
         else
             pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$|^$");
 
-        if (pattern.matcher(string).matches())
-            ret = true;
+        if(string != null)
+        {
+            if (pattern.matcher(string).matches())
+                ret = true;
+            else
+                ret = false;
+        }
         else
-            ret = false;
+        {
+            ret = allowEmpty ? true:false;
+        }
 
         return ret;
     }

@@ -44,7 +44,7 @@
                   <Font name="Britannic Bold" size="28.0" />
                </font>
             </Label>
-            <Label fx:id="nameLastnameId" layoutX="15.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="470.0" text="nombre apellido cp id" textFill="WHITE">
+            <Label fx:id="nameLastnameId" layoutX="15.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="415.0" text="nombre apellido cp id" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="20.0" />
                </font>
@@ -86,6 +86,7 @@
                   <ContextMenu>
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#repurchaseMenuItemSelected" text="Recomprar" />
+                        <MenuItem mnemonicParsing="false" onAction="#resendVitnikMenuItemSelected" text="Reenvio Vitnik" />
                      </items>
                   </ContextMenu>
                </contextMenu>

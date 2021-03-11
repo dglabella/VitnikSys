@@ -51,6 +51,7 @@ vitniksys\App.class
 vitniksys\backend\model\services\PreferentialClientService$7.class
 vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\backend\model\enums\ArticleType.class
+vitniksys\backend\model\services\PreferentialClientService$12.class
 vitniksys\backend\model\services\StockAvailableService.class
 vitniksys\frontend\view_controllers\MainMenuViewCntlr.class
 vitniksys\backend\util\ExpressionChecker.class

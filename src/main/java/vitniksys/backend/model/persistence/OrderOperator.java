@@ -215,7 +215,7 @@ public class OrderOperator implements IOrderOperator
 		String sqlStmnt = 
 		"UPDATE `pedidos` "+
 		"SET `fecha_retiro`= CURRENT_TIMESTAMP "+
-		"WHERE `cod` = ? AND `active_row` = ?;";
+		"WHERE `cod` = ? AND `fecha_retiro` IS NULL AND `active_row` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         Order order;

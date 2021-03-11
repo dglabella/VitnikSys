@@ -17,6 +17,8 @@ import vitniksys.backend.model.services.PreferentialClientService;
 public class ClientRegisterViewCntlr extends ViewCntlr
 {
     // ================================= FXML variables =================================
+    private boolean updateMode;
+
     @FXML private TextField id;
     @FXML private TextField dni;
     @FXML private TextField name;
@@ -39,6 +41,17 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML private CheckBox isLeader;
 
     @FXML private JFXButton register;
+
+    // Getters && Setters
+    public boolean isUpdateMode()
+    {
+        return this.updateMode;
+    }
+
+    public void setUpdateMode(boolean value)
+    {
+        this.updateMode = value;
+    }
 
     // ================================= FXML methods =================================
     @FXML
@@ -142,13 +155,18 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @FXML
     private void registerButtonPressed() throws Exception
     {
-        System.out.println(" id ="+this.id.getText()+" dni ="+this.dni.getText()+" name ="+this.name.getText()+
-        " lastname ="+this.lastName.getText()+" loc ="+this.location.getText()+" birth ="+this.birthdate.getValue()+" email ="+this.email.getText()+
-        " phone ="+this.phoneNumber.getText()+" isLeader ="+ this.isLeader.isSelected()+"  leader ="+this.leaderId.getText());
-
-        ((PreferentialClientService)this.getService(0)).registerClient(this.id.getText(), this.dni.getText(), this.name.getText(),
-            this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),
-            this.phoneNumber.getText(), this.isLeader.isSelected(), this.leaderId.getText());
+        if(this.updateMode)
+        {
+            ((PreferentialClientService)this.getService(0)).updateClient(this.id.getText(), this.dni.getText(), this.name.getText(),
+                this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),
+                this.phoneNumber.getText(), this.isLeader.isSelected(), this.leaderId.getText());
+        }
+        else
+        {
+            ((PreferentialClientService)this.getService(0)).registerClient(this.id.getText(), this.dni.getText(), this.name.getText(),
+                this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),
+                this.phoneNumber.getText(), this.isLeader.isSelected(), this.leaderId.getText());
+        }
     }
 
     @FXML
@@ -174,8 +192,9 @@ public class ClientRegisterViewCntlr extends ViewCntlr
         this.register.setText(text);
     }
 
-    protected void disableLeaderInfo(boolean value)
+    protected void disableNotUpdateAllowedFields(boolean value)
     {
+        this.id.setDisable(value);
         this.leaderId.setDisable(value);
         this.isLeader.setDisable(value);
     }
@@ -233,29 +252,31 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     @Override
     protected void manualInitialize()
     {
-
+        
     }
 
     // ================================= public methods ==================================
     @Override
     public void customInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        // TODO Auto-generated method stub
+
     }
 
     // ================================= service subscriber methods ==================================
     @Override
     public void refresh() 
     {
-           
+
     }
 
     //Override this method in order to execute manualInitialize in the prev controller
     @Override
     public void showSucces(String message)
     {
-        new CustomAlert(AlertType.INFORMATION, "Exito", "El Cliente se ha registrado exitosamente!").customShow();
+        new CustomAlert(AlertType.INFORMATION, "ÉXITO", message).customShow();
         //Reinit the main menu pref clients table
-        this.getPrevViewCntlr().manualInitialize();
+        this.getPrevViewCntlr().refresh();
+        this.getPrevViewCntlr().getPrevViewCntlr().refresh();
+        this.backButtonPressed();
     }
 }
