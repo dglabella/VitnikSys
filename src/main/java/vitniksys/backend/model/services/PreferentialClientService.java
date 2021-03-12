@@ -511,7 +511,7 @@ public class PreferentialClientService extends Service
                         returnedArticle.setRepurchased(false);
 
                         float cf = comFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
-                        float devCost = ((order.getCost() / order.getQuantity()) * (order.getQuantity() - order.getReturnedQuantity())) * cf;
+                        float devCost = order.getCost() - (order.getCost() / order.getQuantity())*cf;
 
                         Devolution devolution = new Devolution(order.getCost() / order.getQuantity());
                         devolution.setPrefClientId(order.getPrefClientId()); // Register this devolution with the preferential Client id from the one that make the order.

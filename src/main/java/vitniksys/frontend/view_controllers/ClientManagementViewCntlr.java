@@ -347,7 +347,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                     try
                     {
                         ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), 
-                                                                                            ((DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getReason());
+                                                                                            ((DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getReason(), this.actualCommission != null ? this.actualCommission.getActualRate():0);
                     }
                     catch (Exception exception)
                     {
