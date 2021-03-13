@@ -50,7 +50,6 @@ vitniksys\frontend\view_controllers\ClientManagementViewCntlr.class
 vitniksys\App.class
 vitniksys\backend\model\services\PreferentialClientService$7.class
 vitniksys\backend\util\DetailFileInterpreter.class
-vitniksys\backend\model\enums\ArticleType.class
 vitniksys\backend\model\services\PreferentialClientService$12.class
 vitniksys\backend\model\services\StockAvailableService.class
 vitniksys\frontend\view_controllers\MainMenuViewCntlr.class
@@ -69,6 +68,7 @@ vitniksys\backend\model\interfaces\ICommissionOperator.class
 vitniksys\frontend\view_controllers\ClientRegisterViewCntlr.class
 vitniksys\frontend\view_controllers\CommissionRegisterViewCntlr.class
 vitniksys\frontend\view_controllers\SearchCampsViewCntlr$1.class
+vitniksys\backend\model\enums\OrderType.class
 vitniksys\backend\model\interfaces\ICampaignOperator.class
 vitniksys\backend\model\persistence\PaymentOperator.class
 vitniksys\backend\model\interfaces\IRepurchaseOperator.class

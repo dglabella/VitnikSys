@@ -1,6 +1,7 @@
 package vitniksys.backend.model.entities;
 
 import java.sql.Timestamp;
+import vitniksys.backend.model.enums.OrderType;
 
 public class Order extends VitnikSearchableEntity
 {
@@ -16,6 +17,9 @@ public class Order extends VitnikSearchableEntity
     private Timestamp registrationTime;
     private boolean commissionable;
     private boolean countForCommission;
+    private OrderType type;
+    private Float unitPrice;
+
 
     //Domain Associations
     private PreferentialClient client;
@@ -147,6 +151,26 @@ public class Order extends VitnikSearchableEntity
     public void setCountForCommission(boolean countForCommission)
     {
         this.countForCommission = countForCommission;
+    }
+
+    public OrderType getType()
+    {
+        return this.type;
+    }
+
+    public void setType(OrderType type)
+    {
+        this.type = type;
+    }
+
+    public Float getUnitPrice()
+    {
+        return this.unitPrice;
+    }
+
+    public void setUnitPrice(Float unitPrice)
+    {
+        this.unitPrice = unitPrice;
     }
 
     public boolean isActive()

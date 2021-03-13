@@ -40,18 +40,14 @@ public class ArticleOperator implements IArticleOperator
     {
         Integer returnCode = null;
         String sqlStmnt =
-        "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) "+
-        "VALUES (?, ?, ?, ?) "+
-        "ON DUPLICATE KEY UPDATE `nombre` = ?,`tipo` = ?,`precio_unitario` = ?;";
+        "INSERT INTO `articulos`(`letra`, `nombre`) "+
+        "VALUES (?, ?) "+
+        "ON DUPLICATE KEY UPDATE `nombre` = ?;";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         statement.setString(1, article.getId());
         statement.setString(2, article.getName());
-        statement.setInt(3, article.getType().ordinal());
-        statement.setFloat(4, article.getUnitPrice());
-        statement.setString(5, article.getName());
-        statement.setInt(6, article.getType().ordinal());
-        statement.setFloat(7, article.getUnitPrice());
+        statement.setString(3, article.getName());
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -64,8 +60,9 @@ public class ArticleOperator implements IArticleOperator
     {
         Integer returnCode = 0;
         String sqlStmnt =
-        "INSERT INTO `articulos`(`letra`, `nombre`, `tipo`, `precio_unitario`) VALUES "+
-        "(?, ?, ?, ?) ON DUPLICATE KEY UPDATE `nombre` = ?,`tipo` = ?,`precio_unitario` = ?;";
+        "INSERT INTO `articulos`(`letra`, `nombre`) "+
+        "VALUES (?, ?) "+
+        "ON DUPLICATE KEY UPDATE `nombre` = ?";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         Article article;
@@ -77,11 +74,7 @@ public class ArticleOperator implements IArticleOperator
 
             statement.setString(1, article.getId());
             statement.setString(2, article.getName());
-            statement.setInt(3, article.getType().ordinal());
-            statement.setFloat(4, article.getUnitPrice());
-            statement.setString(5, article.getName());
-            statement.setInt(6, article.getType().ordinal());
-            statement.setFloat(7, article.getUnitPrice());
+            statement.setString(3, article.getName());
 
             returnCode += statement.executeUpdate();
         }

@@ -87,7 +87,7 @@ public class CommissionService extends Service
             order = it.next();
             if(order.isCommissionable())
             {
-                switch(order.getArticle().getType())
+                switch(order.getType())
                 {
                     case PEDIDO:
                     case OPORTUNIDAD:

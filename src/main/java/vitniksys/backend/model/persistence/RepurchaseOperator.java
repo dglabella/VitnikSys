@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.entities.Article;
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IRepurchaseOperator;
@@ -198,7 +198,9 @@ public class RepurchaseOperator implements IRepurchaseOperator
             order.setReturnedQuantity(resultSet.getInt(15));
             order.setWithdrawalDate(resultSet.getTimestamp(17));
             order.setRegistrationTime(resultSet.getTimestamp(18));
-            article = new Article(resultSet.getString(12), resultSet.getString(20), ArticleType.toEnum(resultSet.getInt(21)), resultSet.getFloat(22));
+            order.setType(OrderType.toEnum(resultSet.getInt(21)));
+            order.setUnitPrice(resultSet.getFloat(22));
+            article = new Article(resultSet.getString(12), resultSet.getString(20));
 
             //fk ids
             repurchase.setPrefClientId(prefClientId);

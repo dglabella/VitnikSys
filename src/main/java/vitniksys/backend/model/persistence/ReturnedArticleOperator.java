@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.entities.Article;
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
 
@@ -141,8 +141,10 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
             order.setCost(resultSet.getFloat(10));
             order.setWithdrawalDate(resultSet.getTimestamp(11));
             order.setRegistrationTime(resultSet.getTimestamp(12));
+            order.setType(OrderType.toEnum(resultSet.getInt(17)));
+            order.setUnitPrice(resultSet.getFloat(18));
 
-            Article article = new Article(resultSet.getString(15), resultSet.getString(16), ArticleType.toEnum(resultSet.getInt(17)), resultSet.getFloat(18));
+            Article article = new Article(resultSet.getString(15), resultSet.getString(16));
 
             //fk ids
             order.setPrefClientId(resultSet.getInt(5));

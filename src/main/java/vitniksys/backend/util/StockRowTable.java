@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 import vitniksys.backend.model.enums.Reason;
-import vitniksys.backend.model.enums.ArticleType;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.entities.ReturnedArticle;
 
 public class StockRowTable
@@ -14,17 +14,17 @@ public class StockRowTable
     private Float price;
     private String articleId;
     private String articleName;
-    private ArticleType articleType;
+    private OrderType orderType;
     private Reason reason;
 
-    public StockRowTable(Integer unitCode, Integer deliveryNumber, Float price, String articleId, String articleName, ArticleType articleType, Reason reason)
+    public StockRowTable(Integer unitCode, Integer deliveryNumber, Float price, String articleId, String articleName, OrderType orderType, Reason reason)
     {
         this.unitCode = unitCode;
         this.deliveryNumber = deliveryNumber;
         this.price = price;
         this.articleId = articleId;
         this.articleName = articleName;
-        this.articleType = articleType;
+        this.orderType = orderType;
         this.reason = reason;
     }
 
@@ -40,8 +40,8 @@ public class StockRowTable
             {
                 returnedArticle = it.next();
 
-                ret.add(new StockRowTable(returnedArticle.getUnitCode(), returnedArticle.getOrder().getDeliveryNumber(), returnedArticle.getOrder().getArticle().getUnitPrice(), returnedArticle.getOrder().getArticle().getId(), 
-                                            returnedArticle.getOrder().getArticle().getName(), returnedArticle.getOrder().getArticle().getType(), returnedArticle.getReason()));
+                ret.add(new StockRowTable(returnedArticle.getUnitCode(), returnedArticle.getOrder().getDeliveryNumber(), returnedArticle.getOrder().getUnitPrice(), returnedArticle.getOrder().getArticle().getId(), 
+                    returnedArticle.getOrder().getArticle().getName(), returnedArticle.getOrder().getType(), returnedArticle.getReason()));
             }
         }
 
@@ -99,14 +99,14 @@ public class StockRowTable
         this.articleName = articleName;
     }
 
-    public ArticleType getArticleType()
+    public OrderType getArticleType()
     {
-        return this.articleType;
+        return this.orderType;
     }
 
-    public void setArticleType(ArticleType articleType)
+    public void setArticleType(OrderType orderType)
     {
-        this.articleType = articleType;
+        this.orderType = orderType;
     }
 
     public Reason getReason()

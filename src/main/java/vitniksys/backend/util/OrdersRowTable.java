@@ -9,7 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import vitniksys.backend.model.entities.Order;
-import vitniksys.backend.model.enums.ArticleType;
+import vitniksys.backend.model.enums.OrderType;
 
 public class OrdersRowTable
 {
@@ -21,7 +21,7 @@ public class OrdersRowTable
     private float commissionCost;
     private float commission;
     private String name;
-    private ArticleType articleType;
+    private OrderType orderType;
     private String articleId; // Table id = letra
     private Float unitPrice;
     private Timestamp withdrawalDate;
@@ -30,7 +30,7 @@ public class OrdersRowTable
 
     private Order order;
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, ArticleType articleType, 
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, OrderType orderType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, boolean countForCommission, Order order)
     {
         this.code = code;
@@ -39,7 +39,7 @@ public class OrdersRowTable
         this.returnedQuantity = returnedQuantity;
         this.cost = cost;
         this.name = name;
-        this.articleType = articleType;
+        this.orderType = orderType;
         this.articleId = articleId;
         this.unitPrice = unitPrice;
         this.withdrawalDate = withdrawalDate;
@@ -66,7 +66,7 @@ public class OrdersRowTable
         );
     }
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, ArticleType articleType, 
+    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, OrderType orderType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, boolean countForCommission, ChangeListener<? super Boolean> changeListener, Order order)
     {
         this.code = code;
@@ -75,7 +75,7 @@ public class OrdersRowTable
         this.returnedQuantity = returnedQuantity;
         this.cost = cost;
         this.name = name;
-        this.articleType = articleType;
+        this.orderType = orderType;
         this.articleId = articleId;
         this.unitPrice = unitPrice;
         this.withdrawalDate = withdrawalDate;
@@ -101,11 +101,11 @@ public class OrdersRowTable
             {
                 order = ordersIterator.next();
                 ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
-                    order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order.isCountForCommission(), order);
+                    order.getType(), order.getArticle().getId(), order.getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order.isCountForCommission(), order);
                 
                 if(order.isCommissionable())
                 {
-                    switch(order.getArticle().getType())
+                    switch(order.getType())
                     {
                         case PEDIDO:
                         case OPORTUNIDAD:
@@ -149,8 +149,7 @@ public class OrdersRowTable
         {
             order = ordersIterator.next();
             ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
-                order.getArticle().getType(), order.getArticle().getId(), order.getArticle().getUnitPrice(), order.getWithdrawalDate(), 
-                order.isCommissionable(), order.isCountForCommission(), changeListener, order);
+                order.getType(), order.getArticle().getId(), order.getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order.isCountForCommission(), changeListener, order);
 
             if(order.isCommissionable())
             {
@@ -248,14 +247,14 @@ public class OrdersRowTable
         this.name = name;
     }
 
-    public ArticleType getArticleType()
+    public OrderType getArticleType()
     {
-        return this.articleType;
+        return this.orderType;
     }
 
-    public void setArticleType(ArticleType articleType)
+    public void setArticleType(OrderType orderType)
     {
-        this.articleType = articleType;
+        this.orderType = orderType;
     }
 
     public String getArticleId()
