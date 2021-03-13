@@ -13,7 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.util.StockRowTable;
+import vitniksys.backend.util.StockTableRow;
 import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.ReturnedArticle;
@@ -34,15 +34,15 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @FXML private Label nameLastnameId;
     @FXML private Label assignmentCampaign;
 
-    @FXML private TableView<StockRowTable> returnedArticles;
+    @FXML private TableView<StockTableRow> returnedArticles;
     
-    @FXML private TableColumn<StockRowTable, String> unitCode;
-    @FXML private TableColumn<StockRowTable, String> deliveryNumber;
-    @FXML private TableColumn<StockRowTable, String> price;
-    @FXML private TableColumn<StockRowTable, String> articleId;
-    @FXML private TableColumn<StockRowTable, String> articleName;
-    @FXML private TableColumn<StockRowTable, String> articleType;
-    @FXML private TableColumn<StockRowTable, String> reason;
+    @FXML private TableColumn<StockTableRow, String> unitCode;
+    @FXML private TableColumn<StockTableRow, String> deliveryNumber;
+    @FXML private TableColumn<StockTableRow, String> price;
+    @FXML private TableColumn<StockTableRow, String> articleId;
+    @FXML private TableColumn<StockTableRow, String> articleName;
+    @FXML private TableColumn<StockTableRow, String> articleType;
+    @FXML private TableColumn<StockTableRow, String> reason;
 
     // Getters && Setters
     public PreferentialClient getPrefClient()
@@ -71,7 +71,7 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     {
         try
         {
-            StockRowTable stockRowTable = this.returnedArticles.getSelectionModel().getSelectedItem();
+            StockTableRow stockRowTable = this.returnedArticles.getSelectionModel().getSelectedItem();
             if(stockRowTable != null)
             {
                 CustomAlert customAlert = new CustomAlert(CustomAlertType.REPURCHASE , "RECOMPRA", "Ingrese el monto de reventa");
@@ -113,7 +113,7 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
                 {
                     try
                     {
-                        Iterator<StockRowTable> it = this.returnedArticles.getSelectionModel().getSelectedItems().iterator();
+                        Iterator<StockTableRow> it = this.returnedArticles.getSelectionModel().getSelectedItems().iterator();
                         List<Integer> unitCodes = new ArrayList<>();
                         while(it.hasNext())
                             unitCodes.add(it.next().getUnitCode());
@@ -188,12 +188,16 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @Override
     public void showStockAvailable(List<ReturnedArticle> returnedArticles) throws Exception
     {
-        this.loadData(this.RETURNED_ARTICLES_TABLE_NUMBER, StockRowTable.generateRows(returnedArticles));
+        this.loadData(this.RETURNED_ARTICLES_TABLE_NUMBER, StockTableRow.generateRows(returnedArticles));
 
         float total = 0f;
         Iterator<ReturnedArticle> it = returnedArticles.iterator();
+        ReturnedArticle returnedArticle = null;
         while(it.hasNext())
-            total += it.next().getOrder().getCost();
+        {
+            returnedArticle = it.next();
+            total += (returnedArticle.getOrder().getCost() / returnedArticle.getOrder().getQuantity());
+        }
         
         this.total.setText(""+total);
     }

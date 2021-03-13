@@ -114,6 +114,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#withdrawMenuItemSelected" text="Retirar" />
                             <MenuItem mnemonicParsing="false" onAction="#withdrawAllMenuItemSelected" text="Retirar todo" />
                               <MenuItem mnemonicParsing="false" onAction="#devolutionMenuItemSelected" text="Devolver" />
+                              <MenuItem mnemonicParsing="false" onAction="#sumSelectedMenuItemSelected" text="Sumar selección" />
                           </items>
                         </ContextMenu>
                      </contextMenu>

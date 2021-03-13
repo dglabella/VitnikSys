@@ -487,7 +487,7 @@ public class PreferentialClientService extends Service
         }
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, Reason reason, Integer comFactor) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, Reason reason) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -510,12 +510,41 @@ public class PreferentialClientService extends Service
                         returnedArticle.setOrderId(orderId);
                         returnedArticle.setRepurchased(false);
 
-                        float cf = comFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
-                        float devCost = order.getCost() - (order.getCost() / order.getQuantity())*cf;
 
-                        Devolution devolution = new Devolution(order.getCost() / order.getQuantity());
+                        Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission. (maybe is not a leader)
+                        int comFactor = commission != null ? commission.getActualRate() : 0;
+                        int fpComFactor = commission != null ? commission.getFpFactor() : 0;
+                        int otherComFactor = commission != null ? commission.getOtherFactor() : 0;
+
+                        float comF = comFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
+                        float fpComF = fpComFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
+                        float otherComF = otherComFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
+
+                        float devCost = order.getCost();
+                        
+                        if(order.isCommissionable())
+                        {
+                            switch(order.getType())
+                            {
+                                case PEDIDO:
+                                case OPORTUNIDAD:
+                                    devCost -= (order.getCost() / order.getQuantity())*comF;
+                                break;
+
+                                case FREEPREMIUM:
+                                case PROMO:
+                                    devCost -= (order.getCost() / order.getQuantity())*fpComF;   
+                                break;
+
+                                default:
+                                    devCost -= (order.getCost() / order.getQuantity())*otherComF;
+                            }
+                        }
+                        
+                        Devolution devolution = new Devolution(order.getCost() / order.getQuantity()); //in DB, is saved the unit cost.
                         devolution.setPrefClientId(order.getPrefClientId()); // Register this devolution with the preferential Client id from the one that make the order.
                         devolution.setCampNumber(campNumber);
+
 
                         Balance balance = new Balance();
                         balance.setPrefClientId(prefClient.getId());
@@ -523,7 +552,7 @@ public class PreferentialClientService extends Service
                         balance.setTotalInDevolutions(devCost);
                         
 
-                        devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle)); //INSERT
+                        devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle)); // INSERT
                         DevolutionOperator.getOperator().insert(devolution); //INSERT
                         OrderOperator.getOperator().incrementForDevolution(orderId); //UPDATE
                         BalanceOperator.getOperator().update(balance); //UPDATE
@@ -536,14 +565,17 @@ public class PreferentialClientService extends Service
                             BalanceOperator.getOperator().update(balance); //UPDATE
                         }
 
-                        Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); //search for leader commission. (maybe is not a leader)
+                        
                         List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
+
+                        SE PONE EN CERO EL FACTOR DE COMISION ACTUAL PORQUE ACA SOLO BUSCA LOS PEDIDOS DEL LIDER SIN CONTAR LOS DE LOS SUBDITOS
+
                         List<Repurchase> repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
 
                         if(commission != null)
                         {
-                            //The subscriber is supposed to be the ClientManagementViewCntlr, that is way is in the 2nd position
-                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders, repurchases); //UPDATE
+                            //The subscriber is supposed to be the ClientManagementViewCntlr, that is why that service is in the 2nd position
+                            ((CommissionService)getServiceSubscriber().getService(2)).updateCommission(commission, orders, repurchases); // UPDATE
                         }
                         //otherwise, register the devolution but just ignore update commission becuase, once the commission is created, it will self update.
 
@@ -558,7 +590,6 @@ public class PreferentialClientService extends Service
                         getServiceSubscriber().closeProcessIsWorking(customAlert);
                         getServiceSubscriber().showError("No quedan artículos por devolver.");
                     }
-                    
                 }
                 catch (Exception exception)
                 {
@@ -688,7 +719,7 @@ public class PreferentialClientService extends Service
                 }
                 catch (Exception exception)
                 {
-                    Connector.getConnector().rollBack(); //ROLLBACK
+                    Connector.getConnector().rollBack(); // ROLLBACK
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
                     getServiceSubscriber().showError("Error al realizar los retiros.", null, exception);
                 }

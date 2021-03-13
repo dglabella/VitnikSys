@@ -62,7 +62,7 @@ public class OrderOperator implements IOrderOperator
 		"VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 		
-		statement.setInt(1, order.getPrefClientId());
+		statement.setInt(1, order.getDeliveryNumber());
 		statement.setInt(2, order.getPrefClientId());
 		statement.setInt(3, order.getCampNumber());
         statement.setString(4, order.getArticleId());
@@ -82,7 +82,7 @@ public class OrderOperator implements IOrderOperator
 	{
 		Integer returnCode = 0;
         String sqlStmnt = 
-		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`) "+
+		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`) "+
 		"VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
@@ -93,7 +93,7 @@ public class OrderOperator implements IOrderOperator
         {
 			order = listIterator.next();
 			
-			statement.setInt(1, order.getPrefClientId());
+			statement.setInt(1, order.getDeliveryNumber());
 			statement.setInt(2, order.getPrefClientId());
 			statement.setInt(3, order.getCampNumber());
 			statement.setString(4, order.getArticleId());

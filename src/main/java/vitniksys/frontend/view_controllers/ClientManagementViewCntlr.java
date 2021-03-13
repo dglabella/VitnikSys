@@ -305,6 +305,33 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
 
     @FXML
+    private void sumSelectedMenuItemSelected()
+    {
+        float totalCost = 0;
+        float totalCommCost = 0;
+        float totalComm = 0;
+
+        Iterator<OrdersRowTable> it = this.orders.getSelectionModel().getSelectedItems().iterator();
+        OrdersRowTable ordersRowTable = null;
+        int quantity = 0;
+        while(it.hasNext())
+        {
+            ordersRowTable = it.next();
+
+            quantity++;
+            totalCost += ordersRowTable.getCost();
+            totalCommCost += ordersRowTable.getCommissionCost();
+            totalComm += ordersRowTable.getCommission();
+        }
+
+        new CustomAlert(AlertType.INFORMATION, "Totales", "Cantidad seleccionada = "+quantity+
+                                           "\n\nTotal precio = "+totalCost+
+                                             "\nTotal precio comisión = "+totalCommCost+
+                                             "\nTotal en comisión = "+totalComm)
+                                              .customShow();
+    }
+
+    @FXML
     private void payMenuItemSelected()
     {
         CustomAlert customAlert = new CustomAlert(CustomAlertType.PAYMENT, "PAGO", "Ingrese los datos necesarios para realizar el pago");
@@ -347,7 +374,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                     try
                     {
                         ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), 
-                                                                                            ((DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getReason(), this.actualCommission != null ? this.actualCommission.getActualRate():0);
+                                                                                    ((DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getReason());
                     }
                     catch (Exception exception)
                     {

@@ -7,30 +7,30 @@ import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.entities.ReturnedArticle;
 
-public class StockRowTable
+public class StockTableRow
 {
     private Integer unitCode;
     private Integer deliveryNumber;
-    private Float price;
+    private Float cost;
     private String articleId;
     private String articleName;
     private OrderType orderType;
     private Reason reason;
 
-    public StockRowTable(Integer unitCode, Integer deliveryNumber, Float price, String articleId, String articleName, OrderType orderType, Reason reason)
+    public StockTableRow(Integer unitCode, Integer deliveryNumber, Float cost, String articleId, String articleName, OrderType orderType, Reason reason)
     {
         this.unitCode = unitCode;
         this.deliveryNumber = deliveryNumber;
-        this.price = price;
+        this.cost = cost;
         this.articleId = articleId;
         this.articleName = articleName;
         this.orderType = orderType;
         this.reason = reason;
     }
 
-    public static List<StockRowTable> generateRows(List<ReturnedArticle> returnedArticles)
+    public static List<StockTableRow> generateRows(List<ReturnedArticle> returnedArticles)
     {
-        List<StockRowTable> ret = new ArrayList<>();
+        List<StockTableRow> ret = new ArrayList<>();
 
         if(returnedArticles != null)
         {
@@ -40,8 +40,8 @@ public class StockRowTable
             {
                 returnedArticle = it.next();
 
-                ret.add(new StockRowTable(returnedArticle.getUnitCode(), returnedArticle.getOrder().getDeliveryNumber(), returnedArticle.getOrder().getUnitPrice(), returnedArticle.getOrder().getArticle().getId(), 
-                    returnedArticle.getOrder().getArticle().getName(), returnedArticle.getOrder().getType(), returnedArticle.getReason()));
+                ret.add(new StockTableRow(returnedArticle.getUnitCode(), returnedArticle.getOrder().getDeliveryNumber(), returnedArticle.getOrder().getCost() / returnedArticle.getOrder().getQuantity(), 
+                            returnedArticle.getOrder().getArticle().getId(), returnedArticle.getOrder().getArticle().getName(), returnedArticle.getOrder().getType(), returnedArticle.getReason()));
             }
         }
 
@@ -71,12 +71,12 @@ public class StockRowTable
 
     public Float getPrice()
     {
-        return this.price;
+        return this.cost;
     }
 
-    public void setPrice(Float price)
+    public void setPrice(Float cost)
     {
-        this.price = price;
+        this.cost = cost;
     }
 
     public String getArticleId()
