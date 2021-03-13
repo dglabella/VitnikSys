@@ -1,31 +1,31 @@
 package vitniksys.backend.model.enums;
 
-public enum ArticleType
+public enum OrderType
 {
     NA, PEDIDO, PROMO, FREEPREMIUM, CALZADO, OPORTUNIDAD;
     
-    public static ArticleType toEnum(int val)
+    public static OrderType toEnum(int val)
     {
-        ArticleType ret = null; 
+        OrderType ret = null; 
         switch (val)
         {
             case 0:
                 ret = NA;
                 break;
             case 1:
-                ret = ArticleType.PEDIDO;
+                ret = OrderType.PEDIDO;
                 break;
             case 2:
-                ret = ArticleType.PROMO;
+                ret = OrderType.PROMO;
                 break;
             case 3:
-                ret = ArticleType.FREEPREMIUM;
+                ret = OrderType.FREEPREMIUM;
                 break;
             case 4:
-                ret = ArticleType.CALZADO;
+                ret = OrderType.CALZADO;
                 break;
             case 5:
-                ret = ArticleType.OPORTUNIDAD;
+                ret = OrderType.OPORTUNIDAD;
                 break;
         }
         return ret;
@@ -37,29 +37,29 @@ public enum ArticleType
      * @param detailObs the observation in the detail file 
      * @return the representative enum type for that observation 
      */
-    public static ArticleType inferType(String detailObs)
+    public static OrderType inferType(String detailObs)
     {
-        ArticleType ret;
+        OrderType ret;
 
         if(detailObs.contains("Free Premiums"))
         {
-            ret = ArticleType.FREEPREMIUM;
+            ret = OrderType.FREEPREMIUM;
         }
         else if(detailObs.contains("Oportunidad"))
         {
-            ret = ArticleType.OPORTUNIDAD;   
+            ret = OrderType.OPORTUNIDAD;   
         }
         else if(detailObs.contains("PR"))
         {
-            ret = ArticleType.PROMO;
+            ret = OrderType.PROMO;
         }
         else if(detailObs.contains("Calzado"))
         {
-            ret = ArticleType.CALZADO;
+            ret = OrderType.CALZADO;
         }
         else
         {
-            ret = ArticleType.PEDIDO;
+            ret = OrderType.PEDIDO;
         }
 
         return ret;

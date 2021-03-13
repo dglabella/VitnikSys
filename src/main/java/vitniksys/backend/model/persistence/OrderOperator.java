@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.entities.Article;
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 
 public class OrderOperator implements IOrderOperator
@@ -57,15 +57,19 @@ public class OrderOperator implements IOrderOperator
 	public Integer insert(Order order) throws Exception
 	{
 		Integer returnCode = null;
-		String sqlStmnt = "INSERT INTO `pedidos`(`id_cp`, `nro_camp`, `letra`, `cant`, `monto`) "+
-		"VALUES (?, ?, ?, ?, ?);";
+		String sqlStmnt = 
+		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`) "+
+		"VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 		
-		statement.setInt(1, order.getPrefClientId() );
-		statement.setInt(2, order.getCampNumber());
-        statement.setString(3, order.getArticleId());
-		statement.setInt(4, order.getQuantity());
-		statement.setFloat(5, order.getCost());
+		statement.setInt(1, order.getPrefClientId());
+		statement.setInt(2, order.getPrefClientId());
+		statement.setInt(3, order.getCampNumber());
+        statement.setString(4, order.getArticleId());
+		statement.setInt(5, order.getQuantity());
+		statement.setFloat(6, order.getCost());
+		statement.setInt(7, order.getType().ordinal());
+		statement.setFloat(8, order.getUnitPrice());
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -79,7 +83,7 @@ public class OrderOperator implements IOrderOperator
 		Integer returnCode = 0;
         String sqlStmnt = 
 		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`) "+
-		"VALUES (?, ?, ?, ?, ?, ?);";
+		"VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         Order order;
@@ -89,12 +93,14 @@ public class OrderOperator implements IOrderOperator
         {
 			order = listIterator.next();
 			
-			statement.setInt(1, order.getDeliveryNumber());
-            statement.setInt(2, order.getPrefClientId() );
+			statement.setInt(1, order.getPrefClientId());
+			statement.setInt(2, order.getPrefClientId());
 			statement.setInt(3, order.getCampNumber());
 			statement.setString(4, order.getArticleId());
 			statement.setInt(5, order.getQuantity());
 			statement.setFloat(6, order.getCost());
+			statement.setInt(7, order.getType().ordinal());
+			statement.setFloat(8, order.getUnitPrice());
 
             returnCode += statement.executeUpdate();
         }
@@ -188,14 +194,17 @@ public class OrderOperator implements IOrderOperator
 			order.setDeliveryNumber(resultSet.getInt(2));
 			order.setReturnedQuantity(resultSet.getInt(7));
 			order.setWithdrawalDate(resultSet.getTimestamp(9));
+			order.setType(OrderType.toEnum(resultSet.getInt(13)));
+			order.setUnitPrice(resultSet.getFloat(14));
 			
 			//fk ids
 			order.setPrefClientId(resultSet.getInt(3));
 			order.setCampNumber(resultSet.getInt(4));
 			order.setArticleId(resultSet.getString(5));
 
+
 			//Associations
-			order.setArticle(new Article(resultSet.getString(5), resultSet.getString(12), ArticleType.toEnum(resultSet.getInt(13)), resultSet.getFloat(14)));
+			order.setArticle(new Article(resultSet.getString(5), resultSet.getString(12)));
 			
 			ret.add(order);
 		}
@@ -293,7 +302,10 @@ public class OrderOperator implements IOrderOperator
 			ret.setReturnedQuantity(resultSet.getInt(6));
 			ret.setWithdrawalDate(resultSet.getTimestamp(8));
 			ret.setRegistrationTime(resultSet.getTimestamp(9));
-			Article article = new Article(resultSet.getString(3), resultSet.getString(12), ArticleType.toEnum(resultSet.getInt(13)) , resultSet.getFloat(14));
+			ret.setType(OrderType.toEnum(resultSet.getInt(13)));
+			ret.setUnitPrice(resultSet.getFloat(14));
+
+			Article article = new Article(resultSet.getString(3), resultSet.getString(12));
 
 			//fk ids
 			ret.setPrefClientId(resultSet.getInt(1));

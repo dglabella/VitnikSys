@@ -7,9 +7,9 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.persistence.Connector;
@@ -147,7 +147,9 @@ public class DetailFileInterpreter implements OrderObtainer
             //be checked manually by the user if some orders are not commissionable.
             order = new Order(row.getQuant(), row.getPrice());
             order.setDeliveryNumber(row.getDeliveryNumber());
-            article = new Article(row.getLetters(), row.getName(), ArticleType.inferType(row.getObs()), row.getUnitPrice());
+            order.setType(OrderType.inferType(row.getObs()));
+            order.setUnitPrice(row.getUnitPrice());
+            article = new Article(row.getLetters(), row.getName());
             order.setArticle(article);
             order.setCampaign(new Campaign(row.getCampNumb()));
             order.setClient(client);

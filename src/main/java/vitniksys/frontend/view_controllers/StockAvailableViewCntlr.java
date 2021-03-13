@@ -7,10 +7,10 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.StockRowTable;
@@ -193,7 +193,7 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
         float total = 0f;
         Iterator<ReturnedArticle> it = returnedArticles.iterator();
         while(it.hasNext())
-            total += it.next().getOrder().getArticle().getUnitPrice();
+            total += it.next().getOrder().getCost();
         
         this.total.setText(""+total);
     }

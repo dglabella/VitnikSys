@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.entities.Article;
-import vitniksys.backend.model.enums.ArticleType;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.interfaces.IDevolutionOperator;
@@ -166,7 +166,9 @@ public class DevolutionOperator implements IDevolutionOperator
             order.setReturnedQuantity(resultSet.getInt(11));
             order.setWithdrawalDate(resultSet.getTimestamp(13));
             order.setRegistrationTime(resultSet.getTimestamp(14));
-            Article article = new Article(resultSet.getString(8), resultSet.getString(16), ArticleType.toEnum(resultSet.getInt(17)), resultSet.getFloat(18));
+            order.setType(OrderType.toEnum(resultSet.getInt(17)));
+            order.setUnitPrice(resultSet.getFloat(18));
+            Article article = new Article(resultSet.getString(8), resultSet.getString(16));
 
 			//fk ids
             devolution.setPrefClientId(prefClientId);

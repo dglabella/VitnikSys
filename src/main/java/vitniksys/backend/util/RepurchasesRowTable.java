@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import javafx.scene.control.CheckBox;
 import javafx.beans.value.ObservableValue;
-import vitniksys.backend.model.enums.ArticleType;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.entities.Repurchase;
 
 public class RepurchasesRowTable
@@ -18,7 +18,7 @@ public class RepurchasesRowTable
     private Float cost;
     private Float repurchaseCost;
     private String name;
-    private ArticleType articleType;
+    private OrderType orderType;
     private Timestamp registrationTime;
     private CheckBox countForCommission;
 
@@ -26,7 +26,7 @@ public class RepurchasesRowTable
 
     
     public RepurchasesRowTable(Integer cod, Integer unitCode, Integer deliveryNumber, String articleId, Float cost, Float repurchaseCost, 
-        String name, ArticleType articleType, Timestamp registrationTime, boolean countForCommission, Repurchase repurchase)
+        String name, OrderType orderType, Timestamp registrationTime, boolean countForCommission, Repurchase repurchase)
     {
         this.cod = cod;
         this.unitCode = unitCode;
@@ -35,7 +35,7 @@ public class RepurchasesRowTable
         this.cost = cost;
         this.repurchaseCost = repurchaseCost;
         this.name = name;
-        this.articleType = articleType;
+        this.orderType = orderType;
         this.registrationTime = registrationTime;
         this.countForCommission = new CheckBox();
         this.countForCommission.setSelected(countForCommission);
@@ -64,8 +64,8 @@ public class RepurchasesRowTable
                 repurchase = it.next();
 
                 ret.add(new RepurchasesRowTable(repurchase.getCode(), repurchase.getReturnedArticleId(), repurchase.getReturnedArticle().getOrder().getDeliveryNumber(), repurchase.getReturnedArticle().getOrder().getArticleId(), 
-                                                repurchase.getReturnedArticle().getOrder().getArticle().getUnitPrice(), repurchase.getCost(), repurchase.getReturnedArticle().getOrder().getArticle().getName(), 
-                                                repurchase.getReturnedArticle().getOrder().getArticle().getType(), repurchase.getRegistrationTime(), repurchase.isCountForCommission(), repurchase));
+                                                repurchase.getReturnedArticle().getOrder().getUnitPrice(), repurchase.getCost(), repurchase.getReturnedArticle().getOrder().getArticle().getName(), 
+                                                repurchase.getReturnedArticle().getOrder().getType(), repurchase.getRegistrationTime(), repurchase.isCountForCommission(), repurchase));
             }
         }
 
@@ -143,14 +143,14 @@ public class RepurchasesRowTable
         this.name = name;
     }
 
-    public ArticleType getArticleType()
+    public OrderType getArticleType()
     {
-        return this.articleType;
+        return this.orderType;
     }
 
-    public void setArticleType(ArticleType articleType)
+    public void setArticleType(OrderType orderType)
     {
-        this.articleType = articleType;
+        this.orderType = orderType;
     }
 
     public Timestamp getRegistrationTime()

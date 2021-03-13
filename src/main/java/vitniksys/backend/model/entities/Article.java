@@ -1,14 +1,10 @@
 package vitniksys.backend.model.entities;
 
-import vitniksys.backend.model.enums.ArticleType;
-
 public class Article
 {
     //Entity properties
     private String id; //Table id = letra
     private String name;
-    private ArticleType type;
-    private Float unitPrice;
 
     //Domain Associations
 
@@ -16,12 +12,10 @@ public class Article
     //Others
     private boolean active;
     
-    public Article(String id, String name, ArticleType type, Float unitPrice)
+    public Article(String id, String name)
     {
         this.id = id;
         this.name = name;
-        this.type = type;
-        this.unitPrice = unitPrice;
     }
 
     //Getters && Setters
@@ -51,26 +45,6 @@ public class Article
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public ArticleType getType()
-    {
-        return this.type;
-    }
-
-    public void setType(ArticleType type)
-    {
-        this.type = type;
-    }
-
-    public Float getUnitPrice()
-    {
-        return this.unitPrice;
-    }
-
-    public void setUnitPrice(Float unitPrice)
-    {
-        this.unitPrice = unitPrice;
     }
 
     public boolean isActive()
