@@ -2,34 +2,7 @@ package vitniksys.backend.model.enums;
 
 public enum OrderType
 {
-    NA, PEDIDO, PROMO, FREEPREMIUM, CALZADO, OPORTUNIDAD;
-    
-    public static OrderType toEnum(int val)
-    {
-        OrderType ret = null; 
-        switch (val)
-        {
-            case 0:
-                ret = NA;
-                break;
-            case 1:
-                ret = OrderType.PEDIDO;
-                break;
-            case 2:
-                ret = OrderType.PROMO;
-                break;
-            case 3:
-                ret = OrderType.FREEPREMIUM;
-                break;
-            case 4:
-                ret = OrderType.CALZADO;
-                break;
-            case 5:
-                ret = OrderType.OPORTUNIDAD;
-                break;
-        }
-        return ret;
-    }
+    NA, PEDIDO, OPORTUNIDAD, FREEPREMIUM, PROMO, CALZADO;
 
     /**
      * This method should be used to infer the type from 

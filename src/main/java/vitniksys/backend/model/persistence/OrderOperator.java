@@ -194,7 +194,7 @@ public class OrderOperator implements IOrderOperator
 			order.setDeliveryNumber(resultSet.getInt(2));
 			order.setReturnedQuantity(resultSet.getInt(7));
 			order.setWithdrawalDate(resultSet.getTimestamp(9));
-			order.setType(OrderType.toEnum(resultSet.getInt(13)));
+			order.setType(OrderType.values()[resultSet.getInt(13)]);
 			order.setUnitPrice(resultSet.getFloat(14));
 			
 			//fk ids
@@ -302,7 +302,7 @@ public class OrderOperator implements IOrderOperator
 			ret.setReturnedQuantity(resultSet.getInt(6));
 			ret.setWithdrawalDate(resultSet.getTimestamp(8));
 			ret.setRegistrationTime(resultSet.getTimestamp(9));
-			ret.setType(OrderType.toEnum(resultSet.getInt(13)));
+			ret.setType(OrderType.values()[resultSet.getInt(13)]);
 			ret.setUnitPrice(resultSet.getFloat(14));
 
 			Article article = new Article(resultSet.getString(3), resultSet.getString(12));

@@ -192,13 +192,13 @@ public class RepurchaseOperator implements IRepurchaseOperator
             repurchase =  new Repurchase(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getTimestamp(6));
             repurchase.setCountForCommission(resultSet.getBoolean(4));
             repurchase.setReturned(resultSet.getBoolean(5));
-            returnedArticle = new ReturnedArticle(resultSet.getInt(2), Reason.toEnum(resultSet.getInt(8)), resultSet.getBoolean(9));
+            returnedArticle = new ReturnedArticle(resultSet.getInt(2), Reason.values()[resultSet.getInt(8)], resultSet.getBoolean(9));
             order = new Order(resultSet.getInt(7), resultSet.getInt(14), resultSet.getFloat(16), resultSet.getBoolean(19), resultSet.getBoolean(23));
             order.setDeliveryNumber(resultSet.getInt(13));
             order.setReturnedQuantity(resultSet.getInt(15));
             order.setWithdrawalDate(resultSet.getTimestamp(17));
             order.setRegistrationTime(resultSet.getTimestamp(18));
-            order.setType(OrderType.toEnum(resultSet.getInt(21)));
+            order.setType(OrderType.values()[resultSet.getInt(21)]);
             order.setUnitPrice(resultSet.getFloat(22));
             article = new Article(resultSet.getString(12), resultSet.getString(20));
 

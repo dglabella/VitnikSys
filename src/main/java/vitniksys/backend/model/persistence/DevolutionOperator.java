@@ -160,13 +160,13 @@ public class DevolutionOperator implements IDevolutionOperator
 		while (resultSet.next())
 		{
             devolution = new Devolution(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getTimestamp(4));
-            ReturnedArticle returnedArticle = new ReturnedArticle(resultSet.getInt(2), Reason.toEnum(resultSet.getInt(6)), resultSet.getBoolean(7));
+            ReturnedArticle returnedArticle = new ReturnedArticle(resultSet.getInt(2), Reason.values()[resultSet.getInt(6)], resultSet.getBoolean(7));
             Order order = new Order(resultSet.getInt(5), resultSet.getInt(10), resultSet.getFloat(12), resultSet.getBoolean(15), resultSet.getBoolean(19));
             order.setDeliveryNumber(resultSet.getInt(9));
             order.setReturnedQuantity(resultSet.getInt(11));
             order.setWithdrawalDate(resultSet.getTimestamp(13));
             order.setRegistrationTime(resultSet.getTimestamp(14));
-            order.setType(OrderType.toEnum(resultSet.getInt(17)));
+            order.setType(OrderType.values()[resultSet.getInt(17)]);
             order.setUnitPrice(resultSet.getFloat(18));
             Article article = new Article(resultSet.getString(8), resultSet.getString(16));
 

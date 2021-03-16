@@ -133,7 +133,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         ReturnedArticle returnedArticle;
 		while (resultSet.next())
 		{
-            returnedArticle = new ReturnedArticle(resultSet.getInt(1), Reason.toEnum(resultSet.getInt(3)), resultSet.getBoolean(4));
+            returnedArticle = new ReturnedArticle(resultSet.getInt(1), Reason.values()[resultSet.getInt(3)], resultSet.getBoolean(4));
             Order order = new Order(resultSet.getInt(2), resultSet.getInt(8), resultSet.getFloat(10), resultSet.getBoolean(13), resultSet.getBoolean(14));
             order.setDeliveryNumber(resultSet.getInt(7));
             order.setQuantity(resultSet.getInt(8));
@@ -141,7 +141,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
             order.setCost(resultSet.getFloat(10));
             order.setWithdrawalDate(resultSet.getTimestamp(11));
             order.setRegistrationTime(resultSet.getTimestamp(12));
-            order.setType(OrderType.toEnum(resultSet.getInt(17)));
+            order.setType(OrderType.values()[resultSet.getInt(17)]);
             order.setUnitPrice(resultSet.getFloat(18));
 
             Article article = new Article(resultSet.getString(15), resultSet.getString(16));

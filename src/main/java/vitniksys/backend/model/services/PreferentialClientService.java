@@ -564,13 +564,31 @@ public class PreferentialClientService extends Service
                             balance.setPrefClientId(((SubordinatedClient)prefClient).getLeaderId());
                             BalanceOperator.getOperator().update(balance); //UPDATE
                         }
-
                         
-                        List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number
-
-                        SE PONE EN CERO EL FACTOR DE COMISION ACTUAL PORQUE ACA SOLO BUSCA LOS PEDIDOS DEL LIDER SIN CONTAR LOS DE LOS SUBDITOS
-
+                        List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); //search for leader orders for that camp number                        
                         List<Repurchase> repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
+                        if(prefClient instanceof Leader)
+                        {
+                            SubordinatedClient subordinatedClient = null;
+                            List<Order> auxOrders = null;
+                            List<Repurchase> auxRepurchases = null;
+                            Iterator<SubordinatedClient> subsIterator = ((Leader)prefClient).getSubordinates().iterator();
+                            while(subsIterator.hasNext())
+                            {
+                                subordinatedClient = subsIterator.next();
+                                auxOrders = OrderOperator.getOperator().findAll(subordinatedClient.getId(), campNumber);
+                                auxRepurchases = RepurchaseOperator.getOperator().findAll(subordinatedClient.getId(), campNumber);
+
+                                if (auxOrders != null)
+                                {
+                                    orders.addAll(auxOrders);
+                                }
+                                if(auxRepurchases != null)
+                                {
+                                    repurchases.addAll(auxRepurchases);
+                                }
+                            }
+                        }
 
                         if(commission != null)
                         {

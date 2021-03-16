@@ -145,10 +145,10 @@ public class PaymentOperator implements IPaymentOperator
 		{
             payment = new Payment(resultSet.getInt(1), resultSet.getString(4), resultSet.getFloat(5), resultSet.getTimestamp(10));
 
-            payment.setItem(PayItem.toEnum(resultSet.getInt(6)));
-            payment.setPaymentMethod(PayType.toEnum(resultSet.getInt(7)));
-            payment.setBank(Bank.toEnum(resultSet.getInt(8)));
-            payment.setPaymentStatus(PayStatus.toEnum(resultSet.getInt(9)));
+            payment.setItem(PayItem.values()[resultSet.getInt(6)]);
+            payment.setPaymentMethod(PayType.values()[resultSet.getInt(7)]);
+            payment.setBank(Bank.values()[resultSet.getInt(8)]);
+            payment.setPaymentStatus(PayStatus.values()[resultSet.getInt(9)]);
 
             //fk ids            
             payment.setPrefClientId(resultSet.getInt(2));
