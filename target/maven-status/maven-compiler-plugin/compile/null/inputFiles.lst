@@ -9,6 +9,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backen
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IOrderOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IPaymentOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\ProcessingViewCntlr.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\util\DevolutionsRowTable.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\Connector.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\services\PreferentialClientService.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\CatalogueQueryViewCntlr.java
@@ -54,6 +55,7 @@ C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\fronte
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\entities\Commission.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\views_subscriber\CampaignServiceSubscriber.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\enums\PayStatus.java
+C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\DevolutionsQueryViewCntlr.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\persistence\SubordinatedClientOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\backend\model\interfaces\IDevolutionOperator.java
 C:\Users\dglab\Documents\vscodeProyects\VitnikSys\src\main\java\vitniksys\frontend\view_controllers\CommissionRegisterViewCntlr.java

@@ -18,6 +18,7 @@ import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
+import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -271,6 +272,12 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
     {
         this.loadData(this.PREF_CLIENTS_TABLE_NUMBER, prefClients);
+    }
+
+    @Override
+    public void showDevolutions(List<Devolution> devolutions) throws Exception
+    {
+        // TODO Auto-generated method stub
     }
 
     @Override

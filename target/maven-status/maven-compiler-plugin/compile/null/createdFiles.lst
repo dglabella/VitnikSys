@@ -11,6 +11,7 @@ vitniksys\backend\model\enums\Bank.class
 vitniksys\frontend\view_controllers\InfoQueriedCampsViewCntlr.class
 vitniksys\backend\model\services\PreferentialClientService$10.class
 vitniksys\backend\model\entities\Order.class
+vitniksys\backend\util\DevolutionsRowTable.class
 vitniksys\backend\model\entities\CatalogueDeliver.class
 vitniksys\backend\model\persistence\RepurchaseOperator.class
 vitniksys\backend\model\persistence\BalanceOperator.class
@@ -89,6 +90,7 @@ vitniksys\backend\model\services\PreferentialClientService$2.class
 vitniksys\frontend\views_subscriber\CommissionServiceSubscriber.class
 vitniksys\backend\model\entities\SubordinatedClient.class
 vitniksys\backend\model\interfaces\IOrderOperator.class
+vitniksys\backend\model\services\PreferentialClientService$14.class
 vitniksys\backend\model\entities\PreferentialClient.class
 vitniksys\backend\model\enums\PayStatus.class
 vitniksys\backend\model\services\PreferentialClientService$11.class
@@ -121,6 +123,7 @@ vitniksys\backend\model\services\CatalogueService$1.class
 vitniksys\backend\model\services\PreferentialClientService$4.class
 vitniksys\frontend\views_subscriber\ServiceSubscriber.class
 vitniksys\backend\model\interfaces\IObservationOperator.class
+vitniksys\frontend\view_controllers\DevolutionsQueryViewCntlr.class
 vitniksys\backend\model\persistence\DevolutionOperator.class
 vitniksys\App$ConstraitConstants.class
 vitniksys\backend\util\VitnikSearchableList.class

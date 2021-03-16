@@ -407,6 +407,48 @@ public class PreferentialClientService extends Service
                     {
                         ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showNoResult("No se encuentra registrado ningún cliente preferencial.");
                     }
+
+                    Connector.getConnector().closeConnection();
+                }
+
+                return returnCode;
+            }
+        };
+        Platform.runLater(task);
+        //this.getExecutorService().execute(task);
+    }
+
+    public void searchDevolutions(Integer prefClientId) throws Exception
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+                List<Devolution> devolutions = null;
+                try
+                {
+                    devolutions = DevolutionOperator.getOperator().findAll(prefClientId, null);
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    if(devolutions != null)
+                    {
+                        ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showDevolutions(devolutions);
+                    }
+                    else
+                    {
+                        getServiceSubscriber().showNoResult("El cliente "+prefClientId+" no tiene registrado devoluciones.");
+                    }
+                }
+                catch(Exception exception)
+                {
+                    exception.printStackTrace();
+                }
+                finally
+                {
+                    Connector.getConnector().closeConnection();
                 }
 
                 return returnCode;

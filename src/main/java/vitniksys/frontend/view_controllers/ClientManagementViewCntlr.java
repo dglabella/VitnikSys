@@ -35,6 +35,7 @@ import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.RepurchasesRowTable;
 import vitniksys.backend.model.entities.Commission;
+import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.Observation;
@@ -162,6 +163,18 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         viewCntlr.disableNotUpdateAllowedFields(true);
         viewCntlr.setUpdateMode(true); // Reusing view for update
     }
+
+    @FXML
+    private void devolutionsMenuItemSelected()
+    {
+        DevolutionsQueryViewCntlr viewCntlr = (DevolutionsQueryViewCntlr)this.createStage("Devoluciones", "devolutionsQuery", new PreferentialClientService());
+        viewCntlr.setPrefClientId(this.prefClient.getId());
+        viewCntlr.setPrefCLientName(this.prefClient.getName());
+        viewCntlr.setPrefCLientLastName(this.prefClient.getLastName());
+        viewCntlr.getStage().show();
+        viewCntlr.manualInitialize();
+    }
+    
 
     @FXML
     private void labelCatOnMouseClicked()
@@ -559,7 +572,6 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.isCommissionable);
         columns.add(this.countForCommission);
         
-        
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
         propertiesValues.add(new PropertyValueFactory<>("quantity"));
         propertiesValues.add(new PropertyValueFactory<>("cost"));
@@ -746,6 +758,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     public void showTotalBalance(float total) throws Exception
     {
         this.balance.setText(""+total);
+    }
+
+    @Override
+    public void showDevolutions(List<Devolution> devolutions) throws Exception
+    {
+        // TODO Auto-generated method stub
     }
 
     @Override

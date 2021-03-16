@@ -285,6 +285,7 @@
       <ContextMenu>
         <items>
             <MenuItem mnemonicParsing="false" onAction="#observationsMenuItemSelected" text="Observaciones" />
+            <MenuItem mnemonicParsing="false" onAction="#devolutionsMenuItemSelected" text="Devoluciones" />
             <MenuItem mnemonicParsing="false" onAction="#cataloguesDeliveryMenuItemSelected" text="Entregar catálogos" />
           <MenuItem mnemonicParsing="false" onAction="#commissionLvlMenuItemSelected" text="Niveles de comisión" />
             <MenuItem mnemonicParsing="false" onAction="#updateCommissionablesOrders" text="Actualizar comisionables" />

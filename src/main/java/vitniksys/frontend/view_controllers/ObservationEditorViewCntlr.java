@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.services.PreferentialClientService;
@@ -102,6 +103,12 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
 
     @Override
     public void showTotalBalance(float total) throws Exception
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void showDevolutions(List<Devolution> devolutions) throws Exception
     {
         // TODO Auto-generated method stub
     }
