@@ -1,10 +1,10 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.Iterator;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
@@ -23,12 +23,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Bank;
-import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.util.OrdersRowTable;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
 import vitniksys.backend.model.entities.Leader;

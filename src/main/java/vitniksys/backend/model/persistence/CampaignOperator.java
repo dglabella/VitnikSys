@@ -300,7 +300,6 @@ public class CampaignOperator implements ICampaignOperator
     @Override
     public Campaign findLast() throws Exception
     {
-        
         Campaign ret = null;
         
         // String sqlStmnt = "SELECT * FROM `camps` WHERE `active_row` = ? ORDER BY

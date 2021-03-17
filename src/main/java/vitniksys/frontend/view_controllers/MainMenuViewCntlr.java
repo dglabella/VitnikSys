@@ -64,6 +64,40 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     }
 
     @FXML
+    private void prefClientsAutoLoadButtonPressed()
+    {
+        FileChooser fileChooser = new FileChooser();
+        File cpsFile = fileChooser.showOpenDialog(null);
+        
+        if (cpsFile != null)
+        {
+            if (FilenameUtils.getExtension(cpsFile.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+            {
+                new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "El archivo seleccionado es: " + cpsFile.getAbsolutePath() +
+                    "\nEsta seguro que desea cargar este archivo de clientes preferenciales?").customShow().ifPresent(response ->
+                {
+                    if (response == ButtonType.OK)
+                    {
+                        try
+                        {
+                            ((PreferentialClientService)this.getService(0)).registerPrefClientsAuto(cpsFile);
+                        }
+                        catch(Exception exception)
+                        {
+                            exception.printStackTrace();
+                        }
+                    }
+                });
+            }
+            else
+            {
+                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo no tiene extension csv."+
+                    "\nSelecciones nuevamente o el archivo será descartado.").customShow();
+            }
+        }
+    }
+
+    @FXML
     private void selectPrefClient(MouseEvent event)
     {
         if(event.getClickCount() == 2)

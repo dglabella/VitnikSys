@@ -20,7 +20,7 @@
       <AnchorPane layoutX="10.0" layoutY="410.0" prefHeight="290.0" prefWidth="950.0" style="-fx-background-color: #f5f5f5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0); -fx-background-radius: 5;">
          <children>
             <TextField fx:id="searchField" layoutX="5.0" layoutY="5.0" onAction="#idOnAction" onKeyTyped="#idOnKeyTyped" prefHeight="30.0" prefWidth="200.0" promptText="consultar cp:" />
-            <Button layoutX="215.0" layoutY="5.0" mnemonicParsing="false" onAction="#openManagementButtonPressed" prefHeight="32.0" prefWidth="131.0" style="-fx-border-color: gray;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Abrir Gestion" textAlignment="CENTER" wrapText="true">
+            <Button layoutX="215.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openManagementButtonPressed" prefHeight="30.0" prefWidth="130.0" style="-fx-border-color: gray;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Abrir Gestion" textAlignment="CENTER" wrapText="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -35,6 +35,11 @@
                   <TableColumn fx:id="phoneNumber" minWidth="100.0" prefWidth="100.0" resizable="false" text="Teléfono" />
               </columns>
             </TableView>
+            <Button layoutX="815.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#prefClientsAutoLoadButtonPressed" prefHeight="30.0" prefWidth="130.0" style="-fx-border-color: gray;" styleClass="boton" stylesheets="@../styles/newfile.css" text="Carga automatica" textAlignment="CENTER" wrapText="true">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </AnchorPane>
       <ImageView fitHeight="300.0" fitWidth="180.0" layoutX="62.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" rotate="-26.6" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 40, 0, 0, 0);">

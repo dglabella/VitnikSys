@@ -395,7 +395,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
             statement.setNull(8, Types.BIGINT);
         }
 
-        statement.setInt(9, ((SubordinatedClient)cp).getLeader().getId());
+        statement.setInt(9, ((SubordinatedClient)cp).getLeaderId());
 
         returnCode = statement.executeUpdate();
         statement.close();

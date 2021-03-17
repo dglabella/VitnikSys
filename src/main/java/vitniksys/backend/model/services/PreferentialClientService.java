@@ -1,9 +1,10 @@
 package vitniksys.backend.model.services;
 
+import java.io.File;
 import vitniksys.App;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.time.LocalDate;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
@@ -13,17 +14,20 @@ import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.util.IFileInterpreter;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.persistence.Connector;
+import vitniksys.backend.util.CpLoaderFileInterpreter;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.persistence.LeaderOperator;
@@ -106,6 +110,36 @@ public class PreferentialClientService extends Service
         return ret;
     }
 
+    public void registerPrefClients(List<PreferentialClient> preferentialClients) throws Exception
+    {
+        PreferentialClient prefClient = null;
+        Iterator<PreferentialClient> prefClientsIterator = preferentialClients.iterator();
+        while(prefClientsIterator.hasNext())
+        {
+            prefClient = prefClientsIterator.next();
+            prefClient.operator().insert(prefClient); // INSERT
+
+            Balance balance = new Balance();
+        
+            //balance associations
+            Campaign camp = CampaignOperator.getOperator().findLast();
+            if(camp == null)
+            {
+                throw new Exception("No campaign are registered");
+            }
+
+            balance.setClient(prefClient);
+            balance.setCamp(camp);
+            //balance fk id
+            balance.setPrefClientId(prefClient.getId());
+            balance.setCampNumber(camp.getNumber());
+
+            BalanceOperator.getOperator().insert(balance); // INSERT
+        }
+
+        //return returnCode;
+    }
+
     // ================================= public methods ====================================
     public void registerClient(String id, String dni, String name, String lastName, String location,
             LocalDate birthDate, String email, String phoneNumber, Boolean isLeader, String leaderId) throws Exception
@@ -185,6 +219,48 @@ public class PreferentialClientService extends Service
             //Conflict with some fields.
             this.getServiceSubscriber().showError("Los campos deben completarse correctamente.");
         }
+    }
+
+    public void registerPrefClientsAuto(File file)
+    {
+        CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+        IFileInterpreter cpLoader = new CpLoaderFileInterpreter(file, this);
+        Task<Integer> task = new Task<>()
+        {
+            @Override
+            protected Integer call() throws Exception
+            {
+                //returnCode is intended for future implementations
+                int returnCode = 0;
+                try
+                {
+                    Connector.getConnector().startTransaction(); //START TRANSACTION
+
+                    // -- cpLoader.interpret() is doing the inserts into the DATA BASE
+                    cpLoader.interpret();
+
+                    Connector.getConnector().commit(); // COMMIT
+
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showSucces("Los clientes se han registrado exitosamente!");
+                    getServiceSubscriber().refresh();
+                }
+                catch (Exception exception)
+                {
+                    Connector.getConnector().rollBack();
+                    getServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getServiceSubscriber().showError("Error al intentar registrar los clientes.", null, exception);
+                }
+                finally
+                {
+                    Connector.getConnector().endTransaction();
+                    Connector.getConnector().closeConnection();
+                }
+                return returnCode;
+            }
+        };
+
+        Platform.runLater(task);
     }
 
     public void updateClient(String id, String dni, String name, String lastName, String location,

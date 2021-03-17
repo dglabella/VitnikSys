@@ -25,7 +25,7 @@ public class DetailFileInterpreter implements OrderObtainer
 {
     public static final String FILE_EXTENSION = "csv";
 
-    public static String SEPARATOR = ";";
+    //private static String SEPARATOR = ";";
 
     //The file to be interpreted for gather the information of the incoming orders.
     private File detailFile;
@@ -190,7 +190,7 @@ public class DetailFileInterpreter implements OrderObtainer
             //Gathering all the lines in the file into primary memory (detailFileRows).
             while(inputStream.hasNext())
             {
-                splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
+                splitedLine = inputStream.nextLine().split(IFileInterpreter.SEPARATOR);
                 this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
                     splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 
                     splitedLine[QUANT], splitedLine[UNIT_PRICE], splitedLine[DESC_CP], splitedLine[PRICE], 
@@ -268,7 +268,7 @@ public class DetailFileInterpreter implements OrderObtainer
             //Gathering all the lines in the file into primary memory (detailFileRows).
             while(inputStream.hasNext())
             {
-                splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
+                splitedLine = inputStream.nextLine().split(IFileInterpreter.SEPARATOR);
 
                 // System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" -- "+splitedLine[DELIVERY_NUMBER]+
                 //     " -- "+splitedLine[LETTERS]+" -- "+splitedLine[BARCODE]+" -- "+splitedLine[NAME]+" -- "+splitedLine[QUANT]+
