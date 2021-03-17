@@ -19,7 +19,7 @@ public class DevolutionsRowTable
     private OrderType orderType;
     private Reason reason;
 
-    private DevolutionsRowTable(Integer campNumber, Integer prefClientId, Integer unitCode, Integer deliveryNumber, Float cost, 
+    public DevolutionsRowTable(Integer campNumber, Integer prefClientId, Integer unitCode, Integer deliveryNumber, Float cost, 
             String articleId, String articleName, OrderType orderType, Reason reason)
     {
         this.campNumber = campNumber;
@@ -28,7 +28,7 @@ public class DevolutionsRowTable
         this.deliveryNumber = deliveryNumber;
         this.cost = cost;
         this.articleId = articleId;
-        this.articleName = articleId;
+        this.articleName = articleName;
         this.orderType = orderType;
         this.reason = reason;
     }
@@ -38,14 +38,20 @@ public class DevolutionsRowTable
         List<DevolutionsRowTable> ret = new ArrayList<>();
 
         Devolution devolution = null;
-        Iterator<Devolution> it = devolutions.iterator();
-        while(it.hasNext())
+        if(devolutions != null)
         {
-            devolution = it.next();
-            ret.add(new DevolutionsRowTable(devolution.getCampNumber(), devolution.getPrefClientId(), devolution.getUnitCode(), devolution.getReturnedArticle().getOrder().getDeliveryNumber(), 
-                    devolution.getCost(), devolution.getReturnedArticle().getOrder().getArticleId(), devolution.getReturnedArticle().getOrder().getArticle().getName(), 
-                    devolution.getReturnedArticle().getOrder().getType(), devolution.getReturnedArticle().getReason()));
+            Iterator<Devolution> it = devolutions.iterator();
+            while(it.hasNext())
+            {
+                devolution = it.next();
+                ret.add(new DevolutionsRowTable(devolution.getCampNumber(), devolution.getPrefClientId(), devolution.getUnitCode(), devolution.getReturnedArticle().getOrder().getDeliveryNumber(), 
+                        devolution.getCost(), devolution.getReturnedArticle().getOrder().getArticleId(), devolution.getReturnedArticle().getOrder().getArticle().getName(), 
+                        devolution.getReturnedArticle().getOrder().getType(), devolution.getReturnedArticle().getReason()));
+            }
         }
+
+        if(ret.size() == 0)
+            ret = null;
 
         return ret;
     }

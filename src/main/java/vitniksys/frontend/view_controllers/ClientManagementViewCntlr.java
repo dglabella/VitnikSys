@@ -1,6 +1,7 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.Iterator;
@@ -22,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Bank;
+import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.enums.PayItem;
@@ -104,19 +106,20 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableView<RepurchasesRowTable> repurchases;
 
     //orders columns
-    @FXML private TableColumn<OrdersRowTable, String> deliveryNumber;
-    @FXML private TableColumn<OrdersRowTable, String> quantity;
-    @FXML private TableColumn<OrdersRowTable, String> cost;
-    @FXML private TableColumn<OrdersRowTable, String> commissionCost;
-    @FXML private TableColumn<OrdersRowTable, String> commission;
+    @FXML private TableColumn<OrdersRowTable, Integer> orderPrefClientId;
+    @FXML private TableColumn<OrdersRowTable, Integer> deliveryNumber;
+    @FXML private TableColumn<OrdersRowTable, Integer> quantity;
+    @FXML private TableColumn<OrdersRowTable, Float> cost;
+    @FXML private TableColumn<OrdersRowTable, Float> commissionCost;
+    @FXML private TableColumn<OrdersRowTable, Float> commission;
     @FXML private TableColumn<OrdersRowTable, String> articleName;
-    @FXML private TableColumn<OrdersRowTable, String> articleType;
+    @FXML private TableColumn<OrdersRowTable, OrderType> orderType;
     @FXML private TableColumn<OrdersRowTable, String> articleId;
-    @FXML private TableColumn<OrdersRowTable, String> unitPrice;
-    @FXML private TableColumn<OrdersRowTable, String> withdrawalDate;
-    @FXML private TableColumn<OrdersRowTable, String> devQuantity;
-    @FXML private TableColumn<OrdersRowTable, String> isCommissionable;
-    @FXML private TableColumn<OrdersRowTable, String> countForCommission;
+    @FXML private TableColumn<OrdersRowTable, Float> unitPrice;
+    @FXML private TableColumn<OrdersRowTable, Timestamp> withdrawalDate;
+    @FXML private TableColumn<OrdersRowTable, Integer> devQuantity;
+    @FXML private TableColumn<OrdersRowTable, Boolean> isCommissionable;
+    @FXML private TableColumn<OrdersRowTable, Boolean> countForCommission;
 
     //payments columns
     @FXML private TableColumn<PaymentsRowTable, String> code;
@@ -168,9 +171,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     private void devolutionsMenuItemSelected()
     {
         DevolutionsQueryViewCntlr viewCntlr = (DevolutionsQueryViewCntlr)this.createStage("Devoluciones", "devolutionsQuery", new PreferentialClientService());
-        viewCntlr.setPrefClientId(this.prefClient.getId());
-        viewCntlr.setPrefCLientName(this.prefClient.getName());
-        viewCntlr.setPrefCLientLastName(this.prefClient.getLastName());
+        viewCntlr.setPrefClient(this.prefClient);
         viewCntlr.getStage().show();
         viewCntlr.manualInitialize();
     }
@@ -558,13 +559,14 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         List<TableColumn> columns = new ArrayList<>();
         List<PropertyValueFactory> propertiesValues = new ArrayList<>();
 
+        columns.add(this.orderPrefClientId);
         columns.add(this.deliveryNumber);
         columns.add(this.quantity);
         columns.add(this.cost);
         columns.add(this.commissionCost);
         columns.add(this.commission);
         columns.add(this.articleName);
-        columns.add(this.articleType);
+        columns.add(this.orderType);
         columns.add(this.articleId);
         columns.add(this.unitPrice);
         columns.add(this.withdrawalDate);
@@ -572,6 +574,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.isCommissionable);
         columns.add(this.countForCommission);
         
+        propertiesValues.add(new PropertyValueFactory<>("prefClientId"));
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
         propertiesValues.add(new PropertyValueFactory<>("quantity"));
         propertiesValues.add(new PropertyValueFactory<>("cost"));

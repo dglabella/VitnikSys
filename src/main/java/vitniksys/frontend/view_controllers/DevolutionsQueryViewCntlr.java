@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.util.DevolutionsRowTable;
@@ -23,17 +24,16 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
 {
     private int DEVOLUTIONS_TABLE_NUMBER;
 
-    private Integer clientId;
-    private String prefCLientName;
-    private String prefCLientLastName;
+    private PreferentialClient prefClient;
 
     // FXML Varibales
     @FXML private Label total;
     @FXML private Label nameLastnameId;
-    @FXML private TableView<DevolutionsRowTable> devolutions;
 
     @FXML private TextField filter;
     
+    @FXML private TableView<DevolutionsRowTable> devolutions;
+
     @FXML private TableColumn<DevolutionsRowTable, Integer> campNumber;
     @FXML private TableColumn<DevolutionsRowTable, Integer> prefClientId;
     @FXML private TableColumn<DevolutionsRowTable, Integer> unitCode;
@@ -50,19 +50,14 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
     // =========================================== private methods ===========================================
 
     // =========================================== protected methods ===========================================
-    protected void setPrefClientId(Integer prefClientId)
+    protected PreferentialClient getPrefClient()
     {
-        this.clientId = prefClientId;
+        return this.prefClient;
     }
 
-    protected void setPrefCLientName(String prefCLientName)
+    protected void setPrefClient(PreferentialClient prefClient)
     {
-        this.prefCLientName = prefCLientName;
-    }
-
-    protected void setPrefCLientLastName(String prefCLientLastName)
-    {
-        this.prefCLientLastName = prefCLientLastName;
+        this.prefClient = prefClient;
     }
 
     // =========================================== public methods ===========================================
@@ -75,8 +70,8 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
-        this.nameLastnameId.setText(this.prefCLientName+" "+this.prefCLientLastName+" - "+this.clientId);
-        
+        this.devolutions.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         List<TableColumn> columns = new ArrayList<>();
         List<PropertyValueFactory> propertiesValues = new ArrayList<>();
 
@@ -102,14 +97,18 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
 
         this.registerTable(this.devolutions);
         this.DEVOLUTIONS_TABLE_NUMBER = 0; //Because is the first table registered.
+
+        this.registerColumns(columns);
+        this.registerPropertiesValues(propertiesValues);
     }
 
     @Override
     protected void manualInitialize()
     {
+        this.nameLastnameId.setText(this.prefClient.getName()+" "+this.prefClient.getLastName()+" - "+this.getPrefClient().getId());
         try
         {
-            ((PreferentialClientService)this.getService(0)).searchDevolutions(this.clientId);  
+            ((PreferentialClientService)this.getService(0)).searchDevolutions(this.prefClient);  
         }
         catch (Exception exception)
         {
@@ -121,7 +120,7 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
     public void showQueriedPrefClient(PreferentialClient prefClient) throws Exception
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -141,7 +140,6 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
     @Override
     public void showDevolutions(List<Devolution> devolutions) throws Exception
     {
-
         this.loadData(DEVOLUTIONS_TABLE_NUMBER, DevolutionsRowTable.generateRows(devolutions));
     }
 

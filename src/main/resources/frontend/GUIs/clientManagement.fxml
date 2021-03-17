@@ -91,19 +91,20 @@
                   </AnchorPane>
                   <TableView fx:id="orders" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1300.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: transparent black black black;" GridPane.rowIndex="1">
                      <columns>
+                        <TableColumn fx:id="orderPrefClientId" minWidth="75.0" prefWidth="75.0" text="CP" />
                         <TableColumn fx:id="deliveryNumber" minWidth="75.0" prefWidth="75.0" text="Nro Envío" />
                         <TableColumn fx:id="quantity" minWidth="40.0" prefWidth="40.0" text="Unidades" />
                         <TableColumn fx:id="cost" minWidth="75.0" prefWidth="75.0" text="Precio" />
                         <TableColumn fx:id="commissionCost" minWidth="75.0" prefWidth="75.0" text="Precio Comision" />
                         <TableColumn fx:id="commission" minWidth="75.0" prefWidth="75.0" text="Comisión" />
                         <TableColumn fx:id="articleName" minWidth="400.0" prefWidth="407.0" text="Nombre" />
-                        <TableColumn fx:id="articleType" minWidth="100.0" prefWidth="130.0" text="Tipo" />
+                        <TableColumn fx:id="orderType" minWidth="100.0" prefWidth="130.0" text="Tipo" />
                         <TableColumn fx:id="articleId" minWidth="75.0" prefWidth="75.0" text="Letra" />
                         <TableColumn fx:id="unitPrice" minWidth="75.0" prefWidth="75.0" text="Precio Unidad" />
-                        <TableColumn fx:id="withdrawalDate" minWidth="150.0" prefWidth="150.0" text="Fecha retiro" />
                         <TableColumn fx:id="devQuantity" minWidth="40.0" prefWidth="40.0" text="Devoluciones" />
                         <TableColumn fx:id="isCommissionable" minWidth="40.0" prefWidth="40.0" text="Com?" />
                         <TableColumn fx:id="countForCommission" minWidth="40.0" prefWidth="40.0" text="+1?" />
+                        <TableColumn fx:id="withdrawalDate" minWidth="150.0" prefWidth="150.0" text="Fecha retiro" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -114,8 +114,9 @@ public class DevolutionOperator implements IDevolutionOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt = 
-			"SELECT `devoluciones`.`cod`, `devoluciones`.`ejemplar`, `devoluciones`.`monto`, `devoluciones`.`fecha_registro`, `cod_pedido`, `articulos_devueltos`.`motivo`, `recomprado`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `pedidos`.`monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`, `aumenta_comision` "+
+			"SELECT `devoluciones`.`cod`, `devoluciones`.`ejemplar`, `devoluciones`.`monto`, `devoluciones`.`fecha_registro`, `cod_pedido`, `articulos_devueltos`.`motivo`, `recomprado`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `pedidos`.`monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`, `aumenta_comision`, `devoluciones`.`nro_camp`, `pedidos`.`nro_camp` "+
             "FROM `devoluciones` "+
+            "INNER JOIN `camps` ON `devoluciones`.`nro_camp` = `camps`.`nro_camp` "+
             "INNER JOIN `articulos_devueltos` ON `devoluciones`.`ejemplar` = `articulos_devueltos`.`ejemplar` "+
             "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+
             "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
@@ -131,8 +132,9 @@ public class DevolutionOperator implements IDevolutionOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt = 
-			"SELECT `devoluciones`.`cod`, `devoluciones`.`ejemplar`, `devoluciones`.`monto`, `devoluciones`.`fecha_registro`, `cod_pedido`, `articulos_devueltos`.`motivo`, `recomprado`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `pedidos`.`monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`, `aumenta_comision` "+
+			"SELECT `devoluciones`.`cod`, `devoluciones`.`ejemplar`, `devoluciones`.`monto`, `devoluciones`.`fecha_registro`, `cod_pedido`, `articulos_devueltos`.`motivo`, `recomprado`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `pedidos`.`monto`, `fecha_retiro`, `pedidos`.`fecha_registro`, `comisionable`, `nombre`, `tipo`, `precio_unitario`, `aumenta_comision`, `devoluciones`.`nro_camp`, `pedidos`.`nro_camp` "+
             "FROM `devoluciones` "+
+            "INNER JOIN `camps` ON `devoluciones`.`nro_camp` = `camps`.`nro_camp` "+
             "INNER JOIN `articulos_devueltos` ON `devoluciones`.`ejemplar` = `articulos_devueltos`.`ejemplar` "+
             "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+
             "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
@@ -172,11 +174,11 @@ public class DevolutionOperator implements IDevolutionOperator
 
 			//fk ids
             devolution.setPrefClientId(prefClientId);
-            devolution.setCampNumber(campNumb);
+            devolution.setCampNumber(resultSet.getInt(20));
             devolution.setUnitCode(returnedArticle.getUnitCode());
             returnedArticle.setOrderId(order.getCode());
             order.setPrefClientId(prefClientId);
-            order.setCampNumber(campNumb);
+            order.setCampNumber(resultSet.getInt(21));
             order.setArticleId(article.getId());
 
             //Associations

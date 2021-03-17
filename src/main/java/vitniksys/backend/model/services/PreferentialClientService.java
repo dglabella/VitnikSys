@@ -2,6 +2,7 @@ package vitniksys.backend.model.services;
 
 import vitniksys.App;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.time.LocalDate;
 import javafx.concurrent.Task;
@@ -418,7 +419,7 @@ public class PreferentialClientService extends Service
         //this.getExecutorService().execute(task);
     }
 
-    public void searchDevolutions(Integer prefClientId) throws Exception
+    public void searchDevolutions(PreferentialClient prefClient) throws Exception
     {
         CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -428,18 +429,35 @@ public class PreferentialClientService extends Service
             {
                 //returnCode is intended for future implementations
                 int returnCode = 0;
-                List<Devolution> devolutions = null;
+                List<Devolution> devolutions = new ArrayList<>();
                 try
                 {
-                    devolutions = DevolutionOperator.getOperator().findAll(prefClientId, null);
+                    List<Devolution> devsAux = null;
+                    if(prefClient instanceof Leader)
+                    {
+                        Iterator<SubordinatedClient> it = ((Leader)prefClient).getSubordinates().iterator();
+                        while(it.hasNext())
+                        {
+                            devsAux = DevolutionOperator.getOperator().findAll(it.next().getId(), null);
+                            if(devsAux != null)
+                                devolutions.addAll(devsAux);
+                        }
+                    }
+
+                    devsAux = DevolutionOperator.getOperator().findAll(prefClient.getId(), null);
+                    if(devsAux != null)
+                    {
+                        devolutions.addAll(devsAux);
+                    }
+
                     getServiceSubscriber().closeProcessIsWorking(customAlert);
-                    if(devolutions != null)
+                    if(devolutions.size() > 0)
                     {
                         ((PreferentialClientServiceSubscriber)getServiceSubscriber()).showDevolutions(devolutions);
                     }
                     else
                     {
-                        getServiceSubscriber().showNoResult("El cliente "+prefClientId+" no tiene registrado devoluciones.");
+                        getServiceSubscriber().showNoResult("El cliente "+prefClient.getId()+" no tiene registrado devoluciones.");
                     }
                 }
                 catch(Exception exception)

@@ -14,6 +14,7 @@ import vitniksys.backend.model.enums.OrderType;
 public class OrdersRowTable
 {
     private Integer code;
+    private Integer prefClientId;
     private Integer deliveryNumber;
     private Integer quantity;
     private Integer returnedQuantity;
@@ -30,10 +31,11 @@ public class OrdersRowTable
 
     private Order order;
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, OrderType orderType, 
+    public OrdersRowTable(Integer code, Integer prefClientId, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, OrderType orderType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, boolean countForCommission, Order order)
     {
         this.code = code;
+        this.prefClientId = prefClientId;
         this.deliveryNumber = deliveryNumber;
         this.quantity = quantity;
         this.returnedQuantity = returnedQuantity;
@@ -66,10 +68,11 @@ public class OrdersRowTable
         );
     }
 
-    public OrdersRowTable(Integer code, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, OrderType orderType, 
+    public OrdersRowTable(Integer code, Integer prefClientId, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, OrderType orderType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, boolean countForCommission, ChangeListener<? super Boolean> changeListener, Order order)
     {
         this.code = code;
+        this.prefClientId = prefClientId;
         this.deliveryNumber = deliveryNumber;
         this.quantity = quantity;
         this.returnedQuantity = returnedQuantity;
@@ -100,7 +103,7 @@ public class OrdersRowTable
             while(ordersIterator.hasNext())
             {
                 order = ordersIterator.next();
-                ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
+                ordersRowTable = new OrdersRowTable(order.getCode(), order.getPrefClientId(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
                     order.getType(), order.getArticle().getId(), order.getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order.isCountForCommission(), order);
                 
                 if(order.isCommissionable())
@@ -137,27 +140,49 @@ public class OrdersRowTable
         return ret;
     }
 
-    public static List<OrdersRowTable> generateRows(List<Order> orders, Float commisionRatio, ChangeListener<? super Boolean> changeListener)
+    public static List<OrdersRowTable> generateRows(List<Order> orders, int commisionRatio, int fpCommisionRatio, int otherCommisionRatio, ChangeListener<? super Boolean> changeListener)
     {
         List<OrdersRowTable> ret = new ArrayList<>();
 
         Order order = null;
         OrdersRowTable ordersRowTable = null;
-        Iterator<Order> ordersIterator = orders.iterator();
-    
-        while(ordersIterator.hasNext())
+
+        if(orders != null)
         {
-            order = ordersIterator.next();
-            ordersRowTable = new OrdersRowTable(order.getCode(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
-                order.getType(), order.getArticle().getId(), order.getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order.isCountForCommission(), changeListener, order);
-
-            if(order.isCommissionable())
+            Iterator<Order> ordersIterator = orders.iterator();
+    
+            while(ordersIterator.hasNext())
             {
-                ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
-                ordersRowTable.setCommission(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
-            }
+                order = ordersIterator.next();
+                ordersRowTable = new OrdersRowTable(order.getCode(), order.getPrefClientId(), order.getDeliveryNumber(), order.getQuantity(), order.getReturnedQuantity(), order.getCost(), order.getArticle().getName(), 
+                    order.getType(), order.getArticle().getId(), order.getUnitPrice(), order.getWithdrawalDate(), order.isCommissionable(), order.isCountForCommission(), changeListener, order);
+                
+                if(order.isCommissionable())
+                {
+                    switch(order.getType())
+                    {
+                        case PEDIDO:
+                        case OPORTUNIDAD:
+                            ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
+                            ordersRowTable.setCommission(order.getCost()*(commisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
+                        break;
 
-            ret.add(ordersRowTable);
+                        case FREEPREMIUM:
+                        case PROMO:
+                            ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(fpCommisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
+                            ordersRowTable.setCommission(order.getCost()*(fpCommisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
+                        break;
+
+                        default:
+                            ordersRowTable.setCommissionCost(order.getCost()-(order.getCost()*(otherCommisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR)));
+                            ordersRowTable.setCommission(order.getCost()*(otherCommisionRatio/App.ConstraitConstants.COMMISSION_RATIO_FACTOR));
+                    }
+
+                    
+                }
+    
+                ret.add(ordersRowTable);
+            }
         }
 
         if(ret.size() == 0)
@@ -175,6 +200,16 @@ public class OrdersRowTable
     public void setCode(Integer code)
     {
         this.code = code;
+    }
+
+    public Integer getPrefClientId()
+    {
+        return this.prefClientId;
+    }
+
+    public void setPrefClientId(Integer prefClientId)
+    {
+        this.prefClientId = prefClientId;
     }
 
     public Integer getDeliveryNumber()
