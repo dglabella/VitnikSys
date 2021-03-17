@@ -25,7 +25,7 @@ public class DetailFileInterpreter implements OrderObtainer
 {
     public static final String FILE_EXTENSION = "csv";
 
-    private static String SEPARATOR = ";";
+    public static String SEPARATOR = ";";
 
     //The file to be interpreted for gather the information of the incoming orders.
     private File detailFile;
