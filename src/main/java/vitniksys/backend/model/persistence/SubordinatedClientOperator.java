@@ -200,7 +200,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         }
 
         statement.close();
-            
+        
         return ret;
     }
 
@@ -216,9 +216,6 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
-        statement.setInt(1, id);
-        statement.setBoolean(2, this.activeRow);
-
         if(id != null)
         {
             statement.setInt(1, id);
@@ -227,6 +224,8 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         {
             throw new Exception("Preferential Client id is null");
         }
+
+        statement.setBoolean(2, this.activeRow);
 
         ResultSet resultSet = statement.executeQuery();
         

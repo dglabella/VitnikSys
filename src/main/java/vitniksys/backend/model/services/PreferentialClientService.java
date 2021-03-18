@@ -112,31 +112,35 @@ public class PreferentialClientService extends Service
 
     public void registerPrefClients(List<PreferentialClient> preferentialClients) throws Exception
     {
+        Campaign camp = CampaignOperator.getOperator().findLast();
+        if(camp == null)
+        {
+            throw new Exception("No campaign are registered");
+        }
+
         PreferentialClient prefClient = null;
         Iterator<PreferentialClient> prefClientsIterator = preferentialClients.iterator();
         while(prefClientsIterator.hasNext())
         {
             prefClient = prefClientsIterator.next();
-            prefClient.operator().insert(prefClient); // INSERT
 
-            Balance balance = new Balance();
-        
-            //balance associations
-            Campaign camp = CampaignOperator.getOperator().findLast();
-            if(camp == null)
+            if(!PreferentialClientOperator.exist(prefClient.getId(), true))// insert only if the cp not exist
             {
-                throw new Exception("No campaign are registered");
+                prefClient.operator().insert(prefClient); // INSERT
+
+                Balance balance = new Balance();
+            
+                //balance associations
+                
+                balance.setClient(prefClient);
+                balance.setCamp(camp);
+                //balance fk id
+                balance.setPrefClientId(prefClient.getId());
+                balance.setCampNumber(camp.getNumber());
+
+                BalanceOperator.getOperator().insert(balance); // INSERT
             }
-
-            balance.setClient(prefClient);
-            balance.setCamp(camp);
-            //balance fk id
-            balance.setPrefClientId(prefClient.getId());
-            balance.setCampNumber(camp.getNumber());
-
-            BalanceOperator.getOperator().insert(balance); // INSERT
         }
-
         //return returnCode;
     }
 

@@ -192,6 +192,33 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         return ret;
     }
 
+    public static boolean exist(Integer prefClientId, Boolean activeRow) throws Exception
+    {
+        boolean ret = false;
+        
+        String sqlStmnt =
+        "SELECT `id_cp` "+
+        "FROM `clientes_preferenciales` "+
+        "WHERE `id_cp` = ? AND `active_row` = ?;";
+        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        
+        if(prefClientId != null)
+            statement.setInt(1, prefClientId);
+        else
+            throw new Exception("Preferential Client id is null");
+        
+        statement.setBoolean(2, activeRow);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if(resultSet.next())
+            ret = true;
+        
+        statement.close();
+    
+        return ret;
+    }
+
     private List<List<Order>> organizeOrdersByCamps(List<Order> orders)
     {
         List<List<Order>> ret = new ArrayList<>();
