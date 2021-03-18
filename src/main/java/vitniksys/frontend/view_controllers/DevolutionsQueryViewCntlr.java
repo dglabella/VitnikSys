@@ -4,7 +4,10 @@ import java.net.URL;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -100,6 +103,31 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
 
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
+
+        this.filter.textProperty().addListener((obs, oldValue, newValue) -> 
+        {
+            this.filterTable(this.DEVOLUTIONS_TABLE_NUMBER, new Predicate<DevolutionsRowTable>()
+            {
+                @Override
+                public boolean test(DevolutionsRowTable devRow)
+                {
+                    boolean ret;
+                    if (newValue.isBlank() || (""+devRow.getCampNumber()).contains(newValue) || (""+devRow.getPrefClientId()).contains(newValue) || 
+                        (""+devRow.getUnitCode()).contains(newValue) || (""+devRow.getDeliveryNumber()).contains(newValue) || 
+                        (""+devRow.getCost()).contains(newValue) || devRow.getArticleId().contains(newValue) || 
+                        devRow.getArticleName().contains(newValue) || (""+devRow.getOrderType()).contains(newValue.toUpperCase()) || 
+                        (""+devRow.getReason()).contains(newValue))
+                    {
+                        ret = true;
+                    }
+                    else
+                    {
+                        ret = false;
+                    }
+                    return ret;
+                }
+            });
+        });
     }
 
     @Override
@@ -141,13 +169,19 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
     public void showDevolutions(List<Devolution> devolutions) throws Exception
     {
         this.loadData(DEVOLUTIONS_TABLE_NUMBER, DevolutionsRowTable.generateRows(devolutions));
+
+        float total = 0;
+        Iterator<Devolution> devsIterator =  devolutions.iterator();
+        while(devsIterator.hasNext())
+            total += devsIterator.next().getCost();
+        
+        this.total.setText(""+total);
     }
 
     @Override
     public void showObservation(Observation observation) throws Exception
     {
         // TODO Auto-generated method stub
-        
     }
     // =========================================== service subscriber methods ===========================================
 }

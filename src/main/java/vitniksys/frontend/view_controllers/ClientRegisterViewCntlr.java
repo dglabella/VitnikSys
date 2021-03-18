@@ -275,8 +275,13 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     {
         new CustomAlert(AlertType.INFORMATION, "ÉXITO", message).customShow();
         //Reinit the main menu pref clients table
-        this.getPrevViewCntlr().refresh();
-        this.getPrevViewCntlr().getPrevViewCntlr().refresh();
+        if(this.getPrevViewCntlr() != null && this.getPrevViewCntlr() instanceof MainMenuViewCntlr)
+            this.getPrevViewCntlr().refresh();
+
+        if(this.getPrevViewCntlr() != null && this.getPrevViewCntlr() instanceof ClientManagementViewCntlr && 
+            this.getPrevViewCntlr().getPrevViewCntlr() != null  && this.getPrevViewCntlr().getPrevViewCntlr() instanceof MainMenuViewCntlr)
+            this.getPrevViewCntlr().getPrevViewCntlr().refresh();
+
         this.backButtonPressed();
     }
 }
