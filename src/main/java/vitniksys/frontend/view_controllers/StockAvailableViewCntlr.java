@@ -7,13 +7,17 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
+import java.util.function.Predicate;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
+import vitniksys.backend.model.enums.Reason;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.StockTableRow;
+import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.ReturnedArticle;
@@ -29,10 +33,14 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     private PreferentialClient prefClient;
     private Campaign camp;
 
+    private AutoCompletionTool filterAutoCompletionTool;
+
     // ================================= FXML variables ===================================
     @FXML private Label total;
     @FXML private Label nameLastnameId;
     @FXML private Label assignmentCampaign;
+
+    @FXML private TextField filter;
 
     @FXML private TableView<StockTableRow> returnedArticles;
     
@@ -41,8 +49,9 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @FXML private TableColumn<StockTableRow, String> price;
     @FXML private TableColumn<StockTableRow, String> articleId;
     @FXML private TableColumn<StockTableRow, String> articleName;
-    @FXML private TableColumn<StockTableRow, String> articleType;
+    @FXML private TableColumn<StockTableRow, String> orderType;
     @FXML private TableColumn<StockTableRow, String> reason;
+
 
     // Getters && Setters
     public PreferentialClient getPrefClient()
@@ -75,7 +84,7 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
             if(stockRowTable != null)
             {
                 CustomAlert customAlert = new CustomAlert(CustomAlertType.REPURCHASE , "RECOMPRA", "Ingrese el monto de reventa");
-                ((RepurchaseDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).setCost(stockRowTable.getPrice());
+                ((RepurchaseDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).setCost(stockRowTable.getCost());
 
                 customAlert.customShow().ifPresent(response ->
                 {
@@ -160,16 +169,16 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
         columns.add(this.price);
         columns.add(this.articleId);
         columns.add(this.articleName);
-        columns.add(this.articleType);
+        columns.add(this.orderType);
         columns.add(this.reason);
 
         List<PropertyValueFactory> propertiesValues = new ArrayList<>();
         propertiesValues.add(new PropertyValueFactory<>("unitCode"));
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
-        propertiesValues.add(new PropertyValueFactory<>("price"));
+        propertiesValues.add(new PropertyValueFactory<>("cost"));
         propertiesValues.add(new PropertyValueFactory<>("articleId"));
         propertiesValues.add(new PropertyValueFactory<>("articleName"));
-        propertiesValues.add(new PropertyValueFactory<>("articleType"));
+        propertiesValues.add(new PropertyValueFactory<>("orderType"));
         propertiesValues.add(new PropertyValueFactory<>("reason"));
 
         this.registerTable(this.returnedArticles);
@@ -179,6 +188,30 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
         this.registerPropertiesValues(propertiesValues);
 
         this.returnedArticles.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        this.filter.textProperty().addListener((obs, oldValue, newValue) -> 
+        {
+            this.filterTable(this.RETURNED_ARTICLES_TABLE_NUMBER, new Predicate<StockTableRow>()
+            {
+                @Override
+                public boolean test(StockTableRow stockTableRow)
+                {
+                    boolean ret;
+                    if (newValue.isBlank() || (""+stockTableRow.getUnitCode()).contains(newValue) ||(""+stockTableRow.getDeliveryNumber()).contains(newValue) || 
+                        (""+stockTableRow.getCost()).contains(newValue) || stockTableRow.getArticleId().contains(newValue.toUpperCase()) || 
+                        stockTableRow.getArticleName().contains(newValue.toUpperCase()) || (""+stockTableRow.getOrderType()).contains(newValue.toUpperCase()) || 
+                        (""+stockTableRow.getReason()).contains(newValue.toUpperCase()))
+                    {
+                        ret = true;
+                    }
+                    else
+                    {
+                        ret = false;
+                    }
+                    return ret;
+                }
+            });
+        });
     }
     
     // ================================= service subscriber methods ===================================

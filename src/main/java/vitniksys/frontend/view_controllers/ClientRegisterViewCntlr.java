@@ -195,6 +195,7 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     protected void disableNotUpdateAllowedFields(boolean value)
     {
         this.id.setDisable(value);
+        this.leaderId.setDisable(value);
         this.isLeader.setDisable(value);
     }
 

@@ -17,6 +17,7 @@ public class StockTableRow
     private OrderType orderType;
     private Reason reason;
 
+
     public StockTableRow(Integer unitCode, Integer deliveryNumber, Float cost, String articleId, String articleName, OrderType orderType, Reason reason)
     {
         this.unitCode = unitCode;
@@ -69,12 +70,12 @@ public class StockTableRow
         this.deliveryNumber = deliveryNumber;
     }
 
-    public Float getPrice()
+    public Float getCost()
     {
         return this.cost;
     }
 
-    public void setPrice(Float cost)
+    public void setCost(Float cost)
     {
         this.cost = cost;
     }
@@ -99,12 +100,12 @@ public class StockTableRow
         this.articleName = articleName;
     }
 
-    public OrderType getArticleType()
+    public OrderType getOrderType()
     {
         return this.orderType;
     }
 
-    public void setArticleType(OrderType orderType)
+    public void setOrderType(OrderType orderType)
     {
         this.orderType = orderType;
     }

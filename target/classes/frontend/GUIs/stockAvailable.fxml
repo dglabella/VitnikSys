@@ -38,7 +38,7 @@
                   <Font name="Britannic Bold" size="28.0" />
                </font>
             </Label>
-            <TextField layoutX="450.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Filtro de artículos" />
+            <TextField fx:id="filter" layoutX="450.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Filtro de artículos" />
             <Label layoutX="15.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="205.0" text="Stock disponible" textFill="WHITE">
                <font>
                   <Font name="Britannic Bold" size="28.0" />
@@ -76,7 +76,7 @@
                   <TableColumn fx:id="price" text="Precio" />
                   <TableColumn fx:id="articleId" text="Letra" />
                   <TableColumn fx:id="articleName" prefWidth="420.0" text="Nombre" />
-                  <TableColumn fx:id="articleType" prefWidth="150.0" text="Tipo" />
+                  <TableColumn fx:id="orderType" prefWidth="150.0" text="Tipo" />
                   <TableColumn fx:id="reason" prefWidth="130.0" text="Motivo" />
                </columns>
                <columnResizePolicy>

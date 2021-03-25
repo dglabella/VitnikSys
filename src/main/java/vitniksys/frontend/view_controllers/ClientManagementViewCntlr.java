@@ -587,7 +587,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         propertiesValues.add(new PropertyValueFactory<>("commissionCost"));
         propertiesValues.add(new PropertyValueFactory<>("commission"));
         propertiesValues.add(new PropertyValueFactory<>("name"));
-        propertiesValues.add(new PropertyValueFactory<>("articleType"));
+        propertiesValues.add(new PropertyValueFactory<>("orderType"));
         propertiesValues.add(new PropertyValueFactory<>("articleId"));
         propertiesValues.add(new PropertyValueFactory<>("unitPrice"));
         propertiesValues.add(new PropertyValueFactory<>("withdrawalDate"));
@@ -675,10 +675,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 public boolean test(OrdersRowTable orderRow)
                 {
                     boolean ret;
-                    if (newValue.isBlank() || (""+orderRow.getDeliveryNumber()).contains(newValue) || (""+orderRow.getCost()).contains(newValue) || 
-                        orderRow.getName().contains(newValue.toUpperCase()) || (""+orderRow.getArticleType()).contains(newValue.toUpperCase()) || 
-                        (""+orderRow.getArticleId()).contains(newValue.toUpperCase()) || (""+orderRow.getUnitPrice()).contains(newValue) ||
-                        (""+orderRow.getWithdrawalDate()).contains(newValue) )
+                    if (newValue.isBlank() || (""+orderRow.getPrefClientId()).contains(newValue) || (""+orderRow.getDeliveryNumber()).contains(newValue) || 
+                        (""+orderRow.getCost()).contains(newValue) || orderRow.getName().contains(newValue.toUpperCase()) || 
+                        (""+orderRow.getOrderType()).contains(newValue.toUpperCase()) || (""+orderRow.getArticleId()).contains(newValue.toUpperCase()) || 
+                        (""+orderRow.getUnitPrice()).contains(newValue) || (""+orderRow.getWithdrawalDate()).contains(newValue) )
                     {
                         ret = true;
                     }

@@ -94,6 +94,7 @@ vitniksys\frontend\views_subscriber\CommissionServiceSubscriber.class
 vitniksys\backend\model\entities\SubordinatedClient.class
 vitniksys\backend\model\interfaces\IOrderOperator.class
 vitniksys\backend\model\services\PreferentialClientService$14.class
+vitniksys\frontend\view_controllers\StockAvailableViewCntlr$1.class
 vitniksys\backend\model\entities\PreferentialClient.class
 vitniksys\backend\model\enums\PayStatus.class
 vitniksys\backend\model\services\PreferentialClientService$11.class

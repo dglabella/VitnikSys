@@ -31,6 +31,7 @@ public class OrdersRowTable
 
     private Order order;
 
+
     public OrdersRowTable(Integer code, Integer prefClientId, Integer deliveryNumber, Integer quantity, Integer returnedQuantity, Float cost, String name, OrderType orderType, 
         String articleId, Float unitPrice, Timestamp withdrawalDate, boolean commissionable, boolean countForCommission, Order order)
     {
@@ -196,7 +197,7 @@ public class OrdersRowTable
     {
         return this.code;
     }
-
+    
     public void setCode(Integer code)
     {
         this.code = code;
@@ -241,7 +242,7 @@ public class OrdersRowTable
     {
         this.returnedQuantity = returnedQuantity;
     }
-    
+
     public Float getCost()
     {
         return this.cost;
@@ -282,12 +283,12 @@ public class OrdersRowTable
         this.name = name;
     }
 
-    public OrderType getArticleType()
+    public OrderType getOrderType()
     {
         return this.orderType;
     }
 
-    public void setArticleType(OrderType orderType)
+    public void setOrderType(OrderType orderType)
     {
         this.orderType = orderType;
     }
