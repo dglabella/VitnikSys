@@ -143,12 +143,12 @@ public class RepurchasesRowTable
         this.name = name;
     }
 
-    public OrderType getArticleType()
+    public OrderType getOrderType()
     {
         return this.orderType;
     }
 
-    public void setArticleType(OrderType orderType)
+    public void setOrderType(OrderType orderType)
     {
         this.orderType = orderType;
     }

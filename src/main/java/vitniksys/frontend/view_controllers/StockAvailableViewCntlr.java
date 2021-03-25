@@ -75,6 +75,7 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
             if(stockRowTable != null)
             {
                 CustomAlert customAlert = new CustomAlert(CustomAlertType.REPURCHASE , "RECOMPRA", "Ingrese el monto de reventa");
+                ((RepurchaseDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).setCost(stockRowTable.getPrice());
 
                 customAlert.customShow().ifPresent(response ->
                 {
@@ -136,6 +137,8 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     {
         try
         {
+            this.clearTable(this.RETURNED_ARTICLES_TABLE_NUMBER);
+
             this.nameLastnameId.setText(this.prefClient.getName()+" "+this.prefClient.getLastName()+" - "+this.prefClient.getId());
             this.assignmentCampaign.setText(this.camp.getEnumMonth()+" - "+this.camp.getYear()+" - "+this.camp.getNumber());
             
@@ -182,12 +185,14 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @Override
     public void refresh()
     {
-        // TODO Auto-generated method stub
+        manualInitialize();
+        this.getPrevViewCntlr().refresh();
     }
 
     @Override
     public void showStockAvailable(List<ReturnedArticle> returnedArticles) throws Exception
     {
+        this.clearTable(this.RETURNED_ARTICLES_TABLE_NUMBER);
         this.loadData(this.RETURNED_ARTICLES_TABLE_NUMBER, StockTableRow.generateRows(returnedArticles));
 
         float total = 0f;

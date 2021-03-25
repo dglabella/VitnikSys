@@ -45,7 +45,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
 
         String sqlStmnt =
         "UPDATE `clientes_preferenciales` "+
-        "SET `dni`=?, `nombre`=?, `apellido`=?, `lugar`=?, `fecha_nac`=?, `email`=?, `tel`=? "+
+        "SET `dni`=?, `nombre`=?, `apellido`=?, `lugar`=?, `fecha_nac`=?, `email`=?, `tel`=?, `id_lider`=?"+
         "WHERE `id_cp`=? AND `active_row`=?;";
 
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
@@ -98,8 +98,17 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
             statement.setNull(7, Types.BIGINT);
         }
 
-        statement.setInt(8, prefClient.getId());
-        statement.setBoolean(9, this.activeRow);
+        if(prefClient.g)
+        {
+            Updateo de base a subordinated
+        }
+        else
+        {
+
+        }
+
+        statement.setInt(9, prefClient.getId());
+        statement.setBoolean(10, this.activeRow);
 
         returnCode = statement.executeUpdate();
         statement.close();

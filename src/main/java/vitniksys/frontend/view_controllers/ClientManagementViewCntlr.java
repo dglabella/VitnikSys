@@ -138,7 +138,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<RepurchasesRowTable, String> priceRep;
     @FXML private TableColumn<RepurchasesRowTable, String> repurchasePrice;
     @FXML private TableColumn<RepurchasesRowTable, String> nameRep;
-    @FXML private TableColumn<RepurchasesRowTable, String> articleTypeRep;
+    @FXML private TableColumn<RepurchasesRowTable, String> orderTypeRep;
     @FXML private TableColumn<RepurchasesRowTable, String> repurchaseRegistrationTime;
     @FXML private TableColumn<RepurchasesRowTable, String> isCommissionableRep;
 
@@ -327,19 +327,25 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         Iterator<OrdersRowTable> it = this.orders.getSelectionModel().getSelectedItems().iterator();
         OrdersRowTable ordersRowTable = null;
-        int quantity = 0;
+        int orderQuantity = 0;
+        int articlesQuantity = 0;
+        int returnedArticlesQuantity = 0;
         while(it.hasNext())
         {
             ordersRowTable = it.next();
 
-            quantity++;
+            orderQuantity++;
+            articlesQuantity += ordersRowTable.getQuantity();
+            returnedArticlesQuantity += ordersRowTable.getReturnedQuantity();
             totalCost += ordersRowTable.getCost();
             totalCommCost += ordersRowTable.getCommissionCost();
             totalComm += ordersRowTable.getCommission();
         }
 
-        new CustomAlert(AlertType.INFORMATION, "Totales", "Cantidad seleccionada = "+quantity+
-                                           "\n\nTotal precio = "+totalCost+
+        new CustomAlert(AlertType.INFORMATION, "Totales", "Cantidad de pedidos seleccionados = "+orderQuantity+
+                                           "\n\nCantidad de artículos = "+articlesQuantity+
+                                             "\nCantidad de artículos devueltos = "+returnedArticlesQuantity+
+                                             "\nTotal precio = "+totalCost+
                                              "\nTotal precio comisión = "+totalCommCost+
                                              "\nTotal en comisión = "+totalComm)
                                               .customShow();
@@ -619,19 +625,19 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.priceRep);
         columns.add(this.repurchasePrice);
         columns.add(this.nameRep);
-        columns.add(this.articleTypeRep);
+        columns.add(this.orderTypeRep);
         columns.add(this.repurchaseRegistrationTime);
         columns.add(this.isCommissionableRep);
 
-        propertiesValues.add(new PropertyValueFactory<>("devCode"));
+        propertiesValues.add(new PropertyValueFactory<>("unitCode"));
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
         propertiesValues.add(new PropertyValueFactory<>("articleId"));
         propertiesValues.add(new PropertyValueFactory<>("cost"));
         propertiesValues.add(new PropertyValueFactory<>("repurchaseCost"));
         propertiesValues.add(new PropertyValueFactory<>("name"));
-        propertiesValues.add(new PropertyValueFactory<>("articleType"));
+        propertiesValues.add(new PropertyValueFactory<>("orderType"));
         propertiesValues.add(new PropertyValueFactory<>("registrationTime"));
-        propertiesValues.add(new PropertyValueFactory<>("commissionable"));
+        propertiesValues.add(new PropertyValueFactory<>("countForCommission"));
 
         this.registerTable(this.repurchases);
         this.REPURCHASES_TABLE_NUMBER = 2;

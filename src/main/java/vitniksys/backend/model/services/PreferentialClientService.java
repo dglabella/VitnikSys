@@ -294,6 +294,7 @@ public class PreferentialClientService extends Service
                         {
                             prefClient = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
                             ((SubordinatedClient)prefClient).setLeader(new Leader(Integer.parseInt(leaderId)));
+                            ((SubordinatedClient)prefClient).setLeaderId(Integer.parseInt(leaderId));
                         }
                         else
                         {

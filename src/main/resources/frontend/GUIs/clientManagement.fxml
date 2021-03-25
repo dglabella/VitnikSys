@@ -183,7 +183,7 @@
                                                 <TableColumn fx:id="priceRep" minWidth="100.0" prefWidth="110.0" resizable="false" text="Precio" />
                                                 <TableColumn fx:id="repurchasePrice" minWidth="100.0" prefWidth="120.0" resizable="false" text="Precio Rec" />
                                                 <TableColumn fx:id="nameRep" minWidth="420.0" prefWidth="430.0" resizable="false" text="Nombre" />
-                                                <TableColumn fx:id="articleTypeRep" minWidth="130.0" prefWidth="200.0" resizable="false" text="Tipo" />
+                                                <TableColumn fx:id="orderTypeRep" minWidth="130.0" prefWidth="200.0" resizable="false" text="Tipo" />
                                                 <TableColumn fx:id="repurchaseRegistrationTime" minWidth="160.0" prefWidth="160.0" resizable="false" text="Fecha Recompra" />
                                                 <TableColumn fx:id="isCommissionableRep" minWidth="30.0" prefWidth="40.0" resizable="false" text="Com?" />
                                              </columns>
@@ -192,6 +192,7 @@
                                                    <items>
                                                       <MenuItem mnemonicParsing="false" onAction="#devolutionRepMenuItemSelected" text="Devolver" />
                                                       <MenuItem mnemonicParsing="false" onAction="#seeStockMenuItemSelected" text="Ver stock" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#updateCommissionablesOrders" text="Actualizar comisionables" />
                                                    </items>
                                                 </ContextMenu>
                                              </contextMenu>

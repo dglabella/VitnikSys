@@ -15,6 +15,7 @@ import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
+import vitniksys.frontend.view_controllers.StockAvailableViewCntlr;
 import vitniksys.frontend.views_subscriber.StockAvailableServiceSubscriber;
 
 public class StockAvailableService extends Service

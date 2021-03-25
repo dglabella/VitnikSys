@@ -42,6 +42,7 @@ public class CustomAlert extends Alert
         this.setTitle(DEFAULT_SUCCES_TITLE);
         this.setHeaderText(DEFAULT_SUCCES_HEADER);
         this.setResizable(false);
+        build();
     }
 
     public CustomAlert(AlertType alertType, String title, String headerText)
@@ -50,6 +51,7 @@ public class CustomAlert extends Alert
         this.setTitle(title);
         this.setHeaderText(headerText);
         this.setResizable(false);
+        build();
     }
 
     public CustomAlert(CustomAlertType customAlertType, String title, String headerText)
@@ -59,6 +61,7 @@ public class CustomAlert extends Alert
         this.setTitle(title);
         this.setHeaderText(headerText);
         this.setResizable(false);
+        build();
     }
 
     public CustomAlert(AlertType alertType, String title, String headerText, String description, Exception exception)
@@ -69,6 +72,7 @@ public class CustomAlert extends Alert
         this.description = description;
         this.exception = exception;
         this.setResizable(false);
+        build();
     }
 
     public static Exception irrelevantException()
@@ -159,7 +163,7 @@ public class CustomAlert extends Alert
 
     public Optional<ButtonType> customShow()
     {
-        build();
+        //build();
         Optional<ButtonType> ret = null;
         ((Stage)this.getDialogPane().getScene().getWindow()).setAlwaysOnTop(true);
 

@@ -41,6 +41,12 @@ public class RepurchaseDialogContentViewCntlr extends DialogContentViewCntlr imp
     // ================================= protected methods ===================================
 
     // ================================= public methods ===================================
+    public void setCost(Float cost)
+    {
+        this.cost.setText(""+cost);
+        costCheck();
+    }
+
     public Float getCost()
     {
         return Float.parseFloat(this.cost.getText());
