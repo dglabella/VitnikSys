@@ -1,12 +1,10 @@
 package vitniksys.backend.model.entities;
 
 import java.util.List;
-
-import vitniksys.backend.model.services.CampaignService;
-
 import java.time.Month;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import vitniksys.backend.model.services.CampaignService;
 
 public class Campaign
 {
