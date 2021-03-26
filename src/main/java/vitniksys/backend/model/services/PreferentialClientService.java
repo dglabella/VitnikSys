@@ -662,7 +662,11 @@ public class PreferentialClientService extends Service
                         float fpComF = fpComFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
                         float otherComF = otherComFactor/App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
 
-                        float devCost = order.getCost();
+                        float devCost = order.getCost()/order.getQuantity();
+
+                        Devolution devolution = new Devolution(devCost); //in DB, is saved the unit cost.
+                        devolution.setPrefClientId(order.getPrefClientId()); // Register this devolution with the preferential Client id from the one that make the order.
+                        devolution.setCampNumber(campNumber);
                         
                         if(order.isCommissionable())
                         {
@@ -670,23 +674,18 @@ public class PreferentialClientService extends Service
                             {
                                 case PEDIDO:
                                 case OPORTUNIDAD:
-                                    devCost -= (order.getCost() / order.getQuantity())*comF;
+                                    devCost = devCost-(devCost*comF);
                                 break;
 
                                 case FREEPREMIUM:
                                 case PROMO:
-                                    devCost -= (order.getCost() / order.getQuantity())*fpComF;   
+                                    devCost = devCost-(devCost*fpComF);
                                 break;
 
                                 default:
-                                    devCost -= (order.getCost() / order.getQuantity())*otherComF;
+                                    devCost = devCost-(devCost*otherComF);
                             }
                         }
-                        
-                        Devolution devolution = new Devolution(order.getCost() / order.getQuantity()); //in DB, is saved the unit cost.
-                        devolution.setPrefClientId(order.getPrefClientId()); // Register this devolution with the preferential Client id from the one that make the order.
-                        devolution.setCampNumber(campNumber);
-
 
                         Balance balance = new Balance();
                         balance.setPrefClientId(prefClient.getId());

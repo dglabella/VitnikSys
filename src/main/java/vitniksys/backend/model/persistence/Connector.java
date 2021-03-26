@@ -10,8 +10,8 @@ public class Connector
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     //private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis?serverTimezone=UTC";
     //private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis?serverTimezone=America/Argentina/Buenos_Aires";
-    //private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis?serverTimezone=America/Argentina/Buenos_Aires";
-    private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis_test?serverTimezone=America/Argentina/Buenos_Aires";
+    private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis?serverTimezone=America/Argentina/Buenos_Aires";
+    //private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis_test?serverTimezone=America/Argentina/Buenos_Aires";
     private static final String USER = "root";
     private static final String PASS = "";
 
