@@ -13,14 +13,14 @@ import com.jfoenix.controls.JFXButton;
 import javafx.beans.value.ObservableValue;
 import vitniksys.backend.model.entities.Order;
 import javafx.scene.control.SpinnerValueFactory;
+import vitniksys.backend.model.bussines_logic.CommissionBLService;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Repurchase;
-import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
+import vitniksys.frontend.views_subscriber.CommissionBLServiceSubscriber;
 
-public class CommissionRegisterViewCntlr extends ViewCntlr implements CommissionServiceSubscriber
+public class CommissionRegisterViewCntlr extends ViewCntlr implements CommissionBLServiceSubscriber
 {
     private PreferentialClient prefClient;
     private Campaign camp;
@@ -60,7 +60,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
     {
         try
         {
-            ((CommissionService)this.getService(0)).modifyCommission(this.prefClient.getId(), this.camp.getNumber(), this.commission.getActualQuantity(), this.commission.getActualRate(), this.minQuantity.getValue(), this.lvl1Quantity.getValue(), 
+            ((CommissionBLService)this.getBLService(0)).modifyCommission(this.prefClient.getId(), this.camp.getNumber(), this.commission.getActualQuantity(), this.commission.getActualRate(), this.minQuantity.getValue(), this.lvl1Quantity.getValue(), 
                 this.lvl2Quantity.getValue(), this.lvl3Quantity.getValue(), this.lvl1RateSpinner.getValue(), this.lvl2RateSpinner.getValue(), this.lvl3RateSpinner.getValue(), this.lvl4RateSpinner.getValue(), 
                 this.fpRateSpinner.getValue(), this.otherRateSpinner.getValue(), this.orders, this.repurchases);
             
@@ -118,7 +118,7 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         {
             try
             {
-                ((CommissionService)this.getService(0)).createDefaultCommission(this.prefClient, this.orders, this.repurchases);
+                ((CommissionBLService)this.getBLService(0)).createDefaultCommission(this.prefClient, this.orders, this.repurchases);
             }
             catch (Exception exception)
             {

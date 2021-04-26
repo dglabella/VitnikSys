@@ -54,7 +54,7 @@ public class SubordinatedClient extends PreferentialClient
     @Override
     public String toString()
     {
-        return super.toString()+" SUB CLIENT -- Leader: "+this.leader.getId();
+        return super.toString()+" SUB CLIENT -- Leader: "+(this.leader != null? this.leader.getId() : null);
     }
 
     @Override

@@ -187,7 +187,15 @@ public class BalanceOperator implements IBalanceOperator
         }
         else if(prefClientId == null && campNumb != null)
         {
-            // Select devs with camp numb x
+            sqlStmnt = 
+            "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "+
+            "FROM `saldos` "+
+            "WHERE `nro_camp` = ? AND `active_row` = ? "+
+            "ORDER BY `saldos`.`nro_camp` DESC;";
+
+            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement.setInt(1, campNumb);
+            statement.setBoolean(2, this.activeRow);
         }
         else
         {

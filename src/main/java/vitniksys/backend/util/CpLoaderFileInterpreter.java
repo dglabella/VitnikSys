@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
-import vitniksys.backend.model.services.PreferentialClientService;
 
 public class CpLoaderFileInterpreter extends FileInterpreter implements IFileInterpreter
 {
@@ -26,7 +26,7 @@ public class CpLoaderFileInterpreter extends FileInterpreter implements IFileInt
      * @param file file the file wich contains the information of all preferentias clients.
      * @param service service for execute the use case.
      */
-    public CpLoaderFileInterpreter(File file, PreferentialClientService service)
+    public CpLoaderFileInterpreter(File file, PreferentialClientBLService service)
     {
         super(file, service);
     }
@@ -68,6 +68,6 @@ public class CpLoaderFileInterpreter extends FileInterpreter implements IFileInt
 
         inputStream.close();
 
-        ((PreferentialClientService)this.getService(0)).registerPrefClients(preferentialClients);
+        ((PreferentialClientBLService)this.getService(0)).registerPrefClients(preferentialClients);
     }
 }

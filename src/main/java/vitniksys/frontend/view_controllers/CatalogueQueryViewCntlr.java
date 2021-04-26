@@ -16,10 +16,10 @@ import vitniksys.backend.util.ExpressionChecker;
 import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Catalogue;
-import vitniksys.backend.model.services.CatalogueService;
-import vitniksys.frontend.views_subscriber.CatalogueServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.CatalogueBLService;
+import vitniksys.frontend.views_subscriber.CatalogueBLServiceSubscriber;
 
-public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServiceSubscriber
+public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueBLServiceSubscriber
 {
     private final String BUTTON_TEXT_REGISTER = "Registrar";
     private final String BUTTON_TEXT_UPDATE = "Actualizar";
@@ -135,7 +135,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     {
         try
         {
-            ((CatalogueService)this.getService(0)).searchCatalogue(this.catalogueCode.getText());     
+            ((CatalogueBLService)this.getBLService(0)).searchCatalogue(this.catalogueCode.getText());     
         }
         catch (Exception exception)
         {
@@ -148,7 +148,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     {
         try
         {
-            ((CatalogueService)this.getService(0)).registerCatalogue(this.catalogueCode.getText(), this.initialStock.getValue(), 
+            ((CatalogueBLService)this.getBLService(0)).registerCatalogue(this.catalogueCode.getText(), this.initialStock.getValue(), 
                 this.stock.getValue(), this.price.getText(), this.link.getText());    
         }
         catch (Exception exception)
@@ -161,7 +161,7 @@ public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueServi
     @Override
     protected void manualInitialize()
     {
-        ((CatalogueService)this.getService(0)).searchCatalogues();
+        ((CatalogueBLService)this.getBLService(0)).searchCatalogues();
     }
 
     // ================================= public methods =================================

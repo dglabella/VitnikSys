@@ -14,7 +14,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
-import vitniksys.backend.model.enums.Reason;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.StockTableRow;
 import vitniksys.backend.util.AutoCompletionTool;
@@ -23,10 +22,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.util.CustomAlert.CustomAlertType;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.services.StockAvailableService;
-import vitniksys.frontend.views_subscriber.StockAvailableServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.StockAvailableBLService;
+import vitniksys.frontend.views_subscriber.StockAvailableBLServiceSubscriber;
 
-public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvailableServiceSubscriber
+public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvailableBLServiceSubscriber
 {
     private int RETURNED_ARTICLES_TABLE_NUMBER;
 
@@ -92,7 +91,7 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
                     {                    
                         try
                         {
-                            ((StockAvailableService)this.getService(0)).registerRepurchase(this.prefClient, this.camp.getNumber(), stockRowTable.getUnitCode(), 
+                            ((StockAvailableBLService)this.getBLService(0)).registerRepurchase(this.prefClient, this.camp.getNumber(), stockRowTable.getUnitCode(), 
                                                                                             ((RepurchaseDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getCost());
                         }
                         catch (Exception exception)
@@ -128,7 +127,7 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
                         while(it.hasNext())
                             unitCodes.add(it.next().getUnitCode());
 
-                        ((StockAvailableService)this.getService(0)).registerVitnikResend(unitCodes);
+                        ((StockAvailableBLService)this.getBLService(0)).registerVitnikResend(unitCodes);
                     }
                     catch(Exception exception)
                     {
@@ -151,7 +150,7 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
             this.nameLastnameId.setText(this.prefClient.getName()+" "+this.prefClient.getLastName()+" - "+this.prefClient.getId());
             this.assignmentCampaign.setText(this.camp.getEnumMonth()+" - "+this.camp.getYear()+" - "+this.camp.getNumber());
             
-            ((StockAvailableService)this.getService(0)).getStockAvailable();
+            ((StockAvailableBLService)this.getBLService(0)).getStockAvailable();
         }
         catch (Exception exception)
         {

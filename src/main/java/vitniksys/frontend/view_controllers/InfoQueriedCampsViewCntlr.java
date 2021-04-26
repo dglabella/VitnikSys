@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.util.DetailFileInterpreter;
-import vitniksys.backend.model.services.CampaignService;
+import vitniksys.backend.model.bussines_logic.CampaignBLService;
 
 public class InfoQueriedCampsViewCntlr extends ViewCntlr
 {
@@ -66,7 +66,7 @@ public class InfoQueriedCampsViewCntlr extends ViewCntlr
     {
         try
         {
-            ((CampaignService)this.getService(0)).registerOrders(detail);   
+            ((CampaignBLService)this.getBLService(0)).registerOrders(detail);   
         }
         catch (Exception exception)
         {

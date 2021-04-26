@@ -13,12 +13,11 @@ import javafx.application.Application;
 import javafx.scene.control.ButtonType;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.model.services.Service;
 import vitniksys.frontend.view_controllers.ViewCntlr;
-//import vitniksys.backend.util.DetailFileInterpreter;
-import vitniksys.backend.model.services.CampaignService;
+import vitniksys.backend.model.bussines_logic.BLService;
 import vitniksys.frontend.view_controllers.MainMenuViewCntlr;
-import vitniksys.backend.model.services.PreferentialClientService;
+import vitniksys.backend.model.bussines_logic.CampaignBLService;
+import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 
 
 public class App extends Application
@@ -79,13 +78,13 @@ public class App extends Application
             }
         });
 
-        Service prefClientService = new PreferentialClientService();
+        BLService prefClientService = new PreferentialClientBLService();
         viewCtrller.addService(prefClientService);
-        prefClientService.setServiceSubscriber(viewCtrller);
+        prefClientService.setBLServiceSubscriber(viewCtrller);
 
-        Service campaignService = new CampaignService();
+        BLService campaignService = new CampaignBLService();
         viewCtrller.addService(campaignService);
-        campaignService.setServiceSubscriber(viewCtrller);
+        campaignService.setBLServiceSubscriber(viewCtrller);
 
         stage.show();
         ((MainMenuViewCntlr)viewCtrller).init();

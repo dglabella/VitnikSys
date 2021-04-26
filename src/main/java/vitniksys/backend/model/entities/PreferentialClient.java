@@ -221,7 +221,7 @@ public abstract class PreferentialClient
     {
         this.balances = balances;
     }
-
+    
     @Override
     public String toString()
     {

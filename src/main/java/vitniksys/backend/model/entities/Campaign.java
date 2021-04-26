@@ -4,7 +4,7 @@ import java.util.List;
 import java.time.Month;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import vitniksys.backend.model.services.CampaignService;
+import vitniksys.backend.model.bussines_logic.CampaignBLService;
 
 public class Campaign
 {
@@ -205,7 +205,7 @@ public class Campaign
     @Override
     public String toString()
     {
-        String s = CampaignService.SEPARATOR;
+        String s = CampaignBLService.SEPARATOR;
         return ""+Month.of(this.getMonth())+s+this.getYear()+s+(this.alias!=null?this.alias:"S/N")+s+this.number;
     }
 }

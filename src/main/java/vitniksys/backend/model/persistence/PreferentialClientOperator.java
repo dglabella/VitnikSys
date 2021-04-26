@@ -114,6 +114,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
      * @return A list of preferential Clients
      * @throws Exception may throw SQLException.
      */
+    /*
     public static List<PreferentialClient> findAllPrefClients(Boolean activeRow) throws Exception
     {
         ClientList ret = new ClientList();
@@ -175,15 +176,6 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
 
             ret.add(prefClient);
         }
-
-        /*
-        System.out.println("================ prefClients ================");
-        Iterator<PreferentialClient> printList = ret.iterator();
-        while(printList.hasNext())
-        {
-            System.out.println(printList.next().toString());
-        }
-        */
         
         statement.close();
 
@@ -192,6 +184,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
             
         return ret;
     }
+    */
 
     public static boolean exist(Integer prefClientId, Boolean activeRow) throws Exception
     {

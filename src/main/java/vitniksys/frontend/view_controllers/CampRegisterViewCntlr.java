@@ -24,12 +24,12 @@ import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
-import vitniksys.backend.model.services.CampaignService;
-import vitniksys.backend.model.services.CatalogueService;
-import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
-import vitniksys.frontend.views_subscriber.CatalogueServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.CampaignBLService;
+import vitniksys.backend.model.bussines_logic.CatalogueBLService;
+import vitniksys.frontend.views_subscriber.CampaignBLServiceSubscriber;
+import vitniksys.frontend.views_subscriber.CatalogueBLServiceSubscriber;
 
-public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceSubscriber, CatalogueServiceSubscriber
+public class CampRegisterViewCntlr extends ViewCntlr implements CampaignBLServiceSubscriber, CatalogueBLServiceSubscriber
 {
     // Changing YEAR_MIN and YEAR_MAX values only affect the frontend view.
     private static final int YEAR_MIN = 2020;
@@ -100,7 +100,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     {
         try
         {
-            ((CampaignService)this.getService(0)).registerCamp(this.campNumber.getValue(), this.campAlias.getText(),
+            ((CampaignBLService)this.getBLService(0)).registerCamp(this.campNumber.getValue(), this.campAlias.getText(),
                 this.campMonth.getValue() != null? this.campMonth.getValue().getValue() : null, 
                 this.campYear.getValue(), this.catalogueCode.getText(), this.detail);
         }
@@ -113,7 +113,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     @FXML
     private void plusCatalogueButtonPressed()
     {
-        ViewCntlr viewCntlr = this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueService());
+        ViewCntlr viewCntlr = this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueBLService());
         viewCntlr.getStage().show();
         viewCntlr.manualInitialize();
     }
@@ -123,7 +123,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
     {
         boolean ret;
     
-        if (this.campAlias.getText().length() <= CampaignService.MAX_LENGTH_CAMP_ALIAS && !this.campAlias.getText().contains(CampaignService.SEPARATOR))
+        if (this.campAlias.getText().length() <= CampaignBLService.MAX_LENGTH_CAMP_ALIAS && !this.campAlias.getText().contains(CampaignBLService.SEPARATOR))
         {
             this.campAliasInvalid.setVisible(false);
             ret = true;
@@ -166,8 +166,8 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignServiceS
         try
         {
             // to load the last camp number into the camp number spinner
-            ((CampaignService) this.getService(0)).searchLastCamp();
-            ((CatalogueService) this.getService(1)).searchCatalogues();
+            ((CampaignBLService) this.getBLService(0)).searchLastCamp();
+            ((CatalogueBLService) this.getBLService(1)).searchCatalogues();
             
         }
         catch(Exception exception)

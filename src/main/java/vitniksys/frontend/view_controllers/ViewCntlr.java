@@ -12,13 +12,13 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.model.services.Service;
-import vitniksys.frontend.views_subscriber.ServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.BLService;
+import vitniksys.frontend.views_subscriber.BLServiceSubscriber;
 
-public abstract class ViewCntlr implements Initializable, ServiceSubscriber
+public abstract class ViewCntlr implements Initializable, BLServiceSubscriber
 {
     private Stage stage;
-    private List<Service> services;
+    private List<BLService> services;
     private ViewCntlr prevViewCntlr;
 
     // ================================= Getters && setters =================================
@@ -60,7 +60,7 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
      */
     protected abstract void manualInitialize();
 
-    protected ViewCntlr createStage(String title, String sceneName, Service ... services)
+    protected ViewCntlr createStage(String title, String sceneName, BLService ... services)
     {
         String fileName = sceneName;
         FXMLLoader fxmlLoader = null;
@@ -82,10 +82,10 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
         viewCtrller.getStage().setTitle(title);
         viewCtrller.setPrevViewCntlr(this);
 
-        for(Service service: services)
+        for(BLService service: services)
         {
             viewCtrller.addService(service);
-            service.setServiceSubscriber(viewCtrller);
+            service.setBLServiceSubscriber(viewCtrller);
         }
 
         return viewCtrller;
@@ -114,13 +114,13 @@ public abstract class ViewCntlr implements Initializable, ServiceSubscriber
 
     // ================================= service subscriber methods =================================
     @Override
-    public Service getService(int location)
+    public BLService getBLService(int location)
     {
         return this.services.get(location);
     }
 
     @Override
-    public int addService(Service service)
+    public int addService(BLService service)
     {
         this.services.add(service);
         return this.services.size()-1;

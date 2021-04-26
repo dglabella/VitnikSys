@@ -22,14 +22,14 @@ import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
-import vitniksys.backend.model.services.CampaignService;
-import vitniksys.backend.model.services.CatalogueService;
-import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.services.PreferentialClientService;
-import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.CampaignBLService;
+import vitniksys.backend.model.bussines_logic.CatalogueBLService;
+import vitniksys.backend.model.bussines_logic.CommissionBLService;
+import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
+import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
 
-public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber
+public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber
 {
     private int PREF_CLIENTS_TABLE_NUMBER;
 
@@ -48,19 +48,11 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
 
     // ================================== FXML methods ==================================
     @FXML
-    private void openManagementButtonPressed()
+    private void summaryButtonPressed()
     {
-        if(this.prefClients.getSelectionModel().getSelectedIndex() > -1)
-        {
-            PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
-
-            ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new PreferentialClientService(), new CampaignService(), new CommissionService());
-            viewCntlr.getStage().show();
-
-            ((ClientManagementViewCntlr)viewCntlr).loadPreferentialClient(selectedPrefClient);
-
-            viewCntlr.manualInitialize();
-        }
+        ViewCntlr viewCntlr = this.createStage("Resumen de clientes", "summary", new PreferentialClientBLService(), new CampaignBLService());
+        viewCntlr.getStage().show();
+        viewCntlr.manualInitialize();
     }
 
     @FXML
@@ -80,7 +72,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
                     {
                         try
                         {
-                            ((PreferentialClientService)this.getService(0)).registerPrefClientsAuto(cpsFile);
+                            ((PreferentialClientBLService)this.getBLService(0)).registerPrefClientsAuto(cpsFile);
                         }
                         catch(Exception exception)
                         {
@@ -107,24 +99,6 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     }
 
     @FXML
-    private void idOnKeyTyped()
-    {
-
-    }
-
-    @FXML
-    private void idOnAction() throws Exception
-    {
-        searchButtonPressed();
-    }
-
-    @FXML
-    private void textFieldCatOnAction() throws Exception
-    {
-        searchButtonPressed();
-    }
-
-    @FXML
     private void catButtonOnMouseEntered()
     {
         catButton.setFitHeight(catButton.getFitHeight()+10);
@@ -141,21 +115,15 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @FXML
     private void catButtonOnMousePressed() throws Exception
     {
-        ViewCntlr viewCntlr = this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueService());
+        ViewCntlr viewCntlr = this.createStage("Consultar Cátalogo", "catalogueQuery", new CatalogueBLService());
         viewCntlr.getStage().show();
         viewCntlr.manualInitialize();
     }
 
     @FXML
-    private void searchButtonPressed() throws Exception
-    {
-        
-    }
-
-    @FXML
     private void searchCampButtonPressed()
     {
-        ViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps", new CampaignService());
+        ViewCntlr viewCntlr = this.createStage("Consultar campaña", "searchCamps", new CampaignBLService());
         viewCntlr.getStage().show();
         viewCntlr.manualInitialize();
     }
@@ -163,13 +131,13 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     @FXML
     private void newCpButtonPressed()
     {
-        this.createStage("Formulario de registro de Cliente preferencial", "clientRegister", new PreferentialClientService()).getStage().show();
+        this.createStage("Formulario de registro de Cliente preferencial", "clientRegister", new PreferentialClientBLService()).getStage().show();
     }
 
     @FXML
     private void newCampButtonPressed()
     {
-        ViewCntlr viewCntlr = this.createStage("Crear campaña", "campRegister", new CampaignService(), new CatalogueService());
+        ViewCntlr viewCntlr = this.createStage("Crear campaña", "campRegister", new CampaignBLService(), new CatalogueBLService());
         viewCntlr.getStage().show();
         viewCntlr.manualInitialize();
     }
@@ -191,7 +159,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
                     {
                         try
                         {
-                            ((CampaignService)this.getService(1)).registerOrders(detail);
+                            ((CampaignBLService)this.getBLService(1)).registerOrders(detail);
                         }
                         catch(Exception exception)
                         {
@@ -209,7 +177,20 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
     }
 
     // ================================= private methods =================================
+    private void openManagementButtonPressed()
+    {
+        if(this.prefClients.getSelectionModel().getSelectedIndex() > -1)
+        {
+            PreferentialClient selectedPrefClient = this.prefClients.getItems().get(this.prefClients.getSelectionModel().getSelectedIndex());
 
+            ViewCntlr viewCntlr = this.createStage("Gestión de cliente preferencial", "clientManagement", new PreferentialClientBLService(), new CampaignBLService(), new CommissionBLService());
+            viewCntlr.getStage().show();
+
+            ((ClientManagementViewCntlr)viewCntlr).loadPreferentialClient(selectedPrefClient);
+
+            viewCntlr.manualInitialize();
+        }
+    }
 
     // ================================= protected methods ===============================
     @Override
@@ -218,7 +199,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         try 
         {
             this.clearTables();
-            ((PreferentialClientService)this.getService(0)).searchPreferentialClients();   
+            ((PreferentialClientBLService)this.getBLService(0)).searchPreferentialClients();   
         }
         catch (Exception exception)
         {

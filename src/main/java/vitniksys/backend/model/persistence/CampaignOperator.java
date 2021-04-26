@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
+import vitniksys.backend.model.interfaces.CrudOperator;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
 
 public class CampaignOperator implements ICampaignOperator

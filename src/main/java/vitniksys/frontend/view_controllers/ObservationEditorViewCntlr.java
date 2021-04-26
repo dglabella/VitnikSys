@@ -9,10 +9,10 @@ import javafx.scene.control.TextArea;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.services.PreferentialClientService;
-import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
+import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
 
-public class ObservationEditorViewCntlr extends ViewCntlr implements PreferentialClientServiceSubscriber
+public class ObservationEditorViewCntlr extends ViewCntlr implements PreferentialClientBLServiceSubscriber
 {
     private Integer prefClientId;
     private Integer campNumber;
@@ -50,7 +50,7 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     {
         try
         {
-            ((PreferentialClientService)this.getService(0)).registerObservation(this.prefClientId, this.campNumber, this.observation.getText());
+            ((PreferentialClientBLService)this.getBLService(0)).registerObservation(this.prefClientId, this.campNumber, this.observation.getText());
         }
         catch (Exception exception)
         {
@@ -66,7 +66,7 @@ public class ObservationEditorViewCntlr extends ViewCntlr implements Preferentia
     {
         try
         {
-            ((PreferentialClientService)this.getService(0)).searchObservation(this.prefClientId, this.campNumber);   
+            ((PreferentialClientBLService)this.getBLService(0)).searchObservation(this.prefClientId, this.campNumber);   
         }
         catch (Exception exception)
         {

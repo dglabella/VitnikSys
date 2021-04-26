@@ -42,18 +42,18 @@ import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
-import vitniksys.backend.model.services.CampaignService;
-import vitniksys.backend.model.services.CommissionService;
 import vitniksys.backend.util.CustomAlert.CustomAlertType;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
-import vitniksys.backend.model.services.StockAvailableService;
-import vitniksys.backend.model.services.PreferentialClientService;
-import vitniksys.frontend.views_subscriber.CampaignServiceSubscriber;
-import vitniksys.frontend.views_subscriber.CommissionServiceSubscriber;
-import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.CampaignBLService;
+import vitniksys.backend.model.bussines_logic.CommissionBLService;
+import vitniksys.frontend.views_subscriber.CampaignBLServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.StockAvailableBLService;
+import vitniksys.frontend.views_subscriber.CommissionBLServiceSubscriber;
+import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
+import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
 
-public class ClientManagementViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber, CampaignServiceSubscriber, CommissionServiceSubscriber
+public class ClientManagementViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber, CommissionBLServiceSubscriber
 {
     private Campaign actualCampaign;
     private PreferentialClient prefClient;
@@ -146,7 +146,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void editPrefClientButtonPressed()
     {
-        ClientRegisterViewCntlr viewCntlr = (ClientRegisterViewCntlr) this.createStage("Cliente preferencial "+this.prefClient.getId(), "clientRegister", new PreferentialClientService());
+        ClientRegisterViewCntlr viewCntlr = (ClientRegisterViewCntlr) this.createStage("Cliente preferencial "+this.prefClient.getId(), "clientRegister", new PreferentialClientBLService());
         viewCntlr.getStage().show();
 
         viewCntlr.setPrefClientId(this.prefClient.getId());
@@ -170,7 +170,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void devolutionsMenuItemSelected()
     {
-        DevolutionsQueryViewCntlr viewCntlr = (DevolutionsQueryViewCntlr)this.createStage("Devoluciones", "devolutionsQuery", new PreferentialClientService());
+        DevolutionsQueryViewCntlr viewCntlr = (DevolutionsQueryViewCntlr)this.createStage("Devoluciones", "devolutionsQuery", new PreferentialClientBLService());
         viewCntlr.setPrefClient(this.prefClient);
         viewCntlr.getStage().show();
         viewCntlr.manualInitialize();
@@ -264,7 +264,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                     while(it.hasNext())
                         orders.add(it.next().getOrder());
                 
-                    ((PreferentialClientService)this.getService(0)).registerWithdrawals(orders);
+                    ((PreferentialClientBLService)this.getBLService(0)).registerWithdrawals(orders);
                 }
                 catch (Exception exception)
                 {
@@ -289,7 +289,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                     while(it.hasNext())
                         orders.add(it.next().getOrder());
 
-                    ((PreferentialClientService)this.getService(0)).registerWithdrawals(orders);
+                    ((PreferentialClientBLService)this.getBLService(0)).registerWithdrawals(orders);
                 }
                 catch (Exception exception)
                 {
@@ -304,7 +304,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         if(this.prefClient instanceof BaseClient) // works also for Leader because extends from base client
         {
-            ViewCntlr viewCntlr = this.createStage("Observación", "observationEditor", new PreferentialClientService());
+            ViewCntlr viewCntlr = this.createStage("Observación", "observationEditor", new PreferentialClientBLService());
             ((ObservationEditorViewCntlr)viewCntlr).setCampNumber(this.actualCampaign.getNumber());
             ((ObservationEditorViewCntlr)viewCntlr).setPrefClientId(this.prefClient.getId());
             viewCntlr.getStage().show();
@@ -362,7 +362,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 PaymentDialogContentViewCntlr cntlr = (PaymentDialogContentViewCntlr)customAlert.getDialogContentViewCntlr();
                 try
                 {
-                    ((PreferentialClientService)this.getService(0)).registerPayment(this.prefClient, this.actualCampaign.getNumber(), cntlr.getDescriptor(), 
+                    ((PreferentialClientBLService)this.getBLService(0)).registerPayment(this.prefClient, this.actualCampaign.getNumber(), cntlr.getDescriptor(), 
                         cntlr.getAmount(), cntlr.getItem(), cntlr.getPaymentMethod(), cntlr.getBank(), cntlr.getPaymentStatus());
                 }
                 catch (Exception exception)
@@ -393,7 +393,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 {                    
                     try
                     {
-                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), 
+                        ((PreferentialClientBLService)this.getBLService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), 
                                                                                     ((DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getReason());
                     }
                     catch (Exception exception)
@@ -423,7 +423,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 {
                     try
                     {
-                        ((PreferentialClientService)this.getService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), repurchasesRowTable.getCod());
+                        ((PreferentialClientBLService)this.getBLService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), repurchasesRowTable.getCod());
                     }
                     catch (Exception exception)
                     {
@@ -441,7 +441,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void seeStockMenuItemSelected()
     {
-        ViewCntlr viewCntlr = this.createStage("Stock de artículos devueltos", "stockAvailable", new StockAvailableService());
+        ViewCntlr viewCntlr = this.createStage("Stock de artículos devueltos", "stockAvailable", new StockAvailableBLService());
         viewCntlr.getStage().show();
         ((StockAvailableViewCntlr)viewCntlr).setPrefClient(this.prefClient);
         ((StockAvailableViewCntlr)viewCntlr).setCamp(this.actualCampaign);
@@ -454,7 +454,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     {
         if(this.prefClient instanceof Leader)
         {
-            ViewCntlr viewCntlr = this.createStage("Comisión", "commissionRegister", new CommissionService());
+            ViewCntlr viewCntlr = this.createStage("Comisión", "commissionRegister", new CommissionBLService());
             viewCntlr.getStage().show();
 
             //load prefClientId and campNumber because sometimes actualCommission can be null
@@ -485,7 +485,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         while(it2.hasNext())
             repurchasesToUpdate.add(it2.next().getRepurchase());
 
-        ((CommissionService)this.getService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate, repurchasesToUpdate);
+        ((CommissionBLService)this.getBLService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate, repurchasesToUpdate);
     }
     
     // ================================= private methods ===================================
@@ -522,15 +522,15 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
 
         if(this.prefClient instanceof Leader)
         {
-            ((PreferentialClientService)this.getService(0)).searchLeader(this.prefClient.getId(), this.actualCampaign.getNumber());
+            ((PreferentialClientBLService)this.getBLService(0)).searchLeader(this.prefClient.getId(), this.actualCampaign.getNumber());
         }
         else if(this.prefClient instanceof BaseClient)
         {
-            ((PreferentialClientService)this.getService(0)).searchBaseClient(this.prefClient.getId(), this.actualCampaign.getNumber());
+            ((PreferentialClientBLService)this.getBLService(0)).searchBaseClient(this.prefClient.getId(), this.actualCampaign.getNumber());
         }
         else
         {
-            ((PreferentialClientService)this.getService(0)).searchSubordinatedClient(this.prefClient.getId(), this.actualCampaign.getNumber());
+            ((PreferentialClientBLService)this.getBLService(0)).searchSubordinatedClient(this.prefClient.getId(), this.actualCampaign.getNumber());
         }
     }
 
@@ -541,7 +541,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         try
         {
             //((CampaignService)this.getService(1)).searchLastCamp();
-            ((CampaignService)this.getService(1)).searchCamps(null, null, null, null, null);
+            ((CampaignBLService)this.getBLService(1)).searchCamps(null, null, null, null, null);
 
             fillManagementView();
         }
@@ -655,7 +655,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 {
                     if(event.getCode() == KeyCode.ENTER)
                     {
-                        actualCampaign = CampaignService.parseCamp(camp.getText());
+                        actualCampaign = CampaignBLService.parseCamp(camp.getText());
                         fillManagementView();
                     }
                     else if(event.getCode() == KeyCode.DOWN)
@@ -729,9 +729,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.actualOrders = this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign != null ? this.actualCampaign.getNumber() : null);
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
-        this.ordersQuantity.setText("Artículos: "+ CommissionService.calculateArticlesQuantity(this.actualOrders));
+        this.ordersQuantity.setText("Artículos: "+ CommissionBLService.calculateArticlesQuantity(this.actualOrders));
 
-        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionService.calculateCommissionablesQuantity(this.actualOrders, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
+        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionBLService.calculateCommissionablesQuantity(this.actualOrders, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
 
         if(prefClient instanceof Leader)
         {

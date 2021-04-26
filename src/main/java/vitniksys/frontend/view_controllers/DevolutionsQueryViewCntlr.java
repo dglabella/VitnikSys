@@ -16,14 +16,14 @@ import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.util.DevolutionsRowTable;
+import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.services.PreferentialClientService;
-import vitniksys.frontend.views_subscriber.PreferentialClientServiceSubscriber;
+import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
 
-public class DevolutionsQueryViewCntlr extends TableViewCntlr implements PreferentialClientServiceSubscriber
+public class DevolutionsQueryViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber
 {
     private int DEVOLUTIONS_TABLE_NUMBER;
 
@@ -136,7 +136,7 @@ public class DevolutionsQueryViewCntlr extends TableViewCntlr implements Prefere
         this.nameLastnameId.setText(this.prefClient.getName()+" "+this.prefClient.getLastName()+" - "+this.getPrefClient().getId());
         try
         {
-            ((PreferentialClientService)this.getService(0)).searchDevolutions(this.prefClient);  
+            ((PreferentialClientBLService)this.getBLService(0)).searchDevolutions(this.prefClient);  
         }
         catch (Exception exception)
         {

@@ -12,7 +12,7 @@ import javafx.scene.control.DatePicker;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.model.services.PreferentialClientService;
+import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 
 public class ClientRegisterViewCntlr extends ViewCntlr
 {
@@ -157,13 +157,13 @@ public class ClientRegisterViewCntlr extends ViewCntlr
     {
         if(this.updateMode)
         {
-            ((PreferentialClientService)this.getService(0)).updateClient(this.id.getText(), this.dni.getText(), this.name.getText(),
+            ((PreferentialClientBLService)this.getBLService(0)).updateClient(this.id.getText(), this.dni.getText(), this.name.getText(),
                 this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),
                 this.phoneNumber.getText(), this.isLeader.isSelected(), this.leaderId.getText());
         }
         else
         {
-            ((PreferentialClientService)this.getService(0)).registerClient(this.id.getText(), this.dni.getText(), this.name.getText(),
+            ((PreferentialClientBLService)this.getBLService(0)).registerClient(this.id.getText(), this.dni.getText(), this.name.getText(),
                 this.lastName.getText(), this.location.getText(), this.birthdate.getValue(), this.email.getText(),
                 this.phoneNumber.getText(), this.isLeader.isSelected(), this.leaderId.getText());
         }

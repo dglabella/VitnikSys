@@ -11,7 +11,7 @@ public interface CrudOperator<Entity>
 {
     /**
      * Registers persistently an entity of the domain.
-     * @param e The entity to be registered.
+     * @param entity The entity to be registered.
      * @return A code for errors checking. 0 represent that an error has occurred.
      */
     Integer insert(Entity entity) throws Exception;
@@ -20,14 +20,14 @@ public interface CrudOperator<Entity>
      * Registers persistently a list of entities of the domain.
      * This method is supposed to be more eficient when a large number
      * of insertion is needed.
-     * @param e The list of entities to be registered.
+     * @param entity The list of entities to be registered.
      * @return A code for errors checking. 0 represent that an error has occurred.
      */
     Integer insertMany(List<Entity> list) throws Exception;
     
     /**
      * Updates persistently an entity of the domain.
-     * @param e The entity to be updated.
+     * @param entity The entity to be updated.
      * @return A code for errors checking. 0 represent that an error has occurred.
      */
     Integer update(Entity entity) throws Exception;
