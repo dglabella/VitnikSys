@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
+import java.util.function.Predicate;
 import javafx.scene.control.TableRow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
@@ -52,7 +53,17 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
     {
         if(event.getClickCount() == 2)
         {
-            System.out.println("Double click!");
+            this.clearTable(this.CAMPS_TABLE_NUMBER);
+
+            SummaryPrefClientTableRow row = this.prefClients.getSelectionModel().getSelectedItem();
+            
+            // if(row != null)
+            // {
+
+            // }
+
+            this.nameLastName.setText(""+row.getName()+" "+row.getLastName());
+            this.loadData(this.CAMPS_TABLE_NUMBER, SummaryCampsTableRow.generateRows(row.getPrefClient()));
         }
     }
 
@@ -70,7 +81,7 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
     @Override
     protected void manualInitialize()
     {
-        ((PreferentialClientBLService)this.getBLService(0)).searchPreferentialClientsWithBalances();
+        ((PreferentialClientBLService)this.getBLService(0)).searchPreferentialClientsWithBalancesAndCamps();
     }
 
     @Override
@@ -125,6 +136,30 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
                 }  
             }
         });
+
+        this.searchClient.textProperty().addListener((obs, oldValue, newValue) -> 
+        {
+            this.filterTable(this.PREF_CLIENTS_TABLE_NUMBER, new Predicate<SummaryPrefClientTableRow>()
+            {
+                @Override
+                public boolean test(SummaryPrefClientTableRow prefClient)
+                {
+                    boolean ret;
+                    if (newValue.isBlank() || (""+prefClient.getId()).contains(newValue) ||
+                        (prefClient.getDni() != null && (""+prefClient.getDni()).contains(newValue)) ||
+                        prefClient.getName().contains(newValue.toUpperCase()) ||
+                        prefClient.getLastName().contains(newValue.toUpperCase()))
+                    {
+                        ret = true;
+                    }
+                    else
+                    {
+                        ret = false;
+                    }
+                    return ret;
+                }
+            });
+        });
     }
 
     // ============================================ BL service subscriber methods ============================================
@@ -152,6 +187,7 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
     @Override
     public void showQueriedPrefClients(List<PreferentialClient> prefClients) throws Exception
     {
+        this.clearTables();
         this.loadData(this.PREF_CLIENTS_TABLE_NUMBER, SummaryPrefClientTableRow.generateRows(prefClients));
     }
 

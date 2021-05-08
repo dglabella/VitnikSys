@@ -13,6 +13,7 @@ vitniksys\backend\util\DevolutionsRowTable.class
 vitniksys\backend\model\entities\CatalogueDeliver.class
 vitniksys\backend\model\persistence\RepurchaseOperator.class
 vitniksys\backend\model\persistence\BalanceOperator.class
+vitniksys\frontend\view_controllers\SummaryViewCntlr$2.class
 vitniksys\backend\util\RepurchasesRowTable.class
 vitniksys\backend\model\bussines_logic\StockAvailableBLService.class
 vitniksys\backend\model\entities\Payment.class

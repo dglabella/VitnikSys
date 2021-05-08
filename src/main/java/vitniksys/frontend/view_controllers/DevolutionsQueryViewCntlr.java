@@ -6,9 +6,8 @@ import javafx.fxml.FXML;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
-
 import javafx.scene.control.Label;
+import java.util.function.Predicate;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
@@ -16,11 +15,11 @@ import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.util.DevolutionsRowTable;
-import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
 
 public class DevolutionsQueryViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber

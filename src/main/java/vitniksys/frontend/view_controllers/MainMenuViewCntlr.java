@@ -240,7 +240,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
-
+        
 
         //Setting the filter binding to the text field
         this.searchField.textProperty().addListener((obs, oldValue, newValue) -> 

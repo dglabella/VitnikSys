@@ -37,6 +37,7 @@ import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.interfaces.IBalanceOperator;
+import vitniksys.backend.model.interfaces.ICampaignOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
@@ -140,17 +141,26 @@ public class PreferentialClientBLService extends BLService
         return ret;
     }
 
-    protected List<PreferentialClient> findAllPrefClientWithBalances()
+    protected List<PreferentialClient> findAllPrefClientWithBalancesAndCamps()
     {
         List<PreferentialClient> ret = new ArrayList<>();
         List<PreferentialClient> aux = new ArrayList<>();
+        List<Campaign> camps = new ArrayList<>();
+
         IPreferentialClientOperator preferentialClientOperator;
         IBalanceOperator balanceOperator = BalanceOperator.getOperator();
+        ICampaignOperator campaignOperator = CampaignOperator.getOperator();
         Iterator<PreferentialClient> clientsIt;
         PreferentialClient client;
 
+        Iterator<Campaign> campsIt;
+        Campaign camp;
+        Balance balance;
+
         try
         {
+            camps = campaignOperator.findAll();
+
             preferentialClientOperator = LeaderOperator.getOperator();
             aux.addAll(preferentialClientOperator.findAll());
 
@@ -165,6 +175,18 @@ public class PreferentialClientBLService extends BLService
             {
                 client = clientsIt.next();
                 client.setBalances(new VitnikSearchableList<Balance>(balanceOperator.findAll(client.getId(), null)));
+
+                campsIt = camps.iterator();
+                while(campsIt.hasNext())
+                {
+                    camp = campsIt.next();
+                    balance = client.getBalances().locateWithCampNumb(camp.getNumber());
+
+                    // it is possible that the client had no participation in this camp, so no balance will be found for this camp
+                    if(balance != null)
+                        balance.setCamp(camp);
+                }
+
                 ret.add(client);
             }
         }
@@ -569,7 +591,7 @@ public class PreferentialClientBLService extends BLService
         Platform.runLater(task);
     }
 
-    public void searchPreferentialClientsWithBalances()
+    public void searchPreferentialClientsWithBalancesAndCamps()
     {
         CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Void> task = new Task<>()
@@ -581,7 +603,7 @@ public class PreferentialClientBLService extends BLService
 
                 try
                 {
-                    prefClients = findAllPrefClientWithBalances();
+                    prefClients = findAllPrefClientWithBalancesAndCamps();
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     if(prefClients != null)

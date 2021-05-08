@@ -14,6 +14,8 @@ public class SummaryPrefClientTableRow
     private String lastName;
     private Float balance;
 
+    private PreferentialClient prefClient;
+
     public static List<SummaryPrefClientTableRow> generateRows(List<PreferentialClient> prefClients)
     {
         List<SummaryPrefClientTableRow> ret = new ArrayList<>();
@@ -24,16 +26,18 @@ public class SummaryPrefClientTableRow
             SummaryPrefClientTableRow row;
             Iterator<Balance> balancesIt;
             Iterator<PreferentialClient> prefClientsIt = prefClients.iterator();
+
             while(prefClientsIt.hasNext())
             {
                 float totalBalance = 0;
                 prefClient = prefClientsIt.next();
-                
+            
                 row = new SummaryPrefClientTableRow();
                 row.setId(prefClient.getId());
                 row.setDni(prefClient.getDni());
                 row.setName(prefClient.getName());
                 row.setLastName(prefClient.getLastName());
+                row.setPrefClient(prefClient);
 
                 balancesIt = prefClient.getBalances().iterator();
                 while(balancesIt.hasNext())
@@ -100,5 +104,15 @@ public class SummaryPrefClientTableRow
     public void setBalance(Float balance)
     {
         this.balance = balance;
+    }
+
+    public PreferentialClient getPrefClient()
+    {
+        return this.prefClient;
+    }
+
+    public void setPrefClient(PreferentialClient prefClient)
+    {
+        this.prefClient = prefClient;
     }
 }
