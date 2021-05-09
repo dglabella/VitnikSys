@@ -56,6 +56,7 @@ vitniksys\backend\util\DetailFileInterpreter.class
 vitniksys\frontend\view_controllers\MainMenuViewCntlr.class
 vitniksys\frontend\views_subscriber\PreferentialClientBLServiceSubscriber.class
 vitniksys\backend\util\ExpressionChecker.class
+vitniksys\frontend\view_controllers\SummaryViewCntlr$4.class
 vitniksys\backend\model\entities\Observation.class
 vitniksys\backend\model\enums\PayType.class
 vitniksys\backend\model\bussines_logic\CommissionBLService$2.class
@@ -76,6 +77,7 @@ vitniksys\frontend\view_controllers\DevolutionsQueryViewCntlr$1.class
 vitniksys\backend\model\enums\OrderType.class
 vitniksys\backend\model\interfaces\ICampaignOperator.class
 vitniksys\frontend\view_controllers\SummaryViewCntlr.class
+vitniksys\frontend\view_controllers\SummaryViewCntlr$3.class
 vitniksys\backend\model\bussines_logic\PreferentialClientBLService$15.class
 vitniksys\backend\model\persistence\PaymentOperator.class
 vitniksys\backend\model\interfaces\IRepurchaseOperator.class

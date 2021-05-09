@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
+import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.util.SummaryCampsTableRow;
@@ -25,6 +26,9 @@ import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber
 
 public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber
 {
+    private final String UNPAID_CAMPS_FILTER_COMMAND = "//-";
+    private final String PAID_CAMPS_FILTER_COMMAND = "//+";
+
     private int PREF_CLIENTS_TABLE_NUMBER;
     private int CAMPS_TABLE_NUMBER;
 
@@ -45,6 +49,7 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
 
     @FXML private TableColumn<SummaryCampsTableRow, String> camp;
     @FXML private TableColumn<SummaryCampsTableRow, Float> campBalance;
+    private AutoCompletionTool campAutoCompletionTool;
 
     // ============================================ FXML methods ============================================
 
@@ -56,14 +61,12 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
             this.clearTable(this.CAMPS_TABLE_NUMBER);
 
             SummaryPrefClientTableRow row = this.prefClients.getSelectionModel().getSelectedItem();
-            
-            // if(row != null)
-            // {
 
-            // }
-
-            this.nameLastName.setText(""+row.getName()+" "+row.getLastName());
-            this.loadData(this.CAMPS_TABLE_NUMBER, SummaryCampsTableRow.generateRows(row.getPrefClient()));
+            if(row != null)
+            {
+                this.nameLastName.setText(""+row.getName()+" "+row.getLastName());
+                this.loadData(this.CAMPS_TABLE_NUMBER, SummaryCampsTableRow.generateRows(row.getPrefClient()));
+            }
         }
     }
 
@@ -117,26 +120,6 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
         this.registerColumns(columns);
         this.registerPropertiesValues(propertiesValues);
 
-        this.prefClients.setRowFactory(tv -> new TableRow<SummaryPrefClientTableRow>()
-        {
-            @Override
-            protected void updateItem(SummaryPrefClientTableRow row, boolean empty)
-            {
-                if(row != null)
-                {
-                    super.updateItem(row, empty);
-                    if (row.getBalance() < 0 )
-                    {
-                        setStyle("-fx-background-color: #FF0000;");   
-                    }
-                    else
-                    {
-                        setStyle("-fx-background-color: #FFFFFF;");   
-                    }
-                }  
-            }
-        });
-
         this.searchClient.textProperty().addListener((obs, oldValue, newValue) -> 
         {
             this.filterTable(this.PREF_CLIENTS_TABLE_NUMBER, new Predicate<SummaryPrefClientTableRow>()
@@ -159,6 +142,89 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
                     return ret;
                 }
             });
+        });
+
+        this.prefClients.setRowFactory(tv -> new TableRow<SummaryPrefClientTableRow>()
+        {
+            @Override
+            protected void updateItem(SummaryPrefClientTableRow row, boolean empty)
+            {
+                super.updateItem(row, empty);
+                if(row != null)
+                {
+                    if (row.getBalance() < 0 )
+                    {
+                        setStyle("-fx-background-color: #FF2C2C;");
+                    }
+                    else if (row.getBalance() > 0)
+                    {
+                        setStyle("-fx-background-color: #52FF28;");
+                    }
+                    else
+                    {
+                        setStyle(null);
+                    }
+                }
+                else
+                {
+                    setStyle(null);
+                }  
+            }
+        });
+
+        this.searchCamp.textProperty().addListener((obs, oldValue, newValue) -> 
+        {
+            this.filterTable(this.CAMPS_TABLE_NUMBER, new Predicate<SummaryCampsTableRow>()
+            {
+                @Override
+                public boolean test(SummaryCampsTableRow camp)
+                {
+                    boolean ret;
+                    if (
+                        newValue.isBlank() || 
+                        (camp.getCampBalance() < 0 && newValue.equals(UNPAID_CAMPS_FILTER_COMMAND)) ||
+                        (camp.getCampBalance() >= 0 && newValue.equals(PAID_CAMPS_FILTER_COMMAND)) || 
+                        (""+camp.getCamp()).contains(newValue.toUpperCase()) ||
+                        (""+camp.getCampBalance()).contains(newValue)
+                        )
+                    {
+                        ret = true;
+                    }
+                    else
+                    {
+                        ret = false;
+                    }
+                    return ret;
+                }
+            });
+        });
+
+        this.camps.setRowFactory(tv -> new TableRow<SummaryCampsTableRow>()
+        {
+            @Override
+            protected void updateItem(SummaryCampsTableRow row, boolean empty)
+            {
+                super.updateItem(row, empty);
+                if(row != null)
+                {
+                    if (row.getCampBalance() < 0 )
+                    {
+                        setStyle("-fx-background-color: #FF2C2C;");
+                    }
+                    else if (row.getCampBalance() > 0)
+                    {
+                        setStyle("-fx-background-color: #52FF28;");
+                    }
+                    else
+                    {
+                        setStyle(null);
+                    }
+                }
+                else
+                {
+                    setStyle(null);
+                }  
+            }
         });
     }
 

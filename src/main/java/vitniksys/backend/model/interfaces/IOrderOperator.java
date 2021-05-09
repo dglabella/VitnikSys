@@ -16,4 +16,6 @@ public interface IOrderOperator extends CrudOperator<Order>
     Order find(int id) throws Exception;
 
     Integer delete(int id) throws Exception;
+
+    Boolean existOrders(Integer campNumber) throws Exception;
 }

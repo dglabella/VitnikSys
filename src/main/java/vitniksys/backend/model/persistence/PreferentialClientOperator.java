@@ -4,19 +4,19 @@ import java.util.Set;
 import java.sql.Date;
 import java.sql.Types;
 import java.util.List;
-import java.time.ZoneId;
+//import java.time.ZoneId;
 import java.util.HashMap;
-import java.time.Instant;
+//import java.time.Instant;
 import java.util.Iterator;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
-import vitniksys.backend.util.ClientList;
+//import vitniksys.backend.util.ClientList;
 import vitniksys.backend.model.entities.Order;
-import vitniksys.backend.model.entities.Leader;
+//import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
-import vitniksys.backend.model.entities.BaseClient;
+//import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
@@ -273,7 +273,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         while(incomingOrdersIterator.hasNext())
             orders.add(incomingOrdersIterator.next());
 
-
+        
         ArticleOperator articleOperator = ArticleOperator.getOperator();
         OrderOperator orderOperator = OrderOperator.getOperator();
         BalanceOperator balanceOperator = BalanceOperator.getOperator();

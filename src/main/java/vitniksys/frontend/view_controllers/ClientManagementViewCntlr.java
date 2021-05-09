@@ -55,6 +55,8 @@ import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber
 
 public class ClientManagementViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber, CommissionBLServiceSubscriber
 {
+    private final String AGGREGATED_ORDERS_FILTER_COMMAND = "//a";
+
     private Campaign actualCampaign;
     private PreferentialClient prefClient;
     private Commission actualCommission;
@@ -661,7 +663,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                     else if(event.getCode() == KeyCode.DOWN)
                     {
                         //This trigger the list to visible
-                        campAutoCompletionTool.getTextField().clear();  
+                        campAutoCompletionTool.getTextField().clear(); 
                     }
                 }
             }
@@ -675,10 +677,14 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
                 public boolean test(OrdersRowTable orderRow)
                 {
                     boolean ret;
-                    if (newValue.isBlank() || (""+orderRow.getPrefClientId()).contains(newValue) || (""+orderRow.getDeliveryNumber()).contains(newValue) || 
+                    if (
+                        newValue.isBlank() || 
+                        (newValue.equals(AGGREGATED_ORDERS_FILTER_COMMAND) && orderRow.getOrder().isAggregated()) ||
+                        (""+orderRow.getPrefClientId()).contains(newValue) || (""+orderRow.getDeliveryNumber()).contains(newValue) || 
                         (""+orderRow.getCost()).contains(newValue) || orderRow.getName().contains(newValue.toUpperCase()) || 
                         (""+orderRow.getOrderType()).contains(newValue.toUpperCase()) || (""+orderRow.getArticleId()).contains(newValue.toUpperCase()) || 
-                        (""+orderRow.getUnitPrice()).contains(newValue) || (""+orderRow.getWithdrawalDate()).contains(newValue) )
+                        (""+orderRow.getUnitPrice()).contains(newValue) || (""+orderRow.getWithdrawalDate()).contains(newValue) 
+                        )
                     {
                         ret = true;
                     }

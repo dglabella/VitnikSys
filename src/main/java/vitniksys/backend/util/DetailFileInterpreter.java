@@ -184,7 +184,8 @@ public class DetailFileInterpreter implements OrderObtainer
         ClientList orderMakers;
         ClientList associatedLeaders;
 
-        try{
+        try
+        {
             Scanner inputStream = new Scanner(this.detailFile);
             
             //Gathering all the lines in the file into primary memory (detailFileRows).
@@ -262,7 +263,8 @@ public class DetailFileInterpreter implements OrderObtainer
         ClientList orderMakers;
         ClientList associatedLeaders;
 
-        try{
+        try
+        {
             Scanner inputStream = new Scanner(this.detailFile);
             
             //Gathering all the lines in the file into primary memory (detailFileRows).

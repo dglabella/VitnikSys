@@ -58,8 +58,8 @@ public class OrderOperator implements IOrderOperator
 	{
 		Integer returnCode = null;
 		String sqlStmnt = 
-		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`) "+
-		"VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`, `agregado`) "+
+		"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 		
 		statement.setInt(1, order.getDeliveryNumber());
@@ -70,6 +70,7 @@ public class OrderOperator implements IOrderOperator
 		statement.setFloat(6, order.getCost());
 		statement.setInt(7, order.getType().ordinal());
 		statement.setFloat(8, order.getUnitPrice());
+		statement.setBoolean(9, order.isAggregated());
 
         returnCode = statement.executeUpdate();
         statement.close();
@@ -82,8 +83,8 @@ public class OrderOperator implements IOrderOperator
 	{
 		Integer returnCode = 0;
         String sqlStmnt = 
-		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`) "+
-		"VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`, `agregado`) "+
+		"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
 
         Order order;
@@ -101,6 +102,7 @@ public class OrderOperator implements IOrderOperator
 			statement.setFloat(6, order.getCost());
 			statement.setInt(7, order.getType().ordinal());
 			statement.setFloat(8, order.getUnitPrice());
+			statement.setBoolean(9, order.isAggregated());
 
             returnCode += statement.executeUpdate();
         }
@@ -152,7 +154,7 @@ public class OrderOperator implements IOrderOperator
         if(prefClientId != null && campNumb != null)
         {
             sqlStmnt =
-			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision` ,`nombre`, `tipo`, `precio_unitario`"+
+			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision` ,`nombre`, `tipo`, `precio_unitario`, `agregado` "+
 			"FROM `pedidos` "+
 			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
 			"WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
@@ -166,7 +168,7 @@ public class OrderOperator implements IOrderOperator
         else if(prefClientId != null && campNumb == null)
         {
 			sqlStmnt =
-			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario`"+
+			"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario`, `agregado` "+
 			"FROM `pedidos` "+
 			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
 			"WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
@@ -196,6 +198,7 @@ public class OrderOperator implements IOrderOperator
 			order.setWithdrawalDate(resultSet.getTimestamp(9));
 			order.setType(OrderType.values()[resultSet.getInt(13)]);
 			order.setUnitPrice(resultSet.getFloat(14));
+			order.setAggregated(resultSet.getBoolean(15));
 			
 			//fk ids
 			order.setPrefClientId(resultSet.getInt(3));
@@ -282,7 +285,7 @@ public class OrderOperator implements IOrderOperator
 
 		PreparedStatement statement = null;
 		String sqlStmnt = 
-		"SELECT `id_cp`, `nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario` "+
+		"SELECT `id_cp`, `nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario`, `agregado` "+
 		"FROM `pedidos` "+
 		"INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
 		"WHERE `cod` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
@@ -304,6 +307,7 @@ public class OrderOperator implements IOrderOperator
 			ret.setRegistrationTime(resultSet.getTimestamp(9));
 			ret.setType(OrderType.values()[resultSet.getInt(13)]);
 			ret.setUnitPrice(resultSet.getFloat(14));
+			ret.setAggregated(resultSet.getBoolean(15));
 
 			Article article = new Article(resultSet.getString(3), resultSet.getString(12));
 
@@ -324,5 +328,33 @@ public class OrderOperator implements IOrderOperator
 	{
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public Boolean existOrders(Integer campNumber) throws Exception
+	{
+		Boolean ret = null;
+
+		PreparedStatement statement = null;
+		String sqlStmnt = 
+		"SELECT COUNT(`cod`) "+
+		"FROM `pedidos` "+
+		"WHERE `nro_camp` = ? AND `active_row` = ?;";
+
+		statement = Connector.getConnector().getStatement(sqlStmnt);
+
+		statement.setInt(1, campNumber);
+		statement.setBoolean(2, this.activeRow);
+
+		ResultSet resultSet = statement.executeQuery();
+		resultSet.next();
+		int count = resultSet.getInt(1);
+		
+		if(count > 0)
+			ret = true;
+		else
+			ret = false;
+		
+		return ret;
 	}
 }

@@ -1,27 +1,36 @@
 package vitniksys.backend.model.bussines_logic;
 
 import java.io.File;
+import java.util.Set;
 import java.util.List;
 import java.time.Month;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.OrderObtainer;
+import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.backend.model.entities.Article;
+import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
+import vitniksys.backend.model.interfaces.IOrderOperator;
+import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.interfaces.IArticleOperator;
 import vitniksys.backend.model.interfaces.IBalanceOperator;
-import vitniksys.backend.model.interfaces.ICampaignOperator;
+import vitniksys.backend.model.persistence.ArticleOperator;
 import vitniksys.backend.model.persistence.BalanceOperator;
+import vitniksys.backend.model.interfaces.ICampaignOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CatalogueOperator;
-import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.frontend.views_subscriber.CampaignBLServiceSubscriber;
 
 public class CampaignBLService extends BLService
@@ -95,7 +104,113 @@ public class CampaignBLService extends BLService
         return ret;
     }
 
+    private List<List<Order>> organizeOrdersByCamps(List<Order> orders)
+    {
+        List<List<Order>> ret = new ArrayList<>();
+        HashMap<Integer,List<Order>> hashMap = new HashMap<>();
+        Iterator<Order> orderIterator = orders.iterator();
+        
+        Order order;
+        List<Order> ordersBySomeCamp;
+        while(orderIterator.hasNext())
+        {
+            order = orderIterator.next();
+            ordersBySomeCamp = hashMap.get(order.getCampNumber());
+
+            if(ordersBySomeCamp == null)
+            {
+                hashMap.put(order.getCampNumber(), new ArrayList<Order>());
+                hashMap.get(order.getCampNumber()).add(order);
+            }
+            else
+            {
+                ordersBySomeCamp.add(order);
+            }
+        }
+        
+        Set<Integer> keySet = hashMap.keySet();
+        Iterator<Integer> keySetsIterator = keySet.iterator();
+
+        while(keySetsIterator.hasNext())
+        {
+            ret.add(hashMap.get(keySetsIterator.next()));
+        }
+
+        return ret;
+    }
+
+    private Integer registerOrders(PreferentialClient prefClient) throws Exception
+    {
+        Integer returnCode = 0;
+
+        List<Article> articles = new ArrayList<>();
+        Iterator<Order> incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
+
+        while(incomingOrdersIterator.hasNext())
+            articles.add(incomingOrdersIterator.next().getArticle());
+
+
+        List<Order> orders = new ArrayList<>();
+        incomingOrdersIterator = prefClient.getIncomingOrders().iterator();
+
+        while(incomingOrdersIterator.hasNext())
+            orders.add(incomingOrdersIterator.next());
+
+        
+        IArticleOperator articleOperator = ArticleOperator.getOperator();
+        IOrderOperator orderOperator = OrderOperator.getOperator();
+        IBalanceOperator balanceOperator = BalanceOperator.getOperator();
+        
+        // INSERT ARTICLES
+        articleOperator.insertMany(articles);
+
+        //Group orders by campaign number
+        List<List<Order>> ordersByCamp = organizeOrdersByCamps(orders);
+
+        Iterator<List<Order>> ordersByCampIterator = ordersByCamp.iterator();
+        Iterator<Order> ordersIterator;
+
+        while(ordersByCampIterator.hasNext())
+        {
+            Balance balance = new Balance();
+            //re-using variable
+            orders = ordersByCampIterator.next();
+            
+            // if orders with that camp number already exist in DB then this orders are aggregated.
+            if(orderOperator.existOrders(orders.get(0).getCampNumber()))
+            {
+                for(int i = 0; i < orders.size(); i++)
+                {
+                    orders.get(i).setAggregated(true);
+                }
+            }
+            //INSERT ORDERS
+            orderOperator.insertMany(orders);
+            
+            balance.setPrefClientId(prefClient.getId());
+            //Any camp is ok, since all orders from this sublist are from the same campaign
+            balance.setCampNumber(orders.get(0).getCampNumber());
+
+            ordersIterator = orders.iterator();
+            while(ordersIterator.hasNext())
+                balance.setTotalInOrders(balance.getTotalInOrders()+ordersIterator.next().getCost());
+            
+            returnCode += balanceOperator.update(balance);
+
+            //Load subordinated Pref client balances to a leader
+            if(prefClient instanceof SubordinatedClient)
+            {
+                //Changing the id in order to add the subordinated client balance to his leader
+                balance.setPrefClientId(((SubordinatedClient)prefClient).getLeader().getId());
+                BalanceOperator.getOperator().update(balance);
+            }
+        }
+
+        return returnCode;
+    }
+
     // ================================= protected methods =================================
+
     //USE CASE
     protected Integer registerIncomingOrders(File detail) throws Exception
     {
@@ -105,14 +220,12 @@ public class CampaignBLService extends BLService
         List<PreferentialClient> cps = orderObtainer.getOrderMakers();
         
         PreferentialClient prefClient;
-        PreferentialClientOperator cpOperator;
         Iterator<PreferentialClient> cpsIterator = cps.iterator();
 
         while(cpsIterator.hasNext())
         {
             prefClient = cpsIterator.next();
-            cpOperator = prefClient.operator();
-            returnCode += cpOperator.registerOrders(prefClient);
+            this.registerOrders(prefClient);
         }
         
         return returnCode;
@@ -178,7 +291,6 @@ public class CampaignBLService extends BLService
             this.getBLServiceSubscriber().showError("Error al intentar obtener las campañas", null, exception);
         }
     }
-
 
     public void searchCamps(String campNumb, String campAlias, Month month, Integer year, String catalogueCode)
     {
