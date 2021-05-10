@@ -6,5 +6,7 @@ public interface CommissionBLServiceSubscriber
 {
     void suggestCommisionCreation();
 
+    void suggestCompensation();
+
     void showCommission(Commission commission);
 }

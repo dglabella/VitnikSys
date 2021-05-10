@@ -20,6 +20,7 @@ public class Order extends VitnikSearchableEntity
     private OrderType type;
     private Float unitPrice;
     private boolean aggregated;
+    private boolean compensated;
 
     //Domain Associations
     private PreferentialClient client;
@@ -181,6 +182,16 @@ public class Order extends VitnikSearchableEntity
     public void setAggregated(boolean aggregated)
     {
         this.aggregated = aggregated;
+    }
+
+    public boolean isCompensated()
+    {
+        return this.compensated;
+    }
+
+    public void setCompensated(boolean compensated)
+    {
+        this.compensated = compensated;
     }
 
     public boolean isActive()

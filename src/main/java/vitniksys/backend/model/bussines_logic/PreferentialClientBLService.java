@@ -75,7 +75,7 @@ public class PreferentialClientBLService extends BLService
 
         if(campNumber != null && descriptor.length() <= App.ConstraitConstants.MAX_LENGTH_PAYMENT_DESCRIPTOR && amount != null)
         {
-            ret = true; 
+            ret = true;
         }
 
         return ret;

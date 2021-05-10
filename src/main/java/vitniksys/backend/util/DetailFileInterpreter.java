@@ -300,10 +300,10 @@ public class DetailFileInterpreter implements OrderObtainer
             {
                 splitedLine = inputStream.nextLine().split(IFileInterpreter.SEPARATOR);
 
-                System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" -- "+splitedLine[DELIVERY_NUMBER]+
-                    " -- "+splitedLine[LETTERS]+" -- "+splitedLine[BARCODE]+" -- "+splitedLine[NAME]+" -- "+splitedLine[QUANT]+
-                    " -- "+splitedLine[UNIT_PRICE]+" -- "+splitedLine[DESC_CP]+" -- "+splitedLine[PRICE]+" -- "+
-                    splitedLine[AGENT_COMM]+" -- "+splitedLine[FINAL_PRICE]+" -- "+splitedLine[CAMP]+" -- "+splitedLine[OBS]);
+                // System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" -- "+splitedLine[DELIVERY_NUMBER]+
+                //     " -- "+splitedLine[LETTERS]+" -- "+splitedLine[BARCODE]+" -- "+splitedLine[NAME]+" -- "+splitedLine[QUANT]+
+                //     " -- "+splitedLine[UNIT_PRICE]+" -- "+splitedLine[DESC_CP]+" -- "+splitedLine[PRICE]+" -- "+
+                //     splitedLine[AGENT_COMM]+" -- "+splitedLine[FINAL_PRICE]+" -- "+splitedLine[CAMP]+" -- "+splitedLine[OBS]);
 
                 this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
                     splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 

@@ -805,4 +805,17 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             }
         });
     }
+
+    @Override
+    public void suggestCompensation()
+    {
+        new CustomAlert(AlertType.CONFIRMATION, "Compensación", "Compensación detectada, Desea realizar una corrección por compensación?")
+        .customShow().ifPresent(response ->
+        {
+            if(response == ButtonType.OK)
+            {
+                this.payMenuItemSelected();
+            }
+        });
+    }
 }

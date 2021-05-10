@@ -325,4 +325,10 @@ public class CommissionRegisterViewCntlr extends ViewCntlr implements Commission
         this.fpRateSpinner.getValueFactory().setValue(commission.getFpFactor());
         this.otherRateSpinner.getValueFactory().setValue(commission.getOtherFactor());
     }
+
+    @Override
+    public void suggestCompensation()
+    {
+        // TODO Auto-generated method stub
+    }
 }

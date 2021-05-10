@@ -1,6 +1,7 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
+import vitniksys.App;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
-import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.util.SummaryCampsTableRow;
@@ -26,8 +26,8 @@ import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber
 
 public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber
 {
-    private final String UNPAID_CAMPS_FILTER_COMMAND = "//-";
-    private final String PAID_CAMPS_FILTER_COMMAND = "//+";
+    private final String UNPAID_CAMPS_FILTER_COMMAND = App.ConstraitConstants.FILTER_COMMAND_PREFIX+"-";
+    private final String PAID_CAMPS_FILTER_COMMAND = App.ConstraitConstants.FILTER_COMMAND_PREFIX+"+";
 
     private int PREF_CLIENTS_TABLE_NUMBER;
     private int CAMPS_TABLE_NUMBER;
@@ -49,7 +49,6 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
 
     @FXML private TableColumn<SummaryCampsTableRow, String> camp;
     @FXML private TableColumn<SummaryCampsTableRow, Float> campBalance;
-    private AutoCompletionTool campAutoCompletionTool;
 
     // ============================================ FXML methods ============================================
 
@@ -128,10 +127,15 @@ public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClie
                 public boolean test(SummaryPrefClientTableRow prefClient)
                 {
                     boolean ret;
-                    if (newValue.isBlank() || (""+prefClient.getId()).contains(newValue) ||
+                    if (
+                        newValue.isBlank() || 
+                        (prefClient.getBalance() < 0 && newValue.equals(UNPAID_CAMPS_FILTER_COMMAND)) ||
+                        (prefClient.getBalance() > 0 && newValue.equals(PAID_CAMPS_FILTER_COMMAND)) ||
+                        (""+prefClient.getId()).contains(newValue) ||
                         (prefClient.getDni() != null && (""+prefClient.getDni()).contains(newValue)) ||
                         prefClient.getName().contains(newValue.toUpperCase()) ||
-                        prefClient.getLastName().contains(newValue.toUpperCase()))
+                        prefClient.getLastName().contains(newValue.toUpperCase())
+                        )
                     {
                         ret = true;
                     }
