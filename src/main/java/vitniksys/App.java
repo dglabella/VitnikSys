@@ -22,13 +22,11 @@ import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 
 public class App extends Application
 {
-    public static final String GUIs_LOCATION = App.class.getResource("") + "../frontend/GUIs/";
-    public static final String FILE_EXTENSION = ".fxml";
-
     public static class ConstraitConstants
     {
         public static final String GUIs_LOCATION = App.class.getResource("") + "../frontend/GUIs/";
         public static final String FILE_EXTENSION = ".fxml";
+        public static final String FILTER_COMMAND_PREFIX = "//";
 
         public static final int MAX_LENGTH_CATALOGUE_LINK = 500;
         public static final int MAX_LENGTH_MONEY_LEFT_DIGITS = 10;
@@ -52,7 +50,7 @@ public class App extends Application
         //new DetailFileInterpreter(new FileChooser().showOpenDialog(null)).insertClientFromDetailFile();
         String fileName = "mainMenu";
 
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(GUIs_LOCATION + fileName + FILE_EXTENSION));
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(ConstraitConstants.GUIs_LOCATION + fileName + ConstraitConstants.FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.setTitle("Menu principal");

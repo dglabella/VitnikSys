@@ -149,7 +149,7 @@ public class CustomAlert extends Alert
 
             try
             {
-                fxmlLoader = new FXMLLoader(new URL(App.GUIs_LOCATION + fileName + App.FILE_EXTENSION));
+                fxmlLoader = new FXMLLoader(new URL(App.ConstraitConstants.GUIs_LOCATION + fileName + App.ConstraitConstants.FILE_EXTENSION));
                 this.getDialogPane().setContent(fxmlLoader.load());
                 this.dialogContentViewCntlr = fxmlLoader.getController();
 
