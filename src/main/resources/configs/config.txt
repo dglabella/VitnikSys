@@ -1,0 +1,8 @@
+[CONNECTION]
+ip:localhost
+port:3308
+database:vitniksanluis
+options:serverTimezone=America/Argentina/Buenos_Aires
+user:vksanluis
+pass:vkzulma123
+[END]

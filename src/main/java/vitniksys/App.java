@@ -26,6 +26,20 @@ public class App extends Application
     {
         public static final String GUIs_LOCATION = App.class.getResource("") + "../frontend/GUIs/";
         public static final String FILE_EXTENSION = ".fxml";
+        public static final String CONFIG_FILE_LOCATION = App.class.getResource("") + "../configs/config.txt";
+        public static final String CONFIG_FILE_CONNECTION_SECTION = "[CONNECTION]";
+        public static final String CONFIG_FILE_END_SECTION = "[END]";
+        public static final String CONFIG_FILE_DATA_SEPARATOR = ":";
+        public static final int CONFIG_FILE_TAG_SIDE = 0;
+        public static final int CONFIG_FILE_DATA_SIDE = 1;
+
+        public static final String CONFIG_FILE_IP_TAG = "ip";
+        public static final String CONFIG_FILE_PORT_TAG = "port";
+        public static final String CONFIG_FILE_DATABASE_TAG = "database";
+        public static final String CONFIG_FILE_OPT_TAG = "options";
+        public static final String CONFIG_FILE_USER_TAG = "user";
+        public static final String CONFIG_FILE_PASS_TAG = "pass";
+
         public static final String FILTER_COMMAND_PREFIX = "//";
 
         public static final int MAX_LENGTH_CATALOGUE_LINK = 500;
@@ -90,6 +104,7 @@ public class App extends Application
 
     public static void main(final String[] args)
     {
+        System.out.println("CONFIG FILE = "+App.ConstraitConstants.CONFIG_FILE_LOCATION);
         launch();
     }
 }

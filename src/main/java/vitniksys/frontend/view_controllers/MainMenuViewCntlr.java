@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.stage.FileChooser;
 import java.util.function.Predicate;
+
+import com.mysql.cj.log.NullLogger;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
@@ -190,6 +193,25 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
 
             viewCntlr.manualInitialize();
         }
+    }
+
+    private boolean generateDataBaseBackUp()
+    {
+        boolean ret = false;
+
+        Process process = null;
+        Runtime runtime = null;
+        try
+        {
+            runtime = Runtime.getRuntime();
+            //process = runtime.exec(command);
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
+
+        return ret;
     }
 
     // ================================= protected methods ===============================
