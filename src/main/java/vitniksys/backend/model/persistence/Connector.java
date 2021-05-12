@@ -1,5 +1,6 @@
 package vitniksys.backend.model.persistence;
 
+import java.io.File;
 import vitniksys.App;
 import java.util.Scanner;
 import java.sql.Connection;
@@ -33,7 +34,7 @@ public class Connector
         Connector.connection = DriverManager.getConnection(URL, USER, PASS);
     }
 
-    private static void readConfigFile(String file)
+    private static void readConfigFile(String filePath)
     {
         String line;
         String [] splitedLine = null;
@@ -41,7 +42,13 @@ public class Connector
 
         try
         {
-            inputStream = new Scanner(file);
+            System.out.println("filepath = "+filePath);
+            //clean path string: removing "file://"
+            //String [] aux = filePath.split("file:/");
+            //System.out.println("aux 0 = "+aux[0]);
+            //System.out.println("aux 1 = "+aux[1]);
+            //inputStream = new Scanner(new File(aux[1]));
+            inputStream = new Scanner(new File("C:\\Users\\dglab\\OneDrive\\Documentos\\vscode proyects\\VitnikSys\\target\\classes\\vitniksys\\..\\configs\\config.txt"));
 
             //Gathering all the lines in the file into primary memory (detailFileRows).
             boolean endTagReached = false;
@@ -61,21 +68,27 @@ public class Connector
                         {
                             case App.ConstraitConstants.CONFIG_FILE_IP_TAG:
                                 Connector.IP = splitedLine[App.ConstraitConstants.CONFIG_FILE_DATA_SIDE];
+                                System.out.println("IP = "+Connector.IP);
                             break;
                             case App.ConstraitConstants.CONFIG_FILE_PORT_TAG:
                                 Connector.PORT = splitedLine[App.ConstraitConstants.CONFIG_FILE_DATA_SIDE];
+                                System.out.println("PORT = "+Connector.PORT);
                             break;
                             case App.ConstraitConstants.CONFIG_FILE_DATABASE_TAG:
                                 Connector.DATABASE = splitedLine[App.ConstraitConstants.CONFIG_FILE_DATA_SIDE];
+                                System.out.println("DB = "+Connector.DATABASE);
                             break;
                             case App.ConstraitConstants.CONFIG_FILE_OPT_TAG:
                                 Connector.OPT = splitedLine[App.ConstraitConstants.CONFIG_FILE_DATA_SIDE];
+                                System.out.println("OPT = "+Connector.OPT);
                             break;
                             case App.ConstraitConstants.CONFIG_FILE_USER_TAG:
                                 Connector.USER = splitedLine[App.ConstraitConstants.CONFIG_FILE_DATA_SIDE];
+                                System.out.println("USER = "+Connector.USER);
                             break;
                             case App.ConstraitConstants.CONFIG_FILE_PASS_TAG:
                                 Connector.PASS = splitedLine[App.ConstraitConstants.CONFIG_FILE_DATA_SIDE];
+                                System.out.println("PASS = "+Connector.PASS);
                             break;
                         }
                         line = inputStream.next();

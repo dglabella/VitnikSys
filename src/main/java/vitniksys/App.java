@@ -26,7 +26,7 @@ public class App extends Application
     {
         public static final String GUIs_LOCATION = App.class.getResource("") + "../frontend/GUIs/";
         public static final String FILE_EXTENSION = ".fxml";
-        public static final String CONFIG_FILE_LOCATION = App.class.getResource("") + "../configs/config.txt";
+        public static final String CONFIG_FILE_LOCATION = App.class.getResource("../configs/config.txt").getPath();
         public static final String CONFIG_FILE_CONNECTION_SECTION = "[CONNECTION]";
         public static final String CONFIG_FILE_END_SECTION = "[END]";
         public static final String CONFIG_FILE_DATA_SEPARATOR = ":";
@@ -104,7 +104,6 @@ public class App extends Application
 
     public static void main(final String[] args)
     {
-        System.out.println("CONFIG FILE = "+App.ConstraitConstants.CONFIG_FILE_LOCATION);
         launch();
     }
 }

@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.stage.FileChooser;
 import java.util.function.Predicate;
-
-import com.mysql.cj.log.NullLogger;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
