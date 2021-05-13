@@ -192,7 +192,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         }
     }
 
-    private boolean generateDataBaseBackUp()
+    private boolean generateDataBaseBackUp(String command)
     {
         boolean ret = false;
 
@@ -201,7 +201,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         try
         {
             runtime = Runtime.getRuntime();
-            //process = runtime.exec(command);
+            process = runtime.exec(command);
         }
         catch (Exception exception)
         {

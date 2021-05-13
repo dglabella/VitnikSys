@@ -19,7 +19,6 @@ import vitniksys.frontend.view_controllers.MainMenuViewCntlr;
 import vitniksys.backend.model.bussines_logic.CampaignBLService;
 import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 
-
 public class App extends Application
 {
     public static class ConstraitConstants
