@@ -2,10 +2,8 @@ package vitniksys.backend.util;
 
 import java.io.File;
 import java.util.List;
-
-import vitniksys.backend.model.bussines_logic.BLService;
-
 import java.util.ArrayList;
+import vitniksys.backend.model.bussines_logic.BLService;
 
 public abstract class FileInterpreter
 {
@@ -37,4 +35,10 @@ public abstract class FileInterpreter
     {
         return this.services.get(location);
     }
+
+    /**
+     * Interprets the file using the implementation 
+     * corresponding to the class that is instantiated.
+     */
+    public abstract void interpret();
 }

@@ -13,8 +13,8 @@ import vitniksys.backend.model.enums.Bank;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.PayItem;
 import vitniksys.backend.model.enums.PayType;
+import vitniksys.backend.util.FileInterpreter;
 import vitniksys.backend.model.entities.Order;
-import vitniksys.backend.util.IFileInterpreter;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Payment;
@@ -201,7 +201,7 @@ public class PreferentialClientBLService extends BLService
         return ret;
     }
 
-    // ================================= protected methods =================================
+    // ================================= public methods =================================
     public void registerPrefClients(List<PreferentialClient> preferentialClients) throws Exception
     {
         Campaign camp = CampaignOperator.getOperator().findLast();
@@ -235,8 +235,7 @@ public class PreferentialClientBLService extends BLService
         }
         //return returnCode;
     }
-
-    // ================================= public methods ====================================
+    
     public void registerClient(String id, String dni, String name, String lastName, String location,
             LocalDate birthDate, String email, String phoneNumber, Boolean isLeader, String leaderId) throws Exception
     {
@@ -321,7 +320,7 @@ public class PreferentialClientBLService extends BLService
     public void registerPrefClientsAuto(File file)
     {
         CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-        IFileInterpreter cpLoader = new CpLoaderFileInterpreter(file, this);
+        FileInterpreter cpLoader = new CpLoaderFileInterpreter(file, this);
         Task<Integer> task = new Task<>()
         {
             @Override

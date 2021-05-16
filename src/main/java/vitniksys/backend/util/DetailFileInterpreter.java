@@ -19,12 +19,11 @@ import vitniksys.backend.model.entities.PreferentialClient;
 
 /**
 *This class contains the algorithm for translate the information
-*contained in Detalle.csv File
+*contained in detail.csv File
 */
 public class DetailFileInterpreter implements OrderObtainer
 {
-    public static final String FILE_EXTENSION = "csv";
-
+    private static final String SEPARATOR = ";" ;
     private static final int FIRST_LINES_TO_IGNORE = 6;
 
     //private static String SEPARATOR = ";";
@@ -212,7 +211,7 @@ public class DetailFileInterpreter implements OrderObtainer
             //Gathering all the lines in the file into primary memory (detailFileRows).
             while(inputStream.hasNext())
             {
-                splitedLine = inputStream.nextLine().split(IFileInterpreter.SEPARATOR);
+                splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
                 this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
                     splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 
                     splitedLine[QUANT], splitedLine[UNIT_PRICE], splitedLine[DESC_CP], splitedLine[PRICE], 
@@ -289,7 +288,7 @@ public class DetailFileInterpreter implements OrderObtainer
             Scanner inputStream = new Scanner(this.detailFile);
             
             //ignoring trash lines from the file
-            for(int i = 0; i < this.FIRST_LINES_TO_IGNORE; i++)
+            for(int i = 0; i < DetailFileInterpreter.FIRST_LINES_TO_IGNORE; i++)
             {
                 inputStream.nextLine();
             }
@@ -298,7 +297,7 @@ public class DetailFileInterpreter implements OrderObtainer
             //Gathering all the lines in the file into primary memory (detailFileRows).
             while(inputStream.hasNext())
             {
-                splitedLine = inputStream.nextLine().split(IFileInterpreter.SEPARATOR);
+                splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
 
                 // System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" -- "+splitedLine[DELIVERY_NUMBER]+
                 //     " -- "+splitedLine[LETTERS]+" -- "+splitedLine[BARCODE]+" -- "+splitedLine[NAME]+" -- "+splitedLine[QUANT]+

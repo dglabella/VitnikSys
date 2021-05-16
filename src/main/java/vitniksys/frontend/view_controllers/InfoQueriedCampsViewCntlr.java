@@ -2,6 +2,7 @@ package vitniksys.frontend.view_controllers;
 
 import java.io.File;
 import java.net.URL;
+import vitniksys.App;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ResourceBundle;
@@ -10,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.model.entities.Campaign;
-import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.bussines_logic.CampaignBLService;
 
 public class InfoQueriedCampsViewCntlr extends ViewCntlr
@@ -43,7 +43,7 @@ public class InfoQueriedCampsViewCntlr extends ViewCntlr
         
         if (this.detail != null)
         {
-            if (FilenameUtils.getExtension(this.detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+            if (FilenameUtils.getExtension(this.detail.getName()).equalsIgnoreCase(App.ConstraitConstants.DETAIL_FILE_EXTENSION))
             {
                 this.fileSelected.setText("Archivo seleccionado:");
                 this.fileSelected.setVisible(true);

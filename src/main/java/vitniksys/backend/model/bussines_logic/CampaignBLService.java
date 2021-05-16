@@ -1,6 +1,7 @@
 package vitniksys.backend.model.bussines_logic;
 
 import java.io.File;
+import vitniksys.App;
 import java.util.Set;
 import java.util.List;
 import java.time.Month;
@@ -13,6 +14,7 @@ import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.OrderObtainer;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.util.FileInterpreter;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
@@ -90,14 +92,14 @@ public class CampaignBLService extends BLService
             {
                 ret = true;
             }
-            else if(FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+            else if(FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(App.ConstraitConstants.DETAIL_FILE_EXTENSION))
             {
                 ret = true; 
             }
         }
         else
         {
-            if (detail != null && FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+            if (detail != null && FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(App.ConstraitConstants.DETAIL_FILE_EXTENSION))
                 ret = true;
         }
             
@@ -217,6 +219,27 @@ public class CampaignBLService extends BLService
         Integer returnCode = 0;
         
         OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
+        List<PreferentialClient> cps = orderObtainer.getOrderMakers();
+        
+        PreferentialClient prefClient;
+        Iterator<PreferentialClient> cpsIterator = cps.iterator();
+
+        while(cpsIterator.hasNext())
+        {
+            prefClient = cpsIterator.next();
+            this.registerOrders(prefClient);
+        }
+        
+        return returnCode;
+    }
+
+    //USE CASE
+    protected Integer registerIncomingOrdersV2(File detail) throws Exception
+    {
+        Integer returnCode = 0;
+        
+        OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
+        FileInterpreter fileInterpreter;
         List<PreferentialClient> cps = orderObtainer.getOrderMakers();
         
         PreferentialClient prefClient;
@@ -455,7 +478,7 @@ public class CampaignBLService extends BLService
         }
     }
 
-    public void registerOrders(File detail) throws Exception
+    public void registerOrders(File detail)
     {
         if(detail != null)
         {

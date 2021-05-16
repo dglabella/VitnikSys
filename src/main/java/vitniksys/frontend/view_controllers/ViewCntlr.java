@@ -67,7 +67,7 @@ public abstract class ViewCntlr implements Initializable, BLServiceSubscriber
         Scene scene = null;
         try
         {
-            fxmlLoader = new FXMLLoader(new URL(App.ConstraitConstants.GUIs_LOCATION+fileName+App.ConstraitConstants.FILE_EXTENSION));
+            fxmlLoader = new FXMLLoader(new URL(App.ConstraitConstants.GUIs_LOCATION+fileName+App.ConstraitConstants.FXML_FILE_EXTENSION));
             scene = new Scene(fxmlLoader.load());
         }
         catch(Exception exception)

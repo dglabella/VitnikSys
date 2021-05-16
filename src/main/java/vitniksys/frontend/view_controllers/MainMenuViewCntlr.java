@@ -2,6 +2,7 @@ package vitniksys.frontend.view_controllers;
 
 import java.io.File;
 import java.net.URL;
+import vitniksys.App;
 import java.util.List;
 import javafx.fxml.FXML;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber
 public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber
 {
     private int PREF_CLIENTS_TABLE_NUMBER;
+    private String COMMAND = "";
 
     // ================================= FXML variables =================================
     @FXML private TableView<PreferentialClient> prefClients;
@@ -63,7 +65,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         
         if (cpsFile != null)
         {
-            if (FilenameUtils.getExtension(cpsFile.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+            if (FilenameUtils.getExtension(cpsFile.getName()).equalsIgnoreCase(App.ConstraitConstants.DETAIL_FILE_EXTENSION))
             {
                 new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "El archivo seleccionado es: " + cpsFile.getAbsolutePath() +
                     "\nEsta seguro que desea cargar este archivo de clientes preferenciales?").customShow().ifPresent(response ->
@@ -150,20 +152,29 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         
         if (detail != null)
         {
-            if (FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+            if (FilenameUtils.getExtension(detail.getName()).equalsIgnoreCase(App.ConstraitConstants.DETAIL_FILE_EXTENSION))
             {
                 new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "El archivo seleccionado es: " + detail.getAbsolutePath() +
                     "\nEsta seguro que desea cargar este detalle?").customShow().ifPresent(response ->
                 {
                     if (response == ButtonType.OK)
                     {
-                        try
+                        if(this.generateDataBaseBackUp())
                         {
                             ((CampaignBLService)this.getBLService(1)).registerOrders(detail);
                         }
-                        catch(Exception exception)
+                        else
                         {
-                            exception.printStackTrace();
+                            new CustomAlert(AlertType.ERROR, "ERROR", "No se pudo realizar la copia de seguridad de la base de datos.").customShow();
+                            new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "Desea cargar de todos modos el detalle?\n"
+                                +"IMPORTANTE: Debe estar seguro que el archivo que esta cargando es correcto.\n(archivo detalle nunca antes cargado o "+
+                                "archivo detalle sin falta de información)").customShow().ifPresent(otherResponse ->
+                            {
+                                if (otherResponse == ButtonType.OK)
+                                {
+                                    ((CampaignBLService)this.getBLService(1)).registerOrders(detail);
+                                }
+                            });
                         }
                     }
                 });
@@ -202,6 +213,8 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
         {
             runtime = Runtime.getRuntime();
             process = runtime.exec(command);
+
+            ret = process.waitFor() == 0;
         }
         catch (Exception exception)
         {

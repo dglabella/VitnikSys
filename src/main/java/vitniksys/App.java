@@ -24,9 +24,13 @@ public class App extends Application
     public static class ConstraitConstants
     {
         public static final String GUIs_LOCATION = App.class.getResource("") + "../frontend/GUIs/";
-        public static final String FILE_EXTENSION = ".fxml";
+        public static final String FXML_FILE_EXTENSION = ".fxml";
+        public static final String DETAIL_FILE_EXTENSION = "csv";
+        public static final String CSV_SEPARATOR = ";" ;
+
         public static final String CONFIG_FILE_LOCATION = App.class.getResource("../configs/config.txt").getPath();
         public static final String CONFIG_FILE_CONNECTION_SECTION = "[CONNECTION]";
+        public static final String CONFIG_FILE_BACKUP_SECTION = "[BACKUP]";
         public static final String CONFIG_FILE_END_SECTION = "[END]";
         public static final String CONFIG_FILE_DATA_SEPARATOR = ":";
         public static final int CONFIG_FILE_TAG_SIDE = 0;
@@ -38,6 +42,8 @@ public class App extends Application
         public static final String CONFIG_FILE_OPT_TAG = "options";
         public static final String CONFIG_FILE_USER_TAG = "user";
         public static final String CONFIG_FILE_PASS_TAG = "pass";
+
+        private String DATABASE_BACKUP_COMMAND = "";
 
         public static final String FILTER_COMMAND_PREFIX = "//";
 
@@ -63,7 +69,7 @@ public class App extends Application
         //new DetailFileInterpreter(new FileChooser().showOpenDialog(null)).insertClientFromDetailFile();
         String fileName = "mainMenu";
 
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(ConstraitConstants.GUIs_LOCATION + fileName + ConstraitConstants.FILE_EXTENSION));
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(ConstraitConstants.GUIs_LOCATION + fileName + ConstraitConstants.FXML_FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.setTitle("Menu principal");

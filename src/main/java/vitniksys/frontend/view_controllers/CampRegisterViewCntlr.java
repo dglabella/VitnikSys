@@ -2,6 +2,7 @@ package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
 import java.io.File;
+import vitniksys.App;
 import java.util.List;
 import java.time.Month;
 import javafx.fxml.FXML;
@@ -23,7 +24,6 @@ import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
-import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.bussines_logic.CampaignBLService;
 import vitniksys.backend.model.bussines_logic.CatalogueBLService;
 import vitniksys.frontend.views_subscriber.CampaignBLServiceSubscriber;
@@ -77,7 +77,7 @@ public class CampRegisterViewCntlr extends ViewCntlr implements CampaignBLServic
         
         if (this.detail != null)
         {
-            if (FilenameUtils.getExtension(this.detail.getName()).equalsIgnoreCase(DetailFileInterpreter.FILE_EXTENSION))
+            if (FilenameUtils.getExtension(this.detail.getName()).equalsIgnoreCase(App.ConstraitConstants.DETAIL_FILE_EXTENSION))
             {
                 this.fileSelected.setText("Archivo seleccionado:");
                 this.fileSelected.setVisible(true);
