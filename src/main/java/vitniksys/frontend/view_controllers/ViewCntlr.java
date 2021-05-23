@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import javafx.fxml.FXMLLoader;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import vitniksys.backend.model.business_logic.BLService;
 import vitniksys.backend.util.CustomAlert;
+import vitniksys.frontend.view_subscribers.BLServiceSubscriber;
 import javafx.scene.control.Alert.AlertType;
-import vitniksys.backend.model.bussines_logic.BLService;
-import vitniksys.frontend.views_subscriber.BLServiceSubscriber;
 
 public abstract class ViewCntlr implements Initializable, BLServiceSubscriber
 {

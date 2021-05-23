@@ -10,8 +10,9 @@ import javafx.stage.FileChooser;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Label;
 import org.apache.commons.io.FilenameUtils;
+
+import vitniksys.backend.model.business_logic.CampaignBLService;
 import vitniksys.backend.model.entities.Campaign;
-import vitniksys.backend.model.bussines_logic.CampaignBLService;
 
 public class InfoQueriedCampsViewCntlr extends ViewCntlr
 {

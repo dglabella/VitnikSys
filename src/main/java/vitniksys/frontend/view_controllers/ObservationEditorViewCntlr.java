@@ -6,11 +6,11 @@ import javafx.fxml.FXML;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import vitniksys.backend.model.business_logic.PreferentialClientBLService;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
-import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
+import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
 
 public class ObservationEditorViewCntlr extends ViewCntlr implements PreferentialClientBLServiceSubscriber
 {

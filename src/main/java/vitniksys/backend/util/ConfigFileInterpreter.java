@@ -1,7 +1,8 @@
 package vitniksys.backend.util;
 
 import java.io.File;
-import vitniksys.backend.model.bussines_logic.BLService;
+
+import vitniksys.backend.model.business_logic.BLService;
 
 public class ConfigFileInterpreter extends FileInterpreter
 {

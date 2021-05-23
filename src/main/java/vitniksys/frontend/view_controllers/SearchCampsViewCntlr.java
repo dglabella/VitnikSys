@@ -15,10 +15,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.util.CampsTableRow;
+import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
+import vitniksys.backend.model.business_logic.CampaignBLService;
 import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
-import vitniksys.backend.model.bussines_logic.CampaignBLService;
-import vitniksys.frontend.views_subscriber.CampaignBLServiceSubscriber;
 
 public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignBLServiceSubscriber
 {

@@ -14,10 +14,10 @@ import javafx.scene.control.ButtonType;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.frontend.view_controllers.ViewCntlr;
-import vitniksys.backend.model.bussines_logic.BLService;
+import vitniksys.backend.model.business_logic.BLService;
 import vitniksys.frontend.view_controllers.MainMenuViewCntlr;
-import vitniksys.backend.model.bussines_logic.CampaignBLService;
-import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
+import vitniksys.backend.model.business_logic.CampaignBLService;
+import vitniksys.backend.model.business_logic.PreferentialClientBLService;
 
 public class App extends Application
 {

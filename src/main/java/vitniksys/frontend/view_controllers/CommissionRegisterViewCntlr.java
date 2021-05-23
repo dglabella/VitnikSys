@@ -13,12 +13,12 @@ import com.jfoenix.controls.JFXButton;
 import javafx.beans.value.ObservableValue;
 import vitniksys.backend.model.entities.Order;
 import javafx.scene.control.SpinnerValueFactory;
-import vitniksys.backend.model.bussines_logic.CommissionBLService;
+import vitniksys.backend.model.business_logic.CommissionBLService;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Repurchase;
+import vitniksys.frontend.view_subscribers.CommissionBLServiceSubscriber;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.frontend.views_subscriber.CommissionBLServiceSubscriber;
 
 public class CommissionRegisterViewCntlr extends ViewCntlr implements CommissionBLServiceSubscriber
 {

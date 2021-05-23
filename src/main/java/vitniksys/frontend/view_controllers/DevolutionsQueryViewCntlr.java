@@ -15,12 +15,12 @@ import javafx.scene.control.SelectionMode;
 import vitniksys.backend.model.enums.Reason;
 import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.util.DevolutionsRowTable;
+import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
+import vitniksys.backend.model.business_logic.PreferentialClientBLService;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
-import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
 
 public class DevolutionsQueryViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber
 {

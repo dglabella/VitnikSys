@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.business_logic.PreferentialClientBLService;
 import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
-import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 
 public class CpLoaderFileInterpreter extends FileInterpreter
 {

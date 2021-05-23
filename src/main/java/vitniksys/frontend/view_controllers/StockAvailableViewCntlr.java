@@ -17,13 +17,13 @@ import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.StockTableRow;
 import vitniksys.backend.util.AutoCompletionTool;
+import vitniksys.backend.model.business_logic.StockAvailableBLService;
 import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.util.CustomAlert.CustomAlertType;
+import vitniksys.frontend.view_subscribers.StockAvailableBLServiceSubscriber;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.backend.model.bussines_logic.StockAvailableBLService;
-import vitniksys.frontend.views_subscriber.StockAvailableBLServiceSubscriber;
 
 public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvailableBLServiceSubscriber
 {

@@ -9,10 +9,10 @@ import javafx.scene.control.CheckBox;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
+import vitniksys.backend.model.business_logic.PreferentialClientBLService;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
 
 public class ClientRegisterViewCntlr extends ViewCntlr
 {

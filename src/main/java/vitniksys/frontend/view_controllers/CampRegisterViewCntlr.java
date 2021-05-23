@@ -20,14 +20,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
+import vitniksys.frontend.view_subscribers.CatalogueBLServiceSubscriber;
 import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.util.AutoCompletionTool;
+import vitniksys.backend.model.business_logic.CampaignBLService;
+import vitniksys.backend.model.business_logic.CatalogueBLService;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
-import vitniksys.backend.model.bussines_logic.CampaignBLService;
-import vitniksys.backend.model.bussines_logic.CatalogueBLService;
-import vitniksys.frontend.views_subscriber.CampaignBLServiceSubscriber;
-import vitniksys.frontend.views_subscriber.CatalogueBLServiceSubscriber;
 
 public class CampRegisterViewCntlr extends ViewCntlr implements CampaignBLServiceSubscriber, CatalogueBLServiceSubscriber
 {

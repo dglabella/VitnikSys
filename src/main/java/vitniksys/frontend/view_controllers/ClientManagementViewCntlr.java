@@ -32,6 +32,10 @@ import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
 import vitniksys.backend.model.entities.Leader;
+import vitniksys.backend.model.business_logic.CampaignBLService;
+import vitniksys.backend.model.business_logic.CommissionBLService;
+import vitniksys.backend.model.business_logic.PreferentialClientBLService;
+import vitniksys.backend.model.business_logic.StockAvailableBLService;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
@@ -43,15 +47,11 @@ import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.util.CustomAlert.CustomAlertType;
+import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
+import vitniksys.frontend.view_subscribers.CommissionBLServiceSubscriber;
+import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
-import vitniksys.backend.model.bussines_logic.CampaignBLService;
-import vitniksys.backend.model.bussines_logic.CommissionBLService;
-import vitniksys.frontend.views_subscriber.CampaignBLServiceSubscriber;
-import vitniksys.backend.model.bussines_logic.StockAvailableBLService;
-import vitniksys.frontend.views_subscriber.CommissionBLServiceSubscriber;
-import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
-import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
 
 public class ClientManagementViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber, CommissionBLServiceSubscriber
 {

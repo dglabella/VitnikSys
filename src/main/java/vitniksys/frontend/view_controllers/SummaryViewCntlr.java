@@ -13,16 +13,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
+import vitniksys.backend.model.business_logic.PreferentialClientBLService;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.util.SummaryCampsTableRow;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.util.SummaryPrefClientTableRow;
+import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
+import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
 import vitniksys.backend.model.entities.PreferentialClient;
-import vitniksys.frontend.views_subscriber.CampaignBLServiceSubscriber;
-import vitniksys.backend.model.bussines_logic.PreferentialClientBLService;
-import vitniksys.frontend.views_subscriber.PreferentialClientBLServiceSubscriber;
 
 public class SummaryViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber
 {

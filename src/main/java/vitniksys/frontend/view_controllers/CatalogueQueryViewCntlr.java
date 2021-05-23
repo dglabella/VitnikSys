@@ -13,11 +13,11 @@ import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ScrollEvent;
 import vitniksys.backend.util.ExpressionChecker;
+import vitniksys.frontend.view_subscribers.CatalogueBLServiceSubscriber;
 import javafx.scene.control.SpinnerValueFactory;
 import vitniksys.backend.util.AutoCompletionTool;
+import vitniksys.backend.model.business_logic.CatalogueBLService;
 import vitniksys.backend.model.entities.Catalogue;
-import vitniksys.backend.model.bussines_logic.CatalogueBLService;
-import vitniksys.frontend.views_subscriber.CatalogueBLServiceSubscriber;
 
 public class CatalogueQueryViewCntlr extends ViewCntlr implements CatalogueBLServiceSubscriber
 {
