@@ -1,13 +1,10 @@
-package vitniksys.backend.model.business_logic;
+package vitniksys.backend.util;
 
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Iterator;
 import java.util.ArrayList;
-import vitniksys.backend.util.ClientList;
-import vitniksys.backend.util.DetailFileRow;
-import vitniksys.backend.util.FileInterpreter;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.enums.OrderType;
@@ -33,6 +30,8 @@ public class DetailFileInterpreter extends FileInterpreter
 
     //The file to be interpreted for gather the information of the incoming orders.
     private List<DetailFileRow> detailFileRows;
+
+    private List<PreferentialClient> orderMakers;
 
     // private final int LEADER_ID = 0;
     // private final int CLIENT_ID = 1;
@@ -77,10 +76,19 @@ public class DetailFileInterpreter extends FileInterpreter
      * and no data from the file can be obtained.
      * @return an interpreter instance.
      */
-    public DetailFileInterpreter(File detailFile, CampaignBLService service)
+    public DetailFileInterpreter(File detailFile)
     {
-        super(detailFile, service);
+        super(detailFile, null);
         this.detailFileRows = new ArrayList<>();
+    }
+
+    /**
+     * 
+     * @return The result of the file interpretation.
+     */
+    public List<PreferentialClient> getOrderMakers()
+    {
+        return this.orderMakers;
     }
 
     // ================================= private methods =================================
@@ -313,7 +321,7 @@ public class DetailFileInterpreter extends FileInterpreter
 
         associatedLeaders = getAssociatedLeaders();
         orderMakers = getOrderMakers(associatedLeaders);
-
-        ((CampaignBLService)this.getService(0)).registerIncomingOrders(orderMakers);
+        
+        this.orderMakers = orderMakers;
     }
 }

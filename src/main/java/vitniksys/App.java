@@ -28,21 +28,6 @@ public class App extends Application
         public static final String DETAIL_FILE_EXTENSION = "csv";
         public static final String CSV_SEPARATOR = ";" ;
 
-        public static final String CONFIG_FILE_LOCATION = App.class.getResource("../configs/config.txt").getPath();
-        public static final String CONFIG_FILE_CONNECTION_SECTION = "[CONNECTION]";
-        public static final String CONFIG_FILE_BACKUP_SECTION = "[BACKUP]";
-        public static final String CONFIG_FILE_END_SECTION = "[END]";
-        public static final String CONFIG_FILE_DATA_SEPARATOR = ":";
-        public static final int CONFIG_FILE_TAG_SIDE = 0;
-        public static final int CONFIG_FILE_DATA_SIDE = 1;
-
-        public static final String CONFIG_FILE_IP_TAG = "ip";
-        public static final String CONFIG_FILE_PORT_TAG = "port";
-        public static final String CONFIG_FILE_DATABASE_TAG = "database";
-        public static final String CONFIG_FILE_OPT_TAG = "options";
-        public static final String CONFIG_FILE_USER_TAG = "user";
-        public static final String CONFIG_FILE_PASS_TAG = "pass";
-
         private String DATABASE_BACKUP_COMMAND = "";
 
         public static final String FILTER_COMMAND_PREFIX = "//";

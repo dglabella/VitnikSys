@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
+import vitniksys.backend.util.DetailFileInterpreter;
+
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.util.ExpressionChecker;
@@ -373,8 +375,6 @@ public class CampaignBLService extends BLService
         if(allFieldsAreOk(campNumb, campAlias, month, year, catalogueCode, detail))
         {
             CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
-            CampaignBLService thisService = this;
-
             Task<Integer> task = new Task<>()
             {
                 @Override
@@ -415,7 +415,9 @@ public class CampaignBLService extends BLService
                         //Campaing registration with orders associated
                         if(detail != null)
                         {
-                            new DetailFileInterpreter(detail, thisService).interpret();
+                            DetailFileInterpreter detailFileInterpreter = new DetailFileInterpreter(detail);
+                            detailFileInterpreter.interpret();
+                            registerIncomingOrders(detailFileInterpreter.getOrderMakers());
                         }
 
                         Connector.getInstance().commit();
@@ -452,10 +454,10 @@ public class CampaignBLService extends BLService
     {
         if(detail != null)
         {
-            CampaignBLService thisService = this;
             CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
             Task<Void> task = new Task<>()
             {
+                DetailFileInterpreter detailFileInterpreter;
                 @Override
                 protected Void call() throws Exception
                 {
@@ -463,7 +465,11 @@ public class CampaignBLService extends BLService
                     {
                         Connector.getInstance().startTransaction();
 
-                        new DetailFileInterpreter(detail, thisService);
+                        detailFileInterpreter = new DetailFileInterpreter(detail);
+                        detailFileInterpreter.interpret();
+                        registerIncomingOrders(detailFileInterpreter.getOrderMakers());
+                        
+                        detailFileInterpreter.getOrderMakers();
 
                         Connector.getInstance().commit();
 
