@@ -61,7 +61,7 @@ public class ObservationOperator implements IObservationOperator
         "INSERT INTO `observaciones`(`id_cp`, `nro_camp`, `observacion`) "+
         "VALUES (?, ?, ?) "+
         "ON DUPLICATE KEY UPDATE `observacion` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, observation.getPrefClientId());
         statement.setInt(2, observation.getCampNumber());
@@ -110,7 +110,7 @@ public class ObservationOperator implements IObservationOperator
             "FROM `observaciones` "+
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setInt(2, campNumb);
             statement.setBoolean(3, this.activeRow);
@@ -122,7 +122,7 @@ public class ObservationOperator implements IObservationOperator
             "FROM `observaciones` "+
             "WHERE `id_cp` = ? AND `active_row` = ?;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setBoolean(2, this.activeRow);
         }
@@ -171,7 +171,7 @@ public class ObservationOperator implements IObservationOperator
         "FROM `observaciones` "+
         "WHERE `id_cp`= ? AND `nro_camp` = ? AND `active_row`= ?;";
 
-		statement = Connector.getConnector().getStatement(sqlStmnt);
+		statement = Connector.getInstance().getStatement(sqlStmnt);
 
 		statement.setInt(1, prefClientId);
 		statement.setInt(2, campNumber);

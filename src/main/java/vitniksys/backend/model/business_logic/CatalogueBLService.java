@@ -6,10 +6,10 @@ import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.util.ExpressionChecker;
-import vitniksys.frontend.view_subscribers.CatalogueBLServiceSubscriber;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.persistence.CatalogueOperator;
+import vitniksys.frontend.view_subscribers.CatalogueBLServiceSubscriber;
 
 public class CatalogueBLService extends BLService
 {
@@ -59,11 +59,11 @@ public class CatalogueBLService extends BLService
                     int returnCode = 0;
                     try
                     {
-                        Connector.getConnector().startTransaction();
+                        Connector.getInstance().startTransaction();
 
                         CatalogueOperator.getOperator().insert(catalogue);
 
-                        Connector.getConnector().commit();
+                        Connector.getInstance().commit();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("El catálogo se ha registrado/actualizado exitosamente!");
 
@@ -72,7 +72,7 @@ public class CatalogueBLService extends BLService
                     }
                     catch (Exception exception)
                     {
-                        Connector.getConnector().rollBack();
+                        Connector.getInstance().rollBack();
                         returnCode = 0;
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al intentar registrar el catálogo", null, exception);
@@ -80,8 +80,8 @@ public class CatalogueBLService extends BLService
                     }
                     finally
                     {
-                        Connector.getConnector().endTransaction();
-                        Connector.getConnector().closeConnection();
+                        Connector.getInstance().endTransaction();
+                        Connector.getInstance().closeConnection();
                     }
                     return returnCode;
                 }
@@ -133,7 +133,7 @@ public class CatalogueBLService extends BLService
                     }
                     finally
                     {
-                        Connector.getConnector().closeConnection();
+                        Connector.getInstance().closeConnection();
                     }
                     return returnCode;
                 }
@@ -185,7 +185,7 @@ public class CatalogueBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getConnector().closeConnection();
+                    Connector.getInstance().closeConnection();
                 }
                 return returnCode;
             }

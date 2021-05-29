@@ -12,16 +12,12 @@ import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
-import vitniksys.backend.util.OrderObtainer;
-import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
 import vitniksys.backend.model.entities.Order;
-import vitniksys.backend.util.FileInterpreter;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
-import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 import vitniksys.backend.model.persistence.OrderOperator;
@@ -34,6 +30,7 @@ import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CatalogueOperator;
+import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
 
 public class CampaignBLService extends BLService
 {
@@ -214,44 +211,16 @@ public class CampaignBLService extends BLService
     // ================================= protected methods =================================
 
     //USE CASE
-    protected Integer registerIncomingOrders(File detail) throws Exception
-    {
-        Integer returnCode = 0;
-        
-        OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
-        List<PreferentialClient> cps = orderObtainer.getOrderMakers();
-        
+    protected void registerIncomingOrders(List<PreferentialClient> prefClients) throws Exception
+    {   
         PreferentialClient prefClient;
-        Iterator<PreferentialClient> cpsIterator = cps.iterator();
+        Iterator<PreferentialClient> prefClientsIterator = prefClients.iterator();
 
-        while(cpsIterator.hasNext())
+        while(prefClientsIterator.hasNext())
         {
-            prefClient = cpsIterator.next();
+            prefClient = prefClientsIterator.next();
             this.registerOrders(prefClient);
-        }
-        
-        return returnCode;
-    }
-
-    //USE CASE
-    protected Integer registerIncomingOrdersV2(File detail) throws Exception
-    {
-        Integer returnCode = 0;
-        
-        OrderObtainer orderObtainer = new DetailFileInterpreter(detail);
-        FileInterpreter fileInterpreter;
-        List<PreferentialClient> cps = orderObtainer.getOrderMakers();
-        
-        PreferentialClient prefClient;
-        Iterator<PreferentialClient> cpsIterator = cps.iterator();
-
-        while(cpsIterator.hasNext())
-        {
-            prefClient = cpsIterator.next();
-            this.registerOrders(prefClient);
-        }
-        
-        return returnCode;
+        }   
     }
 
     /**
@@ -365,7 +334,7 @@ public class CampaignBLService extends BLService
         }
         finally
         {
-            Connector.getConnector().closeConnection();
+            Connector.getInstance().closeConnection();
         }
     }
 
@@ -394,16 +363,17 @@ public class CampaignBLService extends BLService
         }
         finally
         {
-            Connector.getConnector().closeConnection();
+            Connector.getInstance().closeConnection();
         }
     }
 
-    public void registerCamp(Integer campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail) throws Exception
+    public void registerCamp(Integer campNumb, String campAlias, Integer month, Integer year, String catalogueCode, File detail)
     {
         //If all fields are OK...
         if(allFieldsAreOk(campNumb, campAlias, month, year, catalogueCode, detail))
         {
             CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+            CampaignBLService thisService = this;
 
             Task<Integer> task = new Task<>()
             {
@@ -417,7 +387,7 @@ public class CampaignBLService extends BLService
 
                     try
                     {
-                        Connector.getConnector().startTransaction();
+                        Connector.getInstance().startTransaction();
 
                         //Campaing registration with catalogue associated
                         if(catalogueCode != null && !catalogueCode.isEmpty())
@@ -445,16 +415,16 @@ public class CampaignBLService extends BLService
                         //Campaing registration with orders associated
                         if(detail != null)
                         {
-                            returnCode += registerIncomingOrders(detail);
+                            new DetailFileInterpreter(detail, thisService).interpret();
                         }
 
-                        Connector.getConnector().commit();
+                        Connector.getInstance().commit();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("La campaña se ha registrado exitosamente!");
                     }
                     catch (Exception exception)
                     {
-                        Connector.getConnector().rollBack();
+                        Connector.getInstance().rollBack();
                         returnCode = 0;
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al intentar registrar la campaña", null, exception);
@@ -462,8 +432,8 @@ public class CampaignBLService extends BLService
                     }
                     finally
                     {
-                        Connector.getConnector().endTransaction();
-                        Connector.getConnector().closeConnection();
+                        Connector.getInstance().endTransaction();
+                        Connector.getInstance().closeConnection();
                     }
                     return returnCode;
                 }
@@ -482,6 +452,7 @@ public class CampaignBLService extends BLService
     {
         if(detail != null)
         {
+            CampaignBLService thisService = this;
             CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
             Task<Void> task = new Task<>()
             {
@@ -490,26 +461,26 @@ public class CampaignBLService extends BLService
                 {
                     try
                     {
-                        Connector.getConnector().startTransaction();
+                        Connector.getInstance().startTransaction();
 
-                        registerIncomingOrders(detail);
+                        new DetailFileInterpreter(detail, thisService);
 
-                        Connector.getConnector().commit();
+                        Connector.getInstance().commit();
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("Los pedidos se registraron exitosamente!");
                     }
                     catch (Exception exception)
                     {
-                        Connector.getConnector().rollBack();
+                        Connector.getInstance().rollBack();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al intentar registrar los pedidos.", null, exception);
                         throw exception;
                     }
                     finally
                     {
-                        Connector.getConnector().endTransaction();
-                        Connector.getConnector().closeConnection();
+                        Connector.getInstance().endTransaction();
+                        Connector.getInstance().closeConnection();
                     }
                     return null;
                 }

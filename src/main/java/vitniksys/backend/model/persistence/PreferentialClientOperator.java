@@ -48,7 +48,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         "SET `dni`=?, `nombre`=?, `apellido`=?, `lugar`=?, `fecha_nac`=?, `email`=?, `tel`=? "+
         "WHERE `id_cp`=? AND `active_row`=?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         if(prefClient.getDni() != null)
         {
@@ -194,7 +194,7 @@ public abstract class PreferentialClientOperator implements IPreferentialClientO
         "SELECT `id_cp` "+
         "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         
         if(prefClientId != null)
             statement.setInt(1, prefClientId);

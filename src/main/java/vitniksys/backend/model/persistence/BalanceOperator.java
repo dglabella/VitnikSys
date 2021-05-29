@@ -59,7 +59,7 @@ public class BalanceOperator implements IBalanceOperator
         String sqlStmnt =
         "INSERT INTO `saldos`(`id_cp`, `nro_camp`) "+
         "VALUES (?, ?);";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, balance.getPrefClientId());
         statement.setInt(2, balance.getCampNumber());
@@ -76,7 +76,7 @@ public class BalanceOperator implements IBalanceOperator
         String sqlStmnt =
         "INSERT INTO `saldos`(`id_cp`, `nro_camp`) "+
         "VALUES (?, ?);";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         Balance balance;
         Iterator<Balance> listIterator = list.iterator();
@@ -106,7 +106,7 @@ public class BalanceOperator implements IBalanceOperator
         "`comision`= `comision`+ ?, `balance`= -`pedidos`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "+
         "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setFloat(1, balance.getTotalInOrders());
         statement.setFloat(2, balance.getTotalInCatalogues());
@@ -133,7 +133,7 @@ public class BalanceOperator implements IBalanceOperator
         "SET `balance`= `balance`-`comision`, `comision`= ?, `balance`= `balance`+`comision` "+
         "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setFloat(1,totalInCommission);
         statement.setFloat(2, prefClientId);
@@ -168,7 +168,7 @@ public class BalanceOperator implements IBalanceOperator
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ? "+
             "ORDER BY `saldos`.`nro_camp` DESC;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setInt(2, campNumb);
             statement.setBoolean(3, this.activeRow);
@@ -181,7 +181,7 @@ public class BalanceOperator implements IBalanceOperator
             "WHERE `id_cp` = ? AND `active_row` = ? "+
             "ORDER BY `saldos`.`nro_camp` DESC;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setBoolean(2, this.activeRow);
         }
@@ -193,7 +193,7 @@ public class BalanceOperator implements IBalanceOperator
             "WHERE `nro_camp` = ? AND `active_row` = ? "+
             "ORDER BY `saldos`.`nro_camp` DESC;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, campNumb);
             statement.setBoolean(2, this.activeRow);
         }

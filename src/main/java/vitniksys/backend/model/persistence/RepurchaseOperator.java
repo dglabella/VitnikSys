@@ -63,7 +63,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         String sqlStmnt =
         "INSERT INTO `recompras`(`id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`) "+
         "VALUES (?, ?, ?, ?);";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, repurchase.getPrefClientId());
         statement.setInt(2, repurchase.getCampNumber());
@@ -101,7 +101,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         "SET `aumenta_comision`= ?, `devuelta`= ? "+
 		"WHERE `cod` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         Repurchase repurchase;
 		Iterator<Repurchase> listIterator = repurchases.iterator();
@@ -147,7 +147,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
             "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
             "WHERE `recompras`.`id_cp` = ? AND `recompras`.`nro_camp` = ? AND `recompras`.`active_row` = ? AND `articulos_devueltos`.`active_row` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setInt(2, campNumb);
             statement.setBoolean(3, this.activeRow);
@@ -165,7 +165,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
             "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
             "WHERE `recompras`.`id_cp` = ? AND `recompras`.`active_row` = ? AND `articulos_devueltos`.`active_row` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setBoolean(2, this.activeRow);
             statement.setBoolean(3, ReturnedArticleOperator.getOperator().isActiveRow());
@@ -236,7 +236,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         "SELECT `id_cp`, `nro_camp`, `ejemplar`, `precio_recompra`, `aumenta_comision`, `devuelta`, `fecha_registro` "+
         "FROM `recompras` "+
         "WHERE `cod` = ? AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         
         statement.setInt(1, id);
         statement.setBoolean(2, this.activeRow);
@@ -280,7 +280,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         "SET `comisionable` = ? "+
         "WHERE `cod` = ? AND `active_row` = ?";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setBoolean(1, commissionable);
         statement.setInt(2, id);
@@ -302,7 +302,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         "SET `comisionable`= ?, `devuelta`= ? "+
         "WHERE `cod` = ? AND `active_row` = ?";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setBoolean(1, false);
         statement.setBoolean(2, true);

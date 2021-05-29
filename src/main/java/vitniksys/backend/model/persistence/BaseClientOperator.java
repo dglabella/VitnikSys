@@ -58,7 +58,7 @@ public class BaseClientOperator extends PreferentialClientOperator
         "FROM `clientes_preferenciales` "+
         "WHERE `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setBoolean(1, false);
         statement.setBoolean(2, this.activeRow);
         ResultSet resultSet = statement.executeQuery();
@@ -98,7 +98,7 @@ public class BaseClientOperator extends PreferentialClientOperator
         "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         if(id != null)
         {
@@ -153,7 +153,7 @@ public class BaseClientOperator extends PreferentialClientOperator
         "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         if(id != null)
         {
@@ -217,7 +217,7 @@ public class BaseClientOperator extends PreferentialClientOperator
         "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `id_lider` IS NULL AND `es_lider` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         if(id != null)
         {
@@ -280,7 +280,7 @@ public class BaseClientOperator extends PreferentialClientOperator
         "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`) "+
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setInt(1, cp.getId());
 
         if(cp.getDni() != null)

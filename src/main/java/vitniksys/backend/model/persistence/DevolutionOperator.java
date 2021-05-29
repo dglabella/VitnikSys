@@ -63,7 +63,7 @@ public class DevolutionOperator implements IDevolutionOperator
         String sqlStmnt = 
         "INSERT INTO `devoluciones`(`id_cp`, `nro_camp`, `ejemplar`, `monto`) " +
         "VALUES (?, ?, ?, ?);";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, devolution.getPrefClientId());
         statement.setInt(2, devolution.getCampNumber());
@@ -121,7 +121,7 @@ public class DevolutionOperator implements IDevolutionOperator
             "INNER JOIN `pedidos` ON `articulos_devueltos`.`cod_pedido` = `pedidos`.`cod` "+
             "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
             "WHERE `devoluciones`.`id_cp` = ? AND `devoluciones`.`nro_camp` = ? AND `devoluciones`.`active_row` = ? AND `articulos_devueltos`.`active_row` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setInt(2, campNumb);
             statement.setBoolean(3, this.activeRow);
@@ -140,7 +140,7 @@ public class DevolutionOperator implements IDevolutionOperator
             "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
             "WHERE `devoluciones`.`id_cp` = ? AND `devoluciones`.`active_row` = ? AND `articulos_devueltos`.`active_row` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setBoolean(2, this.activeRow);
             statement.setBoolean(3, ReturnedArticleOperator.getOperator().isActiveRow());

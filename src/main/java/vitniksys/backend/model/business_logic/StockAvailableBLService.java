@@ -15,7 +15,6 @@ import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
-import vitniksys.frontend.view_controllers.StockAvailableViewCntlr;
 import vitniksys.frontend.view_subscribers.StockAvailableBLServiceSubscriber;
 
 public class StockAvailableBLService extends BLService
@@ -52,7 +51,7 @@ public class StockAvailableBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getConnector().closeConnection();
+                    Connector.getInstance().closeConnection();
                 }
 
                 return null;
@@ -88,7 +87,7 @@ public class StockAvailableBLService extends BLService
 
                 try
                 {
-                    Connector.getConnector().startTransaction();
+                    Connector.getInstance().startTransaction();
 
                     ReturnedArticleOperator.getOperator().update(returnedArticle);
                     RepurchaseOperator.getOperator().insert(repurchase);
@@ -101,7 +100,7 @@ public class StockAvailableBLService extends BLService
                         BalanceOperator.getOperator().update(balance); //UPDATE
                     }
                     
-                    Connector.getConnector().commit();
+                    Connector.getInstance().commit();
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showSucces("La recompra se ha registrado exitosamente!");
@@ -109,14 +108,14 @@ public class StockAvailableBLService extends BLService
                 }
                 catch (Exception exception)
                 {
-                    Connector.getConnector().rollBack();
+                    Connector.getInstance().rollBack();
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al realizar la recompra.", null, exception);
                 }
                 finally
                 {
-                    Connector.getConnector().endTransaction();
-                    Connector.getConnector().closeConnection();
+                    Connector.getInstance().endTransaction();
+                    Connector.getInstance().closeConnection();
                 }
                 return returnCode;
             }
@@ -138,7 +137,7 @@ public class StockAvailableBLService extends BLService
 
                 try
                 {
-                    Connector.getConnector().startTransaction();
+                    Connector.getInstance().startTransaction();
 
                     ReturnedArticle returnedArticle;
                     List<ReturnedArticle> returnedArticles = new ArrayList<>();
@@ -154,7 +153,7 @@ public class StockAvailableBLService extends BLService
 
                     ReturnedArticleOperator.getOperator().updateAll(returnedArticles);
                     
-                    Connector.getConnector().commit();
+                    Connector.getInstance().commit();
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showSucces("Reenvios registrados exitosamente!");
@@ -162,14 +161,14 @@ public class StockAvailableBLService extends BLService
                 }
                 catch (Exception exception)
                 {
-                    Connector.getConnector().rollBack();
+                    Connector.getInstance().rollBack();
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al registrar el reenvio a VITNIK.", null, exception);
                 }
                 finally
                 {
-                    Connector.getConnector().endTransaction();
-                    Connector.getConnector().closeConnection();
+                    Connector.getInstance().endTransaction();
+                    Connector.getInstance().closeConnection();
                 }
                 return returnCode;
             }

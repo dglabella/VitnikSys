@@ -43,7 +43,7 @@ public class ArticleOperator implements IArticleOperator
         "INSERT INTO `articulos`(`letra`, `nombre`) "+
         "VALUES (?, ?) "+
         "ON DUPLICATE KEY UPDATE `nombre` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setString(1, article.getId());
         statement.setString(2, article.getName());
@@ -63,7 +63,7 @@ public class ArticleOperator implements IArticleOperator
         "INSERT INTO `articulos`(`letra`, `nombre`) "+
         "VALUES (?, ?) "+
         "ON DUPLICATE KEY UPDATE `nombre` = ?";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         Article article;
         Iterator<Article> listIterator = list.iterator();

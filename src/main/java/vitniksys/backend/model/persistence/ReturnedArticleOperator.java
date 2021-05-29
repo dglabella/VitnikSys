@@ -62,7 +62,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         String sqlStmnt = 
         "INSERT INTO `articulos_devueltos`(`cod_pedido`, `motivo`, `recomprado`) "+
         "VALUES (?, ?, ?);";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt, PreparedStatement.RETURN_GENERATED_KEYS);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt, PreparedStatement.RETURN_GENERATED_KEYS);
 
         statement.setInt(1, returnedArticle.getOrderId());
         statement.setInt(2, returnedArticle.getReason().ordinal());
@@ -96,7 +96,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         "UPDATE `articulos_devueltos` "+
         "SET `recomprado`= ?, `reenviado_vitnik`= ? "+
         "WHERE `ejemplar`= ? AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setBoolean(1, returnedArticle.isRepurchased());
         statement.setBoolean(2, returnedArticle.isForwarded());
@@ -120,7 +120,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
         "WHERE `recomprado`= ? AND `reenviado_vitnik`= ? AND `articulos_devueltos`.`active_row`= ? AND `pedidos`.`active_row`= ? AND `articulos`.`active_row`= ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setBoolean(1, false);
         statement.setBoolean(2, false);
@@ -186,7 +186,7 @@ public class ReturnedArticleOperator implements IReturnedArticleOperator
         "SET `recomprado`= ?, `reenviado_vitnik`= ? "+
         "WHERE `ejemplar`= ? AND `active_row`= ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         ReturnedArticle returnedArticle;
 		Iterator<ReturnedArticle> listIterator = returnedArticles.iterator();

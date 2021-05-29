@@ -61,7 +61,7 @@ public class PaymentOperator implements IPaymentOperator
         String sqlStmnt =
         "INSERT INTO `pagos`(`id_cp`, `nro_camp`, `descriptor`, `monto`, `item`, `forma`, `banco`, `estado`) "+
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, payment.getPrefClientId());
         statement.setInt(2, payment.getCampNumber());
@@ -113,7 +113,7 @@ public class PaymentOperator implements IPaymentOperator
             "FROM `pagos` " +
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setInt(2, campNumb);
             statement.setBoolean(3, this.activeRow);
@@ -125,7 +125,7 @@ public class PaymentOperator implements IPaymentOperator
             "FROM `pagos` " +
             "WHERE `id_cp` = ? AND `active_row` = ?;";
 
-            statement = Connector.getConnector().getStatement(sqlStmnt);
+            statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setBoolean(2, this.activeRow);
         }

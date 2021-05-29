@@ -60,7 +60,7 @@ public class OrderOperator implements IOrderOperator
 		String sqlStmnt = 
 		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`, `agregado`, `compensado`) "+
 		"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+		PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 		
 		statement.setInt(1, order.getDeliveryNumber());
 		statement.setInt(2, order.getPrefClientId());
@@ -86,7 +86,7 @@ public class OrderOperator implements IOrderOperator
         String sqlStmnt = 
 		"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`, `agregado`, `compensado`) "+
 		"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         Order order;
         Iterator<Order> listIterator = list.iterator();
@@ -129,7 +129,7 @@ public class OrderOperator implements IOrderOperator
         "UPDATE `pedidos` "+
 		"SET `cant_devueltos`= `cant_devueltos`+1 "+
 		"WHERE `cod` = ? AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, orderId);
         statement.setBoolean(2, this.activeRow);
@@ -161,7 +161,7 @@ public class OrderOperator implements IOrderOperator
 			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
 			"WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
 
-			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
 			statement.setInt(2, campNumb);
 			statement.setBoolean(3, this.activeRow);
@@ -175,7 +175,7 @@ public class OrderOperator implements IOrderOperator
 			"INNER JOIN `articulos` ON pedidos.letra = articulos.letra "+
 			"WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
 
-			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
 			statement.setBoolean(2, this.activeRow);
 			statement.setBoolean(3, ArticleOperator.getOperator().isActiveRow());
@@ -231,7 +231,7 @@ public class OrderOperator implements IOrderOperator
 		"UPDATE `pedidos` "+
 		"SET `fecha_retiro`= CURRENT_TIMESTAMP "+
 		"WHERE `cod` = ? AND `fecha_retiro` IS NULL AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         Order order;
 		Iterator<Order> listIterator = orders.iterator();
@@ -259,7 +259,7 @@ public class OrderOperator implements IOrderOperator
 		"UPDATE `pedidos` "+
 		"SET `comisionable`= ?, `aumenta_comision`= ? "+
 		"WHERE `cod` = ? AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         Order order;
 		Iterator<Order> listIterator = orders.iterator();
@@ -293,7 +293,7 @@ public class OrderOperator implements IOrderOperator
 		"INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "+
 		"WHERE `cod` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
-		statement = Connector.getConnector().getStatement(sqlStmnt);
+		statement = Connector.getInstance().getStatement(sqlStmnt);
 
 		statement.setInt(1, id);
 		statement.setBoolean(2, this.activeRow);
@@ -345,7 +345,7 @@ public class OrderOperator implements IOrderOperator
 		"FROM `pedidos` "+
 		"WHERE `nro_camp` = ? AND `active_row` = ?;";
 
-		statement = Connector.getConnector().getStatement(sqlStmnt);
+		statement = Connector.getInstance().getStatement(sqlStmnt);
 
 		statement.setInt(1, campNumber);
 		statement.setBoolean(2, this.activeRow);

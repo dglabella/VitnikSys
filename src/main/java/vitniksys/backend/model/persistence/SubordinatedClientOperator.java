@@ -57,7 +57,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         "FROM `clientes_preferenciales` "+
         "WHERE `id_lider` IS NOT NULL AND `active_row` = ?;";
         
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setBoolean(1, this.activeRow);
 
@@ -102,7 +102,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
             "FROM `clientes_preferenciales` "+
             "WHERE `id_lider` = ? AND `active_row` = ?;";
 
-			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, leaderId);
 			statement.setBoolean(2, this.activeRow);
         }
@@ -158,7 +158,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `id_lider` IS NOT NULL AND `es_lider` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         if(id != null)
         {
@@ -214,7 +214,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `id_lider` IS NOT NULL AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         if(id != null)
         {
@@ -278,7 +278,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         "FROM `clientes_preferenciales` "+
         "WHERE `id_cp` = ? AND `id_lider` IS NOT NULL AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, id);
         statement.setBoolean(2, this.activeRow);
@@ -343,7 +343,7 @@ public class SubordinatedClientOperator extends PreferentialClientOperator
         "INSERT INTO `clientes_preferenciales`(`id_cp`, `dni`, `nombre`, `apellido`, `lugar`, `fecha_nac`, `email`, `tel`, `id_lider`) "+
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
             
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setInt(1, cp.getId());
 
         if(cp.getDni() != null)

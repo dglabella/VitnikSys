@@ -6,7 +6,6 @@ import java.util.Iterator;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
-import vitniksys.frontend.view_subscribers.CommissionBLServiceSubscriber;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.entities.Commission;
@@ -17,6 +16,7 @@ import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
+import vitniksys.frontend.view_subscribers.CommissionBLServiceSubscriber;
 
 public class CommissionBLService extends BLService
 {
@@ -166,12 +166,12 @@ public class CommissionBLService extends BLService
                 int returnCode = 0;
                 try
                 {
-                    Connector.getConnector().startTransaction();
+                    Connector.getInstance().startTransaction();
                     if(prefClient != null && prefClient instanceof Leader)
                     {
                         if(orders != null && orders.size() > 0)
                         {
-                            Connector.getConnector().startTransaction();
+                            Connector.getInstance().startTransaction();
                             Commission commission = new Commission(prefClient.getId(), orders.get(0).getCampNumber());
                             commission.setActualQuantity(0);
                             commission.setActualRate(0);
@@ -182,7 +182,7 @@ public class CommissionBLService extends BLService
 
                             updateCommission(commission, orders, repurchases);
 
-                            Connector.getConnector().commit();
+                            Connector.getInstance().commit();
 
                             getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                             getBLServiceSubscriber().showSucces
@@ -208,7 +208,7 @@ public class CommissionBLService extends BLService
                 catch (Exception exception)
                 {
                     exception.printStackTrace();
-                    Connector.getConnector().rollBack();
+                    Connector.getInstance().rollBack();
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al intentar registrar los niveles de comisión. Puede que el cliente \npreferencial "+
                         "no sea un líder ó no haya pedidos registrados.", null, exception);
@@ -218,8 +218,8 @@ public class CommissionBLService extends BLService
                 finally
                 {
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    Connector.getConnector().endTransaction();
-                    Connector.getConnector().closeConnection();
+                    Connector.getInstance().endTransaction();
+                    Connector.getInstance().closeConnection();
                 }
                 return returnCode;
             }
@@ -237,11 +237,11 @@ public class CommissionBLService extends BLService
         commission.setCampNumber(campNumber);
         try
         {
-            Connector.getConnector().startTransaction();
+            Connector.getInstance().startTransaction();
             
             updateCommission(commission, orders, repurchases);
 
-            Connector.getConnector().commit();
+            Connector.getInstance().commit();
             
             getBLServiceSubscriber().closeProcessIsWorking(customAlert);
             getBLServiceSubscriber().showSucces("Se han modificado los niveles de comisión exitosamente.");
@@ -249,14 +249,14 @@ public class CommissionBLService extends BLService
         }
         catch (Exception exception)
         {
-            Connector.getConnector().rollBack();
+            Connector.getInstance().rollBack();
             getBLServiceSubscriber().closeProcessIsWorking(customAlert);
             getBLServiceSubscriber().showError("Error al intentar modificar los niveles de comisión.", null, exception);
         }
         finally
         {
-            Connector.getConnector().endTransaction();
-            Connector.getConnector().closeConnection();
+            Connector.getInstance().endTransaction();
+            Connector.getInstance().closeConnection();
         }
     }
     
@@ -282,7 +282,7 @@ public class CommissionBLService extends BLService
         }
         finally
         {
-            Connector.getConnector().closeConnection();
+            Connector.getInstance().closeConnection();
         }
     }
     
@@ -303,14 +303,14 @@ public class CommissionBLService extends BLService
 
                         try
                         {
-                            Connector.getConnector().startTransaction();
+                            Connector.getInstance().startTransaction();
 
                             OrderOperator.getOperator().updateAllForCommission(orders);
                             RepurchaseOperator.getOperator().updateAll(repurchases);
 
                             updateCommission(commission, orders, repurchases);
 
-                            Connector.getConnector().commit();
+                            Connector.getInstance().commit();
                             
                             getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                             getBLServiceSubscriber().showSucces("Pedidos actualizados!");
@@ -325,7 +325,7 @@ public class CommissionBLService extends BLService
                         }
                         finally
                         {
-                            Connector.getConnector().closeConnection();
+                            Connector.getInstance().closeConnection();
                         }
 
                         return returnCode;

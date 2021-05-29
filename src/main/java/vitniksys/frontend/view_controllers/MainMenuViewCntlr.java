@@ -21,12 +21,12 @@ import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
-import vitniksys.backend.util.DetailFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.business_logic.CampaignBLService;
 import vitniksys.backend.model.business_logic.CatalogueBLService;
 import vitniksys.backend.model.business_logic.CommissionBLService;
+import vitniksys.backend.model.business_logic.DetailFileInterpreter;
 import vitniksys.backend.model.business_logic.PreferentialClientBLService;
 import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
 

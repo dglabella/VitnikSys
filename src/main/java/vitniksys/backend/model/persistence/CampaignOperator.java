@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
-import vitniksys.backend.model.interfaces.CrudOperator;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
 
 public class CampaignOperator implements ICampaignOperator
@@ -64,7 +63,7 @@ public class CampaignOperator implements ICampaignOperator
         "INSERT INTO `camps`(`nro_camp`, `alias`, `mes`, `year`, `cod_cat`) "+
         "VALUES (?, ?, ?, ?, ?);";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, camp.getNumber());
 
@@ -113,7 +112,7 @@ public class CampaignOperator implements ICampaignOperator
         "WHERE camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL) "+
         "ORDER BY `nro_camp` DESC;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);
         statement.setBoolean(2, CatalogueOperator.getOperator().isActiveRow());
 
@@ -164,7 +163,7 @@ public class CampaignOperator implements ICampaignOperator
         "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, `fecha_registro` "+
         "FROM `camps` "+
         "WHERE `nro_camp` = ? AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setInt(1, id);
         statement.setBoolean(2, this.activeRow);
 
@@ -200,7 +199,7 @@ public class CampaignOperator implements ICampaignOperator
         "WHERE `alias` LIKE '%"+(alias != null && !alias.isBlank()?alias:"")+"%' AND camps.active_row = ? AND (catalogos.active_row = ? OR catalogos.active_row IS NULL) "+
         "ORDER BY `nro_camp` DESC;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);
         statement.setBoolean(2, CatalogueOperator.getOperator().isActiveRow());
 
@@ -251,7 +250,7 @@ public class CampaignOperator implements ICampaignOperator
         "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, `fecha_registro` "+
         "FROM `camps` "+
         "WHERE `mes` = ? AND `year` = ? AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         
         statement.setInt(1, month);
         statement.setInt(2, year);
@@ -309,7 +308,7 @@ public class CampaignOperator implements ICampaignOperator
         "SELECT `nro_camp`, `cod_cat`, `alias`, `mes`, `year`, `fecha_registro` "+
         "FROM `camps` "+
         "WHERE `nro_camp` = (SELECT MAX(`nro_camp`) FROM `camps` WHERE `active_row` = ?) AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);
         statement.setBoolean(2, this.activeRow);
 

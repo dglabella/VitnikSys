@@ -1,8 +1,8 @@
 package vitniksys.backend.model.persistence;
 
 import java.util.List;
-import java.sql.ResultSet;
 import java.sql.Types;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import vitniksys.backend.model.entities.Catalogue;
@@ -62,7 +62,7 @@ public class CatalogueOperator implements ICatalogueOperator
         String sqlStmnt =
         "INSERT INTO `catalogos`(`cod`, `stock_inicial`, `stock`, `precio`, `link`) "+
         "VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `precio` = ?,`link` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, catalogue.getCode());
         statement.setInt(2, catalogue.getInitialStock());
@@ -102,7 +102,7 @@ public class CatalogueOperator implements ICatalogueOperator
         "SELECT `cod`, `stock_inicial`, `stock`, `precio`, `link`, `fecha_registro` "+
         "FROM `catalogos` "+
         "WHERE `cod` = ? AND `active_row` = ?;";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setInt(1, code);
         statement.setBoolean(2, this.activeRow);
 
@@ -129,7 +129,7 @@ public class CatalogueOperator implements ICatalogueOperator
         "FROM `catalogos` "+ 
         "WHERE `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
         statement.setBoolean(1, this.activeRow);
 
         ResultSet resultSet = statement.executeQuery();
@@ -183,7 +183,7 @@ public class CatalogueOperator implements ICatalogueOperator
             "FROM `entregas_catalogos` "+
             "WHERE `id_cp` = ? AND `cod_cat` = ? AND `active_row` = ?;";
 
-			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, baseClientId);
 			statement.setInt(2, catalogueId);
 			statement.setBoolean(3, this.activeRow);
@@ -195,7 +195,7 @@ public class CatalogueOperator implements ICatalogueOperator
             "FROM `entregas_catalogos` "+
             "WHERE `id_cp` = ? AND `active_row` = ?;";
 
-			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, baseClientId);
 			statement.setBoolean(2, this.activeRow);
         }

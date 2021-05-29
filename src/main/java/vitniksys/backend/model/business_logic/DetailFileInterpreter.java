@@ -1,10 +1,13 @@
-package vitniksys.backend.util;
+package vitniksys.backend.model.business_logic;
 
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Iterator;
 import java.util.ArrayList;
+import vitniksys.backend.util.ClientList;
+import vitniksys.backend.util.DetailFileRow;
+import vitniksys.backend.util.FileInterpreter;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.model.entities.Leader;
 import vitniksys.backend.model.enums.OrderType;
@@ -21,15 +24,14 @@ import vitniksys.backend.model.entities.PreferentialClient;
 *This class contains the algorithm for translate the information
 *contained in detail.csv File
 */
-public class DetailFileInterpreter implements OrderObtainer
+public class DetailFileInterpreter extends FileInterpreter
 {
-    private static final String SEPARATOR = ";" ;
+    private static final String SEPARATOR = ";";
     private static final int FIRST_LINES_TO_IGNORE = 6;
 
     //private static String SEPARATOR = ";";
 
     //The file to be interpreted for gather the information of the incoming orders.
-    private File detailFile;
     private List<DetailFileRow> detailFileRows;
 
     // private final int LEADER_ID = 0;
@@ -75,9 +77,9 @@ public class DetailFileInterpreter implements OrderObtainer
      * and no data from the file can be obtained.
      * @return an interpreter instance.
      */
-    public DetailFileInterpreter(File detailFile)
+    public DetailFileInterpreter(File detailFile, CampaignBLService service)
     {
-        this.detailFile = detailFile;
+        super(detailFile, service);
         this.detailFileRows = new ArrayList<>();
     }
 
@@ -206,7 +208,7 @@ public class DetailFileInterpreter implements OrderObtainer
 
         try
         {
-            Scanner inputStream = new Scanner(this.detailFile);
+            Scanner inputStream = new Scanner(this.getFile());
             
             //Gathering all the lines in the file into primary memory (detailFileRows).
             while(inputStream.hasNext())
@@ -227,7 +229,7 @@ public class DetailFileInterpreter implements OrderObtainer
             Campaign camp = orderMakers.get(0).getIncomingOrders().get(0).getCampaign();
             Iterator<PreferentialClient> prefClientIterator = associatedLeaders.iterator();
 
-            Connector.getConnector().startTransaction();
+            Connector.getInstance().startTransaction();
 
             while(prefClientIterator.hasNext())
             {
@@ -263,10 +265,10 @@ public class DetailFileInterpreter implements OrderObtainer
                 }
             }
 
-            Connector.getConnector().commit();
+            Connector.getInstance().commit();
 
-            Connector.getConnector().endTransaction();
-            Connector.getConnector().closeConnection();
+            Connector.getInstance().endTransaction();
+            Connector.getInstance().closeConnection();
         }
         catch(Exception exception)
         {
@@ -276,49 +278,42 @@ public class DetailFileInterpreter implements OrderObtainer
     }
 
     @Override
-    public List<PreferentialClient> getOrderMakers()
+    public void interpret() throws Exception
     {
         String [] splitedLine;
         
         ClientList orderMakers;
         ClientList associatedLeaders;
-
-        try
+        
+        Scanner inputStream = new Scanner(this.getFile());
+        
+        //ignoring trash lines from the file
+        for(int i = 0; i < DetailFileInterpreter.FIRST_LINES_TO_IGNORE; i++)
         {
-            Scanner inputStream = new Scanner(this.detailFile);
-            
-            //ignoring trash lines from the file
-            for(int i = 0; i < DetailFileInterpreter.FIRST_LINES_TO_IGNORE; i++)
-            {
-                inputStream.nextLine();
-            }
-
-
-            //Gathering all the lines in the file into primary memory (detailFileRows).
-            while(inputStream.hasNext())
-            {
-                splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
-
-                // System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" -- "+splitedLine[DELIVERY_NUMBER]+
-                //     " -- "+splitedLine[LETTERS]+" -- "+splitedLine[BARCODE]+" -- "+splitedLine[NAME]+" -- "+splitedLine[QUANT]+
-                //     " -- "+splitedLine[UNIT_PRICE]+" -- "+splitedLine[DESC_CP]+" -- "+splitedLine[PRICE]+" -- "+
-                //     splitedLine[AGENT_COMM]+" -- "+splitedLine[FINAL_PRICE]+" -- "+splitedLine[CAMP]+" -- "+splitedLine[OBS]);
-
-                this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
-                    splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 
-                    splitedLine[QUANT], splitedLine[UNIT_PRICE], splitedLine[DESC_CP], splitedLine[PRICE], 
-                    splitedLine[AGENT_COMM], splitedLine[FINAL_PRICE], splitedLine[CAMP], splitedLine[OBS]));
-            }
-            inputStream.close();
-
-            associatedLeaders = getAssociatedLeaders();
-            orderMakers = getOrderMakers(associatedLeaders);
+            inputStream.nextLine();
         }
-        catch(Exception exception)
+
+
+        //Gathering all the lines in the file into primary memory (detailFileRows).
+        while(inputStream.hasNext())
         {
-            exception.printStackTrace();
-            orderMakers = null;
+            splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
+
+            // System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" -- "+splitedLine[DELIVERY_NUMBER]+
+            //     " -- "+splitedLine[LETTERS]+" -- "+splitedLine[BARCODE]+" -- "+splitedLine[NAME]+" -- "+splitedLine[QUANT]+
+            //     " -- "+splitedLine[UNIT_PRICE]+" -- "+splitedLine[DESC_CP]+" -- "+splitedLine[PRICE]+" -- "+
+            //     splitedLine[AGENT_COMM]+" -- "+splitedLine[FINAL_PRICE]+" -- "+splitedLine[CAMP]+" -- "+splitedLine[OBS]);
+
+            this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
+                splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 
+                splitedLine[QUANT], splitedLine[UNIT_PRICE], splitedLine[DESC_CP], splitedLine[PRICE], 
+                splitedLine[AGENT_COMM], splitedLine[FINAL_PRICE], splitedLine[CAMP], splitedLine[OBS]));
         }
-        return (List<PreferentialClient>)orderMakers;
+        inputStream.close();
+
+        associatedLeaders = getAssociatedLeaders();
+        orderMakers = getOrderMakers(associatedLeaders);
+
+        ((CampaignBLService)this.getService(0)).registerIncomingOrders(orderMakers);
     }
 }

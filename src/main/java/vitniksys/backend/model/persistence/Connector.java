@@ -2,6 +2,8 @@ package vitniksys.backend.model.persistence;
 
 import java.io.File;
 import vitniksys.App;
+import vitniksys.backend.util.ConfigFileInterpreter;
+
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,8 +29,9 @@ public class Connector
     private static Connector connector = null;
     private static Connection connection = null;
 
-    private Connector() throws ClassNotFoundException, SQLException
+    private Connector(File configFile) throws ClassNotFoundException, SQLException
     {
+        new ConfigFileInterpreter(configFile, service).interpret();
         Connector.readConfigFile(App.ConstraitConstants.CONFIG_FILE_LOCATION);
         Class.forName(DRIVER);
         Connector.connection = DriverManager.getConnection(URL, USER, PASS);
@@ -98,13 +101,13 @@ public class Connector
         }
     }
 
-    public static Connector getConnector()
+    public static Connector getInstance()
     {
         try
         {
             if (Connector.connector == null)
             {
-                Connector.connector = new Connector();
+                Connector.connector = new Connector(new File(App.ConstraitConstants.CONFIG_FILE_LOCATION));
             }
         }
         catch (Exception exception)

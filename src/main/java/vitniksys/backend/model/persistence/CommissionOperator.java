@@ -57,7 +57,7 @@ public class CommissionOperator implements ICommissionOperator
         String sqlStmnt =
         "INSERT INTO `comisiones`(`id_cp`, `nro_camp`, `cant_actual`, `nivel_actual`) "+
         "VALUES (?, ?, ?, ?);";
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, commission.getPrefClientId());
         statement.setInt(2, commission.getCampNumber());
@@ -85,7 +85,7 @@ public class CommissionOperator implements ICommissionOperator
         "SET `cant_actual`= ?, `nivel_actual`= ?, `cant_min`= ?, `cant_1`= ?, `cant_2`= ?, `cant_3`= ?, `nivel_1`= ?, `nivel_2`= ?, `nivel_3`= ?, `nivel_4`= ?, `nivel_fp`= ?, `nivel_otros`= ? "+
         "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         statement.setInt(1, commission.getActualQuantity());
         statement.setInt(2, commission.getActualRate());
@@ -133,7 +133,7 @@ public class CommissionOperator implements ICommissionOperator
             "FROM `comisiones` "+
             "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?";
 
-			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
 			statement.setInt(2, campNumb);
 			statement.setBoolean(3, this.activeRow);
@@ -145,7 +145,7 @@ public class CommissionOperator implements ICommissionOperator
             "FROM `comisiones` "+
             "WHERE `id_cp` = ? AND `active_row` = ?";
 
-			statement = Connector.getConnector().getStatement(sqlStmnt);
+			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
 			statement.setBoolean(2, this.activeRow);
         }
@@ -196,7 +196,7 @@ public class CommissionOperator implements ICommissionOperator
         "FROM `comisiones` "+
         "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?";
 
-        PreparedStatement statement = Connector.getConnector().getStatement(sqlStmnt);
+        PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
         if(prefClientId != null && campNumber != null)
         {
