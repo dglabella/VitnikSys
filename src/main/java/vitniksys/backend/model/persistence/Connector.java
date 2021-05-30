@@ -1,8 +1,6 @@
 package vitniksys.backend.model.persistence;
 
 import java.io.File;
-import vitniksys.App;
-import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
@@ -16,10 +14,6 @@ public class Connector
     //private static final String URL = "jdbc:mysql://localhost:3306/vitniksanluis?serverTimezone=America/Argentina/Buenos_Aires";
     //private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis?serverTimezone=America/Argentina/Buenos_Aires";
     //private static final String URL = "jdbc:mysql://localhost:3308/vitniksanluis_test?serverTimezone=America/Argentina/Buenos_Aires";
-    
-    private static String URL;
-    private static String USER;
-    private static String PASS;
 
     private static Connector connector = null;
     private static Connection connection = null;

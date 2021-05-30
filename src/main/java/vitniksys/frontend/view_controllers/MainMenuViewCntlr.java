@@ -17,11 +17,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
-import vitniksys.backend.util.DetailFileInterpreter;
-
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Devolution;
+import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.PreferentialClient;
