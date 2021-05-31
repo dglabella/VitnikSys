@@ -121,7 +121,7 @@ public class ConfigFileInterpreter extends FileInterpreter
                     {
                         this.connectionUrl += "?"+opt;
                     }
-                    System.out.println("URL = "+this.connectionUrl);
+                    // System.out.println("URL = "+this.connectionUrl);
                 }
             }
             inputStream.close();

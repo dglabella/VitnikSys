@@ -123,7 +123,6 @@ vitniksys\backend\model\business_logic\PreferentialClientBLService$9.class
 vitniksys\backend\model\entities\VitnikSearchableEntity.class
 vitniksys\backend\model\business_logic\PreferentialClientBLService$1.class
 vitniksys\backend\util\CustomAlert$CustomAlertType.class
-vitniksys\backend\util\OrderObtainer.class
 vitniksys\backend\model\business_logic\PreferentialClientBLService$13.class
 vitniksys\backend\model\interfaces\CrudOperator.class
 vitniksys\backend\util\FileInterpreter.class

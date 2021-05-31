@@ -16,14 +16,13 @@ import javafx.scene.control.SelectionMode;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.util.StockTableRow;
-import vitniksys.backend.util.AutoCompletionTool;
-import vitniksys.backend.model.business_logic.StockAvailableBLService;
 import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.util.CustomAlert.CustomAlertType;
-import vitniksys.frontend.view_subscribers.StockAvailableBLServiceSubscriber;
 import vitniksys.backend.model.entities.PreferentialClient;
+import vitniksys.backend.model.business_logic.StockAvailableBLService;
+import vitniksys.frontend.view_subscribers.StockAvailableBLServiceSubscriber;
 
 public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvailableBLServiceSubscriber
 {
@@ -31,8 +30,6 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
 
     private PreferentialClient prefClient;
     private Campaign camp;
-
-    private AutoCompletionTool filterAutoCompletionTool;
 
     // ================================= FXML variables ===================================
     @FXML private Label total;
@@ -43,6 +40,8 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
 
     @FXML private TableView<StockTableRow> returnedArticles;
     
+    @FXML private TableColumn<StockTableRow, String> cp;
+    @FXML private TableColumn<StockTableRow, String> campNumb;
     @FXML private TableColumn<StockTableRow, String> unitCode;
     @FXML private TableColumn<StockTableRow, String> deliveryNumber;
     @FXML private TableColumn<StockTableRow, String> price;
@@ -88,16 +87,9 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
                 customAlert.customShow().ifPresent(response ->
                 {
                     if(response == ButtonType.OK)
-                    {                    
-                        try
-                        {
-                            ((StockAvailableBLService)this.getBLService(0)).registerRepurchase(this.prefClient, this.camp.getNumber(), stockRowTable.getUnitCode(), 
-                                                                                            ((RepurchaseDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getCost());
-                        }
-                        catch (Exception exception)
-                        {
-                            exception.printStackTrace();
-                        }
+                    {
+                        ((StockAvailableBLService)this.getBLService(0)).registerRepurchase(this.prefClient, this.camp.getNumber(), stockRowTable.getUnitCode(), 
+                            ((RepurchaseDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getCost());
                     }
                 });
             }
@@ -115,26 +107,27 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     @FXML
     private void resendVitnikMenuItemSelected()
     {
+        List<StockTableRow> stockRowsTable = this.returnedArticles.getSelectionModel().getSelectedItems();
+        if(stockRowsTable != null && stockRowsTable.size() > 0)
+        {
             new CustomAlert(AlertType.CONFIRMATION, "CONFIRMAR", "Desea registrar estos artículos como devueltos a VITNIK?")
             .customShow().ifPresent(response -> 
             {
                 if(response == ButtonType.OK)
                 {
-                    try
-                    {
-                        Iterator<StockTableRow> it = this.returnedArticles.getSelectionModel().getSelectedItems().iterator();
-                        List<Integer> unitCodes = new ArrayList<>();
-                        while(it.hasNext())
-                            unitCodes.add(it.next().getUnitCode());
+                    Iterator<StockTableRow> it = this.returnedArticles.getSelectionModel().getSelectedItems().iterator();
+                    List<Integer> unitCodes = new ArrayList<>();
+                    while(it.hasNext())
+                        unitCodes.add(it.next().getUnitCode());
 
-                        ((StockAvailableBLService)this.getBLService(0)).registerVitnikResend(unitCodes);
-                    }
-                    catch(Exception exception)
-                    {
-                        exception.printStackTrace();
-                    }
+                    ((StockAvailableBLService)this.getBLService(0)).registerVitnikResend(unitCodes);
                 }
-            });
+            });   
+        }
+        else
+        {
+            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN A VITNIK", "Debe seleccionar al menos un item de la tabla.").customShow();
+        }
     }
 
     // ================================= private methods ===================================
@@ -163,6 +156,8 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
         List<TableColumn> columns = new ArrayList<>();
+        columns.add(this.cp);
+        columns.add(this.campNumb);
         columns.add(this.unitCode);
         columns.add(this.deliveryNumber);
         columns.add(this.price);
@@ -172,6 +167,8 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
         columns.add(this.reason);
 
         List<PropertyValueFactory> propertiesValues = new ArrayList<>();
+        propertiesValues.add(new PropertyValueFactory<>("cp"));
+        propertiesValues.add(new PropertyValueFactory<>("campNumb"));
         propertiesValues.add(new PropertyValueFactory<>("unitCode"));
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
         propertiesValues.add(new PropertyValueFactory<>("cost"));
@@ -196,10 +193,19 @@ public class StockAvailableViewCntlr extends TableViewCntlr implements StockAvai
                 public boolean test(StockTableRow stockTableRow)
                 {
                     boolean ret;
-                    if (newValue.isBlank() || (""+stockTableRow.getUnitCode()).contains(newValue) ||(""+stockTableRow.getDeliveryNumber()).contains(newValue) || 
-                        (""+stockTableRow.getCost()).contains(newValue) || stockTableRow.getArticleId().contains(newValue.toUpperCase()) || 
-                        stockTableRow.getArticleName().contains(newValue.toUpperCase()) || (""+stockTableRow.getOrderType()).contains(newValue.toUpperCase()) || 
-                        (""+stockTableRow.getReason()).contains(newValue.toUpperCase()))
+                    if
+                    (
+                        newValue.isBlank() || 
+                        (""+stockTableRow.getCp()).contains(newValue) || 
+                        (""+stockTableRow.getCampNumb()).contains(newValue) || 
+                        (""+stockTableRow.getUnitCode()).contains(newValue) || 
+                        (""+stockTableRow.getDeliveryNumber()).contains(newValue) || 
+                        (""+stockTableRow.getCost()).contains(newValue) || 
+                        stockTableRow.getArticleId().contains(newValue.toUpperCase()) || 
+                        stockTableRow.getArticleName().contains(newValue.toUpperCase()) || 
+                        (""+stockTableRow.getOrderType()).contains(newValue.toUpperCase()) || 
+                        (""+stockTableRow.getReason()).contains(newValue.toUpperCase())
+                    )
                     {
                         ret = true;
                     }

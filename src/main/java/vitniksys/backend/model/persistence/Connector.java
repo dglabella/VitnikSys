@@ -18,13 +18,14 @@ public class Connector
     private static Connector connector = null;
     private static Connection connection = null;
 
-    private Connector(File configFile) throws ClassNotFoundException, SQLException
-    {
-        ConfigFileInterpreter configFileInterpreter = new ConfigFileInterpreter(configFile);
-        configFileInterpreter.interpret();
+    private static String url;
+    private static String user;
+    private static String pass;
 
+    private Connector() throws Exception
+    {
         Class.forName(DRIVER);
-        Connector.connection = DriverManager.getConnection(configFileInterpreter.getConnectionUrl(), configFileInterpreter.getConnectionUser(), configFileInterpreter.getConnectionPass());
+        Connector.connection = DriverManager.getConnection(Connector.url, Connector.user, Connector.pass);
     }
 
     public static Connector getInstance()
@@ -33,7 +34,20 @@ public class Connector
         {
             if (Connector.connector == null)
             {
-                Connector.connector = new Connector(new File(ConfigFileInterpreter.CONFIG_FILE_LOCATION));
+                ConfigFileInterpreter configFileInterpreter = new ConfigFileInterpreter(new File(ConfigFileInterpreter.CONFIG_FILE_LOCATION));
+                configFileInterpreter.interpret();
+                Connector.url = configFileInterpreter.getConnectionUrl();
+                Connector.user = configFileInterpreter.getConnectionUser();
+                Connector.pass = configFileInterpreter.getConnectionPass();
+
+                Connector.connector = new Connector();
+            }
+            else
+            {
+                if(Connector.connection.isClosed())
+                {
+                    Connector.connector = new Connector();
+                }
             }
         }
         catch (Exception exception)
@@ -49,7 +63,6 @@ public class Connector
         try
         {
             Connector.connection.close();
-            // Connector.connector = null;
         }
         catch (Exception exception)
         {

@@ -60,7 +60,7 @@ public class StockAvailableBLService extends BLService
         Platform.runLater(task);
     }
 
-    public void registerRepurchase(PreferentialClient prefClient, Integer campNumber, Integer unitCode, Float repurchasePrice) throws Exception
+    public void registerRepurchase(PreferentialClient prefClient, Integer campNumber, Integer unitCode, Float repurchasePrice)
     {
         CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -124,7 +124,7 @@ public class StockAvailableBLService extends BLService
         Platform.runLater(task);
     }
 
-    public void registerVitnikResend(List<Integer> unitCodes) throws Exception
+    public void registerVitnikResend(List<Integer> unitCodes)
     {
         CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso...");
         Task<Integer> task = new Task<>()

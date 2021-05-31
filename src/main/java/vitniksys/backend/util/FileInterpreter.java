@@ -14,9 +14,13 @@ public abstract class FileInterpreter
     {
         this.file = file;
         this.services = new ArrayList<>();
-        for(BLService service: services)
+        
+        if(services != null)
         {
-            this.services.add(service);
+            for(BLService service: services)
+            {
+                this.services.add(service);
+            }   
         }
     }
 

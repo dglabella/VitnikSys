@@ -9,6 +9,8 @@ import vitniksys.backend.model.entities.ReturnedArticle;
 
 public class StockTableRow
 {
+    private Integer cp;
+    private Integer campNumb;
     private Integer unitCode;
     private Integer deliveryNumber;
     private Float cost;
@@ -17,9 +19,11 @@ public class StockTableRow
     private OrderType orderType;
     private Reason reason;
 
-
-    public StockTableRow(Integer unitCode, Integer deliveryNumber, Float cost, String articleId, String articleName, OrderType orderType, Reason reason)
+    
+    public StockTableRow(Integer cp, Integer campNumb, Integer unitCode, Integer deliveryNumber, Float cost, String articleId, String articleName, OrderType orderType, Reason reason)
     {
+        this.cp = cp;
+        this.campNumb = campNumb;
         this.unitCode = unitCode;
         this.deliveryNumber = deliveryNumber;
         this.cost = cost;
@@ -40,9 +44,16 @@ public class StockTableRow
             while(it.hasNext())
             {
                 returnedArticle = it.next();
-
-                ret.add(new StockTableRow(returnedArticle.getUnitCode(), returnedArticle.getOrder().getDeliveryNumber(), returnedArticle.getOrder().getCost() / returnedArticle.getOrder().getQuantity(), 
-                            returnedArticle.getOrder().getArticle().getId(), returnedArticle.getOrder().getArticle().getName(), returnedArticle.getOrder().getType(), returnedArticle.getReason()));
+                ret.add
+                (
+                    new StockTableRow
+                    (
+                        returnedArticle.getOrder().getPrefClientId(), returnedArticle.getOrder().getCampNumber(), returnedArticle.getUnitCode(), 
+                        returnedArticle.getOrder().getDeliveryNumber(), returnedArticle.getOrder().getCost() / returnedArticle.getOrder().getQuantity(), 
+                        returnedArticle.getOrder().getArticle().getId(), returnedArticle.getOrder().getArticle().getName(), returnedArticle.getOrder().getType(), 
+                        returnedArticle.getReason()
+                    )
+                );
             }
         }
 
@@ -50,6 +61,25 @@ public class StockTableRow
     }
 
     //Getting && Setters
+    public Integer getCp()
+    {
+        return this.cp;
+    }
+
+    public void setCp(Integer cp)
+    {
+        this.cp = cp;
+    }
+
+    public Integer getCampNumb()
+    {
+        return this.campNumb;
+    }
+
+    public void setCampNumb(Integer campNumb)
+    {
+        this.campNumb = campNumb;
+    }
     public Integer getUnitCode()
     {
         return this.unitCode;

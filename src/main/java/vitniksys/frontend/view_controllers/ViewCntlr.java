@@ -81,13 +81,13 @@ public abstract class ViewCntlr implements Initializable, BLServiceSubscriber
         viewCtrller.getStage().setScene(scene);
         viewCtrller.getStage().setTitle(title);
         viewCtrller.setPrevViewCntlr(this);
-
+        
         for(BLService service: services)
         {
             viewCtrller.addService(service);
             service.setBLServiceSubscriber(viewCtrller);
         }
-
+        
         return viewCtrller;
     }
 

@@ -20,7 +20,6 @@ import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Devolution;
-import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.PreferentialClient;
@@ -159,7 +158,7 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
                 {
                     if (response == ButtonType.OK)
                     {
-                        if(this.generateDataBaseBackUp())
+                        if(this.generateDataBaseBackUp(COMMAND))
                         {
                             ((CampaignBLService)this.getBLService(1)).registerOrders(detail);
                         }
@@ -221,22 +220,16 @@ public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialCli
             exception.printStackTrace();
         }
 
-        return ret;
+        // return ret;
+        return true;
     }
 
     // ================================= protected methods ===============================
     @Override
     protected void manualInitialize()
     {
-        try 
-        {
-            this.clearTables();
-            ((PreferentialClientBLService)this.getBLService(0)).searchPreferentialClients();   
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-        }
+        this.clearTables();
+        ((PreferentialClientBLService)this.getBLService(0)).searchPreferentialClients();
     }
 
     // ================================= public methods ==================================
