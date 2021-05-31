@@ -49,7 +49,7 @@ public class Connector
         try
         {
             Connector.connection.close();
-            Connector.connector = null;
+            // Connector.connector = null;
         }
         catch (Exception exception)
         {
