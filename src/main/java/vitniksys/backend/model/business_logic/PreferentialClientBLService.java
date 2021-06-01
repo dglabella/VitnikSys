@@ -38,7 +38,9 @@ import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.interfaces.IBalanceOperator;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
+import vitniksys.backend.model.interfaces.ICommissionOperator;
 import vitniksys.backend.model.interfaces.IDevolutionOperator;
+import vitniksys.backend.model.interfaces.IOrderOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
@@ -904,6 +906,8 @@ public class PreferentialClientBLService extends BLService
         IReturnedArticleOperator returnedArticleOperator = ReturnedArticleOperator.getOperator();
         IDevolutionOperator devolutionOperator = DevolutionOperator.getOperator();
         IBalanceOperator balanceOperator = BalanceOperator.getOperator();
+        ICommissionOperator commissionOperator = CommissionOperator.getOperator();
+        IOrderOperator orderOperator = OrderOperator.getOperator();
 
         CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
 
@@ -950,9 +954,32 @@ public class PreferentialClientBLService extends BLService
                             BalanceOperator.getOperator().update(balance); //UPDATE
                         }
 
-                        Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber);
-                        List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber);
-                        List<Repurchase> repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(), campNumber);
+                        Commission commission = commissionOperator.find(prefClient.getId(), campNumber);
+                        List<Order> orders = orderOperator.findAll(prefClient.getId(), campNumber);
+                        List<Repurchase> repurchases = repurchaseOperator.findAll(prefClient.getId(), campNumber);
+
+                        if(prefClient instanceof Leader)
+                        {
+                            SubordinatedClient subordinatedClient = null;
+                            List<Order> auxOrders = null;
+                            List<Repurchase> auxRepurchases = null;
+                            Iterator<SubordinatedClient> subsIterator = ((Leader)prefClient).getSubordinates().iterator();
+                            while(subsIterator.hasNext())
+                            {
+                                subordinatedClient = subsIterator.next();
+                                auxOrders = OrderOperator.getOperator().findAll(subordinatedClient.getId(), campNumber);
+                                auxRepurchases = RepurchaseOperator.getOperator().findAll(subordinatedClient.getId(), campNumber);
+
+                                if (auxOrders != null)
+                                {
+                                    orders.addAll(auxOrders);
+                                }
+                                if(auxRepurchases != null)
+                                {
+                                    repurchases.addAll(auxRepurchases);
+                                }
+                            }
+                        }
 
                         if(commission != null)
                         {

@@ -355,6 +355,35 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
 
     @FXML
+    private void sumSelectedMenuItemSelectedRep()
+    {
+        float totalCost = 0;
+        float totalCommCost = 0;
+        float totalComm = 0;
+
+        Iterator<RepurchasesRowTable> it = this.repurchases.getSelectionModel().getSelectedItems().iterator();
+        RepurchasesRowTable repurchaseRowTable = null;
+        int repurchasesQuantity = 0;
+        int articlesQuantity = 0;
+        int returnedArticlesQuantity = 0;
+        while(it.hasNext())
+        {
+            repurchaseRowTable = it.next();
+
+            repurchasesQuantity++;
+            articlesQuantity += repurchaseRowTable.getQuantity();
+            returnedArticlesQuantity += repurchaseRowTable.getReturnedQuantity();
+            totalCost += repurchaseRowTable.getCost();
+            totalCommCost += repurchaseRowTable.getCommissionCost();
+            totalComm += repurchaseRowTable.getCommission();
+        }
+
+        new CustomAlert(AlertType.INFORMATION, "Totales", "Cantidad de recompras seleccionadas = "+orderQuantity+
+                                             "\nTotal precio = "+totalCost+totalComm)
+                                              .customShow();
+    }
+
+    @FXML
     private void payMenuItemSelected()
     {
         CustomAlert customAlert = new CustomAlert(CustomAlertType.PAYMENT, "PAGO", "Ingrese los datos necesarios para realizar el pago");
@@ -484,7 +513,18 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.campBalance.setText(balance != null ? ""+balance.getBalance() : ""+0);
         this.totalInCampaignOrders.setText(balance != null ? ""+balance.getTotalInOrders() : ""+0);
         this.paymentsPane.setText(balance != null ? "Pagos: "+ balance.getTotalInPayments() : ""+0);
-        this.repurchasesPane.setText(balance != null ? "Recompras: "+ balance.getTotalInRepurchases() : ""+0);
+
+        List<Repurchase> repurchases = this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber());
+        Iterator<Repurchase> it = repurchases.iterator();
+        Repurchase repurchase;
+        float returnedRepurchasesTotal = 0;
+        while(it.hasNext())
+        {
+            repurchase = it.next();
+            if(repurchase.isReturned())
+                returnedRepurchasesTotal += repurchase.getCost();
+        }
+        this.repurchasesPane.setText(balance != null ? "Recompras: "+ (balance.getTotalInRepurchases()-returnedRepurchasesTotal) : ""+0);
     }
 
     private void insertDataIntoTables()
@@ -739,8 +779,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             this.leader.setText(""+((SubordinatedClient)prefClient).getLeaderId());
         }
         
-        showTotalsForActualCamp();
         insertDataIntoTables();
+        showTotalsForActualCamp();
     }
 
     @Override
