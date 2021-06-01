@@ -299,7 +299,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
 
         String sqlStmnt = 
         "UPDATE `recompras` "+
-        "SET `comisionable`= ?, `devuelta`= ? "+
+        "SET `aumenta_comision`= ?, `devuelta`= ? "+
         "WHERE `cod` = ? AND `active_row` = ?";
 
         PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);

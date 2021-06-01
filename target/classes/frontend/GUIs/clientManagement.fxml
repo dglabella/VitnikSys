@@ -102,8 +102,8 @@
                         <TableColumn fx:id="articleId" minWidth="75.0" prefWidth="75.0" text="Letra" />
                         <TableColumn fx:id="unitPrice" minWidth="75.0" prefWidth="75.0" text="Precio Unidad" />
                         <TableColumn fx:id="devQuantity" minWidth="40.0" prefWidth="40.0" text="Devoluciones" />
-                        <TableColumn fx:id="isCommissionable" minWidth="40.0" prefWidth="40.0" text="Com?" />
-                        <TableColumn fx:id="countForCommission" minWidth="40.0" prefWidth="40.0" text="+1?" />
+                        <TableColumn fx:id="isCommissionable" minWidth="40.0" prefWidth="40.0" text="Com" />
+                        <TableColumn fx:id="countForCommission" minWidth="40.0" prefWidth="40.0" text="+Com" />
                         <TableColumn fx:id="withdrawalDate" minWidth="150.0" prefWidth="150.0" text="Fecha retiro" />
                      </columns>
                      <columnResizePolicy>
@@ -177,15 +177,16 @@
                                        <children>
                                           <TableView fx:id="repurchases" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="1300.0">
                                              <columns>
-                                                <TableColumn fx:id="unitCode" minWidth="80.0" resizable="false" text="Ejemplar" />
-                                                <TableColumn fx:id="deliveryNumberRep" minWidth="80.0" resizable="false" text="Nro Envío" />
-                                                <TableColumn fx:id="articleIdRep" minWidth="80.0" resizable="false" text="Letra" />
-                                                <TableColumn fx:id="priceRep" minWidth="100.0" prefWidth="110.0" resizable="false" text="Precio" />
-                                                <TableColumn fx:id="repurchasePrice" minWidth="100.0" prefWidth="120.0" resizable="false" text="Precio Rec" />
-                                                <TableColumn fx:id="nameRep" minWidth="420.0" prefWidth="430.0" resizable="false" text="Nombre" />
+                                                <TableColumn fx:id="unitCode" minWidth="60.0" prefWidth="75.0" resizable="false" text="Ejemplar" />
+                                                <TableColumn fx:id="deliveryNumberRep" minWidth="60.0" prefWidth="75.0" resizable="false" text="Nro Envío" />
+                                                <TableColumn fx:id="articleIdRep" minWidth="60.0" prefWidth="75.0" resizable="false" text="Letra" />
+                                                <TableColumn fx:id="priceRep" minWidth="80.0" prefWidth="110.0" resizable="false" text="Precio" />
+                                                <TableColumn fx:id="repurchasePrice" minWidth="80.0" prefWidth="110.0" resizable="false" text="Precio Rec" />
+                                                <TableColumn fx:id="nameRep" minWidth="350.0" prefWidth="415.0" resizable="false" text="Nombre" />
                                                 <TableColumn fx:id="orderTypeRep" minWidth="130.0" prefWidth="200.0" resizable="false" text="Tipo" />
+                                                <TableColumn fx:id="isReturned" minWidth="30.0" prefWidth="40.0" resizable="false" text="Devuelto?" />
+                                                <TableColumn fx:id="countForCommissionRep" minWidth="30.0" prefWidth="40.0" resizable="false" text="+Com" />
                                                 <TableColumn fx:id="repurchaseRegistrationTime" minWidth="160.0" prefWidth="160.0" resizable="false" text="Fecha Recompra" />
-                                                <TableColumn fx:id="isCommissionableRep" minWidth="30.0" prefWidth="40.0" resizable="false" text="Com?" />
                                              </columns>
                                              <contextMenu>
                                                 <ContextMenu>

@@ -38,6 +38,7 @@ import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.interfaces.IBalanceOperator;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
+import vitniksys.backend.model.interfaces.IDevolutionOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
@@ -46,6 +47,8 @@ import vitniksys.backend.model.persistence.DevolutionOperator;
 import vitniksys.backend.model.persistence.ObservationOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
 import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
+import vitniksys.backend.model.interfaces.IRepurchaseOperator;
+import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
 import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
@@ -756,7 +759,7 @@ public class PreferentialClientBLService extends BLService
         }
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, Reason reason) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, Reason reason)
     {
         CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>()
@@ -895,9 +898,15 @@ public class PreferentialClientBLService extends BLService
         Platform.runLater(task);
     }
     
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer repurchaseId) throws Exception
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer repurchaseId)
     {
+        IRepurchaseOperator repurchaseOperator = RepurchaseOperator.getOperator();
+        IReturnedArticleOperator returnedArticleOperator = ReturnedArticleOperator.getOperator();
+        IDevolutionOperator devolutionOperator = DevolutionOperator.getOperator();
+        IBalanceOperator balanceOperator = BalanceOperator.getOperator();
+
         CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+
         Task<Integer> task = new Task<>()
         {
             @Override
@@ -928,10 +937,11 @@ public class PreferentialClientBLService extends BLService
                         balance.setCampNumber(campNumber);
                         balance.setTotalInDevolutions(repurchase.getCost());
 
-
-                        ReturnedArticleOperator.getOperator().update(returnedArticle);
-                        DevolutionOperator.getOperator().insert(devolution);
-                        BalanceOperator.getOperator().update(balance);
+                        // making changes on DB
+                        repurchaseOperator.setReturned(repurchaseId);
+                        returnedArticleOperator.update(returnedArticle);
+                        devolutionOperator.insert(devolution);
+                        balanceOperator.update(balance);
 
                         if(prefClient instanceof SubordinatedClient)
                         {

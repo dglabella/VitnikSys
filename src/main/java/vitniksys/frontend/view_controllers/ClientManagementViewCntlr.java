@@ -32,10 +32,6 @@ import vitniksys.backend.model.enums.OrderType;
 import vitniksys.backend.model.enums.PayStatus;
 import vitniksys.backend.util.PaymentsRowTable;
 import vitniksys.backend.model.entities.Leader;
-import vitniksys.backend.model.business_logic.CampaignBLService;
-import vitniksys.backend.model.business_logic.CommissionBLService;
-import vitniksys.backend.model.business_logic.PreferentialClientBLService;
-import vitniksys.backend.model.business_logic.StockAvailableBLService;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.util.AutoCompletionTool;
 import vitniksys.backend.model.entities.Campaign;
@@ -47,11 +43,15 @@ import vitniksys.backend.model.entities.Repurchase;
 import vitniksys.backend.model.entities.Observation;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.util.CustomAlert.CustomAlertType;
-import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
-import vitniksys.frontend.view_subscribers.CommissionBLServiceSubscriber;
-import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
+import vitniksys.backend.model.business_logic.CampaignBLService;
+import vitniksys.backend.model.business_logic.CommissionBLService;
+import vitniksys.backend.model.business_logic.StockAvailableBLService;
+import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
+import vitniksys.frontend.view_subscribers.CommissionBLServiceSubscriber;
+import vitniksys.backend.model.business_logic.PreferentialClientBLService;
+import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
 
 public class ClientManagementViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber, CommissionBLServiceSubscriber
 {
@@ -141,8 +141,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML private TableColumn<RepurchasesRowTable, String> repurchasePrice;
     @FXML private TableColumn<RepurchasesRowTable, String> nameRep;
     @FXML private TableColumn<RepurchasesRowTable, String> orderTypeRep;
+    @FXML private TableColumn<RepurchasesRowTable, String> isReturned;
+    @FXML private TableColumn<RepurchasesRowTable, String> countForCommissionRep;
     @FXML private TableColumn<RepurchasesRowTable, String> repurchaseRegistrationTime;
-    @FXML private TableColumn<RepurchasesRowTable, String> isCommissionableRep;
 
     // ================================= FXML methods ===================================
     @FXML
@@ -392,16 +393,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             customAlert.customShow().ifPresent(response ->
             {
                 if(response == ButtonType.OK)
-                {                    
-                    try
-                    {
-                        ((PreferentialClientBLService)this.getBLService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), 
+                {
+                    ((PreferentialClientBLService)this.getBLService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), orderRowTable.getCode(), 
                                                                                     ((DevolutionDialogContentViewCntlr)customAlert.getDialogContentViewCntlr()).getReason());
-                    }
-                    catch (Exception exception)
-                    {
-                        exception.printStackTrace();
-                    }
                 }
             });
         }
@@ -423,14 +417,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             {
                 if(response == ButtonType.OK)
                 {
-                    try
-                    {
-                        ((PreferentialClientBLService)this.getBLService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), repurchasesRowTable.getCod());
-                    }
-                    catch (Exception exception)
-                    {
-                        exception.printStackTrace();
-                    }
+                    ((PreferentialClientBLService)this.getBLService(0)).registerDevolution(this.prefClient, this.actualCampaign.getNumber(), repurchasesRowTable.getCod());
                 }
             });
         }
@@ -540,17 +527,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @Override
     protected void manualInitialize()
     {
-        try
-        {
-            //((CampaignService)this.getService(1)).searchLastCamp();
-            ((CampaignBLService)this.getBLService(1)).searchCamps(null, null, null, null, null);
-
-            fillManagementView();
-        }
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-        }
+        ((CampaignBLService)this.getBLService(1)).searchCamps(null, null, null, null, null);
+        fillManagementView();
     }
 
     protected void loadPreferentialClient(PreferentialClient prefClient)
@@ -628,8 +606,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         columns.add(this.repurchasePrice);
         columns.add(this.nameRep);
         columns.add(this.orderTypeRep);
+        columns.add(this.isReturned);
+        columns.add(this.countForCommissionRep);
         columns.add(this.repurchaseRegistrationTime);
-        columns.add(this.isCommissionableRep);
 
         propertiesValues.add(new PropertyValueFactory<>("unitCode"));
         propertiesValues.add(new PropertyValueFactory<>("deliveryNumber"));
@@ -638,8 +617,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         propertiesValues.add(new PropertyValueFactory<>("repurchaseCost"));
         propertiesValues.add(new PropertyValueFactory<>("name"));
         propertiesValues.add(new PropertyValueFactory<>("orderType"));
-        propertiesValues.add(new PropertyValueFactory<>("registrationTime"));
+        propertiesValues.add(new PropertyValueFactory<>("isReturned"));
         propertiesValues.add(new PropertyValueFactory<>("countForCommission"));
+        propertiesValues.add(new PropertyValueFactory<>("registrationTime"));
 
         this.registerTable(this.repurchases);
         this.REPURCHASES_TABLE_NUMBER = 2;

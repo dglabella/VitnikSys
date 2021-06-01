@@ -19,14 +19,15 @@ public class RepurchasesRowTable
     private Float repurchaseCost;
     private String name;
     private OrderType orderType;
-    private Timestamp registrationTime;
+    private String isReturned;
     private CheckBox countForCommission;
+    private Timestamp registrationTime;
 
     private Repurchase repurchase;
 
     
     public RepurchasesRowTable(Integer cod, Integer unitCode, Integer deliveryNumber, String articleId, Float cost, Float repurchaseCost, 
-        String name, OrderType orderType, Timestamp registrationTime, boolean countForCommission, Repurchase repurchase)
+        String name, OrderType orderType, String isReturned, boolean countForCommission, Timestamp registrationTime, Repurchase repurchase)
     {
         this.cod = cod;
         this.unitCode = unitCode;
@@ -36,9 +37,10 @@ public class RepurchasesRowTable
         this.repurchaseCost = repurchaseCost;
         this.name = name;
         this.orderType = orderType;
-        this.registrationTime = registrationTime;
+        this.isReturned = isReturned;
         this.countForCommission = new CheckBox();
         this.countForCommission.setSelected(countForCommission);
+        this.registrationTime = registrationTime;
 
         this.repurchase = repurchase;
 
@@ -63,9 +65,24 @@ public class RepurchasesRowTable
             {
                 repurchase = it.next();
 
-                ret.add(new RepurchasesRowTable(repurchase.getCode(), repurchase.getReturnedArticleId(), repurchase.getReturnedArticle().getOrder().getDeliveryNumber(), repurchase.getReturnedArticle().getOrder().getArticleId(), 
-                                                repurchase.getReturnedArticle().getOrder().getUnitPrice(), repurchase.getCost(), repurchase.getReturnedArticle().getOrder().getArticle().getName(), 
-                                                repurchase.getReturnedArticle().getOrder().getType(), repurchase.getRegistrationTime(), repurchase.isCountForCommission(), repurchase));
+                ret.add
+                (
+                    new RepurchasesRowTable
+                    (
+                        repurchase.getCode(), 
+                        repurchase.getReturnedArticleId(), 
+                        repurchase.getReturnedArticle().getOrder().getDeliveryNumber(), 
+                        repurchase.getReturnedArticle().getOrder().getArticleId(), 
+                        repurchase.getReturnedArticle().getOrder().getUnitPrice(), 
+                        repurchase.getCost(), 
+                        repurchase.getReturnedArticle().getOrder().getArticle().getName(), 
+                        repurchase.getReturnedArticle().getOrder().getType(), 
+                        repurchase.isReturned()?"D":null,
+                        repurchase.isCountForCommission(), 
+                        repurchase.getRegistrationTime(), 
+                        repurchase
+                    )
+                );
             }
         }
 
@@ -153,14 +170,14 @@ public class RepurchasesRowTable
         this.orderType = orderType;
     }
 
-    public Timestamp getRegistrationTime()
+    public String getIsReturned()
     {
-        return this.registrationTime;
+        return this.isReturned;
     }
 
-    public void setRegistrationTime(Timestamp registrationTime)
+    public void setIsReturned(String isReturned)
     {
-        this.registrationTime = registrationTime;
+        this.isReturned = isReturned;
     }
 
     public CheckBox getCountForCommission()
@@ -171,6 +188,16 @@ public class RepurchasesRowTable
     public void setCountForCommission(CheckBox countForCommission)
     {
         this.countForCommission = countForCommission;
+    }
+
+    public Timestamp getRegistrationTime()
+    {
+        return this.registrationTime;
+    }
+
+    public void setRegistrationTime(Timestamp registrationTime)
+    {
+        this.registrationTime = registrationTime;
     }
 
     public Repurchase getRepurchase()
