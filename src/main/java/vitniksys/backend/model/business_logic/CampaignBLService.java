@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
-import vitniksys.backend.util.DetailFileInterpreter;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.util.ExpressionChecker;
@@ -19,6 +18,7 @@ import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
+import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 import vitniksys.backend.model.persistence.OrderOperator;
@@ -467,8 +467,6 @@ public class CampaignBLService extends BLService
                         detailFileInterpreter = new DetailFileInterpreter(detail);
                         detailFileInterpreter.interpret();
                         registerIncomingOrders(detailFileInterpreter.getOrderMakers());
-                        
-                        detailFileInterpreter.getOrderMakers();
 
                         Connector.getInstance().commit();
 

@@ -9,6 +9,7 @@ public class DetailFileRow
     private int leaderId;
     private int clientId;
     private int deliveryNumber;
+    private boolean comp;
     private String letters;
     private String barCode;
     private String name;
@@ -26,13 +27,14 @@ public class DetailFileRow
         //Empty construsctor
     }
 
-    public DetailFileRow(String leaderId, String clientId, String deliveryNumber, String letters, String barCode, 
+    public DetailFileRow(String leaderId, String clientId, String deliveryNumber, String comp,String letters, String barCode, 
             String name, String quant, String unitPrice, String descCP, String price, String agentComm, String finalPrice, 
             String campNumb, String obs)
     {
         this.leaderId = (leaderId.isEmpty()||leaderId.isBlank())? -1 : Integer.parseInt(leaderId);
         this.clientId = Integer.parseInt(clientId);
         this.deliveryNumber = Integer.parseInt(deliveryNumber);
+        this.comp = comp.isEmpty()||comp.isBlank()?false:true;
         this.letters = letters;
         this.barCode = barCode;
         this.name = name;
@@ -75,6 +77,16 @@ public class DetailFileRow
     public void setDeliveryNumber(int deliveryNumber)
     {
         this.deliveryNumber = deliveryNumber;
+    }
+
+    public boolean isComp()
+    {
+        return this.comp;
+    }
+
+    public void setComp(boolean comp)
+    {
+        this.comp = comp;
     }
 
     public String getLetters()

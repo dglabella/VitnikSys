@@ -65,6 +65,7 @@ vitniksys\backend\model\entities\Observation.class
 vitniksys\backend\model\enums\PayType.class
 vitniksys\backend\model\interfaces\IPreferentialClientOperator.class
 vitniksys\backend\model\persistence\CommissionOperator.class
+vitniksys\frontend\view_controllers\ClientManagementViewCntlr$3.class
 vitniksys\backend\model\entities\BaseClient.class
 vitniksys\backend\model\business_logic\StockAvailableBLService$2.class
 vitniksys\frontend\view_controllers\CampRegisterViewCntlr.class

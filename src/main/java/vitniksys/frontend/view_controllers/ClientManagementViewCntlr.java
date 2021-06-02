@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.util.function.Predicate;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.TableRow;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ChoiceBox;
@@ -498,6 +499,41 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     }
     
     // ================================= private methods ===================================
+    private void applyExtras()
+    {
+        boolean foundCompensatedOrder = false;
+        Iterator<Order> it = this.actualOrders.iterator();
+        while(!foundCompensatedOrder && it.hasNext())
+        {
+            foundCompensatedOrder = it.next().isCompensated();
+        }
+
+        this.orders.setRowFactory(tv -> new TableRow<OrdersRowTable>()
+        {
+            @Override
+            protected void updateItem(OrdersRowTable row, boolean empty)
+            {
+                super.updateItem(row, empty);
+                if(row != null)
+                {
+                    if (row.getOrder().isCompensated())
+                    {
+                        setStyle("-fx-background-color: #009910;");
+                    }
+                    else
+                    {
+                        setStyle(null);
+                    }
+                }
+                else
+                {
+                    setStyle(null);
+                } 
+            }
+        });
+
+    }
+
     private void showTotalsForActualCamp()
     {
         Balance balance = this.prefClient.getBalances().locateWithCampNumb(this.actualCampaign.getNumber());
@@ -506,14 +542,18 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.paymentsPane.setText(balance != null ? "Pagos: "+ balance.getTotalInPayments() : ""+0);
 
         List<Repurchase> repurchases = this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber());
-        Iterator<Repurchase> it = repurchases.iterator();
-        Repurchase repurchase;
+        
         float returnedRepurchasesTotal = 0;
-        while(it.hasNext())
+        if(repurchases != null)
         {
-            repurchase = it.next();
-            if(repurchase.isReturned())
-                returnedRepurchasesTotal += repurchase.getCost();
+            Iterator<Repurchase> it = repurchases.iterator();
+            Repurchase repurchase;
+            while(it.hasNext())
+            {
+                repurchase = it.next();
+                if(repurchase.isReturned())
+                    returnedRepurchasesTotal += repurchase.getCost();
+            }
         }
         this.repurchasesPane.setText(balance != null ? "Recompras: "+ (balance.getTotalInRepurchases()-returnedRepurchasesTotal) : ""+0);
     }
@@ -773,6 +813,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         
         insertDataIntoTables();
         showTotalsForActualCamp();
+        applyExtras();
     }
 
     @Override

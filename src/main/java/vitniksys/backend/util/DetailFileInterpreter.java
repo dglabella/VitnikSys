@@ -177,6 +177,7 @@ public class DetailFileInterpreter extends FileInterpreter
             //be checked manually by the user if some orders are not commissionable.
             order = new Order(row.getQuant(), row.getPrice());
             order.setDeliveryNumber(row.getDeliveryNumber());
+            order.setCompensated(row.isComp());
             order.setType(OrderType.inferType(row.getObs()));
             order.setUnitPrice(row.getUnitPrice());
             article = new Article(row.getLetters(), row.getName());
@@ -222,10 +223,27 @@ public class DetailFileInterpreter extends FileInterpreter
             while(inputStream.hasNext())
             {
                 splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
-                this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
-                    splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 
-                    splitedLine[QUANT], splitedLine[UNIT_PRICE], splitedLine[DESC_CP], splitedLine[PRICE], 
-                    splitedLine[AGENT_COMM], splitedLine[FINAL_PRICE], splitedLine[CAMP], splitedLine[OBS]));
+                this.detailFileRows.add
+                (
+                    new DetailFileRow
+                    (
+                        splitedLine[LEADER_ID], 
+                        splitedLine[CLIENT_ID], 
+                        splitedLine[DELIVERY_NUMBER], 
+                        splitedLine[COMP], 
+                        splitedLine[LETTERS], 
+                        splitedLine[BARCODE], 
+                        splitedLine[NAME], 
+                        splitedLine[QUANT], 
+                        splitedLine[UNIT_PRICE], 
+                        splitedLine[DESC_CP], 
+                        splitedLine[PRICE], 
+                        splitedLine[AGENT_COMM], 
+                        splitedLine[FINAL_PRICE], 
+                        splitedLine[CAMP], 
+                        splitedLine[OBS]
+                    )
+                );
             }
             inputStream.close();
 
@@ -312,10 +330,27 @@ public class DetailFileInterpreter extends FileInterpreter
             //     " -- "+splitedLine[UNIT_PRICE]+" -- "+splitedLine[DESC_CP]+" -- "+splitedLine[PRICE]+" -- "+
             //     splitedLine[AGENT_COMM]+" -- "+splitedLine[FINAL_PRICE]+" -- "+splitedLine[CAMP]+" -- "+splitedLine[OBS]);
 
-            this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID], splitedLine[CLIENT_ID], 
-                splitedLine[DELIVERY_NUMBER], splitedLine[LETTERS], splitedLine[BARCODE], splitedLine[NAME], 
-                splitedLine[QUANT], splitedLine[UNIT_PRICE], splitedLine[DESC_CP], splitedLine[PRICE], 
-                splitedLine[AGENT_COMM], splitedLine[FINAL_PRICE], splitedLine[CAMP], splitedLine[OBS]));
+            this.detailFileRows.add
+            (
+                new DetailFileRow
+                (
+                    splitedLine[LEADER_ID], 
+                    splitedLine[CLIENT_ID], 
+                    splitedLine[DELIVERY_NUMBER], 
+                    splitedLine[COMP], 
+                    splitedLine[LETTERS], 
+                    splitedLine[BARCODE], 
+                    splitedLine[NAME], 
+                    splitedLine[QUANT], 
+                    splitedLine[UNIT_PRICE], 
+                    splitedLine[DESC_CP], 
+                    splitedLine[PRICE], 
+                    splitedLine[AGENT_COMM], 
+                    splitedLine[FINAL_PRICE], 
+                    splitedLine[CAMP], 
+                    splitedLine[OBS]
+                )
+            );
         }
         inputStream.close();
 
