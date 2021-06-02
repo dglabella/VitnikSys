@@ -91,9 +91,4 @@ public class App extends Application
         stage.show();
         ((MainMenuViewCntlr)viewCtrller).init();
     }
-
-    public static void main(final String[] args)
-    {
-        launch();
-    }
 }

@@ -107,6 +107,7 @@ vitniksys\backend\model\interfaces\IOrderOperator.class
 vitniksys\frontend\view_controllers\StockAvailableViewCntlr$1.class
 vitniksys\backend\model\entities\PreferentialClient.class
 vitniksys\backend\model\enums\PayStatus.class
+vitniksys\Main.class
 vitniksys\backend\model\persistence\ArticleOperator.class
 vitniksys\backend\model\business_logic\CommissionBLService$2.class
 vitniksys\backend\model\persistence\ObservationOperator.class

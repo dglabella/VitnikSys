@@ -357,29 +357,20 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     @FXML
     private void sumSelectedMenuItemSelectedRep()
     {
-        float totalCost = 0;
-        float totalCommCost = 0;
-        float totalComm = 0;
-
         Iterator<RepurchasesRowTable> it = this.repurchases.getSelectionModel().getSelectedItems().iterator();
         RepurchasesRowTable repurchaseRowTable = null;
-        int repurchasesQuantity = 0;
-        int articlesQuantity = 0;
-        int returnedArticlesQuantity = 0;
+        int repurchasesQuantitySelected = 0;
+        float total = 0;
         while(it.hasNext())
         {
             repurchaseRowTable = it.next();
 
-            repurchasesQuantity++;
-            articlesQuantity += repurchaseRowTable.getQuantity();
-            returnedArticlesQuantity += repurchaseRowTable.getReturnedQuantity();
-            totalCost += repurchaseRowTable.getCost();
-            totalCommCost += repurchaseRowTable.getCommissionCost();
-            totalComm += repurchaseRowTable.getCommission();
+            repurchasesQuantitySelected++;
+            total += repurchaseRowTable.getCost();
         }
 
-        new CustomAlert(AlertType.INFORMATION, "Totales", "Cantidad de recompras seleccionadas = "+orderQuantity+
-                                             "\nTotal precio = "+totalCost+totalComm)
+        new CustomAlert(AlertType.INFORMATION, "Totales", "Cantidad de recompras seleccionadas = "+repurchasesQuantitySelected+
+                                             "\nTotal precio recompra = "+total)
                                               .customShow();
     }
 
@@ -581,6 +572,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception
     {
         this.orders.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        this.repurchases.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         List<TableColumn> columns = new ArrayList<>();
         List<PropertyValueFactory> propertiesValues = new ArrayList<>();

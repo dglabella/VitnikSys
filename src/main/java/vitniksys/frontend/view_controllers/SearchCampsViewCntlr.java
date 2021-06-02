@@ -1,6 +1,7 @@
 package vitniksys.frontend.view_controllers;
 
 import java.net.URL;
+import vitniksys.App;
 import java.util.List;
 import java.time.Month;
 import javafx.fxml.FXML;
@@ -15,13 +16,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import vitniksys.backend.util.CampsTableRow;
-import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
-import vitniksys.backend.model.business_logic.CampaignBLService;
 import vitniksys.backend.model.entities.Campaign;
 import javafx.scene.control.cell.PropertyValueFactory;
+import vitniksys.backend.model.business_logic.CampaignBLService;
+import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
 
 public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignBLServiceSubscriber
 {
+    private final String UNPAID_CAMPS_FILTER_COMMAND = App.ConstraitConstants.FILTER_COMMAND_PREFIX+"-";
+    private final String PAID_CAMPS_FILTER_COMMAND = App.ConstraitConstants.FILTER_COMMAND_PREFIX+"+";
+    
     private int CAMPS_TABLE_NUMBER;
 
     private List<Campaign> selectedCamps;
@@ -111,10 +115,16 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignBLSe
                 public boolean test(CampsTableRow row)
                 {
                     boolean ret;
-                    if (newValue.isBlank() || (row.getAlias() != null && row.getAlias().contains(newValue.toUpperCase())) ||
-                        String.valueOf(row.getIdCamp()).contains(newValue) ||
-                        (row.getCatalogueCode() != null && String.valueOf(row.getCatalogueCode()).contains(newValue)) ||
-                        String.valueOf(row.getMonth()).contains(newValue) || String.valueOf(row.getYear()).contains(newValue))
+                    if (
+                        newValue.isBlank() || 
+                        (row.getBalance() < 0 && newValue.contains(UNPAID_CAMPS_FILTER_COMMAND)) ||
+                        (row.getBalance() > 0 && newValue.contains(PAID_CAMPS_FILTER_COMMAND)) ||
+                        (row.getAlias() != null && row.getAlias().contains(newValue.toUpperCase())) ||
+                        String.valueOf(row.getIdCamp()).contains(newValue.toUpperCase()) ||
+                        (row.getCatalogueCode() != null && String.valueOf(row.getCatalogueCode()).contains(newValue.toUpperCase())) ||
+                        String.valueOf(row.getMonth()).contains(newValue.toUpperCase()) || 
+                        String.valueOf(row.getYear()).contains(newValue.toUpperCase())
+                        )
                     {
                         ret = true;
                     }
@@ -132,14 +142,26 @@ public class SearchCampsViewCntlr extends TableViewCntlr implements CampaignBLSe
             @Override
             protected void updateItem(CampsTableRow row, boolean empty)
             {
+                super.updateItem(row, empty);
                 if(row != null)
                 {
-                    super.updateItem(row, empty);
                     if (row.getBalance() < 0 )
                     {
-                        setStyle("-fx-background-color: #FF0000;");   
+                        setStyle("-fx-background-color: #FF2C2C;");
                     }
-                }  
+                    else if (row.getBalance() > 0)
+                    {
+                        setStyle("-fx-background-color: #52FF28;");
+                    }
+                    else
+                    {
+                        setStyle(null);
+                    }
+                }
+                else
+                {
+                    setStyle(null);
+                } 
             }
         });
     }

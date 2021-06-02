@@ -12,7 +12,6 @@ import javafx.concurrent.Task;
 import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.util.DetailFileInterpreter;
-
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.model.entities.Order;
 import vitniksys.backend.util.ExpressionChecker;

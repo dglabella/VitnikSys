@@ -194,6 +194,7 @@
                                                       <MenuItem mnemonicParsing="false" onAction="#devolutionRepMenuItemSelected" text="Devolver" />
                                                       <MenuItem mnemonicParsing="false" onAction="#seeStockMenuItemSelected" text="Ver stock" />
                                                       <MenuItem mnemonicParsing="false" onAction="#updateCommissionablesOrders" text="Actualizar comisionables" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#sumSelectedMenuItemSelectedRep" text="Sumar selección" />
                                                    </items>
                                                 </ContextMenu>
                                              </contextMenu>
