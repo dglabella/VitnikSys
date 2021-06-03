@@ -10,5 +10,5 @@ pass:vkzulma123
 path:D:\wamp64\bin\mysql\mysql5.7.26\bin
 [END]
 [DETAIL_FILE]
-first_rows_skipped = 6
+first_rows_skipped:6
 [END]

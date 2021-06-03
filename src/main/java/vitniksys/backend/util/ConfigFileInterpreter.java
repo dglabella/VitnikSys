@@ -3,10 +3,8 @@ package vitniksys.backend.util;
 import java.io.File;
 import vitniksys.App;
 import java.util.Scanner;
-
 import javafx.scene.control.Alert.AlertType;
 
-import java.io.FileNotFoundException;
 
 public class ConfigFileInterpreter extends FileInterpreter
 {
@@ -32,82 +30,72 @@ public class ConfigFileInterpreter extends FileInterpreter
     private static final String CONFIG_FILE_PATH_TAG = "path";
 
     // about detail file
-    private static final String CONFIG_FIRST_ROWS_SKIPPED_TAG = "first_rows_skipped";
+    private static final String CONFIG_FILE_FIRST_ROWS_SKIPPED_TAG = "first_rows_skipped";
 
     private static String DRIVER_PREFIX = "jdbc:mysql://";
 
-    private Scanner inputStream;
+    private static String connectionUrl;
+    private static String connectionUser;
+    private static String connectionPass;
 
-    private String connectionUrl;
-    private String connectionUser;
-    private String connectionPass;
+    private static String path;
 
-    private String path;
-
-    private Integer firstRowsSkipped;
+    private static Integer firstRowsSkipped;
 
 
     public ConfigFileInterpreter(File file)
     {
         super(file, null);
-        try
-        {
-            this.inputStream = new Scanner(file);
-        }
-        catch (FileNotFoundException exception)
-        {
-            exception.printStackTrace();
-        }
     }
 
-    public String getConnectionUrl()
+    public static String getConnectionUrl()
     {
-        return this.connectionUrl;
+        return ConfigFileInterpreter.connectionUrl;
     }
 
-    public void setConnectionUrl(String connectionUrl)
+    public static void setConnectionUrl(String connectionUrl)
     {
-        this.connectionUrl = connectionUrl;
+        ConfigFileInterpreter.connectionUrl = connectionUrl;
     }
 
-    public String getConnectionUser()
+    public static String getConnectionUser()
     {
-        return this.connectionUser;
+        return ConfigFileInterpreter.connectionUser;
     }
 
-    public void setConnectionUser(String connectionUser)
+    public static void setConnectionUser(String connectionUser)
     {
-        this.connectionUser = connectionUser;
+        ConfigFileInterpreter.connectionUser = connectionUser;
     }
 
-    public String getConnectionPass()
+    public static String getConnectionPass()
     {
-        return this.connectionPass;
+        return ConfigFileInterpreter.connectionPass;
     }
 
-    public void setConnectionPass(String connectionPass)
+    public static void setConnectionPass(String connectionPass)
     {
-        this.connectionPass = connectionPass;
+        ConfigFileInterpreter.connectionPass = connectionPass;
     }
 
-    public String getPath()
+    public static String getPath()
     {
-        return this.path;
+        return ConfigFileInterpreter.path;
     }
 
-    public void setPath(String path)
+    public static void setPath(String path)
     {
-        this.path = path;
+        ConfigFileInterpreter.path = path;
     }
 
-    public Integer getFirstRowsSkipped()
+    public static Integer getFirstRowsSkipped()
     {
-        return this.firstRowsSkipped;
+        return ConfigFileInterpreter.firstRowsSkipped;
     }
 
-    public void setFirstRowsSkipped(Integer firstRowsSkipped)
+    public static void setFirstRowsSkipped(Integer firstRowsSkipped)
     {
-        this.firstRowsSkipped = firstRowsSkipped;
+        ConfigFileInterpreter.firstRowsSkipped = firstRowsSkipped;
     }
 
     private void readConnectionSection()
@@ -120,18 +108,20 @@ public class ConfigFileInterpreter extends FileInterpreter
         String dataBase = null;
         String opt = null;
 
+        Scanner inputStream;
+
         try
         {
+            inputStream = new Scanner(this.getFile());
             //Gathering all the lines in the file into primary memory (detailFileRows).
             boolean endTagReached = false;
-            while(this.inputStream.hasNext() && !endTagReached)
+            while(inputStream.hasNext() && !endTagReached)
             {
-                line = this.inputStream.next();
+                line = inputStream.next();
                 if (line.equals(ConfigFileInterpreter.CONFIG_FILE_CONNECTION_SECTION))
                 {
                     //move to the next line
-                    line = this.inputStream.next();
-
+                    line = inputStream.next();
                     while(!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION))
                     {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
@@ -151,28 +141,30 @@ public class ConfigFileInterpreter extends FileInterpreter
                                 opt = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
                             break;
                             case ConfigFileInterpreter.CONFIG_FILE_USER_TAG:
-                                this.connectionUser = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                ConfigFileInterpreter.connectionUser = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
                             break;
                             case ConfigFileInterpreter.CONFIG_FILE_PASS_TAG:
-                                this.connectionPass = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                ConfigFileInterpreter.connectionPass = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
                             break;
                         }
-                        line = this.inputStream.next();
+                        line = inputStream.next();
                     }
                     endTagReached = true;
-                    this.connectionUrl = DRIVER_PREFIX+ip+":"+port+"/"+dataBase;
+                    ConfigFileInterpreter.connectionUrl = DRIVER_PREFIX+ip+":"+port+"/"+dataBase;
                     if (opt != null)
                     {
-                        this.connectionUrl += "?"+opt;
+                        ConfigFileInterpreter.connectionUrl += "?"+opt;
                     }
-                    // System.out.println("URL = "+this.connectionUrl);
-                }
-                else
-                {
-                    new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de conexión").customShow();
+                    // System.out.println("URL = "+ConfigFileInterpreter.connectionUrl);
                 }
             }
-            this.inputStream.close();
+
+            if(!inputStream.hasNext() && !endTagReached)
+            {
+                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de conexión").customShow();
+            }
+
+            inputStream.close();
         }
         catch (Exception exception)
         {
@@ -185,59 +177,42 @@ public class ConfigFileInterpreter extends FileInterpreter
         String line;
         String [] splitedLine = null;
 
+        Scanner inputStream;
+
         try
         {
+            inputStream = new Scanner(this.getFile());
             //Gathering all the lines in the file into primary memory (detailFileRows).
             boolean endTagReached = false;
-            while(this.inputStream.hasNext() && !endTagReached)
+            while(inputStream.hasNext() && !endTagReached)
             {
-                line = this.inputStream.next();
+                line = inputStream.next();
                 if (line.equals(ConfigFileInterpreter.CONFIG_FILE_BACKUP_SECTION))
                 {
                     //move to the next line
-                    line = this.inputStream.next();
-
+                    line = inputStream.next();
                     while(!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION))
                     {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
 
                         switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE])
                         {
-                            case ConfigFileInterpreter.CONFIG_FILE_IP_TAG:
-                                ip = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_PORT_TAG:
-                                port = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_DATABASE_TAG:
-                                dataBase = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_OPT_TAG:
-                                opt = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_USER_TAG:
-                                this.connectionUser = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_PASS_TAG:
-                                this.connectionPass = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                            case ConfigFileInterpreter.CONFIG_FILE_PATH_TAG:
+                                ConfigFileInterpreter.path = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
                             break;
                         }
-                        line = this.inputStream.next();
+                        line = inputStream.next();
                     }
                     endTagReached = true;
-                    this.connectionUrl = DRIVER_PREFIX+ip+":"+port+"/"+dataBase;
-                    if (opt != null)
-                    {
-                        this.connectionUrl += "?"+opt;
-                    }
-                    // System.out.println("URL = "+this.connectionUrl);
-                }
-                else
-                {
-                    new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de resguardo de datos").customShow();
                 }
             }
-            this.inputStream.close();
+
+            if(!inputStream.hasNext() && !endTagReached)
+            {
+                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de conexión").customShow();
+            }
+
+            inputStream.close();
         }
         catch (Exception exception)
         {
@@ -250,17 +225,20 @@ public class ConfigFileInterpreter extends FileInterpreter
         String line;
         String [] splitedLine = null;
 
+        Scanner inputStream;
+
         try
         {
+            inputStream = new Scanner(this.getFile());
             //Gathering all the lines in the file into primary memory (detailFileRows).
             boolean endTagReached = false;
-            while(this.inputStream.hasNext() && !endTagReached)
+            while(inputStream.hasNext() && !endTagReached)
             {
-                line = this.inputStream.next();
-                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_CONNECTION_SECTION))
+                line = inputStream.next();
+                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_DETAIL_FILE_SECTION))
                 {
                     //move to the next line
-                    line = this.inputStream.next();
+                    line = inputStream.next();
 
                     while(!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION))
                     {
@@ -268,41 +246,22 @@ public class ConfigFileInterpreter extends FileInterpreter
 
                         switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE])
                         {
-                            case ConfigFileInterpreter.CONFIG_FILE_IP_TAG:
-                                ip = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_PORT_TAG:
-                                port = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_DATABASE_TAG:
-                                dataBase = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_OPT_TAG:
-                                opt = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_USER_TAG:
-                                this.connectionUser = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
-                            case ConfigFileInterpreter.CONFIG_FILE_PASS_TAG:
-                                this.connectionPass = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                            case ConfigFileInterpreter.CONFIG_FILE_FIRST_ROWS_SKIPPED_TAG:
+                                ConfigFileInterpreter.firstRowsSkipped = Integer.parseInt(splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE]);
                             break;
                         }
-                        line = this.inputStream.next();
+                        line = inputStream.next();
                     }
                     endTagReached = true;
-                    this.connectionUrl = DRIVER_PREFIX+ip+":"+port+"/"+dataBase;
-                    if (opt != null)
-                    {
-                        this.connectionUrl += "?"+opt;
-                    }
-                    // System.out.println("URL = "+this.connectionUrl);
-                }
-                else
-                {
-                    new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de especificacion del archivo detalle").customShow();
                 }
             }
-            this.inputStream.close();
+
+            if(!inputStream.hasNext() && !endTagReached)
+            {
+                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de conexión").customShow();
+            }
+
+            inputStream.close();
         }
         catch (Exception exception)
         {

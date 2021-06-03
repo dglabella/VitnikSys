@@ -32,7 +32,7 @@ import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber
 public class MainMenuViewCntlr extends TableViewCntlr implements PreferentialClientBLServiceSubscriber
 {
     private int PREF_CLIENTS_TABLE_NUMBER;
-    private String COMMAND = "";
+    private String COMMAND;
 
     // ================================= FXML variables =================================
     @FXML private TableView<PreferentialClient> prefClients;
