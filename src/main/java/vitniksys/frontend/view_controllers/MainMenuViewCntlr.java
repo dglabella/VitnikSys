@@ -21,6 +21,7 @@ import org.apache.commons.io.FilenameUtils;
 import javafx.scene.control.Alert.AlertType;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
+import vitniksys.backend.util.ConfigFileInterpreter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.business_logic.CampaignBLService;

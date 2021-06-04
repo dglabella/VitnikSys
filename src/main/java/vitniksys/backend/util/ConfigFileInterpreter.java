@@ -1,6 +1,5 @@
 package vitniksys.backend.util;
 
-import java.io.File;
 import vitniksys.App;
 import java.util.Scanner;
 import javafx.scene.control.Alert.AlertType;
@@ -17,6 +16,8 @@ public class ConfigFileInterpreter extends FileInterpreter
     private static final String CONFIG_FILE_DATA_SEPARATOR = ":";
     private static final int CONFIG_FILE_TAG_SIDE = 0;
     private static final int CONFIG_FILE_DATA_SIDE = 1;
+
+    private static ConfigFileInterpreter configFileInterpreter;
 
     // about connection
     private static final String CONFIG_FILE_IP_TAG = "ip";
@@ -43,9 +44,9 @@ public class ConfigFileInterpreter extends FileInterpreter
     private static Integer firstRowsSkipped;
 
 
-    public ConfigFileInterpreter(File file)
+    private ConfigFileInterpreter(String filePath)
     {
-        super(file, null);
+        super(filePath, null);
     }
 
     public static String getConnectionUrl()
@@ -96,6 +97,16 @@ public class ConfigFileInterpreter extends FileInterpreter
     public static void setFirstRowsSkipped(Integer firstRowsSkipped)
     {
         ConfigFileInterpreter.firstRowsSkipped = firstRowsSkipped;
+    }
+
+    public static ConfigFileInterpreter getInstance(String filePath)
+    {
+        if(ConfigFileInterpreter.configFileInterpreter == null)
+        {
+            ConfigFileInterpreter.configFileInterpreter = new ConfigFileInterpreter(filePath);
+        }
+
+        return ConfigFileInterpreter.configFileInterpreter;
     }
 
     private void readConnectionSection()

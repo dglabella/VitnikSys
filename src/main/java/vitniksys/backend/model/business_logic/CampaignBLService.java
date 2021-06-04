@@ -19,7 +19,6 @@ import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
 import vitniksys.backend.util.DetailFileInterpreter;
-import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 import vitniksys.backend.model.persistence.OrderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
@@ -335,7 +334,7 @@ public class CampaignBLService extends BLService
         }
         finally
         {
-            Connector.getInstance().closeConnection();
+            getConnector().closeConnection();
         }
     }
 
@@ -364,7 +363,7 @@ public class CampaignBLService extends BLService
         }
         finally
         {
-            Connector.getInstance().closeConnection();
+            getConnector().closeConnection();
         }
     }
 
@@ -386,7 +385,7 @@ public class CampaignBLService extends BLService
 
                     try
                     {
-                        Connector.getInstance().startTransaction();
+                        getConnector().startTransaction();
 
                         //Campaing registration with catalogue associated
                         if(catalogueCode != null && !catalogueCode.isEmpty())
@@ -419,13 +418,13 @@ public class CampaignBLService extends BLService
                             registerIncomingOrders(detailFileInterpreter.getOrderMakers());
                         }
 
-                        Connector.getInstance().commit();
+                        getConnector().commit();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("La campaña se ha registrado exitosamente!");
                     }
                     catch (Exception exception)
                     {
-                        Connector.getInstance().rollBack();
+                        getConnector().rollBack();
                         returnCode = 0;
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al intentar registrar la campaña", null, exception);
@@ -433,8 +432,8 @@ public class CampaignBLService extends BLService
                     }
                     finally
                     {
-                        Connector.getInstance().endTransaction();
-                        Connector.getInstance().closeConnection();
+                        getConnector().endTransaction();
+                        getConnector().closeConnection();
                     }
                     return returnCode;
                 }
@@ -462,28 +461,28 @@ public class CampaignBLService extends BLService
                 {
                     try
                     {
-                        Connector.getInstance().startTransaction();
+                        getConnector().startTransaction();
 
                         detailFileInterpreter = new DetailFileInterpreter(detail);
                         detailFileInterpreter.interpret();
                         registerIncomingOrders(detailFileInterpreter.getOrderMakers());
 
-                        Connector.getInstance().commit();
+                        getConnector().commit();
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("Los pedidos se registraron exitosamente!");
                     }
                     catch (Exception exception)
                     {
-                        Connector.getInstance().rollBack();
+                        getConnector().rollBack();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al intentar registrar los pedidos.", null, exception);
                         throw exception;
                     }
                     finally
                     {
-                        Connector.getInstance().endTransaction();
-                        Connector.getInstance().closeConnection();
+                        getConnector().endTransaction();
+                        getConnector().closeConnection();
                     }
                     return null;
                 }

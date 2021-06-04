@@ -10,6 +10,20 @@ public abstract class FileInterpreter
     private File file;
     private List<BLService> services;
 
+    public FileInterpreter(String filePath, BLService ... services)
+    {
+        this.file = new File(filePath);
+        this.services = new ArrayList<>();
+        
+        if(services != null)
+        {
+            for(BLService service: services)
+            {
+                this.services.add(service);
+            }   
+        }
+    }
+
     public FileInterpreter(File file, BLService ... services)
     {
         this.file = file;

@@ -13,6 +13,7 @@ import javafx.application.Application;
 import javafx.scene.control.ButtonType;
 import vitniksys.backend.util.CustomAlert;
 import javafx.scene.control.Alert.AlertType;
+import vitniksys.backend.util.ConfigFileInterpreter;
 import vitniksys.frontend.view_controllers.ViewCntlr;
 import vitniksys.backend.model.business_logic.BLService;
 import vitniksys.frontend.view_controllers.MainMenuViewCntlr;
@@ -51,7 +52,6 @@ public class App extends Application
     @Override
     public void start(final Stage stage) throws IOException
     {
-        //new DetailFileInterpreter(new FileChooser().showOpenDialog(null)).insertClientFromDetailFile();
         String fileName = "mainMenu";
 
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(ConstraitConstants.GUIs_LOCATION + fileName + ConstraitConstants.FXML_FILE_EXTENSION));
@@ -79,6 +79,20 @@ public class App extends Application
                 });
             }
         });
+
+        try
+        {
+            ConfigFileInterpreter cfi = ConfigFileInterpreter.getInstance(ConfigFileInterpreter.CONFIG_FILE_LOCATION);
+            cfi.interpret();
+            new CustomAlert(AlertType.INFORMATION, "INFO", "Archivo de configuraciones cargado exitosamente.\n"+
+                            "Configuración para arhivo detalle:\n"+
+                            "Primeras filas ignoradas = "+ConfigFileInterpreter.getFirstRowsSkipped()).customShow();
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+            new CustomAlert(AlertType.ERROR, "ERROR", "Se produjo un error al leer el archivo de configuraciones.\n").customShow();
+        }
 
         BLService prefClientService = new PreferentialClientBLService();
         viewCtrller.addService(prefClientService);

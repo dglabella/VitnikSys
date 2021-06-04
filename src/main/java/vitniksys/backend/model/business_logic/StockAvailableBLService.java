@@ -8,7 +8,6 @@ import javafx.application.Platform;
 import vitniksys.backend.util.CustomAlert;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Repurchase;
-import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
@@ -51,7 +50,7 @@ public class StockAvailableBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getInstance().closeConnection();
+                    getConnector().closeConnection();
                 }
 
                 return null;
@@ -87,7 +86,7 @@ public class StockAvailableBLService extends BLService
 
                 try
                 {
-                    Connector.getInstance().startTransaction();
+                    getConnector().startTransaction();
 
                     ReturnedArticleOperator.getOperator().update(returnedArticle);
                     RepurchaseOperator.getOperator().insert(repurchase);
@@ -100,7 +99,7 @@ public class StockAvailableBLService extends BLService
                         BalanceOperator.getOperator().update(balance); //UPDATE
                     }
                     
-                    Connector.getInstance().commit();
+                    getConnector().commit();
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showSucces("La recompra se ha registrado exitosamente!");
@@ -108,14 +107,14 @@ public class StockAvailableBLService extends BLService
                 }
                 catch (Exception exception)
                 {
-                    Connector.getInstance().rollBack();
+                    getConnector().rollBack();
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al realizar la recompra.", null, exception);
                 }
                 finally
                 {
-                    Connector.getInstance().endTransaction();
-                    Connector.getInstance().closeConnection();
+                    getConnector().endTransaction();
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }
@@ -137,7 +136,7 @@ public class StockAvailableBLService extends BLService
 
                 try
                 {
-                    Connector.getInstance().startTransaction();
+                    getConnector().startTransaction();
 
                     ReturnedArticle returnedArticle;
                     List<ReturnedArticle> returnedArticles = new ArrayList<>();
@@ -153,7 +152,7 @@ public class StockAvailableBLService extends BLService
 
                     ReturnedArticleOperator.getOperator().updateAll(returnedArticles);
                     
-                    Connector.getInstance().commit();
+                    getConnector().commit();
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showSucces("Reenvios registrados exitosamente!");
@@ -161,14 +160,14 @@ public class StockAvailableBLService extends BLService
                 }
                 catch (Exception exception)
                 {
-                    Connector.getInstance().rollBack();
+                    getConnector().rollBack();
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al registrar el reenvio a VITNIK.", null, exception);
                 }
                 finally
                 {
-                    Connector.getInstance().endTransaction();
-                    Connector.getInstance().closeConnection();
+                    getConnector().endTransaction();
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }

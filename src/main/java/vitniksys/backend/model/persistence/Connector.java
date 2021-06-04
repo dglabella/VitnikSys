@@ -1,6 +1,5 @@
 package vitniksys.backend.model.persistence;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
@@ -34,11 +33,9 @@ public class Connector
         {
             if (Connector.connector == null)
             {
-                ConfigFileInterpreter configFileInterpreter = new ConfigFileInterpreter(new File(ConfigFileInterpreter.CONFIG_FILE_LOCATION));
-                configFileInterpreter.interpret();
-                Connector.url = configFileInterpreter.getConnectionUrl();
-                Connector.user = configFileInterpreter.getConnectionUser();
-                Connector.pass = configFileInterpreter.getConnectionPass();
+                Connector.url = ConfigFileInterpreter.getConnectionUrl();
+                Connector.user = ConfigFileInterpreter.getConnectionUser();
+                Connector.pass = ConfigFileInterpreter.getConnectionPass();
 
                 Connector.connector = new Connector();
             }

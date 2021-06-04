@@ -59,11 +59,11 @@ public class CatalogueBLService extends BLService
                     int returnCode = 0;
                     try
                     {
-                        Connector.getInstance().startTransaction();
+                        getConnector().startTransaction();
 
                         CatalogueOperator.getOperator().insert(catalogue);
 
-                        Connector.getInstance().commit();
+                        getConnector().commit();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("El catálogo se ha registrado/actualizado exitosamente!");
 
@@ -72,7 +72,7 @@ public class CatalogueBLService extends BLService
                     }
                     catch (Exception exception)
                     {
-                        Connector.getInstance().rollBack();
+                        getConnector().rollBack();
                         returnCode = 0;
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al intentar registrar el catálogo", null, exception);
@@ -80,8 +80,8 @@ public class CatalogueBLService extends BLService
                     }
                     finally
                     {
-                        Connector.getInstance().endTransaction();
-                        Connector.getInstance().closeConnection();
+                        getConnector().endTransaction();
+                        getConnector().closeConnection();
                     }
                     return returnCode;
                 }
@@ -133,7 +133,7 @@ public class CatalogueBLService extends BLService
                     }
                     finally
                     {
-                        Connector.getInstance().closeConnection();
+                        getConnector().closeConnection();
                     }
                     return returnCode;
                 }
@@ -185,7 +185,7 @@ public class CatalogueBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getInstance().closeConnection();
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }

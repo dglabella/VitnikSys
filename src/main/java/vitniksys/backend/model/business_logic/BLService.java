@@ -6,14 +6,12 @@ import vitniksys.frontend.view_subscribers.BLServiceSubscriber;
 public abstract class BLService
 {
     private BLServiceSubscriber serviceSubscriber;
-    private Connector connector;
 
     //private ExecutorService executorService;
     
     public BLService()
     {
         //this.executorService = Executors.newFixedThreadPool(App.ConstraitConstants.THREAD_NUMBER);
-        this.connector = Connector.getInstance();
     }
 
     // ================================= Getters && setters =================================
@@ -30,12 +28,7 @@ public abstract class BLService
 
     public Connector getConnector()
     {
-        return this.connector;
-    }
-
-    public void setConnector(Connector connector)
-    {
-        this.connector = connector;
+        return Connector.getInstance();
     }
 
     // =================================== private methods ==================================

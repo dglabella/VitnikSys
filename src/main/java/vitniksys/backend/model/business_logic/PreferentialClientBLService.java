@@ -27,10 +27,10 @@ import vitniksys.backend.model.entities.BaseClient;
 import vitniksys.backend.model.entities.Commission;
 import vitniksys.backend.model.entities.Devolution;
 import vitniksys.backend.model.entities.Observation;
-import vitniksys.backend.model.persistence.Connector;
 import vitniksys.backend.util.CpLoaderFileInterpreter;
 import vitniksys.backend.model.entities.ReturnedArticle;
 import vitniksys.backend.model.persistence.OrderOperator;
+import vitniksys.backend.model.interfaces.IOrderOperator;
 import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.persistence.PaymentOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
@@ -38,19 +38,18 @@ import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.interfaces.IBalanceOperator;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
+import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.interfaces.ICommissionOperator;
 import vitniksys.backend.model.interfaces.IDevolutionOperator;
-import vitniksys.backend.model.interfaces.IOrderOperator;
-import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CommissionOperator;
 import vitniksys.backend.model.persistence.RepurchaseOperator;
 import vitniksys.backend.model.persistence.BaseClientOperator;
 import vitniksys.backend.model.persistence.DevolutionOperator;
+import vitniksys.backend.model.interfaces.IRepurchaseOperator;
 import vitniksys.backend.model.persistence.ObservationOperator;
 import vitniksys.backend.model.persistence.ReturnedArticleOperator;
-import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
-import vitniksys.backend.model.interfaces.IRepurchaseOperator;
 import vitniksys.backend.model.interfaces.IReturnedArticleOperator;
+import vitniksys.backend.model.interfaces.IPreferentialClientOperator;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
 import vitniksys.backend.model.persistence.SubordinatedClientOperator;
 import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
@@ -257,7 +256,7 @@ public class PreferentialClientBLService extends BLService
                     PreferentialClient prefClient;
                     try
                     {
-                        Connector.getInstance().startTransaction(); //START TRANSACTION
+                        getConnector().startTransaction(); //START TRANSACTION
 
                         if(isLeader)
                         {
@@ -293,21 +292,21 @@ public class PreferentialClientBLService extends BLService
 
                         returnCode += BalanceOperator.getOperator().insert(balance); // INSERT
 
-                        Connector.getInstance().commit(); // COMMIT
+                        getConnector().commit(); // COMMIT
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("El cliente se ha registrado exitosamente!");
                     }
                     catch (Exception exception)
                     {
-                        Connector.getInstance().rollBack();
+                        getConnector().rollBack();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al intentar registrar el cliente.", null, exception);
                     }
                     finally
                     {
-                        Connector.getInstance().endTransaction();
-                        Connector.getInstance().closeConnection();
+                        getConnector().endTransaction();
+                        getConnector().closeConnection();
                     }
                     return returnCode;
                 }
@@ -335,12 +334,12 @@ public class PreferentialClientBLService extends BLService
                 int returnCode = 0;
                 try
                 {
-                    Connector.getInstance().startTransaction(); //START TRANSACTION
+                    getConnector().startTransaction(); //START TRANSACTION
 
                     // -- cpLoader.interpret() is doing the inserts into the DATA BASE
                     cpLoader.interpret();
 
-                    Connector.getInstance().commit(); // COMMIT
+                    getConnector().commit(); // COMMIT
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showSucces("Los clientes se han registrado exitosamente!");
@@ -348,14 +347,14 @@ public class PreferentialClientBLService extends BLService
                 }
                 catch (Exception exception)
                 {
-                    Connector.getInstance().rollBack();
+                    getConnector().rollBack();
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al intentar registrar los clientes.", null, exception);
                 }
                 finally
                 {
-                    Connector.getInstance().endTransaction();
-                    Connector.getInstance().closeConnection();
+                    getConnector().endTransaction();
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }
@@ -380,7 +379,7 @@ public class PreferentialClientBLService extends BLService
                     PreferentialClient prefClient;
                     try
                     {
-                        Connector.getInstance().startTransaction(); //START TRANSACTION
+                        getConnector().startTransaction(); //START TRANSACTION
 
                         if(isLeader)
                         {
@@ -405,21 +404,21 @@ public class PreferentialClientBLService extends BLService
 
                         returnCode += prefClient.operator().update(prefClient); // UPDATE
 
-                        Connector.getInstance().commit(); // COMMIT
+                        getConnector().commit(); // COMMIT
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("La actualización se ha registrado exitosamente!");
                     }
                     catch (Exception exception)
                     {
-                        Connector.getInstance().rollBack();
+                        getConnector().rollBack();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al actualizar los datos del cliente.", null, exception);
                     }
                     finally
                     {
-                        Connector.getInstance().endTransaction();
-                        Connector.getInstance().closeConnection();
+                        getConnector().endTransaction();
+                        getConnector().closeConnection();
                     }
                     return returnCode;
                 }
@@ -466,7 +465,7 @@ public class PreferentialClientBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getInstance().closeConnection();
+                    getConnector().closeConnection();
                 }
 
                 return null;
@@ -506,7 +505,7 @@ public class PreferentialClientBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getInstance().closeConnection();
+                    getConnector().closeConnection();
                 }
 
                 return null;
@@ -546,7 +545,7 @@ public class PreferentialClientBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getInstance().closeConnection();   
+                    getConnector().closeConnection();   
                 }
 
                 return null;
@@ -586,7 +585,7 @@ public class PreferentialClientBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getInstance().closeConnection();
+                    getConnector().closeConnection();
                 }
 
                 return null;
@@ -625,7 +624,7 @@ public class PreferentialClientBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getInstance().closeConnection();
+                    getConnector().closeConnection();
                 }
                 return null;
             }
@@ -680,7 +679,7 @@ public class PreferentialClientBLService extends BLService
                 }
                 finally
                 {
-                    Connector.getInstance().closeConnection();
+                    getConnector().closeConnection();
                 }
 
                 return returnCode;
@@ -719,7 +718,7 @@ public class PreferentialClientBLService extends BLService
 
                     try
                     {
-                        Connector.getInstance().startTransaction();
+                        getConnector().startTransaction();
 
                         PaymentOperator.getOperator().insert(payment);
                         BalanceOperator.getOperator().update(balance);
@@ -731,7 +730,7 @@ public class PreferentialClientBLService extends BLService
                             BalanceOperator.getOperator().update(balance);
                         }
 
-                        Connector.getInstance().commit();
+                        getConnector().commit();
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("El pago se ha registrado exitosamente!");
@@ -739,14 +738,14 @@ public class PreferentialClientBLService extends BLService
                     }
                     catch (Exception exception)
                     {
-                        Connector.getInstance().rollBack();
+                        getConnector().rollBack();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showError("Error al intentar registrar el pago.", null, exception);
                     }
                     finally
                     {
-                        Connector.getInstance().endTransaction();
-                        Connector.getInstance().closeConnection();
+                        getConnector().endTransaction();
+                        getConnector().closeConnection();
                     }
                     return returnCode;
                 }
@@ -774,7 +773,7 @@ public class PreferentialClientBLService extends BLService
 
                 try
                 {
-                    Connector.getInstance().startTransaction(); //START TRANSACTION
+                    getConnector().startTransaction(); //START TRANSACTION
 
                     Order order = OrderOperator.getOperator().find(orderId); //SEARCH IN DB
 
@@ -870,7 +869,7 @@ public class PreferentialClientBLService extends BLService
                         }
                         //otherwise, register the devolution but just ignore update commission becuase, once the commission is created, it will self update.
 
-                        Connector.getInstance().commit(); // COMMIT
+                        getConnector().commit(); // COMMIT
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ devolution.getUnitCode());
@@ -884,14 +883,14 @@ public class PreferentialClientBLService extends BLService
                 }
                 catch (Exception exception)
                 {
-                    Connector.getInstance().rollBack(); //ROLLBACK
+                    getConnector().rollBack(); //ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al realizar la devolución.", null, exception);
                 }
                 finally
                 {
-                    Connector.getInstance().endTransaction(); //END TRANSACTION
-                    Connector.getInstance().closeConnection();
+                    getConnector().endTransaction(); //END TRANSACTION
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }
@@ -921,7 +920,7 @@ public class PreferentialClientBLService extends BLService
 
                 try
                 {
-                    Connector.getInstance().startTransaction(); //START TRANSACTION
+                    getConnector().startTransaction(); //START TRANSACTION
 
                     Repurchase repurchase = RepurchaseOperator.getOperator().find(repurchaseId);
 
@@ -987,7 +986,7 @@ public class PreferentialClientBLService extends BLService
                             ((CommissionBLService)getBLServiceSubscriber().getBLService(2)).updateCommission(commission, orders, repurchases); //UPDATE
                         }
 
-                        Connector.getInstance().commit(); // COMMIT
+                        getConnector().commit(); // COMMIT
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                         getBLServiceSubscriber().showSucces("La devolución se ha registrado exitosamente!\nCÓDIGO DE ARTÍCULO EN STOCK PARA RECOMPRA = "+ repurchase.getReturnedArticleId());
@@ -1001,14 +1000,14 @@ public class PreferentialClientBLService extends BLService
                 }
                 catch (Exception exception)
                 {
-                    Connector.getInstance().rollBack(); //ROLLBACK
+                    getConnector().rollBack(); //ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al realizar la devolución.", null, exception);
                 }
                 finally
                 {
-                    Connector.getInstance().endTransaction(); //END TRANSACTION
-                    Connector.getInstance().closeConnection();
+                    getConnector().endTransaction(); //END TRANSACTION
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }
@@ -1030,11 +1029,11 @@ public class PreferentialClientBLService extends BLService
 
                 try
                 {
-                    Connector.getInstance().startTransaction(); //START TRANSACTION
+                    getConnector().startTransaction(); //START TRANSACTION
 
                     OrderOperator.getOperator().registerWithdrawals(orders);
 
-                    Connector.getInstance().commit(); // COMMIT
+                    getConnector().commit(); // COMMIT
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showSucces("Los retiros se han registrado exitosamente!");
@@ -1042,14 +1041,14 @@ public class PreferentialClientBLService extends BLService
                 }
                 catch (Exception exception)
                 {
-                    Connector.getInstance().rollBack(); // ROLLBACK
+                    getConnector().rollBack(); // ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al realizar los retiros.", null, exception);
                 }
                 finally
                 {
-                    Connector.getInstance().endTransaction(); //END TRANSACTION
-                    Connector.getInstance().closeConnection();
+                    getConnector().endTransaction(); //END TRANSACTION
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }
@@ -1071,25 +1070,25 @@ public class PreferentialClientBLService extends BLService
 
                 try
                 {
-                    Connector.getInstance().startTransaction(); //START TRANSACTION
+                    getConnector().startTransaction(); //START TRANSACTION
                     
                     createObservation(prefClientId, campNumber, obs);
 
-                    Connector.getInstance().commit(); // COMMIT
+                    getConnector().commit(); // COMMIT
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showSucces("Observación registrada exitosamente!");
                 }
                 catch (Exception exception)
                 {
-                    Connector.getInstance().rollBack(); //ROLLBACK
+                    getConnector().rollBack(); //ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al guardar la observación.", null, exception);
                 }
                 finally
                 {
-                    Connector.getInstance().endTransaction(); //END TRANSACTION
-                    Connector.getInstance().closeConnection();
+                    getConnector().endTransaction(); //END TRANSACTION
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }
@@ -1111,7 +1110,7 @@ public class PreferentialClientBLService extends BLService
                 
                 try
                 {
-                    Connector.getInstance().startTransaction();
+                    getConnector().startTransaction();
 
                     Observation observation = ObservationOperator.getOperator().find(prefClientId, campNumber);
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
@@ -1128,18 +1127,18 @@ public class PreferentialClientBLService extends BLService
                         getBLServiceSubscriber().refresh();
                     }
 
-                    Connector.getInstance().commit();
+                    getConnector().commit();
                 }
                 catch (Exception exception)
                 {
-                    Connector.getInstance().rollBack(); //ROLLBACK
+                    getConnector().rollBack(); //ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     getBLServiceSubscriber().showError("Error al guardar la observación.", null, exception);
                 }
                 finally
                 {
-                    Connector.getInstance().endTransaction(); //END TRANSACTION
-                    Connector.getInstance().closeConnection();
+                    getConnector().endTransaction(); //END TRANSACTION
+                    getConnector().closeConnection();
                 }
                 return returnCode;
             }
