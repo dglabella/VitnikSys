@@ -171,7 +171,11 @@ public class LeaderOperator extends BaseClientOperator
             while(it.hasNext())
             {
                 SubordinatedClient subordinatedClient = it.next();
+
                 ret.getOrders().addAll(subordinatedClient.getOrders());
+                ret.getDevolutions().addAll(subordinatedClient.getDevolutions());
+                ret.getRepurchases().addAll(subordinatedClient.getRepurchases());
+                ret.getPayments().addAll(subordinatedClient.getPayments());
             }
         }
 
@@ -240,13 +244,16 @@ public class LeaderOperator extends BaseClientOperator
             ret.setCatalogueDeliveries(CatalogueOperator.getOperator().findCatalogueDeliveries(ret.getId(), campNumber));
 
             ret.setCommissions(new VitnikSearchableList<Commission>(CommissionOperator.getOperator().findAll(ret.getId(), campNumber)));
-            ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll(id));
+            ret.setSubordinates(SubordinatedClientOperator.getOperator().findAll(id, campNumber));
             
             Iterator<SubordinatedClient> it = ret.getSubordinates().iterator();
             while(it.hasNext())
             {
                 SubordinatedClient subordinatedClient = it.next();
                 ret.getOrders().addAll(subordinatedClient.getOrders());
+                ret.getDevolutions().addAll(subordinatedClient.getDevolutions());
+                ret.getRepurchases().addAll(subordinatedClient.getRepurchases());
+                ret.getPayments().addAll(subordinatedClient.getPayments());
             }
         }
 

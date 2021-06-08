@@ -189,7 +189,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
         ReturnedArticle returnedArticle;
 		while (resultSet.next())
 		{
-            repurchase =  new Repurchase(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getTimestamp(6));
+            repurchase = new Repurchase(resultSet.getInt(1), resultSet.getFloat(3), resultSet.getTimestamp(6));
             repurchase.setCountForCommission(resultSet.getBoolean(4));
             repurchase.setReturned(resultSet.getBoolean(5));
             returnedArticle = new ReturnedArticle(resultSet.getInt(2), Reason.values()[resultSet.getInt(8)], resultSet.getBoolean(9));

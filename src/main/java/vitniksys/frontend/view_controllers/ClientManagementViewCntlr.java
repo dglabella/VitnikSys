@@ -471,7 +471,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
             ((CommissionRegisterViewCntlr)viewCntlr).loadPrefClient(this.prefClient);
             ((CommissionRegisterViewCntlr)viewCntlr).loadCamp(this.actualCampaign);
             ((CommissionRegisterViewCntlr)viewCntlr).loadOrders(this.actualOrders);
-            ((CommissionRegisterViewCntlr)viewCntlr).loadRepurchases(this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber()));
+            ((CommissionRegisterViewCntlr)viewCntlr).loadRepurchases(this.prefClient.getRepurchases());
             ((CommissionRegisterViewCntlr)viewCntlr).loadCommission(this.actualCommission);
             
             viewCntlr.manualInitialize();
@@ -541,7 +541,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.totalInCampaignOrders.setText(balance != null ? ""+balance.getTotalInOrders() : ""+0);
         this.paymentsPane.setText(balance != null ? "Pagos: "+ balance.getTotalInPayments() : ""+0);
 
-        List<Repurchase> repurchases = this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber());
+        List<Repurchase> repurchases = this.prefClient.getRepurchases();
         
         float returnedRepurchasesTotal = 0;
         if(repurchases != null)
@@ -572,8 +572,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         }
 
         this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.actualOrders, com, fpCom, otherCom));
-        this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments().locateAllWithCampNumb(this.actualCampaign.getNumber()));
-        this.loadData(this.REPURCHASES_TABLE_NUMBER, RepurchasesRowTable.generateRows(this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
+        this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments());
+        this.loadData(this.REPURCHASES_TABLE_NUMBER, RepurchasesRowTable.generateRows(this.prefClient.getRepurchases()));
     }
 
     public void fillManagementView()
@@ -784,12 +784,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr implements Prefere
         this.clearTables();
         
         this.prefClient = prefClient;
-        this.actualOrders = this.prefClient.getOrders().locateAllWithCampNumb(this.actualCampaign != null ? this.actualCampaign.getNumber() : null);
+        this.actualOrders = this.prefClient.getOrders();
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
         this.ordersQuantity.setText("Artículos: "+ CommissionBLService.calculateArticlesQuantity(this.actualOrders));
 
-        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionBLService.calculateCommissionablesQuantity(this.actualOrders, this.prefClient.getRepurchases().locateAllWithCampNumb(this.actualCampaign.getNumber())));
+        this.commissionableOrdersQuantity.setText("Comisionables: "+ CommissionBLService.calculateCommissionablesQuantity(this.actualOrders, this.prefClient.getRepurchases()));
 
         if(prefClient instanceof Leader)
         {

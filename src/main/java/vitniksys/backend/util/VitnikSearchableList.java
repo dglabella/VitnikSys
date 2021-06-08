@@ -38,14 +38,14 @@ public class VitnikSearchableList<T extends VitnikSearchableEntity> extends Arra
         try
         {
             if(campNumb != null)
-            {   
-                while(i < this.size() && !this.get(i).getCampNumber().equals(campNumb) )
+            {
+                while(i < this.size() && !this.get(i).getCampNumber().equals(campNumb))
                     i++;
             }
             else
             {
                 throw new Exception("Campaign number is null");
-            }   
+            }
         }
         catch (Exception exception)
         {

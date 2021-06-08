@@ -3,7 +3,6 @@ package vitniksys.backend.model.entities;
 import java.util.List;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.time.LocalDate;
 import vitniksys.backend.util.VitnikSearchableList;
 import vitniksys.backend.model.persistence.PreferentialClientOperator;
@@ -184,6 +183,9 @@ public abstract class PreferentialClient
 
     public VitnikSearchableList<Devolution> getDevolutions()
     {
+        if(this.devolutions == null)
+            this.devolutions = new VitnikSearchableList<>();
+
         return this.devolutions;
     }
 
@@ -194,6 +196,9 @@ public abstract class PreferentialClient
 
     public VitnikSearchableList<Repurchase> getRepurchases()
     {
+        if(this.repurchases == null)
+            this.repurchases = new VitnikSearchableList<>();
+            
         return this.repurchases;
     }
 
@@ -204,6 +209,9 @@ public abstract class PreferentialClient
 
     public VitnikSearchableList<Payment> getPayments()
     {
+        if(this.payments == null)
+            this.payments = new VitnikSearchableList<>();
+            
         return this.payments;
     }
 

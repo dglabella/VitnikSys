@@ -855,9 +855,16 @@ public class PreferentialClientBLService extends BLService
                                 {
                                     orders.addAll(auxOrders);
                                 }
-                                if(auxRepurchases != null)
+                                if(repurchases != null) //if leader has its own repurchases
                                 {
-                                    repurchases.addAll(auxRepurchases);
+                                    if(auxRepurchases != null)
+                                    {
+                                        repurchases.addAll(auxRepurchases);
+                                    }
+                                }
+                                else
+                                {
+                                    repurchases = auxRepurchases;
                                 }
                             }
                         }
