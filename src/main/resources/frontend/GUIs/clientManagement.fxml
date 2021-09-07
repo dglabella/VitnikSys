@@ -211,7 +211,7 @@
             </GridPane>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1300.0" style="-fx-background-color: #E00413; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0);">
                <children>
-                  <Label fx:id="prefClientName" layoutX="70.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#nombreCpOnMouseClicked" onMouseEntered="#nombreCpOnMouseEntered" onMouseExited="#nombreCpOnMouseExited" prefHeight="30.0" prefWidth="280.0" text="nombre" textFill="WHITE">
+                  <Label fx:id="prefClientName" layoutX="64.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#nombreCpOnMouseClicked" onMouseEntered="#nombreCpOnMouseEntered" onMouseExited="#nombreCpOnMouseExited" prefHeight="30.0" prefWidth="280.0" text="nombre" textFill="WHITE">
                      <font>
                         <Font name="Britannic Bold" size="16.0" />
                      </font>
@@ -293,6 +293,7 @@
             <MenuItem mnemonicParsing="false" onAction="#cataloguesDeliveryMenuItemSelected" text="Entregar catálogos" />
           <MenuItem mnemonicParsing="false" onAction="#commissionLvlMenuItemSelected" text="Niveles de comisión" />
             <MenuItem mnemonicParsing="false" onAction="#updateCommissionablesOrders" text="Actualizar comisionables" />
+            <MenuItem mnemonicParsing="false" onAction="#generateManagementReport" text="Generar reporte de gestión" />
         </items>
       </ContextMenu>
    </contextMenu>

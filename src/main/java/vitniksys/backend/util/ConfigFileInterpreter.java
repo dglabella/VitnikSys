@@ -5,9 +5,9 @@ import java.util.Scanner;
 import javafx.scene.control.Alert.AlertType;
 
 
-public class ConfigFileInterpreter extends FileInterpreter
-{
-    public static final String CONFIG_FILE_LOCATION = App.class.getResource("../configs/config.txt").getPath();
+public class ConfigFileInterpreter extends FileInterpreter {
+    public static final String CONFIG_FILE_LOCATION =
+            App.class.getResource("../configs/config.txt").getPath();
 
     private static final String CONFIG_FILE_CONNECTION_SECTION = "[CONNECTION]";
     private static final String CONFIG_FILE_BACKUP_SECTION = "[BACKUP]";
@@ -44,75 +44,61 @@ public class ConfigFileInterpreter extends FileInterpreter
     private static Integer firstRowsSkipped;
 
 
-    private ConfigFileInterpreter(String filePath)
-    {
+    private ConfigFileInterpreter(String filePath) {
         super(filePath, null);
     }
 
-    public static String getConnectionUrl()
-    {
+    public static String getConnectionUrl() {
         return ConfigFileInterpreter.connectionUrl;
     }
 
-    public static void setConnectionUrl(String connectionUrl)
-    {
+    public static void setConnectionUrl(String connectionUrl) {
         ConfigFileInterpreter.connectionUrl = connectionUrl;
     }
 
-    public static String getConnectionUser()
-    {
+    public static String getConnectionUser() {
         return ConfigFileInterpreter.connectionUser;
     }
 
-    public static void setConnectionUser(String connectionUser)
-    {
+    public static void setConnectionUser(String connectionUser) {
         ConfigFileInterpreter.connectionUser = connectionUser;
     }
 
-    public static String getConnectionPass()
-    {
+    public static String getConnectionPass() {
         return ConfigFileInterpreter.connectionPass;
     }
 
-    public static void setConnectionPass(String connectionPass)
-    {
+    public static void setConnectionPass(String connectionPass) {
         ConfigFileInterpreter.connectionPass = connectionPass;
     }
 
-    public static String getPath()
-    {
+    public static String getPath() {
         return ConfigFileInterpreter.path;
     }
 
-    public static void setPath(String path)
-    {
+    public static void setPath(String path) {
         ConfigFileInterpreter.path = path;
     }
 
-    public static Integer getFirstRowsSkipped()
-    {
+    public static Integer getFirstRowsSkipped() {
         return ConfigFileInterpreter.firstRowsSkipped;
     }
 
-    public static void setFirstRowsSkipped(Integer firstRowsSkipped)
-    {
+    public static void setFirstRowsSkipped(Integer firstRowsSkipped) {
         ConfigFileInterpreter.firstRowsSkipped = firstRowsSkipped;
     }
 
-    public static ConfigFileInterpreter getInstance(String filePath)
-    {
-        if(ConfigFileInterpreter.configFileInterpreter == null)
-        {
+    public static ConfigFileInterpreter getInstance(String filePath) {
+        if (ConfigFileInterpreter.configFileInterpreter == null) {
             ConfigFileInterpreter.configFileInterpreter = new ConfigFileInterpreter(filePath);
         }
 
         return ConfigFileInterpreter.configFileInterpreter;
     }
 
-    private void readConnectionSection()
-    {
+    private void readConnectionSection() {
         String line;
-        String [] splitedLine = null;
+        String[] splitedLine = null;
 
         String ip = null;
         String port = null;
@@ -121,96 +107,87 @@ public class ConfigFileInterpreter extends FileInterpreter
 
         Scanner inputStream;
 
-        try
-        {
+        try {
             inputStream = new Scanner(this.getFile());
-            //Gathering all the lines in the file into primary memory (detailFileRows).
+            // Gathering all the lines in the file into primary memory (detailFileRows).
             boolean endTagReached = false;
-            while(inputStream.hasNext() && !endTagReached)
-            {
+            while (inputStream.hasNext() && !endTagReached) {
                 line = inputStream.next();
-                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_CONNECTION_SECTION))
-                {
-                    //move to the next line
+                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_CONNECTION_SECTION)) {
+                    // move to the next line
                     line = inputStream.next();
-                    while(!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION))
-                    {
+                    while (!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION)) {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
 
-                        switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE])
-                        {
+                        switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE]) {
                             case ConfigFileInterpreter.CONFIG_FILE_IP_TAG:
                                 ip = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
+                                break;
                             case ConfigFileInterpreter.CONFIG_FILE_PORT_TAG:
                                 port = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
+                                break;
                             case ConfigFileInterpreter.CONFIG_FILE_DATABASE_TAG:
                                 dataBase = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
+                                break;
                             case ConfigFileInterpreter.CONFIG_FILE_OPT_TAG:
                                 opt = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
+                                break;
                             case ConfigFileInterpreter.CONFIG_FILE_USER_TAG:
-                                ConfigFileInterpreter.connectionUser = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
+                                ConfigFileInterpreter.connectionUser =
+                                        splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                break;
                             case ConfigFileInterpreter.CONFIG_FILE_PASS_TAG:
-                                ConfigFileInterpreter.connectionPass = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
+                                ConfigFileInterpreter.connectionPass =
+                                        splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                break;
                         }
                         line = inputStream.next();
                     }
                     endTagReached = true;
-                    ConfigFileInterpreter.connectionUrl = DRIVER_PREFIX+ip+":"+port+"/"+dataBase;
-                    if (opt != null)
-                    {
-                        ConfigFileInterpreter.connectionUrl += "?"+opt;
+                    ConfigFileInterpreter.connectionUrl =
+                            DRIVER_PREFIX + ip + ":" + port + "/" + dataBase;
+                    if (opt != null) {
+                        ConfigFileInterpreter.connectionUrl += "?" + opt;
                     }
                     // System.out.println("URL = "+ConfigFileInterpreter.connectionUrl);
                 }
             }
 
-            if(!inputStream.hasNext() && !endTagReached)
-            {
-                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de conexión").customShow();
+            if (!inputStream.hasNext() && !endTagReached) {
+                new CustomAlert(AlertType.ERROR, "ERROR",
+                        "El archivo de configuraciones no define una sección de conexión")
+                                .customShow();
             }
 
             inputStream.close();
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    private void readBackUpSection()
-    {
+    private void readBackUpSection() {
         String line;
-        String [] splitedLine = null;
+        String[] splitedLine = null;
 
         Scanner inputStream;
 
-        try
-        {
+        try {
             inputStream = new Scanner(this.getFile());
-            //Gathering all the lines in the file into primary memory (detailFileRows).
+            // Gathering all the lines in the file into primary memory (detailFileRows).
             boolean endTagReached = false;
-            while(inputStream.hasNext() && !endTagReached)
-            {
+            while (inputStream.hasNext() && !endTagReached) {
                 line = inputStream.next();
-                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_BACKUP_SECTION))
-                {
-                    //move to the next line
+                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_BACKUP_SECTION)) {
+                    // move to the next line
                     line = inputStream.next();
-                    while(!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION))
-                    {
+                    while (!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION)) {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
 
-                        switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE])
-                        {
+                        switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE]) {
                             case ConfigFileInterpreter.CONFIG_FILE_PATH_TAG:
-                                ConfigFileInterpreter.path = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
-                            break;
+                                ConfigFileInterpreter.path =
+                                        splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                break;
                         }
                         line = inputStream.next();
                     }
@@ -218,48 +195,42 @@ public class ConfigFileInterpreter extends FileInterpreter
                 }
             }
 
-            if(!inputStream.hasNext() && !endTagReached)
-            {
-                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de conexión").customShow();
+            if (!inputStream.hasNext() && !endTagReached) {
+                new CustomAlert(AlertType.ERROR, "ERROR",
+                        "El archivo de configuraciones no define una sección de conexión")
+                                .customShow();
             }
 
             inputStream.close();
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    private void readDetailFileSection()
-    {
+    private void readDetailFileSection() {
         String line;
-        String [] splitedLine = null;
+        String[] splitedLine = null;
 
         Scanner inputStream;
 
-        try
-        {
+        try {
             inputStream = new Scanner(this.getFile());
-            //Gathering all the lines in the file into primary memory (detailFileRows).
+            // Gathering all the lines in the file into primary memory (detailFileRows).
             boolean endTagReached = false;
-            while(inputStream.hasNext() && !endTagReached)
-            {
+            while (inputStream.hasNext() && !endTagReached) {
                 line = inputStream.next();
-                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_DETAIL_FILE_SECTION))
-                {
-                    //move to the next line
+                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_DETAIL_FILE_SECTION)) {
+                    // move to the next line
                     line = inputStream.next();
 
-                    while(!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION))
-                    {
+                    while (!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION)) {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
 
-                        switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE])
-                        {
+                        switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE]) {
                             case ConfigFileInterpreter.CONFIG_FILE_FIRST_ROWS_SKIPPED_TAG:
-                                ConfigFileInterpreter.firstRowsSkipped = Integer.parseInt(splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE]);
-                            break;
+                                ConfigFileInterpreter.firstRowsSkipped = Integer.parseInt(
+                                        splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE]);
+                                break;
                         }
                         line = inputStream.next();
                     }
@@ -267,22 +238,20 @@ public class ConfigFileInterpreter extends FileInterpreter
                 }
             }
 
-            if(!inputStream.hasNext() && !endTagReached)
-            {
-                new CustomAlert(AlertType.ERROR, "ERROR", "El archivo de configuraciones no define una sección de conexión").customShow();
+            if (!inputStream.hasNext() && !endTagReached) {
+                new CustomAlert(AlertType.ERROR, "ERROR",
+                        "El archivo de configuraciones no define una sección de conexión")
+                                .customShow();
             }
 
             inputStream.close();
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
     @Override
-    public void interpret() throws Exception
-    {
+    public void interpret() throws Exception {
         this.readConnectionSection();
         this.readBackUpSection();
         this.readDetailFileSection();
