@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.io.BufferedWriter;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
+import vitniksys.backend.util.ConfigFileInterpreter;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.model.entities.Order;
@@ -239,6 +240,7 @@ public class CampaignBLService extends BLService {
     protected String generateOrderReport(Integer prefClientId, Integer campNumb) throws Exception {
         String ret = "";
         System.out.println("DIR = "+System.getProperty("user.dir"));
+        System.out.println("Config file DIR = "+ConfigFileInterpreter.getPrefClientsOrdersReportsStoragePath());
         String fileName = "reporteCp" + prefClientId + "Camp" + campNumb + ".csv";
         String report = "";
         IOrderOperator orderOperator = OrderOperator.getOperator();
