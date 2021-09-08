@@ -12,6 +12,7 @@ public class ConfigFileInterpreter extends FileInterpreter {
     private static final String CONFIG_FILE_CONNECTION_SECTION = "[CONNECTION]";
     private static final String CONFIG_FILE_BACKUP_SECTION = "[BACKUP]";
     private static final String CONFIG_FILE_DETAIL_FILE_SECTION = "[DETAIL_FILE]";
+    private static final String CONFIG_FILE_FILE_STORAGE_SECTION = "[FILE_STORAGE]";
     private static final String CONFIG_FILE_END_SECTION = "[END]";
     private static final String CONFIG_FILE_DATA_SEPARATOR = ":";
     private static final int CONFIG_FILE_TAG_SIDE = 0;
@@ -33,6 +34,9 @@ public class ConfigFileInterpreter extends FileInterpreter {
     // about detail file
     private static final String CONFIG_FILE_FIRST_ROWS_SKIPPED_TAG = "first_rows_skipped";
 
+    // about file storage
+    private static final String CONFIG_FILE_PREF_CLIENTS_ORDERS_REPORTS_STORAGE_PATH_TAG = "pref_clients_orders_reports_storage_path";
+
     private static String DRIVER_PREFIX = "jdbc:mysql://";
 
     private static String connectionUrl;
@@ -42,6 +46,8 @@ public class ConfigFileInterpreter extends FileInterpreter {
     private static String path;
 
     private static Integer firstRowsSkipped;
+
+    private static String prefClientsOrdersReportsStoragePath;
 
 
     private ConfigFileInterpreter(String filePath) {
@@ -86,6 +92,14 @@ public class ConfigFileInterpreter extends FileInterpreter {
 
     public static void setFirstRowsSkipped(Integer firstRowsSkipped) {
         ConfigFileInterpreter.firstRowsSkipped = firstRowsSkipped;
+    }
+
+    public static String getPrefClientsOrdersReportsStoragePath() {
+        return ConfigFileInterpreter.prefClientsOrdersReportsStoragePath;
+    }
+
+    public static void setPrefClientsOrdersReportsStoragePath(String prefClientsOrdersReportsStoragePath) {
+        ConfigFileInterpreter.prefClientsOrdersReportsStoragePath = prefClientsOrdersReportsStoragePath;
     }
 
     public static ConfigFileInterpreter getInstance(String filePath) {
@@ -197,7 +211,7 @@ public class ConfigFileInterpreter extends FileInterpreter {
 
             if (!inputStream.hasNext() && !endTagReached) {
                 new CustomAlert(AlertType.ERROR, "ERROR",
-                        "El archivo de configuraciones no define una sección de conexión")
+                        "El archivo de configuraciones no define una sección de backup")
                                 .customShow();
             }
 
@@ -240,7 +254,48 @@ public class ConfigFileInterpreter extends FileInterpreter {
 
             if (!inputStream.hasNext() && !endTagReached) {
                 new CustomAlert(AlertType.ERROR, "ERROR",
-                        "El archivo de configuraciones no define una sección de conexión")
+                        "El archivo de configuraciones no define una sección de archivo detalle")
+                                .customShow();
+            }
+
+            inputStream.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void readFileStorageSection() {
+        String line;
+        String[] splitedLine = null;
+
+        Scanner inputStream;
+
+        try {
+            inputStream = new Scanner(this.getFile());
+            // Gathering all the lines in the file into primary memory (detailFileRows).
+            boolean endTagReached = false;
+            while (inputStream.hasNext() && !endTagReached) {
+                line = inputStream.next();
+                if (line.equals(ConfigFileInterpreter.CONFIG_FILE_FILE_STORAGE_SECTION)) {
+                    // move to the next line
+                    line = inputStream.next();
+                    while (!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION)) {
+                        splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
+
+                        switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE]) {
+                            case ConfigFileInterpreter.CONFIG_FILE_PREF_CLIENTS_ORDERS_REPORTS_STORAGE_PATH_TAG:
+                                ConfigFileInterpreter.prefClientsOrdersReportsStoragePath = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                break;
+                        }
+                        line = inputStream.next();
+                    }
+                    endTagReached = true;
+                }
+            }
+
+            if (!inputStream.hasNext() && !endTagReached) {
+                new CustomAlert(AlertType.ERROR, "ERROR",
+                        "El archivo de configuraciones no define una sección de almacenamiento")
                                 .customShow();
             }
 
@@ -255,5 +310,6 @@ public class ConfigFileInterpreter extends FileInterpreter {
         this.readConnectionSection();
         this.readBackUpSection();
         this.readDetailFileSection();
+        this.readFileStorageSection();
     }
 }

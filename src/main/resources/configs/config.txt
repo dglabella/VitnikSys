@@ -1,6 +1,6 @@
 [CONNECTION]
 ip:localhost
-port:3308
+port:3306
 database:vitniksanluis
 options:serverTimezone=America/Argentina/Buenos_Aires
 user:vksanluis
@@ -11,4 +11,7 @@ path:D:\wamp64\bin\mysql\mysql5.7.26\bin
 [END]
 [DETAIL_FILE]
 first_rows_skipped:6
+[END]
+[FILE_STORAGE]
+pref_clients_orders_reports_storage_path:D:\temp\extended
 [END]

@@ -238,6 +238,7 @@ public class CampaignBLService extends BLService {
 
     protected String generateOrderReport(Integer prefClientId, Integer campNumb) throws Exception {
         String ret = "";
+        System.out.println("DIR = "+System.getProperty("user.dir"));
         String fileName = "reporteCp" + prefClientId + "Camp" + campNumb + ".csv";
         String report = "";
         IOrderOperator orderOperator = OrderOperator.getOperator();
@@ -245,9 +246,11 @@ public class CampaignBLService extends BLService {
         List<Order> orders = orderOperator.findAll(prefClientId, campNumb);
         Iterator<Order> it = orders.iterator();
         Order order;
-        // while (it.hasNext()) {
-        // order = it.next();
-        // }
+        while (it.hasNext()) {
+            order = it.next();
+            report += (order.getArticleId()+";");
+            
+        }
         report = "hola";
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
         writer.write(report);
@@ -330,8 +333,7 @@ public class CampaignBLService extends BLService {
                 this.getBLServiceSubscriber().showNoResult("No se encontró la última campaña");
             }
         } catch (Exception exception) {
-            this.getBLServiceSubscriber().showError("Error al buscar la última campaña.", null,
-                    exception);
+            this.getBLServiceSubscriber().showError("Error al buscar la última campaña.", null, exception);
         } finally {
             getConnector().closeConnection();
         }
@@ -455,14 +457,25 @@ public class CampaignBLService extends BLService {
 
     public void generateManagementReport(Integer prefClientId, Integer campNumb) {
         String fileLocation;
+
+        CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
+
         if (this.allFieldsAreOk(campNumb, prefClientId)) {
             try {
                 fileLocation = this.generateOrderReport(prefClientId, campNumb);
-            } catch (Exception e) {
-                e.printStackTrace();
-                fileLocation = "";
+                this.getBLServiceSubscriber().closeProcessIsWorking(customAlert);
+                this.getBLServiceSubscriber().showSucces("El reporte se ha generado exitosamente!\nEl reporte ha sido guardado en:"+fileLocation);
             }
-        } else {
+            catch (Exception exception) {
+                fileLocation = "";
+                this.getBLServiceSubscriber().closeProcessIsWorking(customAlert);
+                this.getBLServiceSubscriber().showError("Error al buscar la campaña especificada.", null, exception);
+            } finally {
+                this.getConnector().closeConnection();
+            }
+        }
+        else {
+            this.getBLServiceSubscriber().closeProcessIsWorking(customAlert);
             this.getBLServiceSubscriber().showError("input validator test failed...");
         }
     }
