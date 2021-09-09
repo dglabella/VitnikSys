@@ -223,7 +223,7 @@ public class RepurchaseOperator implements IRepurchaseOperator
 		
 		if(ret.size() == 0)
             ret = null;
-
+            
         return ret;
     }
 

@@ -4,10 +4,12 @@ import vitniksys.App;
 import java.util.Scanner;
 import javafx.scene.control.Alert.AlertType;
 
-
 public class ConfigFileInterpreter extends FileInterpreter {
     public static final String CONFIG_FILE_LOCATION =
             App.class.getResource("../configs/config.txt").getPath();
+
+    public static final String CONFIG_FILE_DEFAULT_PREF_CLIENTS_REPORTS_STORAGE_PATH = App.class.getResource("../storage/reports/").getPath();
+    public static final String CONFIG_FILE_DEFAULT_PREF_CLIENTS_REPORTS_STORAGE_PATH_TAG = "default";
 
     private static final String CONFIG_FILE_CONNECTION_SECTION = "[CONNECTION]";
     private static final String CONFIG_FILE_BACKUP_SECTION = "[BACKUP]";
@@ -35,7 +37,7 @@ public class ConfigFileInterpreter extends FileInterpreter {
     private static final String CONFIG_FILE_FIRST_ROWS_SKIPPED_TAG = "first_rows_skipped";
 
     // about file storage
-    private static final String CONFIG_FILE_PREF_CLIENTS_ORDERS_REPORTS_STORAGE_PATH_TAG = "pref_clients_orders_reports_storage_path";
+    private static final String CONFIG_FILE_PREF_CLIENTS_REPORTS_STORAGE_PATH_TAG = "pref_clients_reports_storage_path";
 
     private static String DRIVER_PREFIX = "jdbc:mysql://";
 
@@ -47,7 +49,7 @@ public class ConfigFileInterpreter extends FileInterpreter {
 
     private static Integer firstRowsSkipped;
 
-    private static String prefClientsOrdersReportsStoragePath;
+    private static String prefClientsReportsStoragePath;
 
 
     private ConfigFileInterpreter(String filePath) {
@@ -94,12 +96,12 @@ public class ConfigFileInterpreter extends FileInterpreter {
         ConfigFileInterpreter.firstRowsSkipped = firstRowsSkipped;
     }
 
-    public static String getPrefClientsOrdersReportsStoragePath() {
-        return ConfigFileInterpreter.prefClientsOrdersReportsStoragePath;
+    public static String getPrefClientsReportsStoragePath() {
+        return ConfigFileInterpreter.prefClientsReportsStoragePath;
     }
 
-    public static void setPrefClientsOrdersReportsStoragePath(String prefClientsOrdersReportsStoragePath) {
-        ConfigFileInterpreter.prefClientsOrdersReportsStoragePath = prefClientsOrdersReportsStoragePath;
+    public static void setPrefClientsReportsStoragePath(String prefClientsReportsStoragePath) {
+        ConfigFileInterpreter.prefClientsReportsStoragePath = prefClientsReportsStoragePath;
     }
 
     public static ConfigFileInterpreter getInstance(String filePath) {
@@ -110,9 +112,19 @@ public class ConfigFileInterpreter extends FileInterpreter {
         return ConfigFileInterpreter.configFileInterpreter;
     }
 
+    private String reconstructDataSide(String[] dataSide){
+        String ret = "";
+        for(int i = CONFIG_FILE_DATA_SIDE; i < dataSide.length-1; i++){
+            ret += dataSide[i]+ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR;
+        }
+        ret += dataSide[dataSide.length-1];
+        return ret;
+    }
+
     private void readConnectionSection() {
         String line;
         String[] splitedLine = null;
+        String dataSide = null;
 
         String ip = null;
         String port = null;
@@ -132,27 +144,32 @@ public class ConfigFileInterpreter extends FileInterpreter {
                     line = inputStream.next();
                     while (!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION)) {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
+                        dataSide = this.reconstructDataSide(splitedLine);
 
                         switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE]) {
                             case ConfigFileInterpreter.CONFIG_FILE_IP_TAG:
-                                ip = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                //ip = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                ip = dataSide;
                                 break;
                             case ConfigFileInterpreter.CONFIG_FILE_PORT_TAG:
-                                port = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                //port = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                port = dataSide;
                                 break;
                             case ConfigFileInterpreter.CONFIG_FILE_DATABASE_TAG:
-                                dataBase = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                //dataBase = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                dataBase = dataSide;
                                 break;
                             case ConfigFileInterpreter.CONFIG_FILE_OPT_TAG:
-                                opt = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                //opt = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                opt = dataSide;
                                 break;
                             case ConfigFileInterpreter.CONFIG_FILE_USER_TAG:
-                                ConfigFileInterpreter.connectionUser =
-                                        splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                //ConfigFileInterpreter.connectionUser = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                ConfigFileInterpreter.connectionUser = dataSide;
                                 break;
                             case ConfigFileInterpreter.CONFIG_FILE_PASS_TAG:
-                                ConfigFileInterpreter.connectionPass =
-                                        splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                //ConfigFileInterpreter.connectionPass = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                ConfigFileInterpreter.connectionPass = dataSide;
                                 break;
                         }
                         line = inputStream.next();
@@ -182,6 +199,7 @@ public class ConfigFileInterpreter extends FileInterpreter {
     private void readBackUpSection() {
         String line;
         String[] splitedLine = null;
+        String dataSide = null;
 
         Scanner inputStream;
 
@@ -196,11 +214,12 @@ public class ConfigFileInterpreter extends FileInterpreter {
                     line = inputStream.next();
                     while (!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION)) {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
+                        dataSide = this.reconstructDataSide(splitedLine);
 
                         switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE]) {
                             case ConfigFileInterpreter.CONFIG_FILE_PATH_TAG:
-                                ConfigFileInterpreter.path =
-                                        splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                //ConfigFileInterpreter.path = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                ConfigFileInterpreter.path = dataSide;
                                 break;
                         }
                         line = inputStream.next();
@@ -224,6 +243,7 @@ public class ConfigFileInterpreter extends FileInterpreter {
     private void readDetailFileSection() {
         String line;
         String[] splitedLine = null;
+        String dataSide = null;
 
         Scanner inputStream;
 
@@ -239,11 +259,12 @@ public class ConfigFileInterpreter extends FileInterpreter {
 
                     while (!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION)) {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
+                        dataSide = this.reconstructDataSide(splitedLine);
 
                         switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE]) {
                             case ConfigFileInterpreter.CONFIG_FILE_FIRST_ROWS_SKIPPED_TAG:
-                                ConfigFileInterpreter.firstRowsSkipped = Integer.parseInt(
-                                        splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE]);
+                                //ConfigFileInterpreter.firstRowsSkipped = Integer.parseInt(splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE]);
+                                ConfigFileInterpreter.firstRowsSkipped = Integer.parseInt(dataSide);
                                 break;
                         }
                         line = inputStream.next();
@@ -267,6 +288,7 @@ public class ConfigFileInterpreter extends FileInterpreter {
     private void readFileStorageSection() {
         String line;
         String[] splitedLine = null;
+        String dataSide;
 
         Scanner inputStream;
 
@@ -281,10 +303,12 @@ public class ConfigFileInterpreter extends FileInterpreter {
                     line = inputStream.next();
                     while (!line.equals(ConfigFileInterpreter.CONFIG_FILE_END_SECTION)) {
                         splitedLine = line.split(ConfigFileInterpreter.CONFIG_FILE_DATA_SEPARATOR);
+                        dataSide = this.reconstructDataSide(splitedLine);
 
                         switch (splitedLine[ConfigFileInterpreter.CONFIG_FILE_TAG_SIDE]) {
-                            case ConfigFileInterpreter.CONFIG_FILE_PREF_CLIENTS_ORDERS_REPORTS_STORAGE_PATH_TAG:
-                                ConfigFileInterpreter.prefClientsOrdersReportsStoragePath = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                            case ConfigFileInterpreter.CONFIG_FILE_PREF_CLIENTS_REPORTS_STORAGE_PATH_TAG:
+                                //ConfigFileInterpreter.prefClientsReportsStoragePath = splitedLine[ConfigFileInterpreter.CONFIG_FILE_DATA_SIDE];
+                                ConfigFileInterpreter.prefClientsReportsStoragePath = dataSide;
                                 break;
                         }
                         line = inputStream.next();

@@ -5,6 +5,7 @@ import vitniksys.App;
 import java.util.Set;
 import java.util.List;
 import java.time.Month;
+import java.awt.Desktop;
 import java.util.HashMap;
 import java.io.FileWriter;
 import java.util.Iterator;
@@ -12,18 +13,21 @@ import java.util.ArrayList;
 import java.io.BufferedWriter;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
-import vitniksys.backend.util.ConfigFileInterpreter;
 import vitniksys.backend.util.CustomAlert;
 import org.apache.commons.io.FilenameUtils;
 import vitniksys.backend.model.entities.Order;
+import vitniksys.backend.model.entities.Payment;
 import vitniksys.backend.util.ExpressionChecker;
 import vitniksys.backend.model.entities.Article;
 import vitniksys.backend.model.entities.Balance;
 import vitniksys.backend.model.entities.Campaign;
 import vitniksys.backend.model.entities.Catalogue;
+import vitniksys.backend.model.entities.Repurchase;
+import vitniksys.backend.util.ConfigFileInterpreter;
 import vitniksys.backend.util.DetailFileInterpreter;
 import vitniksys.backend.model.interfaces.IOrderOperator;
 import vitniksys.backend.model.persistence.OrderOperator;
+import vitniksys.backend.model.persistence.LeaderOperator;
 import vitniksys.backend.model.entities.PreferentialClient;
 import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.interfaces.IArticleOperator;
@@ -33,6 +37,8 @@ import vitniksys.backend.model.persistence.BalanceOperator;
 import vitniksys.backend.model.interfaces.ICampaignOperator;
 import vitniksys.backend.model.persistence.CampaignOperator;
 import vitniksys.backend.model.persistence.CatalogueOperator;
+import vitniksys.backend.model.persistence.BaseClientOperator;
+import vitniksys.backend.model.persistence.SubordinatedClientOperator;
 import vitniksys.frontend.view_subscribers.CampaignBLServiceSubscriber;
 
 public class CampaignBLService extends BLService {
@@ -237,28 +243,93 @@ public class CampaignBLService extends BLService {
         return ret;
     }
 
-    protected String generateOrderReport(Integer prefClientId, Integer campNumb) throws Exception {
-        String ret = "";
-        System.out.println("DIR = "+System.getProperty("user.dir"));
-        System.out.println("Config file DIR = "+ConfigFileInterpreter.getPrefClientsOrdersReportsStoragePath());
-        String fileName = "reporteCp" + prefClientId + "Camp" + campNumb + ".csv";
-        String report = "";
-        IOrderOperator orderOperator = OrderOperator.getOperator();
+    protected String generateCpReport(Integer prefClientId, Integer campNumb) throws Exception { 
+        String fileName = ConfigFileInterpreter.getPrefClientsReportsStoragePath();
+        String fileLocation = fileName;
 
-        List<Order> orders = orderOperator.findAll(prefClientId, campNumb);
-        Iterator<Order> it = orders.iterator();
-        Order order;
-        while (it.hasNext()) {
-            order = it.next();
-            report += (order.getArticleId()+";");
-            
+        PreferentialClient preferentialClient = LeaderOperator.getOperator().find(prefClientId, campNumb);
+
+        if(preferentialClient == null){
+            preferentialClient = BaseClientOperator.getOperator().find(prefClientId, campNumb);
+
+            if(preferentialClient == null){
+                preferentialClient = SubordinatedClientOperator.getOperator().find(prefClientId, campNumb);
+            }
         }
-        report = "hola";
+
+        Iterator<Order> it1 = preferentialClient.getOrders().iterator();
+        Iterator<Payment> it2 = preferentialClient.getPayments().iterator();
+        Iterator<Repurchase> it3 = preferentialClient.getRepurchases().iterator();
+        //Iterator<Devolution> it4 = preferentialClient.getDevolutions().iterator();
+
+        if(fileName.equals(ConfigFileInterpreter.CONFIG_FILE_DEFAULT_PREF_CLIENTS_REPORTS_STORAGE_PATH_TAG)){
+            fileName = ConfigFileInterpreter.CONFIG_FILE_DEFAULT_PREF_CLIENTS_REPORTS_STORAGE_PATH;
+            fileLocation = fileName;
+        }
+
+        fileName += "reporte-gestion-cp" + prefClientId + "-camp" + campNumb + ".csv";
+
+        String report = "PEDIDOS\n";
+        report += "cp;nro envio;unidades;precio;nombre;tipo;letra;precio unitario;devoluciones;com;suma com;fecha retiro\n";
+
+        Order order;
+        while (it1.hasNext()) {
+            order = it1.next();
+            report += (order.getPrefClientId()+";");
+            report += (order.getDeliveryNumber()+";");
+            report += (order.getQuantity()+";");
+            report += (order.getCost()+";");
+            report += (order.getArticle().getName()+";");
+            report += (order.getType()+";");
+            report += (order.getArticleId()+";");
+            report += (order.getUnitPrice()+";");
+            report += (order.getReturnedQuantity()+";");
+            report += (order.isCommissionable()+";");
+            report += (order.isCountForCommission()+";");
+            report += (order.getWithdrawalDate() +"\n");
+        }
+
+        report += "\n\n";
+        report += "PAGOS\n";
+        report += "codigo;id-descripcion;fecha registrado;monto;item;tipo;banco;estado\n";
+
+        Payment payment;
+        while (it2.hasNext()) {
+            payment = it2.next();
+            report += (payment.getCode()+";");
+            report += (payment.getDescriptor()+";");
+            report += (payment.getRegistrationTime()+";");
+            report += (payment.getAmount()+";");
+            report += (payment.getItem()+";");
+            report += (payment.getPaymentMethod()+";");
+            report += (payment.getBank()+";");
+            report += (payment.getPaymentStatus()+"\n");
+        }
+
+        report += "\n\n";
+        report += "RECOMPRAS\n";
+        report += "ejemplar;nro envio;letra;precio;precio recompra;nombre;tipo;devuelta;suma com;fecha recompra\n";
+
+        Repurchase repurchase;
+        while (it3.hasNext()) {
+            repurchase = it3.next();
+            report += (repurchase.getReturnedArticleId()+";");
+            report += (repurchase.getReturnedArticle().getOrder().getDeliveryNumber()+";");
+            report += (repurchase.getReturnedArticle().getOrder().getArticleId()+";");
+            report += (repurchase.getReturnedArticle().getOrder().getCost()+";");
+            report += (repurchase.getCost()+";");
+            report += (repurchase.getReturnedArticle().getOrder().getArticleId()+";");
+            report += (repurchase.getReturnedArticle().getOrder().getType()+";");
+            report += (repurchase.isReturned()+";");
+            report += (repurchase.isCountForCommission()+";");
+            report += (repurchase.getRegistrationTime()+"\n");
+        }
+        
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
         writer.write(report);
         writer.close();
 
-        return ret;
+        return fileLocation;
     }
 
     // ================================= public methods ====================================
@@ -464,9 +535,10 @@ public class CampaignBLService extends BLService {
 
         if (this.allFieldsAreOk(campNumb, prefClientId)) {
             try {
-                fileLocation = this.generateOrderReport(prefClientId, campNumb);
+                fileLocation = this.generateCpReport(prefClientId, campNumb);
                 this.getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                this.getBLServiceSubscriber().showSucces("El reporte se ha generado exitosamente!\nEl reporte ha sido guardado en:"+fileLocation);
+                this.getBLServiceSubscriber().showSucces("El reporte se ha generado exitosamente!\nEl reporte ha sido guardado en:\n"+fileLocation);
+                Desktop.getDesktop().open(new File(fileLocation));
             }
             catch (Exception exception) {
                 fileLocation = "";
