@@ -58,6 +58,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr
         implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber,
         CommissionBLServiceSubscriber {
     private final String AGGREGATED_ORDERS_FILTER_COMMAND = "//a";
+    private final String RECALC_BALANCE_FILTER_COMMAND = "//recalc";
 
     private Campaign actualCampaign;
     private PreferentialClient prefClient;
@@ -244,6 +245,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr
         viewCntlr.manualInitialize();
     }
 
+    @FXML
+    private void commandPanelMenuItemSelected() {
+
+    }
 
     @FXML
     private void labelCatOnMouseClicked() {
@@ -529,6 +534,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr
                 this.actualCommission, ordersToUpdate, repurchasesToUpdate);
     }
 
+
+
     @FXML
     private void generateManagementReport() {
         ((CampaignBLService) this.getBLService(1)).generateManagementReport(this.prefClient.getId(),
@@ -536,6 +543,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr
     }
 
     // ================================= private methods ===================================
+    private boolean executeRecalcFilterCommand() {
+        ((PreferentialClientBLService) this.getBLService(0))
+                .recalculateBalance(this.prefClient.getId(), this.actualCampaign.getNumber());
+        return true;
+    }
+
     private void applyExtras() {
         boolean foundCompensatedOrder = false;
         Iterator<Order> it = this.actualOrders.iterator();
