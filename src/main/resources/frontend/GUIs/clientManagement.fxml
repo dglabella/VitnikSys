@@ -294,7 +294,8 @@
           <MenuItem mnemonicParsing="false" onAction="#commissionLvlMenuItemSelected" text="Niveles de comisión" />
             <MenuItem mnemonicParsing="false" onAction="#updateCommissionablesOrders" text="Actualizar comisionables" />
             <MenuItem mnemonicParsing="false" onAction="#generateManagementReport" text="Generar reporte de gestión" />
-            <MenuItem mnemonicParsing="false" onAction="#generateManagementReport" text="Generar reporte de gestión" />
+            <MenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#recalculateBalanceMenuItemSelected" text="Recalcular saldo" />
         </items>
       </ContextMenu>
    </contextMenu>

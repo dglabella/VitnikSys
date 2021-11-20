@@ -36,8 +36,8 @@ public class App extends Application {
         public static final int MAX_LENGTH_MONEY_RIGHT_DIGITS = 2;
 
         /**
-         * COMMISSION_RATIO_FACTOR is supposed to be used to divide the output of the commission lvl
-         * algorithm.
+         * COMMISSION_RATIO_FACTOR is supposed to be used to divide the output of the
+         * commission lvl algorithm.
          */
         public static final float COMMISSION_RATIO_FACTOR = 100f;
         public static final int MAX_COMMISSION_RATE = 50;
@@ -51,8 +51,8 @@ public class App extends Application {
     public void start(final Stage stage) throws IOException {
         String fileName = "mainMenu";
 
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(ConstraitConstants.GUIs_LOCATION + fileName
-                + ConstraitConstants.FXML_FILE_EXTENSION));
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                new URL(ConstraitConstants.GUIs_LOCATION + fileName + ConstraitConstants.FXML_FILE_EXTENSION));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.setTitle("Menu principal");
@@ -64,8 +64,8 @@ public class App extends Application {
             @Override
             public void handle(WindowEvent event) {
                 event.consume();
-                new CustomAlert(AlertType.CONFIRMATION, "CERRAR", "Desea cerrar el Sistema?")
-                        .customShow().ifPresent(response -> {
+                new CustomAlert(AlertType.CONFIRMATION, "CERRAR", "Desea cerrar el Sistema?").customShow()
+                        .ifPresent(response -> {
                             if (response == ButtonType.OK) {
                                 Platform.exit();
                                 System.exit(0);
@@ -75,17 +75,15 @@ public class App extends Application {
         });
 
         try {
-            ConfigFileInterpreter cfi =
-                    ConfigFileInterpreter.getInstance(ConfigFileInterpreter.CONFIG_FILE_LOCATION);
+            ConfigFileInterpreter cfi = ConfigFileInterpreter.getInstance(ConfigFileInterpreter.CONFIG_FILE_LOCATION);
             cfi.interpret();
             new CustomAlert(AlertType.INFORMATION, "INFO",
-                    "Archivo de configuraciones cargado exitosamente.\n"
-                            + "Configuración para arhivo detalle:\n" + "Primeras filas ignoradas = "
-                            + ConfigFileInterpreter.getFirstRowsSkipped()).customShow();
+                    "Archivo de configuraciones cargado exitosamente.\n" + "Configuración para arhivo detalle:\n"
+                            + "Primeras filas ignoradas = " + ConfigFileInterpreter.getFirstRowsSkipped()).customShow();
         } catch (Exception exception) {
             exception.printStackTrace();
-            new CustomAlert(AlertType.ERROR, "ERROR",
-                    "Se produjo un error al leer el archivo de configuraciones.\n").customShow();
+            new CustomAlert(AlertType.ERROR, "ERROR", "Se produjo un error al leer el archivo de configuraciones.\n")
+                    .customShow();
         }
 
         BLService prefClientService = new PreferentialClientBLService();

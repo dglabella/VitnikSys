@@ -25,9 +25,9 @@ public class BalanceOperator implements IBalanceOperator {
     }
 
     /**
-     * Get the flag state with which the DAO operator performs a CRUD operation. Ignore this if it
-     * not exist an implementation for active or inactive rows in your Data Base. Default value:
-     * true.
+     * Get the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base. Default value: true.
      * 
      * @return The state of the entity.
      */
@@ -36,9 +36,9 @@ public class BalanceOperator implements IBalanceOperator {
     }
 
     /**
-     * Change the flag state with which the DAO operator performs a CRUD operation. Ignore this if
-     * it not exist an implementation for active or inactive rows in your Data Base. Default value:
-     * true.
+     * Change the flag state with which the DAO operator performs a CRUD operation.
+     * Ignore this if it not exist an implementation for active or inactive rows in
+     * your Data Base. Default value: true.
      * 
      * @param activeRow the value for the operation.
      */
@@ -87,11 +87,10 @@ public class BalanceOperator implements IBalanceOperator {
     public Integer update(Balance balance) throws Exception {
         Integer returnCode = null;
 
-        String sqlStmnt =
-                "UPDATE `saldos` SET `pedidos`= `pedidos`+ ?, `catalogos`= `catalogos`+ ?, "
-                        + "`recompras`= `recompras`+ ?, `pagos`= `pagos`+ ?, `devoluciones`= `devoluciones`+ ?, "
-                        + "`comision`= `comision`+ ?, `balance`= -`pedidos`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "
-                        + "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
+        String sqlStmnt = "UPDATE `saldos` SET `pedidos`= `pedidos`+ ?, `catalogos`= `catalogos`+ ?, "
+                + "`recompras`= `recompras`+ ?, `pagos`= `pagos`+ ?, `devoluciones`= `devoluciones`+ ?, "
+                + "`comision`= `comision`+ ?, `balance`= -`pedidos`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "
+                + "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ?;";
 
         PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
@@ -112,8 +111,7 @@ public class BalanceOperator implements IBalanceOperator {
     }
 
     @Override
-    public Integer correctCommission(Integer prefClientId, Integer campNumb,
-            Float totalInCommission) throws Exception {
+    public Integer correctCommission(Integer prefClientId, Integer campNumb, Float totalInCommission) throws Exception {
         Integer returnCode = null;
         String sqlStmnt = "UPDATE `saldos` "
                 + "SET `balance`= `balance`-`comision`, `comision`= ?, `balance`= `balance`+`comision` "
@@ -145,30 +143,26 @@ public class BalanceOperator implements IBalanceOperator {
         PreparedStatement statement = null;
 
         if (prefClientId != null && campNumb != null) {
-            sqlStmnt =
-                    "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "
-                            + "FROM `saldos` "
-                            + "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ? "
-                            + "ORDER BY `saldos`.`nro_camp` DESC;";
+            sqlStmnt = "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "
+                    + "FROM `saldos` " + "WHERE `id_cp` = ? AND `nro_camp` = ? AND `active_row` = ? "
+                    + "ORDER BY `saldos`.`nro_camp` DESC;";
 
             statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setInt(2, campNumb);
             statement.setBoolean(3, this.activeRow);
         } else if (prefClientId != null && campNumb == null) {
-            sqlStmnt =
-                    "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "
-                            + "FROM `saldos` " + "WHERE `id_cp` = ? AND `active_row` = ? "
-                            + "ORDER BY `saldos`.`nro_camp` DESC;";
+            sqlStmnt = "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "
+                    + "FROM `saldos` " + "WHERE `id_cp` = ? AND `active_row` = ? "
+                    + "ORDER BY `saldos`.`nro_camp` DESC;";
 
             statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, prefClientId);
             statement.setBoolean(2, this.activeRow);
         } else if (prefClientId == null && campNumb != null) {
-            sqlStmnt =
-                    "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "
-                            + "FROM `saldos` " + "WHERE `nro_camp` = ? AND `active_row` = ? "
-                            + "ORDER BY `saldos`.`nro_camp` DESC;";
+            sqlStmnt = "SELECT `id_cp`, `nro_camp`, `balance`, `pedidos`, `catalogos`, `recompras`, `pagos`, `devoluciones`, `comision` "
+                    + "FROM `saldos` " + "WHERE `nro_camp` = ? AND `active_row` = ? "
+                    + "ORDER BY `saldos`.`nro_camp` DESC;";
 
             statement = Connector.getInstance().getStatement(sqlStmnt);
             statement.setInt(1, campNumb);
@@ -181,9 +175,8 @@ public class BalanceOperator implements IBalanceOperator {
 
         Balance balance;
         while (resultSet.next()) {
-            balance =
-                    new Balance(resultSet.getFloat(4), resultSet.getFloat(5), resultSet.getFloat(6),
-                            resultSet.getFloat(7), resultSet.getFloat(8), resultSet.getFloat(9));
+            balance = new Balance(resultSet.getFloat(4), resultSet.getFloat(5), resultSet.getFloat(6),
+                    resultSet.getFloat(7), resultSet.getFloat(8), resultSet.getFloat(9));
             balance.setBalance(resultSet.getFloat(3));
 
             // fk ids
@@ -191,7 +184,6 @@ public class BalanceOperator implements IBalanceOperator {
             balance.setCampNumber(resultSet.getInt(2));
 
             // Associations
-
 
             ret.add(balance);
         }
@@ -220,10 +212,9 @@ public class BalanceOperator implements IBalanceOperator {
     public Integer updateNotCumulative(Balance balance) throws Exception {
         Integer returnCode = null;
 
-        String sqlStmnt =
-                "UPDATE `saldos` SET `pedidos`=?, `catalogos`=?, `recompras`=?, `pagos`=?,`devoluciones`=?,`comision`=?,"
-                        + " `balance`= -`pedidos`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision` "
-                        + "WHERE `id_cp`=? AND `nro_camp`=? AND `active_row` = ?;";
+        String sqlStmnt = "UPDATE `saldos` SET `pedidos`=?, `catalogos`=?, `recompras`=?, `pagos`=?,`devoluciones`=?,`comision`=?,"
+                + " `balance`= -`pedidos`-`catalogos`-`recompras`+`pagos`+`devoluciones`+`comision`"
+                + "  WHERE `id_cp`=? AND `nro_camp`=? AND `active_row`=?;";
 
         PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
@@ -239,6 +230,7 @@ public class BalanceOperator implements IBalanceOperator {
 
         returnCode = statement.executeUpdate();
         statement.close();
+
         return returnCode;
     }
 }

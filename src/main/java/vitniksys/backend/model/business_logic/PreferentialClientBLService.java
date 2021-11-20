@@ -57,15 +57,14 @@ import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber
 public class PreferentialClientBLService extends BLService {
     // Getters && Setters
 
-
-    // ================================= private methods =================================
-    private boolean allFieldsAreOk(String id, String dni, String name, String lastName,
-            String email, String phoneNumber, String leaderId) {
+    // ================================= private methods
+    // =================================
+    private boolean allFieldsAreOk(String id, String dni, String name, String lastName, String email,
+            String phoneNumber, String leaderId) {
         boolean ret = false;
         ExpressionChecker ec = ExpressionChecker.getExpressionChecker();
-        if (ec.onlyNumbers(id, false) && ec.onlyNumbers(dni, true) && ec.composedName(name)
-                && ec.composedName(lastName) && ec.isEmail(email, true)
-                && ec.onlyNumbers(phoneNumber, true) && ec.onlyNumbers(leaderId, true)) {
+        if (ec.onlyNumbers(id, false) && ec.onlyNumbers(dni, true) && ec.composedName(name) && ec.composedName(lastName)
+                && ec.isEmail(email, true) && ec.onlyNumbers(phoneNumber, true) && ec.onlyNumbers(leaderId, true)) {
             ret = true;
         }
         return ret;
@@ -74,8 +73,7 @@ public class PreferentialClientBLService extends BLService {
     private boolean allFieldsAreOk(Integer campNumber, String descriptor, Float amount) {
         boolean ret = false;
 
-        if (campNumber != null
-                && descriptor.length() <= App.ConstraitConstants.MAX_LENGTH_PAYMENT_DESCRIPTOR
+        if (campNumber != null && descriptor.length() <= App.ConstraitConstants.MAX_LENGTH_PAYMENT_DESCRIPTOR
                 && amount != null) {
             ret = true;
         }
@@ -83,9 +81,9 @@ public class PreferentialClientBLService extends BLService {
         return ret;
     }
 
-    // ================================= protected methods =================================
-    protected void createObservation(Integer prefClientId, Integer campNumber, String obs)
-            throws Exception {
+    // ================================= protected methods
+    // =================================
+    protected void createObservation(Integer prefClientId, Integer campNumber, String obs) throws Exception {
         Observation observation = new Observation(obs);
         observation.setPrefClientId(prefClientId);
         observation.setCampNumber(campNumber);
@@ -164,8 +162,7 @@ public class PreferentialClientBLService extends BLService {
             clientsIt = aux.iterator();
             while (clientsIt.hasNext()) {
                 client = clientsIt.next();
-                client.setBalances(new VitnikSearchableList<Balance>(
-                        balanceOperator.findAll(client.getId(), null)));
+                client.setBalances(new VitnikSearchableList<Balance>(balanceOperator.findAll(client.getId(), null)));
 
                 campsIt = camps.iterator();
                 while (campsIt.hasNext()) {
@@ -198,6 +195,8 @@ public class PreferentialClientBLService extends BLService {
         Leader leader = leaderOperator.find(prefClientId, campNumber);
 
         Balance balance = new Balance(0f, 0f, 0f, 0f, 0f, 0f);
+        balance.setPrefClientId(prefClientId);
+        balance.setCampNumber(campNumber);
 
         Iterator<Order> orders = leader.getOrders().iterator();
         Iterator<Repurchase> repurchases = leader.getRepurchases().iterator();
@@ -207,20 +206,22 @@ public class PreferentialClientBLService extends BLService {
         while (orders.hasNext()) {
             balance.setTotalInOrders(balance.getTotalInOrders() + orders.next().getCost());
         }
+        System.out.println("total in orders = " + balance.getTotalInOrders());
 
         while (repurchases.hasNext()) {
-            balance.setTotalInRepurchases(
-                    balance.getTotalInRepurchases() + repurchases.next().getCost());
+            balance.setTotalInRepurchases(balance.getTotalInRepurchases() + repurchases.next().getCost());
         }
+        System.out.println("total in repurchases = " + balance.getTotalInRepurchases());
 
         while (devolutions.hasNext()) {
-            balance.setTotalInDevolutions(
-                    balance.getTotalInDevolutions() + devolutions.next().getCost());
+            balance.setTotalInDevolutions(balance.getTotalInDevolutions() + devolutions.next().getCost());
         }
+        System.out.println("total in devolution = " + balance.getTotalInDevolutions());
 
         while (payments.hasNext()) {
             balance.setTotalInPayments(balance.getTotalInPayments() + payments.next().getAmount());
         }
+        System.out.println("total in payments = " + balance.getTotalInPayments());
 
         balanceOperator.updateNotCumulative(balance);
 
@@ -228,12 +229,12 @@ public class PreferentialClientBLService extends BLService {
 
         // The subscriber is supposed to be the ClientManagementViewCntlr, that
         // is why that service is in the 2nd position
-        ((CommissionBLService) getBLServiceSubscriber().getBLService(2))
-                .updateCommission(commission, leader.getOrders(), leader.getRepurchases()); // UPDATE
-
+        ((CommissionBLService) getBLServiceSubscriber().getBLService(2)).updateCommission(commission,
+                leader.getOrders(), leader.getRepurchases()); // UPDATE
     }
 
-    // ================================= public methods =================================
+    // ================================= public methods
+    // =================================
     public void registerPrefClients(List<PreferentialClient> preferentialClients) throws Exception {
         Campaign camp = CampaignOperator.getOperator().findLast();
         if (camp == null) {
@@ -267,8 +268,7 @@ public class PreferentialClientBLService extends BLService {
     }
 
     public void registerClient(String id, String dni, String name, String lastName, String location,
-            LocalDate birthDate, String email, String phoneNumber, Boolean isLeader,
-            String leaderId) throws Exception {
+            LocalDate birthDate, String email, String phoneNumber, Boolean isLeader, String leaderId) throws Exception {
         if (allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId)) {
             CustomAlert customAlert = this.getBLServiceSubscriber()
                     .showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
@@ -282,15 +282,12 @@ public class PreferentialClientBLService extends BLService {
                         getConnector().startTransaction(); // START TRANSACTION
 
                         if (isLeader) {
-                            prefClient = new Leader(Integer.parseInt(id), name.toUpperCase(),
-                                    lastName.toUpperCase());
+                            prefClient = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
                         } else if (leaderId != null && !leaderId.isBlank()) {
-                            prefClient = new SubordinatedClient(Integer.parseInt(id),
-                                    name.toUpperCase(), lastName.toUpperCase());
-                            ((SubordinatedClient) prefClient)
-                                    .setLeader(new Leader(Integer.parseInt(leaderId)));
-                            ((SubordinatedClient) prefClient)
-                                    .setLeaderId(Integer.parseInt(leaderId));
+                            prefClient = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(),
+                                    lastName.toUpperCase());
+                            ((SubordinatedClient) prefClient).setLeader(new Leader(Integer.parseInt(leaderId)));
+                            ((SubordinatedClient) prefClient).setLeaderId(Integer.parseInt(leaderId));
                         } else {
                             prefClient = new BaseClient(Integer.parseInt(id), name.toUpperCase(),
                                     lastName.toUpperCase());
@@ -300,8 +297,7 @@ public class PreferentialClientBLService extends BLService {
                         prefClient.setLocation(location != null ? location.toUpperCase() : null);
                         prefClient.setBirthDate(birthDate);
                         prefClient.setEmail(email);
-                        prefClient.setPhoneNumber(
-                                !phoneNumber.isBlank() ? Long.parseLong(phoneNumber) : null);
+                        prefClient.setPhoneNumber(!phoneNumber.isBlank() ? Long.parseLong(phoneNumber) : null);
 
                         returnCode += prefClient.operator().insert(prefClient); // INSERT
 
@@ -319,13 +315,11 @@ public class PreferentialClientBLService extends BLService {
                         getConnector().commit(); // COMMIT
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getBLServiceSubscriber()
-                                .showSucces("El cliente se ha registrado exitosamente!");
+                        getBLServiceSubscriber().showSucces("El cliente se ha registrado exitosamente!");
                     } catch (Exception exception) {
                         getConnector().rollBack();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getBLServiceSubscriber().showError(
-                                "Error al intentar registrar el cliente.", null, exception);
+                        getBLServiceSubscriber().showError("Error al intentar registrar el cliente.", null, exception);
                     } finally {
                         getConnector().endTransaction();
                         getConnector().closeConnection();
@@ -359,14 +353,12 @@ public class PreferentialClientBLService extends BLService {
                     getConnector().commit(); // COMMIT
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber()
-                            .showSucces("Los clientes se han registrado exitosamente!");
+                    getBLServiceSubscriber().showSucces("Los clientes se han registrado exitosamente!");
                     getBLServiceSubscriber().refresh();
                 } catch (Exception exception) {
                     getConnector().rollBack();
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber().showError("Error al intentar registrar los clientes.",
-                            null, exception);
+                    getBLServiceSubscriber().showError("Error al intentar registrar los clientes.", null, exception);
                 } finally {
                     getConnector().endTransaction();
                     getConnector().closeConnection();
@@ -378,12 +370,10 @@ public class PreferentialClientBLService extends BLService {
         Platform.runLater(task);
     }
 
-    public void updateClient(String id, String dni, String name, String lastName, String location,
-            LocalDate birthDate, String email, String phoneNumber, Boolean isLeader,
-            String leaderId) throws Exception {
+    public void updateClient(String id, String dni, String name, String lastName, String location, LocalDate birthDate,
+            String email, String phoneNumber, Boolean isLeader, String leaderId) throws Exception {
         if (allFieldsAreOk(id, dni, name, lastName, email, phoneNumber, leaderId)) {
-            CustomAlert customAlert =
-                    this.getBLServiceSubscriber().showProcessIsWorking("Actualizando Datos...");
+            CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Actualizando Datos...");
             Task<Integer> task = new Task<>() {
                 @Override
                 protected Integer call() throws Exception {
@@ -394,15 +384,12 @@ public class PreferentialClientBLService extends BLService {
                         getConnector().startTransaction(); // START TRANSACTION
 
                         if (isLeader) {
-                            prefClient = new Leader(Integer.parseInt(id), name.toUpperCase(),
-                                    lastName.toUpperCase());
+                            prefClient = new Leader(Integer.parseInt(id), name.toUpperCase(), lastName.toUpperCase());
                         } else if (leaderId != null && !leaderId.isBlank()) {
-                            prefClient = new SubordinatedClient(Integer.parseInt(id),
-                                    name.toUpperCase(), lastName.toUpperCase());
-                            ((SubordinatedClient) prefClient)
-                                    .setLeader(new Leader(Integer.parseInt(leaderId)));
-                            ((SubordinatedClient) prefClient)
-                                    .setLeaderId(Integer.parseInt(leaderId));
+                            prefClient = new SubordinatedClient(Integer.parseInt(id), name.toUpperCase(),
+                                    lastName.toUpperCase());
+                            ((SubordinatedClient) prefClient).setLeader(new Leader(Integer.parseInt(leaderId)));
+                            ((SubordinatedClient) prefClient).setLeaderId(Integer.parseInt(leaderId));
                         } else {
                             prefClient = new BaseClient(Integer.parseInt(id), name.toUpperCase(),
                                     lastName.toUpperCase());
@@ -412,21 +399,19 @@ public class PreferentialClientBLService extends BLService {
                         prefClient.setLocation(location != null ? location.toUpperCase() : null);
                         prefClient.setBirthDate(birthDate);
                         prefClient.setEmail(email);
-                        prefClient.setPhoneNumber(
-                                !phoneNumber.isBlank() ? Long.parseLong(phoneNumber) : null);
+                        prefClient.setPhoneNumber(!phoneNumber.isBlank() ? Long.parseLong(phoneNumber) : null);
 
                         returnCode += prefClient.operator().update(prefClient); // UPDATE
 
                         getConnector().commit(); // COMMIT
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getBLServiceSubscriber()
-                                .showSucces("La actualización se ha registrado exitosamente!");
+                        getBLServiceSubscriber().showSucces("La actualización se ha registrado exitosamente!");
                     } catch (Exception exception) {
                         getConnector().rollBack();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getBLServiceSubscriber().showError(
-                                "Error al actualizar los datos del cliente.", null, exception);
+                        getBLServiceSubscriber().showError("Error al actualizar los datos del cliente.", null,
+                                exception);
                     } finally {
                         getConnector().endTransaction();
                         getConnector().closeConnection();
@@ -443,8 +428,7 @@ public class PreferentialClientBLService extends BLService {
     }
 
     public void searchLeader(Integer id, Integer campNumber) {
-        CustomAlert customAlert =
-                getBLServiceSubscriber().showProcessIsWorking("Recuperando datos del Lider " + id);
+        CustomAlert customAlert = getBLServiceSubscriber().showProcessIsWorking("Recuperando datos del Lider " + id);
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -465,8 +449,7 @@ public class PreferentialClientBLService extends BLService {
                 } catch (Exception exception) {
                     exception.printStackTrace();
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber().showError("Error al intentar recuperar el lider " + id,
-                            null, exception);
+                    getBLServiceSubscriber().showError("Error al intentar recuperar el lider " + id, null, exception);
                 } finally {
                     getConnector().closeConnection();
                 }
@@ -486,8 +469,8 @@ public class PreferentialClientBLService extends BLService {
             protected Void call() throws Exception {
                 SubordinatedClient subordinatedClient = null;
                 try {
-                    subordinatedClient = (SubordinatedClient) SubordinatedClientOperator
-                            .getOperator().find(id, campNumber);
+                    subordinatedClient = (SubordinatedClient) SubordinatedClientOperator.getOperator().find(id,
+                            campNumber);
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     if (subordinatedClient != null) {
@@ -497,8 +480,7 @@ public class PreferentialClientBLService extends BLService {
                                 .showTotalBalance(calculateTotalBalance(id));
                     } else {
                         ((PreferentialClientBLServiceSubscriber) getBLServiceSubscriber())
-                                .showNoResult(
-                                        "No se encuentra registrado ningún cliente preferencial con líder.");
+                                .showNoResult("No se encuentra registrado ningún cliente preferencial con líder.");
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -531,8 +513,7 @@ public class PreferentialClientBLService extends BLService {
                                 .showTotalBalance(calculateTotalBalance(id));
                     } else {
                         ((PreferentialClientBLServiceSubscriber) getBLServiceSubscriber())
-                                .showNoResult(
-                                        "No se encuentra registrado ningún cliente preferencial base.");
+                                .showNoResult("No se encuentra registrado ningún cliente preferencial base.");
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -548,7 +529,8 @@ public class PreferentialClientBLService extends BLService {
     }
 
     public void searchPreferentialClients() {
-        // CustomAlert customAlert = this.getServiceSubscriber().showProcessIsWorking("Espere un
+        // CustomAlert customAlert =
+        // this.getServiceSubscriber().showProcessIsWorking("Espere un
         // momento mientras se realiza el proceso.");
         Task<Void> task = new Task<>() {
             @Override
@@ -564,8 +546,7 @@ public class PreferentialClientBLService extends BLService {
                                 .showQueriedPrefClients(prefClients);
                     } else {
                         ((PreferentialClientBLServiceSubscriber) getBLServiceSubscriber())
-                                .showNoResult(
-                                        "No se encuentra registrado ningún cliente preferencial.");
+                                .showNoResult("No se encuentra registrado ningún cliente preferencial.");
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -596,8 +577,7 @@ public class PreferentialClientBLService extends BLService {
                                 .showQueriedPrefClients(prefClients);
                     } else {
                         ((PreferentialClientBLServiceSubscriber) getBLServiceSubscriber())
-                                .showNoResult(
-                                        "No se encuentra registrado ningún cliente preferencial.");
+                                .showNoResult("No se encuentra registrado ningún cliente preferencial.");
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -622,11 +602,9 @@ public class PreferentialClientBLService extends BLService {
                 try {
                     List<Devolution> devsAux = null;
                     if (prefClient instanceof Leader) {
-                        Iterator<SubordinatedClient> it =
-                                ((Leader) prefClient).getSubordinates().iterator();
+                        Iterator<SubordinatedClient> it = ((Leader) prefClient).getSubordinates().iterator();
                         while (it.hasNext()) {
-                            devsAux = DevolutionOperator.getOperator().findAll(it.next().getId(),
-                                    null);
+                            devsAux = DevolutionOperator.getOperator().findAll(it.next().getId(), null);
                             if (devsAux != null)
                                 devolutions.addAll(devsAux);
                         }
@@ -639,11 +617,10 @@ public class PreferentialClientBLService extends BLService {
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
                     if (devolutions.size() > 0) {
-                        ((PreferentialClientBLServiceSubscriber) getBLServiceSubscriber())
-                                .showDevolutions(devolutions);
+                        ((PreferentialClientBLServiceSubscriber) getBLServiceSubscriber()).showDevolutions(devolutions);
                     } else {
-                        getBLServiceSubscriber().showNoResult("El cliente " + prefClient.getId()
-                                + " no tiene registrado devoluciones.");
+                        getBLServiceSubscriber().showNoResult(
+                                "El cliente " + prefClient.getId() + " no tiene registrado devoluciones.");
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -658,9 +635,8 @@ public class PreferentialClientBLService extends BLService {
         // this.getExecutorService().execute(task);
     }
 
-    public void registerPayment(PreferentialClient prefClient, Integer campNumber,
-            String descriptor, Float amount, PayItem item, PayType paymentMethod, Bank bank,
-            PayStatus paymentStatus) throws Exception {
+    public void registerPayment(PreferentialClient prefClient, Integer campNumber, String descriptor, Float amount,
+            PayItem item, PayType paymentMethod, Bank bank, PayStatus paymentStatus) throws Exception {
         if (allFieldsAreOk(campNumber, descriptor, amount)) {
             CustomAlert customAlert = this.getBLServiceSubscriber()
                     .showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
@@ -691,22 +667,19 @@ public class PreferentialClientBLService extends BLService {
 
                         if (prefClient instanceof SubordinatedClient) {
                             // update also the leader balance
-                            balance.setPrefClientId(
-                                    ((SubordinatedClient) prefClient).getLeaderId());
+                            balance.setPrefClientId(((SubordinatedClient) prefClient).getLeaderId());
                             BalanceOperator.getOperator().update(balance);
                         }
 
                         getConnector().commit();
 
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getBLServiceSubscriber()
-                                .showSucces("El pago se ha registrado exitosamente!");
+                        getBLServiceSubscriber().showSucces("El pago se ha registrado exitosamente!");
                         getBLServiceSubscriber().refresh();
                     } catch (Exception exception) {
                         getConnector().rollBack();
                         getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                        getBLServiceSubscriber().showError("Error al intentar registrar el pago.",
-                                null, exception);
+                        getBLServiceSubscriber().showError("Error al intentar registrar el pago.", null, exception);
                     } finally {
                         getConnector().endTransaction();
                         getConnector().closeConnection();
@@ -722,8 +695,7 @@ public class PreferentialClientBLService extends BLService {
         }
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber,
-            Integer orderId, Reason reason) {
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer orderId, Reason reason) {
         CustomAlert customAlert = this.getBLServiceSubscriber()
                 .showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>() {
@@ -746,19 +718,22 @@ public class PreferentialClientBLService extends BLService {
                         returnedArticle.setOrderId(orderId);
                         returnedArticle.setRepurchased(false);
 
-
-                        Commission commission = CommissionOperator.getOperator()
-                                .find(prefClient.getId(), campNumber); // search for leader
-                                                                       // commission. (maybe is not
-                                                                       // a leader)
+                        Commission commission = CommissionOperator.getOperator().find(prefClient.getId(), campNumber); // search
+                                                                                                                       // for
+                                                                                                                       // leader
+                                                                                                                       // commission.
+                                                                                                                       // (maybe
+                                                                                                                       // is
+                                                                                                                       // not
+                                                                                                                       // a
+                                                                                                                       // leader)
                         int comFactor = commission != null ? commission.getActualRate() : 0;
                         int fpComFactor = commission != null ? commission.getFpFactor() : 0;
                         int otherComFactor = commission != null ? commission.getOtherFactor() : 0;
 
                         float comF = comFactor / App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
                         float fpComF = fpComFactor / App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
-                        float otherComF =
-                                otherComFactor / App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
+                        float otherComF = otherComFactor / App.ConstraitConstants.COMMISSION_RATIO_FACTOR;
 
                         float devCost = order.getCost() / order.getQuantity();
 
@@ -773,18 +748,18 @@ public class PreferentialClientBLService extends BLService {
 
                         if (order.isCommissionable()) {
                             switch (order.getType()) {
-                                case PEDIDO:
-                                case OPORTUNIDAD:
-                                    devCost = devCost - (devCost * comF);
-                                    break;
+                            case PEDIDO:
+                            case OPORTUNIDAD:
+                                devCost = devCost - (devCost * comF);
+                                break;
 
-                                case FREEPREMIUM:
-                                case PROMO:
-                                    devCost = devCost - (devCost * fpComF);
-                                    break;
+                            case FREEPREMIUM:
+                            case PROMO:
+                                devCost = devCost - (devCost * fpComF);
+                                break;
 
-                                default:
-                                    devCost = devCost - (devCost * otherComF);
+                            default:
+                                devCost = devCost - (devCost * otherComF);
                             }
                         }
 
@@ -793,44 +768,38 @@ public class PreferentialClientBLService extends BLService {
                         balance.setCampNumber(campNumber);
                         balance.setTotalInDevolutions(devCost);
 
-
-                        devolution.setUnitCode(
-                                ReturnedArticleOperator.getOperator().insert(returnedArticle)); // INSERT
+                        devolution.setUnitCode(ReturnedArticleOperator.getOperator().insert(returnedArticle)); // INSERT
                         DevolutionOperator.getOperator().insert(devolution); // INSERT
                         OrderOperator.getOperator().incrementForDevolution(orderId); // UPDATE
                         BalanceOperator.getOperator().update(balance); // UPDATE
 
-
                         if (prefClient instanceof SubordinatedClient) {
                             // update also the leader balance
-                            balance.setPrefClientId(
-                                    ((SubordinatedClient) prefClient).getLeaderId());
+                            balance.setPrefClientId(((SubordinatedClient) prefClient).getLeaderId());
                             BalanceOperator.getOperator().update(balance); // UPDATE
                         }
 
-                        List<Order> orders =
-                                OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); // search
-                                                                                                     // for
-                                                                                                     // leader
-                                                                                                     // orders
-                                                                                                     // for
-                                                                                                     // that
-                                                                                                     // camp
-                                                                                                     // number
-                        List<Repurchase> repurchases = RepurchaseOperator.getOperator()
-                                .findAll(prefClient.getId(), campNumber);
+                        List<Order> orders = OrderOperator.getOperator().findAll(prefClient.getId(), campNumber); // search
+                                                                                                                  // for
+                                                                                                                  // leader
+                                                                                                                  // orders
+                                                                                                                  // for
+                                                                                                                  // that
+                                                                                                                  // camp
+                                                                                                                  // number
+                        List<Repurchase> repurchases = RepurchaseOperator.getOperator().findAll(prefClient.getId(),
+                                campNumber);
                         if (prefClient instanceof Leader) {
                             SubordinatedClient subordinatedClient = null;
                             List<Order> auxOrders = null;
                             List<Repurchase> auxRepurchases = null;
-                            Iterator<SubordinatedClient> subsIterator =
-                                    ((Leader) prefClient).getSubordinates().iterator();
+                            Iterator<SubordinatedClient> subsIterator = ((Leader) prefClient).getSubordinates()
+                                    .iterator();
                             while (subsIterator.hasNext()) {
                                 subordinatedClient = subsIterator.next();
-                                auxOrders = OrderOperator.getOperator()
-                                        .findAll(subordinatedClient.getId(), campNumber);
-                                auxRepurchases = RepurchaseOperator.getOperator()
-                                        .findAll(subordinatedClient.getId(), campNumber);
+                                auxOrders = OrderOperator.getOperator().findAll(subordinatedClient.getId(), campNumber);
+                                auxRepurchases = RepurchaseOperator.getOperator().findAll(subordinatedClient.getId(),
+                                        campNumber);
 
                                 if (auxOrders != null) {
                                     orders.addAll(auxOrders);
@@ -869,8 +838,7 @@ public class PreferentialClientBLService extends BLService {
                 } catch (Exception exception) {
                     getConnector().rollBack(); // ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber().showError("Error al realizar la devolución.", null,
-                            exception);
+                    getBLServiceSubscriber().showError("Error al realizar la devolución.", null, exception);
                 } finally {
                     getConnector().endTransaction(); // END TRANSACTION
                     getConnector().closeConnection();
@@ -882,8 +850,7 @@ public class PreferentialClientBLService extends BLService {
         Platform.runLater(task);
     }
 
-    public void registerDevolution(PreferentialClient prefClient, Integer campNumber,
-            Integer repurchaseId) {
+    public void registerDevolution(PreferentialClient prefClient, Integer campNumber, Integer repurchaseId) {
         IRepurchaseOperator repurchaseOperator = RepurchaseOperator.getOperator();
         IReturnedArticleOperator returnedArticleOperator = ReturnedArticleOperator.getOperator();
         IDevolutionOperator devolutionOperator = DevolutionOperator.getOperator();
@@ -928,29 +895,25 @@ public class PreferentialClientBLService extends BLService {
 
                         if (prefClient instanceof SubordinatedClient) {
                             // update also the leader balance
-                            balance.setPrefClientId(
-                                    ((SubordinatedClient) prefClient).getLeaderId());
+                            balance.setPrefClientId(((SubordinatedClient) prefClient).getLeaderId());
                             BalanceOperator.getOperator().update(balance); // UPDATE
                         }
 
-                        Commission commission =
-                                commissionOperator.find(prefClient.getId(), campNumber);
+                        Commission commission = commissionOperator.find(prefClient.getId(), campNumber);
                         List<Order> orders = orderOperator.findAll(prefClient.getId(), campNumber);
-                        List<Repurchase> repurchases =
-                                repurchaseOperator.findAll(prefClient.getId(), campNumber);
+                        List<Repurchase> repurchases = repurchaseOperator.findAll(prefClient.getId(), campNumber);
 
                         if (prefClient instanceof Leader) {
                             SubordinatedClient subordinatedClient = null;
                             List<Order> auxOrders = null;
                             List<Repurchase> auxRepurchases = null;
-                            Iterator<SubordinatedClient> subsIterator =
-                                    ((Leader) prefClient).getSubordinates().iterator();
+                            Iterator<SubordinatedClient> subsIterator = ((Leader) prefClient).getSubordinates()
+                                    .iterator();
                             while (subsIterator.hasNext()) {
                                 subordinatedClient = subsIterator.next();
-                                auxOrders = OrderOperator.getOperator()
-                                        .findAll(subordinatedClient.getId(), campNumber);
-                                auxRepurchases = RepurchaseOperator.getOperator()
-                                        .findAll(subordinatedClient.getId(), campNumber);
+                                auxOrders = OrderOperator.getOperator().findAll(subordinatedClient.getId(), campNumber);
+                                auxRepurchases = RepurchaseOperator.getOperator().findAll(subordinatedClient.getId(),
+                                        campNumber);
 
                                 if (auxOrders != null) {
                                     orders.addAll(auxOrders);
@@ -982,8 +945,7 @@ public class PreferentialClientBLService extends BLService {
                 } catch (Exception exception) {
                     getConnector().rollBack(); // ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber().showError("Error al realizar la devolución.", null,
-                            exception);
+                    getBLServiceSubscriber().showError("Error al realizar la devolución.", null, exception);
                 } finally {
                     getConnector().endTransaction(); // END TRANSACTION
                     getConnector().closeConnection();
@@ -1012,14 +974,12 @@ public class PreferentialClientBLService extends BLService {
                     getConnector().commit(); // COMMIT
 
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber()
-                            .showSucces("Los retiros se han registrado exitosamente!");
+                    getBLServiceSubscriber().showSucces("Los retiros se han registrado exitosamente!");
                     getBLServiceSubscriber().refresh();
                 } catch (Exception exception) {
                     getConnector().rollBack(); // ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber().showError("Error al realizar los retiros.", null,
-                            exception);
+                    getBLServiceSubscriber().showError("Error al realizar los retiros.", null, exception);
                 } finally {
                     getConnector().endTransaction(); // END TRANSACTION
                     getConnector().closeConnection();
@@ -1031,8 +991,7 @@ public class PreferentialClientBLService extends BLService {
         Platform.runLater(task);
     }
 
-    public void registerObservation(Integer prefClientId, Integer campNumber, String obs)
-            throws Exception {
+    public void registerObservation(Integer prefClientId, Integer campNumber, String obs) throws Exception {
         CustomAlert customAlert = this.getBLServiceSubscriber()
                 .showProcessIsWorking("Espere un momento mientras se realiza el proceso.");
         Task<Integer> task = new Task<>() {
@@ -1053,8 +1012,7 @@ public class PreferentialClientBLService extends BLService {
                 } catch (Exception exception) {
                     getConnector().rollBack(); // ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber().showError("Error al guardar la observación.", null,
-                            exception);
+                    getBLServiceSubscriber().showError("Error al guardar la observación.", null, exception);
                 } finally {
                     getConnector().endTransaction(); // END TRANSACTION
                     getConnector().closeConnection();
@@ -1067,8 +1025,7 @@ public class PreferentialClientBLService extends BLService {
     }
 
     public void searchObservation(Integer prefClientId, Integer campNumber) {
-        CustomAlert customAlert =
-                this.getBLServiceSubscriber().showProcessIsWorking("Buscando observación...");
+        CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Buscando observación...");
         Task<Integer> task = new Task<>() {
             @Override
             protected Integer call() throws Exception {
@@ -1078,18 +1035,15 @@ public class PreferentialClientBLService extends BLService {
                 try {
                     getConnector().startTransaction();
 
-                    Observation observation =
-                            ObservationOperator.getOperator().find(prefClientId, campNumber);
+                    Observation observation = ObservationOperator.getOperator().find(prefClientId, campNumber);
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
 
                     if (observation != null) {
-                        ((PreferentialClientBLServiceSubscriber) getBLServiceSubscriber())
-                                .showObservation(observation);
+                        ((PreferentialClientBLServiceSubscriber) getBLServiceSubscriber()).showObservation(observation);
                     } else {
-                        getBLServiceSubscriber()
-                                .showNoResult("No existe observación registrada del cliente "
-                                        + prefClientId + " para la campaña " + campNumber
-                                        + "\nSe creará la observación correspondiente...");
+                        getBLServiceSubscriber().showNoResult(
+                                "No existe observación registrada del cliente " + prefClientId + " para la campaña "
+                                        + campNumber + "\nSe creará la observación correspondiente...");
 
                         createObservation(prefClientId, campNumber, "");
                         getBLServiceSubscriber().refresh();
@@ -1099,8 +1053,7 @@ public class PreferentialClientBLService extends BLService {
                 } catch (Exception exception) {
                     getConnector().rollBack(); // ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber().showError("Error al guardar la observación.", null,
-                            exception);
+                    getBLServiceSubscriber().showError("Error al guardar la observación.", null, exception);
                 } finally {
                     getConnector().endTransaction(); // END TRANSACTION
                     getConnector().closeConnection();
@@ -1113,8 +1066,7 @@ public class PreferentialClientBLService extends BLService {
     }
 
     public void recalculateBalance(Integer prefClientId, Integer campNumber) {
-        CustomAlert customAlert =
-                this.getBLServiceSubscriber().showProcessIsWorking("Recalculando saldo...");
+        CustomAlert customAlert = this.getBLServiceSubscriber().showProcessIsWorking("Recalculando saldo...");
         Task<Integer> task = new Task<>() {
             @Override
             protected Integer call() throws Exception {
@@ -1127,11 +1079,13 @@ public class PreferentialClientBLService extends BLService {
                     recalcBalance(prefClientId, campNumber);
 
                     getConnector().commit();
+
+                    getBLServiceSubscriber().closeProcessIsWorking(customAlert);
+                    getBLServiceSubscriber().refresh();
                 } catch (Exception exception) {
                     getConnector().rollBack(); // ROLLBACK
                     getBLServiceSubscriber().closeProcessIsWorking(customAlert);
-                    getBLServiceSubscriber().showError("Error al recalcular el saldo.", null,
-                            exception);
+                    getBLServiceSubscriber().showError("Error al recalcular el saldo.", null, exception);
                 } finally {
                     getConnector().endTransaction(); // END TRANSACTION
                     getConnector().closeConnection();

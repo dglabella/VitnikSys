@@ -55,8 +55,7 @@ import vitniksys.backend.model.business_logic.PreferentialClientBLService;
 import vitniksys.frontend.view_subscribers.PreferentialClientBLServiceSubscriber;
 
 public class ClientManagementViewCntlr extends TableViewCntlr
-        implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber,
-        CommissionBLServiceSubscriber {
+        implements PreferentialClientBLServiceSubscriber, CampaignBLServiceSubscriber, CommissionBLServiceSubscriber {
     private final String AGGREGATED_ORDERS_FILTER_COMMAND = "//a";
     private final String RECALC_BALANCE_FILTER_COMMAND = "//recalc";
 
@@ -71,7 +70,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr
 
     private AutoCompletionTool campAutoCompletionTool;
 
-    // ================================= FXML variables =================================
+    // ================================= FXML variables
+    // =================================
     @FXML
     private TitledPane paymentsPane;
     @FXML
@@ -210,12 +210,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr
     @FXML
     private TableColumn<RepurchasesRowTable, String> repurchaseRegistrationTime;
 
-    // ================================= FXML methods ===================================
+    // ================================= FXML methods
+    // ===================================
     @FXML
     private void editPrefClientButtonPressed() {
         ClientRegisterViewCntlr viewCntlr = (ClientRegisterViewCntlr) this.createStage(
-                "Cliente preferencial " + this.prefClient.getId(), "clientRegister",
-                new PreferentialClientBLService());
+                "Cliente preferencial " + this.prefClient.getId(), "clientRegister", new PreferentialClientBLService());
         viewCntlr.getStage().show();
 
         viewCntlr.setPrefClientId(this.prefClient.getId());
@@ -238,8 +238,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr
 
     @FXML
     private void devolutionsMenuItemSelected() {
-        DevolutionsQueryViewCntlr viewCntlr = (DevolutionsQueryViewCntlr) this
-                .createStage("Devoluciones", "devolutionsQuery", new PreferentialClientBLService());
+        DevolutionsQueryViewCntlr viewCntlr = (DevolutionsQueryViewCntlr) this.createStage("Devoluciones",
+                "devolutionsQuery", new PreferentialClientBLService());
         viewCntlr.setPrefClient(this.prefClient);
         viewCntlr.getStage().show();
         viewCntlr.manualInitialize();
@@ -312,18 +312,16 @@ public class ClientManagementViewCntlr extends TableViewCntlr
 
     @FXML
     private void withdrawMenuItemSelected() {
-        new CustomAlert(AlertType.CONFIRMATION, "CONFIRMACIÓN",
-                "Desea registrar los retiros seleccionados?").customShow().ifPresent(response -> {
+        new CustomAlert(AlertType.CONFIRMATION, "CONFIRMACIÓN", "Desea registrar los retiros seleccionados?")
+                .customShow().ifPresent(response -> {
                     if (response == ButtonType.OK) {
                         try {
                             List<Order> orders = new ArrayList<>();
-                            Iterator<OrdersRowTable> it =
-                                    this.orders.getSelectionModel().getSelectedItems().iterator();
+                            Iterator<OrdersRowTable> it = this.orders.getSelectionModel().getSelectedItems().iterator();
                             while (it.hasNext())
                                 orders.add(it.next().getOrder());
 
-                            ((PreferentialClientBLService) this.getBLService(0))
-                                    .registerWithdrawals(orders);
+                            ((PreferentialClientBLService) this.getBLService(0)).registerWithdrawals(orders);
                         } catch (Exception exception) {
                             exception.printStackTrace();
                         }
@@ -333,8 +331,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr
 
     @FXML
     private void withdrawAllMenuItemSelected() {
-        new CustomAlert(AlertType.CONFIRMATION, "CONFIRMACIÓN",
-                "Desea registrar los retiros seleccionados?").customShow().ifPresent(response -> {
+        new CustomAlert(AlertType.CONFIRMATION, "CONFIRMACIÓN", "Desea registrar los retiros seleccionados?")
+                .customShow().ifPresent(response -> {
                     if (response == ButtonType.OK) {
                         try {
                             List<Order> orders = new ArrayList<>();
@@ -342,8 +340,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr
                             while (it.hasNext())
                                 orders.add(it.next().getOrder());
 
-                            ((PreferentialClientBLService) this.getBLService(0))
-                                    .registerWithdrawals(orders);
+                            ((PreferentialClientBLService) this.getBLService(0)).registerWithdrawals(orders);
                         } catch (Exception exception) {
                             exception.printStackTrace();
                         }
@@ -393,17 +390,15 @@ public class ClientManagementViewCntlr extends TableViewCntlr
         }
 
         new CustomAlert(AlertType.INFORMATION, "Totales",
-                "Cantidad de pedidos seleccionados = " + orderQuantity
-                        + "\n\nCantidad de artículos = " + articlesQuantity
-                        + "\nCantidad de artículos devueltos = " + returnedArticlesQuantity
-                        + "\nTotal precio = " + totalCost + "\nTotal precio comisión = "
-                        + totalCommCost + "\nTotal en comisión = " + totalComm).customShow();
+                "Cantidad de pedidos seleccionados = " + orderQuantity + "\n\nCantidad de artículos = "
+                        + articlesQuantity + "\nCantidad de artículos devueltos = " + returnedArticlesQuantity
+                        + "\nTotal precio = " + totalCost + "\nTotal precio comisión = " + totalCommCost
+                        + "\nTotal en comisión = " + totalComm).customShow();
     }
 
     @FXML
     private void sumSelectedMenuItemSelectedRep() {
-        Iterator<RepurchasesRowTable> it =
-                this.repurchases.getSelectionModel().getSelectedItems().iterator();
+        Iterator<RepurchasesRowTable> it = this.repurchases.getSelectionModel().getSelectedItems().iterator();
         RepurchasesRowTable repurchaseRowTable = null;
         int repurchasesQuantitySelected = 0;
         float total = 0;
@@ -424,13 +419,12 @@ public class ClientManagementViewCntlr extends TableViewCntlr
                 "Ingrese los datos necesarios para realizar el pago");
         customAlert.customShow().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                PaymentDialogContentViewCntlr cntlr =
-                        (PaymentDialogContentViewCntlr) customAlert.getDialogContentViewCntlr();
+                PaymentDialogContentViewCntlr cntlr = (PaymentDialogContentViewCntlr) customAlert
+                        .getDialogContentViewCntlr();
                 try {
-                    ((PreferentialClientBLService) this.getBLService(0)).registerPayment(
-                            this.prefClient, this.actualCampaign.getNumber(), cntlr.getDescriptor(),
-                            cntlr.getAmount(), cntlr.getItem(), cntlr.getPaymentMethod(),
-                            cntlr.getBank(), cntlr.getPaymentStatus());
+                    ((PreferentialClientBLService) this.getBLService(0)).registerPayment(this.prefClient,
+                            this.actualCampaign.getNumber(), cntlr.getDescriptor(), cntlr.getAmount(), cntlr.getItem(),
+                            cntlr.getPaymentMethod(), cntlr.getBank(), cntlr.getPaymentStatus());
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -452,36 +446,31 @@ public class ClientManagementViewCntlr extends TableViewCntlr
 
             customAlert.customShow().ifPresent(response -> {
                 if (response == ButtonType.OK) {
-                    ((PreferentialClientBLService) this.getBLService(0)).registerDevolution(
-                            this.prefClient, this.actualCampaign.getNumber(),
-                            orderRowTable.getCode(), ((DevolutionDialogContentViewCntlr) customAlert
-                                    .getDialogContentViewCntlr()).getReason());
+                    ((PreferentialClientBLService) this.getBLService(0)).registerDevolution(this.prefClient,
+                            this.actualCampaign.getNumber(), orderRowTable.getCode(),
+                            ((DevolutionDialogContentViewCntlr) customAlert.getDialogContentViewCntlr()).getReason());
                 }
             });
         } else {
-            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "Debe seleccionar un pedido.")
-                    .customShow();
+            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "Debe seleccionar un pedido.").customShow();
         }
     }
 
     @FXML
     private void devolutionRepMenuItemSelected() {
-        RepurchasesRowTable repurchasesRowTable =
-                this.repurchases.getSelectionModel().getSelectedItem();
+        RepurchasesRowTable repurchasesRowTable = this.repurchases.getSelectionModel().getSelectedItem();
         if (repurchasesRowTable != null) {
             CustomAlert customAlert = new CustomAlert(AlertType.CONFIRMATION, "DEVOLUCIÓN",
                     "Desea devolver esta recompra?");
 
             customAlert.customShow().ifPresent(response -> {
                 if (response == ButtonType.OK) {
-                    ((PreferentialClientBLService) this.getBLService(0)).registerDevolution(
-                            this.prefClient, this.actualCampaign.getNumber(),
-                            repurchasesRowTable.getCod());
+                    ((PreferentialClientBLService) this.getBLService(0)).registerDevolution(this.prefClient,
+                            this.actualCampaign.getNumber(), repurchasesRowTable.getCod());
                 }
             });
         } else {
-            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "Debe seleccionar una recompra.")
-                    .customShow();
+            new CustomAlert(AlertType.INFORMATION, "DEVOLUCIÓN", "Debe seleccionar una recompra.").customShow();
         }
     }
 
@@ -499,22 +488,21 @@ public class ClientManagementViewCntlr extends TableViewCntlr
     @FXML
     private void commissionLvlMenuItemSelected() {
         if (this.prefClient instanceof Leader) {
-            ViewCntlr viewCntlr =
-                    this.createStage("Comisión", "commissionRegister", new CommissionBLService());
+            ViewCntlr viewCntlr = this.createStage("Comisión", "commissionRegister", new CommissionBLService());
             viewCntlr.getStage().show();
 
-            // load prefClientId and campNumber because sometimes actualCommission can be null
+            // load prefClientId and campNumber because sometimes actualCommission can be
+            // null
             ((CommissionRegisterViewCntlr) viewCntlr).loadPrefClient(this.prefClient);
             ((CommissionRegisterViewCntlr) viewCntlr).loadCamp(this.actualCampaign);
             ((CommissionRegisterViewCntlr) viewCntlr).loadOrders(this.actualOrders);
-            ((CommissionRegisterViewCntlr) viewCntlr)
-                    .loadRepurchases(this.prefClient.getRepurchases());
+            ((CommissionRegisterViewCntlr) viewCntlr).loadRepurchases(this.prefClient.getRepurchases());
             ((CommissionRegisterViewCntlr) viewCntlr).loadCommission(this.actualCommission);
 
             viewCntlr.manualInitialize();
         } else {
-            new CustomAlert(AlertType.INFORMATION, "COMISIÓN",
-                    "Solo los líderes poseen niveles de comisión.").customShow();
+            new CustomAlert(AlertType.INFORMATION, "COMISIÓN", "Solo los líderes poseen niveles de comisión.")
+                    .customShow();
         }
     }
 
@@ -530,11 +518,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr
         while (it2.hasNext())
             repurchasesToUpdate.add(it2.next().getRepurchase());
 
-        ((CommissionBLService) this.getBLService(2)).updateCommissionableOrders(
-                this.actualCommission, ordersToUpdate, repurchasesToUpdate);
+        ((CommissionBLService) this.getBLService(2)).updateCommissionableOrders(this.actualCommission, ordersToUpdate,
+                repurchasesToUpdate);
     }
-
-
 
     @FXML
     private void generateManagementReport() {
@@ -542,10 +528,24 @@ public class ClientManagementViewCntlr extends TableViewCntlr
                 this.actualCampaign.getNumber());
     }
 
-    // ================================= private methods ===================================
+    @FXML
+    private void recalculateBalanceMenuItemSelected() {
+        CustomAlert customAlert = new CustomAlert(AlertType.CONFIRMATION, "Recalculo de saldo",
+                "Desea realizar un recálculo del saldo de este CP en esta campaña?");
+
+        customAlert.customShow().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                ((PreferentialClientBLService) this.getBLService(0)).recalculateBalance(this.prefClient.getId(),
+                        this.actualCampaign.getNumber());
+            }
+        });
+    }
+
+    // ================================= private methods
+    // ===================================
     private boolean executeRecalcFilterCommand() {
-        ((PreferentialClientBLService) this.getBLService(0))
-                .recalculateBalance(this.prefClient.getId(), this.actualCampaign.getNumber());
+        ((PreferentialClientBLService) this.getBLService(0)).recalculateBalance(this.prefClient.getId(),
+                this.actualCampaign.getNumber());
         return true;
     }
 
@@ -575,13 +575,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr
     }
 
     private void showTotalsForActualCamp() {
-        Balance balance =
-                this.prefClient.getBalances().locateWithCampNumb(this.actualCampaign.getNumber());
+        Balance balance = this.prefClient.getBalances().locateWithCampNumb(this.actualCampaign.getNumber());
         this.campBalance.setText(balance != null ? "" + balance.getBalance() : "" + 0);
-        this.totalInCampaignOrders
-                .setText(balance != null ? "" + balance.getTotalInOrders() : "" + 0);
-        this.paymentsPane
-                .setText(balance != null ? "Pagos: " + balance.getTotalInPayments() : "" + 0);
+        this.totalInCampaignOrders.setText(balance != null ? "" + balance.getTotalInOrders() : "" + 0);
+        this.paymentsPane.setText(balance != null ? "Pagos: " + balance.getTotalInPayments() : "" + 0);
 
         List<Repurchase> repurchases = this.prefClient.getRepurchases();
 
@@ -595,9 +592,9 @@ public class ClientManagementViewCntlr extends TableViewCntlr
                     returnedRepurchasesTotal += repurchase.getCost();
             }
         }
-        this.repurchasesPane.setText(balance != null
-                ? "Recompras: " + (balance.getTotalInRepurchases() - returnedRepurchasesTotal)
-                : "" + 0);
+        this.repurchasesPane
+                .setText(balance != null ? "Recompras: " + (balance.getTotalInRepurchases() - returnedRepurchasesTotal)
+                        : "" + 0);
     }
 
     private void insertDataIntoTables() {
@@ -611,8 +608,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr
             otherCom = this.actualCommission.getOtherFactor();
         }
 
-        this.loadData(this.ORDERS_TABLE_NUMBER,
-                OrdersRowTable.generateRows(this.actualOrders, com, fpCom, otherCom));
+        this.loadData(this.ORDERS_TABLE_NUMBER, OrdersRowTable.generateRows(this.actualOrders, com, fpCom, otherCom));
         this.loadData(this.PAYMENTS_TABLE_NUMBER, this.prefClient.getPayments());
         this.loadData(this.REPURCHASES_TABLE_NUMBER,
                 RepurchasesRowTable.generateRows(this.prefClient.getRepurchases()));
@@ -622,18 +618,19 @@ public class ClientManagementViewCntlr extends TableViewCntlr
         this.clearTables();
 
         if (this.prefClient instanceof Leader) {
-            ((PreferentialClientBLService) this.getBLService(0))
-                    .searchLeader(this.prefClient.getId(), this.actualCampaign.getNumber());
+            ((PreferentialClientBLService) this.getBLService(0)).searchLeader(this.prefClient.getId(),
+                    this.actualCampaign.getNumber());
         } else if (this.prefClient instanceof BaseClient) {
-            ((PreferentialClientBLService) this.getBLService(0))
-                    .searchBaseClient(this.prefClient.getId(), this.actualCampaign.getNumber());
+            ((PreferentialClientBLService) this.getBLService(0)).searchBaseClient(this.prefClient.getId(),
+                    this.actualCampaign.getNumber());
         } else {
-            ((PreferentialClientBLService) this.getBLService(0)).searchSubordinatedClient(
-                    this.prefClient.getId(), this.actualCampaign.getNumber());
+            ((PreferentialClientBLService) this.getBLService(0)).searchSubordinatedClient(this.prefClient.getId(),
+                    this.actualCampaign.getNumber());
         }
     }
 
-    // ================================= protected methods ===================================
+    // ================================= protected methods
+    // ===================================
     @Override
     protected void manualInitialize() {
         ((CampaignBLService) this.getBLService(1)).searchCamps(null, null, null, null, null);
@@ -644,7 +641,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr
         this.prefClient = prefClient;
     }
 
-    // ================================= public methods ===================================
+    // ================================= public methods
+    // ===================================
     @Override
     public void customTableViewInitialize(URL location, ResourceBundle resources) throws Exception {
         this.orders.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -755,8 +753,7 @@ public class ClientManagementViewCntlr extends TableViewCntlr
                 public boolean test(OrdersRowTable orderRow) {
                     boolean ret;
                     if (newValue.isBlank()
-                            || (newValue.equals(AGGREGATED_ORDERS_FILTER_COMMAND)
-                                    && orderRow.getOrder().isAggregated())
+                            || (newValue.equals(AGGREGATED_ORDERS_FILTER_COMMAND) && orderRow.getOrder().isAggregated())
                             || ("" + orderRow.getPrefClientId()).contains(newValue)
                             || ("" + orderRow.getDeliveryNumber()).contains(newValue)
                             || ("" + orderRow.getCost()).contains(newValue)
@@ -809,12 +806,10 @@ public class ClientManagementViewCntlr extends TableViewCntlr
         this.actualOrders = this.prefClient.getOrders();
         this.prefClientName.setText(prefClient.getName() + " " + prefClient.getLastName());
         this.prefClientId.setText(prefClient.getId().toString());
-        this.ordersQuantity.setText(
-                "Artículos: " + CommissionBLService.calculateArticlesQuantity(this.actualOrders));
+        this.ordersQuantity.setText("Artículos: " + CommissionBLService.calculateArticlesQuantity(this.actualOrders));
 
-        this.commissionableOrdersQuantity
-                .setText("Comisionables: " + CommissionBLService.calculateCommissionablesQuantity(
-                        this.actualOrders, this.prefClient.getRepurchases()));
+        this.commissionableOrdersQuantity.setText("Comisionables: " + CommissionBLService
+                .calculateCommissionablesQuantity(this.actualOrders, this.prefClient.getRepurchases()));
 
         if (prefClient instanceof Leader) {
             this.actualCommission = ((Leader) this.prefClient).getCommissions()
@@ -876,8 +871,8 @@ public class ClientManagementViewCntlr extends TableViewCntlr
     @Override
     public void suggestCompensation() {
         new CustomAlert(AlertType.CONFIRMATION, "Compensación",
-                "Compensación detectada, Desea realizar una corrección por compensación?")
-                        .customShow().ifPresent(response -> {
+                "Compensación detectada, Desea realizar una corrección por compensación?").customShow()
+                        .ifPresent(response -> {
                             if (response == ButtonType.OK) {
                                 this.payMenuItemSelected();
                             }
