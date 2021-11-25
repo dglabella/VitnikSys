@@ -200,28 +200,22 @@ public class PreferentialClientBLService extends BLService {
 
         Iterator<Order> orders = leader.getOrders().iterator();
         Iterator<Repurchase> repurchases = leader.getRepurchases().iterator();
-        Iterator<Devolution> devolutions = leader.getDevolutions().iterator();
         Iterator<Payment> payments = leader.getPayments().iterator();
 
         while (orders.hasNext()) {
             balance.setTotalInOrders(balance.getTotalInOrders() + orders.next().getCost());
         }
-        System.out.println("total in orders = " + balance.getTotalInOrders());
 
         while (repurchases.hasNext()) {
             balance.setTotalInRepurchases(balance.getTotalInRepurchases() + repurchases.next().getCost());
         }
-        System.out.println("total in repurchases = " + balance.getTotalInRepurchases());
 
-        while (devolutions.hasNext()) {
-            balance.setTotalInDevolutions(balance.getTotalInDevolutions() + devolutions.next().getCost());
-        }
-        System.out.println("total in devolution = " + balance.getTotalInDevolutions());
+        float totalInDevs = leader.getBalances().get(0).getTotalInDevolutions();
+        balance.setTotalInDevolutions(totalInDevs);
 
         while (payments.hasNext()) {
             balance.setTotalInPayments(balance.getTotalInPayments() + payments.next().getAmount());
         }
-        System.out.println("total in payments = " + balance.getTotalInPayments());
 
         balanceOperator.updateNotCumulative(balance);
 
