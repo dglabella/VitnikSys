@@ -26,9 +26,9 @@ public class OrderOperator implements IOrderOperator {
 	}
 
 	/**
-	 * Get the flag state with which the DAO operator performs a CRUD operation.
-	 * Ignore this if it not exist an implementation for active or inactive rows in
-	 * your Data Base. Default value: true.
+	 * Get the flag state with which the DAO operator performs a CRUD operation. Ignore this if it
+	 * not exist an implementation for active or inactive rows in your Data Base. Default value:
+	 * true.
 	 * 
 	 * @return The state of the entity.
 	 */
@@ -37,9 +37,9 @@ public class OrderOperator implements IOrderOperator {
 	}
 
 	/**
-	 * Change the flag state with which the DAO operator performs a CRUD operation.
-	 * Ignore this if it not exist an implementation for active or inactive rows in
-	 * your Data Base. Default value: true.
+	 * Change the flag state with which the DAO operator performs a CRUD operation. Ignore this if
+	 * it not exist an implementation for active or inactive rows in your Data Base. Default value:
+	 * true.
 	 * 
 	 * @param activeRow the value for the operation.
 	 */
@@ -51,8 +51,9 @@ public class OrderOperator implements IOrderOperator {
 	@Override
 	public Integer insert(Order order) throws Exception {
 		Integer returnCode = null;
-		String sqlStmnt = "INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`, `agregado`, `compensado`) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		String sqlStmnt =
+				"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`, `agregado`, `compensado`) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
 		statement.setInt(1, order.getDeliveryNumber());
@@ -75,8 +76,9 @@ public class OrderOperator implements IOrderOperator {
 	@Override
 	public Integer insertMany(List<Order> list) throws Exception {
 		Integer returnCode = 0;
-		String sqlStmnt = "INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`, `agregado`, `compensado`) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		String sqlStmnt =
+				"INSERT INTO `pedidos`(`nro_envio`, `id_cp`, `nro_camp`, `letra`, `cant`, `monto`, `tipo`, `precio_unitario`, `agregado`, `compensado`) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		PreparedStatement statement = Connector.getInstance().getStatement(sqlStmnt);
 
 		Order order;
@@ -133,31 +135,38 @@ public class OrderOperator implements IOrderOperator {
 
 	@Override
 	public List<Order> findAll(Integer prefClientId, Integer campNumb) throws Exception {
+
 		List<Order> ret = new ArrayList<>();
 		String sqlStmnt = null;
 		PreparedStatement statement = null;
 
 		if (prefClientId != null && campNumb != null) {
-			sqlStmnt = "SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision` ,`nombre`, `tipo`, `precio_unitario`, `agregado`, `compensado` "
-					+ "FROM `pedidos` " + "INNER JOIN `articulos` ON pedidos.letra = articulos.letra "
-					+ "WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
+
+			sqlStmnt =
+					"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision` ,`nombre`, `tipo`, `precio_unitario`, `agregado`, `compensado` "
+							+ "FROM `pedidos` "
+							+ "INNER JOIN `articulos` ON pedidos.letra = articulos.letra "
+							+ "WHERE `id_cp` = ? AND `nro_camp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
 
 			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
 			statement.setInt(2, campNumb);
 			statement.setBoolean(3, this.activeRow);
 			statement.setBoolean(4, ArticleOperator.getOperator().isActiveRow());
+
 		} else if (prefClientId != null && campNumb == null) {
-			sqlStmnt = "SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario`, `agregado`, `compensado` "
-					+ "FROM `pedidos` " + "INNER JOIN `articulos` ON pedidos.letra = articulos.letra "
-					+ "WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
+			sqlStmnt =
+					"SELECT `cod`, `nro_envio`, `id_cp`, `nro_camp`, `pedidos`.`letra`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario`, `agregado`, `compensado` "
+							+ "FROM `pedidos` "
+							+ "INNER JOIN `articulos` ON pedidos.letra = articulos.letra "
+							+ "WHERE `id_cp` = ? AND pedidos.active_row = ? AND articulos.active_row = ?;";
 
 			statement = Connector.getInstance().getStatement(sqlStmnt);
 			statement.setInt(1, prefClientId);
 			statement.setBoolean(2, this.activeRow);
 			statement.setBoolean(3, ArticleOperator.getOperator().isActiveRow());
 		} else if (prefClientId == null && campNumb != null) {
-			// Select devs with camp numb x
+			// Select with camp numb x
 		} else {
 			throw new Exception("Both campaign number and preferential client id are null");
 		}
@@ -166,8 +175,8 @@ public class OrderOperator implements IOrderOperator {
 
 		Order order;
 		while (resultSet.next()) {
-			order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(8), resultSet.getBoolean(10),
-					resultSet.getBoolean(11));
+			order = new Order(resultSet.getInt(1), resultSet.getInt(6), resultSet.getFloat(8),
+					resultSet.getBoolean(10), resultSet.getBoolean(11));
 			order.setDeliveryNumber(resultSet.getInt(2));
 			order.setReturnedQuantity(resultSet.getInt(7));
 			order.setWithdrawalDate(resultSet.getTimestamp(9));
@@ -250,9 +259,11 @@ public class OrderOperator implements IOrderOperator {
 		Order ret = null;
 
 		PreparedStatement statement = null;
-		String sqlStmnt = "SELECT `id_cp`, `nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario`, `agregado`, `compensado` "
-				+ "FROM `pedidos` " + "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "
-				+ "WHERE `cod` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
+		String sqlStmnt =
+				"SELECT `id_cp`, `nro_camp`, `pedidos`.`letra`, `nro_envio`, `cant`, `cant_devueltos`, `monto`, `fecha_retiro`, `fecha_registro`, `comisionable`, `aumenta_comision`, `nombre`, `tipo`, `precio_unitario`, `agregado`, `compensado` "
+						+ "FROM `pedidos` "
+						+ "INNER JOIN `articulos` ON `pedidos`.`letra` = `articulos`.`letra` "
+						+ "WHERE `cod` = ? AND `pedidos`.`active_row` = ? AND `articulos`.`active_row` = ?;";
 
 		statement = Connector.getInstance().getStatement(sqlStmnt);
 
@@ -263,8 +274,8 @@ public class OrderOperator implements IOrderOperator {
 		ResultSet resultSet = statement.executeQuery();
 
 		if (resultSet.next()) {
-			ret = new Order(id, resultSet.getInt(5), resultSet.getFloat(7), resultSet.getBoolean(10),
-					resultSet.getBoolean(11));
+			ret = new Order(id, resultSet.getInt(5), resultSet.getFloat(7),
+					resultSet.getBoolean(10), resultSet.getBoolean(11));
 			ret.setDeliveryNumber(resultSet.getInt(4));
 			ret.setReturnedQuantity(resultSet.getInt(6));
 			ret.setWithdrawalDate(resultSet.getTimestamp(8));
@@ -299,7 +310,8 @@ public class OrderOperator implements IOrderOperator {
 		Boolean ret = null;
 
 		PreparedStatement statement = null;
-		String sqlStmnt = "SELECT COUNT(`cod`) " + "FROM `pedidos` " + "WHERE `nro_camp` = ? AND `active_row` = ?;";
+		String sqlStmnt = "SELECT COUNT(`cod`) " + "FROM `pedidos` "
+				+ "WHERE `nro_camp` = ? AND `active_row` = ?;";
 
 		statement = Connector.getInstance().getStatement(sqlStmnt);
 
