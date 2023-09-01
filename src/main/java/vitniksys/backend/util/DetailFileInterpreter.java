@@ -274,9 +274,11 @@ public class DetailFileInterpreter extends FileInterpreter {
 
 
         // Gathering all the lines in the file into primary memory (detailFileRows).
+        int i = DetailFileInterpreter.FIRST_LINES_TO_IGNORE;
         while (inputStream.hasNext()) {
             splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
-            System.out.println("first row - DELIVERY_NUMBER > " + splitedLine[DELIVERY_NUMBER]);
+            System.out.println("i = " + i);
+            i++;
 
             // System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" --
             // "+splitedLine[DELIVERY_NUMBER]+
