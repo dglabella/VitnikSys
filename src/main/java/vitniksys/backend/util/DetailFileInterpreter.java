@@ -18,11 +18,12 @@ import vitniksys.backend.model.entities.SubordinatedClient;
 import vitniksys.backend.model.entities.PreferentialClient;
 
 /**
- * This class contains the algorithm for translate the information contained in detail.csv File
+ * This class contains the algorithm for translate the information contained in
+ * detail.csv File
  */
 public class DetailFileInterpreter extends FileInterpreter {
     private static final String SEPARATOR = ";";
-    private static final int FIRST_LINES_TO_IGNORE = 6;
+    private static final int FIRST_LINES_TO_IGNORE = 0;
 
     // private static String SEPARATOR = ";";
 
@@ -65,13 +66,16 @@ public class DetailFileInterpreter extends FileInterpreter {
     private final int CAMP = 16;
     private final int OBS = 17;
 
-    // ================================= Constructors =================================
+    // ================================= Constructors
+    // =================================
     /**
      * Creates an instance for read the data from the detalle.csv file.
      * 
-     * @param detailFile the .csv file to be read. This file is supposed to have a default format
-     *        for the interpreter, otherwise an error will be occur and no data from the file can be
-     *        obtained.
+     * @param detailFile the .csv file to be read. This file is supposed to have a
+     *                   default format
+     *                   for the interpreter, otherwise an error will be occur and
+     *                   no data from the file can be
+     *                   obtained.
      * @return an interpreter instance.
      */
     public DetailFileInterpreter(File detailFile) {
@@ -87,7 +91,8 @@ public class DetailFileInterpreter extends FileInterpreter {
         return this.orderMakers;
     }
 
-    // ================================= private methods =================================
+    // ================================= private methods
+    // =================================
     private ClientList getAssociatedLeaders() {
         DetailFileRow row;
         ClientList ret = new ClientList();
@@ -102,7 +107,8 @@ public class DetailFileInterpreter extends FileInterpreter {
 
         /*
          * System.out.println("================ Associated Leaders ================");
-         * Iterator<PreferentialClient> printList = ret.iterator(); while(printList.hasNext()) {
+         * Iterator<PreferentialClient> printList = ret.iterator();
+         * while(printList.hasNext()) {
          * System.out.println(printList.next().toString()); }
          */
         return ret;
@@ -173,15 +179,18 @@ public class DetailFileInterpreter extends FileInterpreter {
 
         /*
          * System.out.println("================ Order Makers ================");
-         * Iterator<PreferentialClient> printList = ret.iterator(); while(printList.hasNext()) {
+         * Iterator<PreferentialClient> printList = ret.iterator();
+         * while(printList.hasNext()) {
          * System.out.println(printList.next().toString()); }
          */
         return ret;
     }
 
-    // ================================= protected methods =================================
+    // ================================= protected methods
+    // =================================
 
-    // ================================= public methods = ================================
+    // ================================= public methods =
+    // ================================
 
     /**
      * Testing purpose
@@ -268,26 +277,15 @@ public class DetailFileInterpreter extends FileInterpreter {
         Scanner inputStream = new Scanner(this.getFile());
 
         // ignoring trash lines from the file
-        for (int i = 0; i < DetailFileInterpreter.FIRST_LINES_TO_IGNORE; i++) {
+        for (int i = 0; i < ConfigFileInterpreter.getFirstRowsSkipped(); i++) {
             inputStream.nextLine();
         }
 
 
         // Gathering all the lines in the file into primary memory (detailFileRows).
-        int i = DetailFileInterpreter.FIRST_LINES_TO_IGNORE;
         while (inputStream.hasNext()) {
             splitedLine = inputStream.nextLine().split(DetailFileInterpreter.SEPARATOR);
-            System.out.println("i = " + i);
-            i++;
-
-            // System.out.println(splitedLine[LEADER_ID]+" -- "+splitedLine[CLIENT_ID]+" --
-            // "+splitedLine[DELIVERY_NUMBER]+
-            // " -- "+splitedLine[LETTERS]+" -- "+splitedLine[BARCODE]+" -- "+splitedLine[NAME]+" --
-            // "+splitedLine[QUANT]+
-            // " -- "+splitedLine[UNIT_PRICE]+" -- "+splitedLine[DESC_CP]+" --
-            // "+splitedLine[PRICE]+" -- "+
-            // splitedLine[AGENT_COMM]+" -- "+splitedLine[FINAL_PRICE]+" -- "+splitedLine[CAMP]+" --
-            // "+splitedLine[OBS]);
+            //System.out.println("size = "+splitedLine.length+" - Letters = "+splitedLine[LETTERS]);
 
             this.detailFileRows.add(new DetailFileRow(splitedLine[LEADER_ID],
                     splitedLine[CLIENT_ID], splitedLine[DELIVERY_NUMBER], splitedLine[COMP],
