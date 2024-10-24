@@ -114,17 +114,22 @@ public class PreferentialClientBLService extends BLService {
 
     protected List<PreferentialClient> findAllPrefClients() {
         List<PreferentialClient> ret = new ArrayList<>();
-        IPreferentialClientOperator preferentialClientOperator;
 
+        List<PreferentialClient> clients = new ArrayList<>();
+
+        IPreferentialClientOperator preferentialClientOperator;
         try {
             preferentialClientOperator = LeaderOperator.getOperator();
-            ret.addAll(preferentialClientOperator.findAll());
+            clients = preferentialClientOperator.findAll();
+            ret.addAll(clients != null? clients : new ArrayList<>());
 
             preferentialClientOperator = BaseClientOperator.getOperator();
-            ret.addAll(preferentialClientOperator.findAll());
+            clients = preferentialClientOperator.findAll();
+            ret.addAll(clients != null? clients : new ArrayList<>());
 
             preferentialClientOperator = SubordinatedClientOperator.getOperator();
-            ret.addAll(preferentialClientOperator.findAll());
+            clients = preferentialClientOperator.findAll();
+            ret.addAll(clients != null? clients : new ArrayList<>());
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -150,17 +155,22 @@ public class PreferentialClientBLService extends BLService {
         Campaign camp;
         Balance balance;
 
+        List<PreferentialClient> clients = new ArrayList<>();
+
         try {
             camps = campaignOperator.findAll();
 
             preferentialClientOperator = LeaderOperator.getOperator();
-            aux.addAll(preferentialClientOperator.findAll());
+            clients = preferentialClientOperator.findAll();
+            ret.addAll(clients != null? clients : new ArrayList<>());
 
             preferentialClientOperator = BaseClientOperator.getOperator();
-            aux.addAll(preferentialClientOperator.findAll());
+            clients = preferentialClientOperator.findAll();
+            ret.addAll(clients != null? clients : new ArrayList<>());
 
             preferentialClientOperator = SubordinatedClientOperator.getOperator();
-            aux.addAll(preferentialClientOperator.findAll());
+            clients = preferentialClientOperator.findAll();
+            ret.addAll(clients != null? clients : new ArrayList<>());
 
             clientsIt = aux.iterator();
             while (clientsIt.hasNext()) {
