@@ -162,17 +162,17 @@ public class PreferentialClientBLService extends BLService {
 
             preferentialClientOperator = LeaderOperator.getOperator();
             clients = preferentialClientOperator.findAll();
-            ret.addAll(clients != null? clients : new ArrayList<>());
+            aux.addAll(clients != null? clients : new ArrayList<>());
 
             preferentialClientOperator = BaseClientOperator.getOperator();
             clients = preferentialClientOperator.findAll();
-            ret.addAll(clients != null? clients : new ArrayList<>());
+            aux.addAll(clients != null? clients : new ArrayList<>());
 
             preferentialClientOperator = SubordinatedClientOperator.getOperator();
             clients = preferentialClientOperator.findAll();
-            ret.addAll(clients != null? clients : new ArrayList<>());
+            aux.addAll(clients != null? clients : new ArrayList<>());
 
-            clientsIt = ret.iterator();
+            clientsIt = aux.iterator();
             while (clientsIt.hasNext()) {
                 client = clientsIt.next();
                 client.setBalances(new VitnikSearchableList<Balance>(
