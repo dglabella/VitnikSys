@@ -1,1 +1,0 @@
-this directory is used as default folder for the system to storage any generated report.

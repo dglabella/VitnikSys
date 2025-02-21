@@ -39,6 +39,8 @@ public class SummaryPrefClientTableRow
                 row.setLastName(prefClient.getLastName());
                 row.setPrefClient(prefClient);
 
+                System.out.println("balance del cp: "+prefClient.getId()+" > "+prefClient.getBalances());
+
                 balancesIt = prefClient.getBalances().iterator();
                 while(balancesIt.hasNext())
                 {
