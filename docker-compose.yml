@@ -1,0 +1,42 @@
+services:
+  dev:
+    build: .
+    container_name: vitnik
+    volumes:
+      - ./VitnikSys:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY=${DISPLAY}
+      - MYSQL_HOST=mysql
+    working_dir: /app
+    depends_on:
+      - mysql
+    networks:
+      - javafx-net
+    stdin_open: true
+    tty: true
+
+  mysql:
+    image: mysql:8
+    container_name: javafx-mysql
+    restart: always
+    command: --log-bin-trust-function-creators=1
+    environment:
+      MYSQL_ROOT_PASSWORD: 9635414100
+      MYSQL_DATABASE: vitniksanluis
+      MYSQL_USER: vksanluis
+      MYSQL_PASSWORD: vkzulma123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - javafx-net
+
+networks:
+  javafx-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+

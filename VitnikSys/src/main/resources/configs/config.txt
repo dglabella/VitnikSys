@@ -1,6 +1,6 @@
 [CONNECTION]
-ip:localhost
-port:3308
+ip:mysql
+port:3306
 database:vitniksanluis
 options:serverTimezone=America/Argentina/Buenos_Aires
 user:vksanluis

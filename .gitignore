@@ -1,1 +1,62 @@
-target/
+############################
+# 🔐 Secrets / Environment
+############################
+.env
+.env.*
+!.env.example
+
+############################
+# 🐳 Docker
+############################
+docker-compose.override.yml
+**/.docker/
+
+############################
+# 🐬 MySQL / Backups
+############################
+backups/
+*.sql
+*.dump
+
+############################
+# ☕ Java / Maven
+############################
+**/target/
+**/*.class
+**/*.log
+**/*.jar
+**/*.war
+
+############################
+# 🧠 IDEs
+############################
+# IntelliJ
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+############################
+# 🖥️ OS
+############################
+# Linux
+*~
+.nfs*
+.Trash-*
+.cache/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+############################
+# 📦 Misc
+############################
+.DS_Store
+
