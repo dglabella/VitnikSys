@@ -1,0 +1,41 @@
+services:
+  app:
+    build: .
+    container_name: app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - DISPLAY=${DISPLAY}
+      - MYSQL_HOST=mysql
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    networks:
+      - vksys-net
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 9635414100
+      MYSQL_DATABASE: vitniksanluis
+      MYSQL_USER: vksanluis
+      MYSQL_PASSWORD: vkzulma123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - vksys-net
+
+networks:
+  vksys-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+

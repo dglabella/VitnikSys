@@ -94,7 +94,19 @@
                     <release>${java.version}</release>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>vitniksys.App</mainClass>
+                        </manifest>
+                      </archive>
+                </configuration>
+            </plugin>
+            
             <!-- JavaFX -->
             <plugin>
                 <groupId>org.openjfx</groupId>

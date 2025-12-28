@@ -1,0 +1,39 @@
+# =========================
+# STAGE 1 - BUILD
+# =========================
+FROM maven:3.9-eclipse-temurin-11 AS build
+
+WORKDIR /build
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
+
+COPY src ./src
+RUN mvn -B package -DskipTests
+
+# =========================
+# STAGE 2 - RUNTIME
+# =========================
+FROM eclipse-temurin:11-jre-jammy
+
+# Librerías necesarias para JavaFX
+RUN apt-get update && apt-get install -y \
+    libgtk-3-0 \
+    libx11-xcb1 \
+    libxrender1 \
+    libxtst6 \
+    libxi6 \
+    libgl1 \
+    libgl1-mesa-dri \
+    libglx-mesa0 \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY --from=build /build/target/*jar app.jar
+
+ENV MYSQL_HOST=mysql
+
+CMD ["java", "-jar", "app.jar"]
+
