@@ -1,24 +1,26 @@
 services:
   dev:
     build: .
-    container_name: vitnik
+    container_name: dev
     volumes:
       - ./VitnikSys:/app
+      - ~/.m2:/root/.m2
       - /tmp/.X11-unix:/tmp/.X11-unix
     environment:
       - DISPLAY=${DISPLAY}
       - MYSQL_HOST=mysql
     working_dir: /app
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
-      - javafx-net
+      - vksys-net
     stdin_open: true
     tty: true
 
   mysql:
     image: mysql:8
-    container_name: javafx-mysql
+    container_name: mysql
     restart: always
     command: --log-bin-trust-function-creators=1
     environment:
@@ -30,11 +32,16 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     networks:
-      - javafx-net
+      - vksys-net
 
 networks:
-  javafx-net:
+  vksys-net:
     driver: bridge
 
 volumes:

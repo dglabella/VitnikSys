@@ -27,5 +27,6 @@ ENV JAVAFX_SDK=/opt/javafx/javafx-sdk-13
 ENV PATH="/opt/javafx/javafx-sdk-13/bin:$PATH"
 
 WORKDIR /app
-CMD [ "bash" ]
+
+CMD ["mvn", "javafx:run"]
 
